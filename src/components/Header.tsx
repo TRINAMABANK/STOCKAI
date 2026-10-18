@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Search, Bell, Settings, User, TrendingUp, LogOut, Shield, Menu } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, Bell, Settings, User, TrendingUp, LogOut, Shield, Menu, ChevronDown, Upload } from 'lucide-react';
 import { MarketIndex, StockQuote, UserProfile } from '@/types';
 import GoogleAuthModal from './GoogleAuthModal';
 
@@ -14,6 +14,7 @@ interface HeaderProps {
   quotes?: StockQuote[];
   currentUser?: UserProfile | null;
   onOpenProfile?: () => void;
+  onOpenSubscription?: () => void;
   onToggleMobileMenu?: () => void;
 }
 
@@ -24,6 +25,7 @@ export default function Header({
   quotes = [],
   currentUser: initialUser,
   onOpenProfile,
+  onOpenSubscription,
   onToggleMobileMenu,
 }: HeaderProps) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,6 +42,68 @@ export default function Header({
     callbackUrl: 'http://localhost:3000/api/auth/callback/google',
   });
   const [headerToast, setHeaderToast] = useState<string | null>(null);
+
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Sync initialUser when prop updates
+  useEffect(() => {
+    if (initialUser) {
+      setCurrentUser(initialUser);
+    }
+  }, [initialUser]);
+
+  // Handle click outside and Escape key to close user dropdown menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    if (isUserMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isUserMenuOpen]);
+
+  // Helper: Trạng thái gói dịch vụ theo phong cách FireAnt (Hội viên Miễn phí / PRO / Enterprise)
+  const getTierInfo = () => {
+    const tier = currentUser?.tier || 'FREE';
+    if (tier === 'ENTERPRISE') {
+      return {
+        label: 'Hội viên Nâng cao',
+        colorClass: 'text-[#8B5CF6]',
+        bgClass: 'bg-[#EDE9FE] text-[#8B5CF6]',
+        badgeText: 'ENTERPRISE',
+      };
+    }
+    if (tier === 'PRO') {
+      return {
+        label: 'Hội viên Chuyên nghiệp (PRO)',
+        colorClass: 'text-[#008FD3]',
+        bgClass: 'bg-[#E0F2FE] text-[#008FD3]',
+        badgeText: 'PRO',
+      };
+    }
+    return {
+      label: 'Hội viên Miễn phí',
+      colorClass: 'text-[#F43F5E]',
+      bgClass: 'bg-[#FFE4E6] text-[#F43F5E]',
+      badgeText: 'FREE',
+    };
+  };
 
   // Load current session from backend
   const loadCurrentUser = async () => {
@@ -263,51 +327,147 @@ export default function Header({
           <Settings className="w-5 h-5" />
         </button>
 
-        {/* User Profile Capsule */}
-        <button
-          onClick={() => {
-            if (onOpenProfile) onOpenProfile();
-            else setIsAuthModalOpen(true);
-          }}
-          className="flex items-center gap-2 pl-2 border-l border-[#E2E8F0] hover:opacity-85 transition text-left"
-          title="Xem thông tin tài khoản cá nhân"
-        >
-          {currentUser?.avatarUrl ? (
-            <img
-              src={currentUser.avatarUrl}
-              alt={currentUser.name}
-              className="w-8 h-8 rounded-full border border-[#BAE6FD] object-cover shadow-2xs"
+        {/* User Profile Dropdown Button */}
+        <div ref={userMenuRef} className="relative">
+          {/* Trigger Button with Avatar, Name, Badge and ChevronDown */}
+          <button
+            type="button"
+            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+            className="flex items-center gap-2 pl-2 sm:pl-3 border-l border-[#E2E8F0] hover:opacity-90 transition text-left cursor-pointer focus:outline-none select-none group"
+            title="Tài khoản cá nhân"
+            aria-haspopup="true"
+            aria-expanded={isUserMenuOpen}
+          >
+            {currentUser?.avatarUrl ? (
+              <img
+                src={currentUser.avatarUrl}
+                alt={currentUser.name}
+                className="w-8 h-8 rounded-full border border-[#BAE6FD] object-cover shadow-2xs"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-[#E0F2FE] border border-[#BAE6FD] flex items-center justify-center text-[#008FD3] font-bold text-xs shadow-2xs">
+                {(() => {
+                  if (!currentUser?.name) return 'TRÍ';
+                  const clean = currentUser.name.replace(/\s*\(Admin\)/i, '').trim();
+                  const words = clean.split(/\s+/);
+                  const lastName = words[words.length - 1];
+                  return lastName.length <= 4 ? lastName.toUpperCase() : (words[0][0] + lastName[0]).toUpperCase();
+                })()}
+              </div>
+            )}
+            <div className="hidden sm:block">
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-bold text-[#172033] truncate max-w-[130px] group-hover:text-[#008FD3] transition">
+                  {currentUser?.name || 'Quang Nhựt Trí'}
+                </span>
+                <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${getTierInfo().bgClass}`}>
+                  {getTierInfo().badgeText}
+                </span>
+              </div>
+            </div>
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-[#64748B] group-hover:text-[#172033] transition-transform duration-200 ${
+                isUserMenuOpen ? 'rotate-180 text-[#008FD3]' : ''
+              }`}
             />
-          ) : (
-            <div className="w-8 h-8 rounded-full bg-[#E0F2FE] border border-[#BAE6FD] flex items-center justify-center text-[#008FD3] font-bold text-xs shadow-2xs">
-              {(() => {
-                if (!currentUser?.name) return 'TRÍ';
-                const clean = currentUser.name.replace(/\s*\(Admin\)/i, '').trim();
-                const words = clean.split(/\s+/);
-                const lastName = words[words.length - 1];
-                return lastName.length <= 4 ? lastName.toUpperCase() : (words[0][0] + lastName[0]).toUpperCase();
-              })()}
+          </button>
+
+          {/* Dropdown Menu (FireAnt style) */}
+          {isUserMenuOpen && (
+            <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-[#E2E8F0] rounded-2xl shadow-xl overflow-hidden z-50 animate-in fade-in-50 zoom-in-95 duration-150">
+              {/* Dropdown Header: Avatar, Name, Tier Status */}
+              <div className="p-5 pb-4 text-center border-b border-[#F1F5F9] bg-[#F8FAFC]/70">
+                <div className="relative inline-block mx-auto mb-2">
+                  {currentUser?.avatarUrl ? (
+                    <img
+                      src={currentUser.avatarUrl}
+                      alt={currentUser.name}
+                      className="w-14 h-14 rounded-full object-cover border-2 border-[#BAE6FD] shadow-xs mx-auto"
+                    />
+                  ) : (
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#008FD3] to-[#0284C7] text-white font-extrabold text-base flex items-center justify-center border-2 border-[#BAE6FD] shadow-xs mx-auto">
+                      {(() => {
+                        if (!currentUser?.name) return 'TRÍ';
+                        const clean = currentUser.name.replace(/\s*\(Admin\)/i, '').trim();
+                        const words = clean.split(/\s+/);
+                        const lastName = words[words.length - 1];
+                        return lastName.length <= 4 ? lastName.toUpperCase() : (words[0][0] + lastName[0]).toUpperCase();
+                      })()}
+                    </div>
+                  )}
+                </div>
+
+                <h3 className="text-sm font-extrabold text-[#172033] tracking-wide uppercase truncate px-2">
+                  {currentUser?.name || 'Quang Nhựt Trí'}
+                </h3>
+
+                <p className={`text-xs font-semibold mt-1 ${getTierInfo().colorClass}`}>
+                  {getTierInfo().label}
+                </p>
+              </div>
+
+              {/* Menu Actions */}
+              <div className="p-2 space-y-0.5">
+                {/* Nâng cấp / Gia hạn */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    if (onOpenSubscription) onOpenSubscription();
+                    else if (onOpenProfile) onOpenProfile();
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-semibold text-[#172033] hover:bg-[#F0F9FF] hover:text-[#008FD3] transition group"
+                >
+                  <Upload className="w-4 h-4 text-[#008FD3] shrink-0" />
+                  <span className="flex-1 font-medium">Nâng cấp/Gia hạn</span>
+                </button>
+
+                <div className="border-t border-[#F1F5F9] my-1" />
+
+                {/* Hồ sơ cá nhân */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    if (onOpenProfile) onOpenProfile();
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-semibold text-[#172033] hover:bg-[#F8FAFC] hover:text-[#008FD3] transition group"
+                >
+                  <User className="w-4 h-4 text-[#64748B] group-hover:text-[#008FD3] shrink-0 transition" />
+                  <span className="flex-1 font-medium">Hồ sơ cá nhân</span>
+                </button>
+
+                {/* Thiết lập tài khoản */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    if (onOpenSettings) onOpenSettings();
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-semibold text-[#172033] hover:bg-[#F8FAFC] hover:text-[#008FD3] transition group"
+                >
+                  <Settings className="w-4 h-4 text-[#64748B] group-hover:text-[#008FD3] shrink-0 transition" />
+                  <span className="flex-1 font-medium">Thiết lập tài khoản</span>
+                </button>
+
+                <div className="border-t border-[#F1F5F9] my-1" />
+
+                {/* Đăng xuất */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-semibold text-[#F43F5E] hover:bg-[#FFF1F2] transition group"
+                >
+                  <LogOut className="w-4 h-4 text-[#F43F5E] shrink-0" />
+                  <span className="flex-1 font-medium">Đăng xuất</span>
+                </button>
+              </div>
             </div>
           )}
-          <div className="hidden sm:block">
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs font-bold text-[#172033] truncate max-w-[130px]">
-                {currentUser?.name || 'Quang Nhựt Trí'}
-              </span>
-              <span
-                className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${
-                  currentUser?.tier === 'PRO'
-                    ? 'bg-[#E0F2FE] text-[#008FD3]'
-                    : currentUser?.tier === 'ENTERPRISE'
-                    ? 'bg-[#EDE9FE] text-[#8B5CF6]'
-                    : 'bg-[#F1F5F9] text-[#64748B]'
-                }`}
-              >
-                {currentUser?.tier || 'PRO'}
-              </span>
-            </div>
-          </div>
-        </button>
+        </div>
       </div>
 
       {/* Google Auth Modal */}

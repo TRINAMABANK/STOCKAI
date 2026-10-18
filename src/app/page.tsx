@@ -245,6 +245,7 @@ export default function Home() {
           quotes={quotes}
           currentUser={currentUser}
           onOpenProfile={() => setActiveMenu('profile')}
+          onOpenSubscription={() => setActiveMenu('subscription')}
           onToggleMobileMenu={() => setIsMobileMenuOpen(prev => !prev)}
         />
 

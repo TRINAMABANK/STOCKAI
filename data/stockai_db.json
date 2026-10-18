@@ -1489,17 +1489,93 @@
     "name": "Quang Nhựt Trí (Admin)",
     "email": "triqnnamabank@gmail.com",
     "role": "ADMIN",
-    "tier": "FREE",
-    "validUntil": "2036-10-15",
+    "tier": "ENTERPRISE",
+    "validUntil": "2026-11-17",
     "features": [
-      "Bảng giá 3 sàn HOSE, HNX, UPCoM",
-      "Bộ lọc cổ phiếu cơ bản (P/E, ROE, Vốn hóa)",
-      "Tín hiệu T+3 xem lại cuối ngày (EOD)",
-      "Biểu đồ kỹ thuật nến cơ bản",
-      "Dữ liệu mô phỏng DEMO"
+      "Toàn bộ tính năng gói PRO",
+      "Streaming dữ liệu WebSocket tick-by-tick tốc độ cao",
+      "Tùy biến công thức chiến lược định lượng T+1–T+5 riêng",
+      "Phân tích dòng tiền khối ngoại và tự doanh chuyên sâu",
+      "Ưu tiên hỗ trợ kỹ thuật và bảo mật chuyên biệt"
     ]
   },
   "subscription_orders": [
+    {
+      "id": "ord_1792327637954_zmx5z",
+      "orderCode": "STOCKAI-729511",
+      "userId": "usr_regular_trader",
+      "userEmail": "user@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-729511",
+      "createdAt": "2026-10-18T12:47:17.954Z",
+      "expiresAt": "2026-10-18T13:02:17.954Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-729511&accountName=QUANG%20NHUT%20TRI",
+      "actualAmount": 199000,
+      "bankTransactionRef": "P2S_TXN_1792327637963",
+      "transactionTime": "2026-10-18T12:47:18.004Z",
+      "reconciledAt": "2026-10-18T12:47:18.008Z",
+      "reconciledBy": {
+        "id": "usr_system_pay2s",
+        "email": "gateway@pay2s.vn",
+        "name": "Pay2S Gateway Auto-Reconciler"
+      },
+      "reconciliationNotes": "Tự động kích hoạt qua cổng Pay2S IPN. Mã GD Pay2S: P2S_TXN_1792327637963",
+      "paymentGateway": "PAY2S",
+      "pay2sTransactionId": "P2S_TXN_1792327637963"
+    },
+    {
+      "id": "ord_1792327637827_a0lsp",
+      "orderCode": "STOCKAI-286915",
+      "userId": "usr_regular_trader",
+      "userEmail": "user@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-286915",
+      "createdAt": "2026-10-18T12:47:17.827Z",
+      "expiresAt": "2026-10-18T13:02:17.827Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-286915&accountName=QUANG%20NHUT%20TRI",
+      "rejectedAt": "2026-10-18T12:47:17.909Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com"
+      },
+      "rejectionReason": "Số tiền chuyển khoản không hợp lệ hoặc khách hàng hủy yêu cầu"
+    },
+    {
+      "id": "ord_1792327637713_97kvk",
+      "orderCode": "STOCKAI-870127",
+      "userId": "usr_regular_trader",
+      "userEmail": "user@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-870127",
+      "createdAt": "2026-10-18T12:47:17.713Z",
+      "expiresAt": "2026-10-18T13:02:17.713Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-870127&accountName=QUANG%20NHUT%20TRI",
+      "actualAmount": 199000,
+      "bankTransactionRef": "VCB_TX_1792327637761",
+      "transactionTime": "2026-10-18T12:47:17.789Z",
+      "reconciledAt": "2026-10-18T12:47:17.789Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê VCB lúc 14:30"
+    },
     {
       "id": "ord_1792326710815_cks0g",
       "orderCode": "STOCKAI-719895",
@@ -1510,13 +1586,29 @@
       "amount": 199000,
       "formattedAmount": "199.000 đ",
       "currency": "VND",
-      "status": "PENDING_CONFIRMATION",
+      "status": "PAID",
       "transferContent": "STOCKAI-719895",
       "createdAt": "2026-10-18T12:31:50.815Z",
       "expiresAt": "2026-10-18T12:46:50.815Z",
       "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-719895&accountName=QUANG%20NHUT%20TRI",
       "customerReportedAt": "2026-10-18T12:34:39.167Z",
-      "customerNote": "Khách báo đã chuyển khoản 199.000 đ cho đơn STOCKAI-719895 | Khách báo đã chuyển khoản 199.000 đ cho đơn STOCKAI-719895"
+      "customerNote": "Khách báo đã chuyển khoản 199.000 đ cho đơn STOCKAI-719895 | Khách báo đã chuyển khoản 199.000 đ cho đơn STOCKAI-719895",
+      "rejectedAt": "2026-10-18T12:39:01.914Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com"
+      },
+      "rejectionReason": "chưa thấy tiền",
+      "actualAmount": 199000,
+      "bankTransactionRef": "BANK_REF_1792327275553",
+      "transactionTime": "2026-10-18T12:41:17.001Z",
+      "reconciledAt": "2026-10-18T12:41:17.017Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
+      },
+      "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-719895"
     },
     {
       "id": "ord_1792326710480_1m1pg",
@@ -1528,7 +1620,7 @@
       "amount": 299000,
       "formattedAmount": "299.000 đ",
       "currency": "VND",
-      "status": "REJECTED",
+      "status": "PAID",
       "transferContent": "STOCKAI-442370",
       "createdAt": "2026-10-18T12:31:50.480Z",
       "expiresAt": "2026-10-18T12:46:50.480Z",
@@ -1538,7 +1630,17 @@
         "id": "usr_stockai_lead",
         "email": "triqnnamabank@gmail.com"
       },
-      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+      "actualAmount": 299000,
+      "bankTransactionRef": "BANK_REF_1792327278140",
+      "transactionTime": "2026-10-18T12:41:19.025Z",
+      "reconciledAt": "2026-10-18T12:41:19.043Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
+      },
+      "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-442370"
     },
     {
       "id": "ord_1792326710433_k12dh",
@@ -1606,7 +1708,7 @@
       "amount": 299000,
       "formattedAmount": "299.000 đ",
       "currency": "VND",
-      "status": "REJECTED",
+      "status": "PAID",
       "transferContent": "STOCKAI-850642",
       "createdAt": "2026-10-18T12:28:31.415Z",
       "expiresAt": "2026-10-18T12:43:31.415Z",
@@ -1616,7 +1718,17 @@
         "id": "usr_stockai_lead",
         "email": "triqnnamabank@gmail.com"
       },
-      "rejectionReason": "Số tiền chuyển khoản không hợp lệ hoặc khách hàng hủy yêu cầu"
+      "rejectionReason": "Số tiền chuyển khoản không hợp lệ hoặc khách hàng hủy yêu cầu",
+      "actualAmount": 299000,
+      "bankTransactionRef": "BANK_REF_1792327280496",
+      "transactionTime": "2026-10-18T12:41:21.801Z",
+      "reconciledAt": "2026-10-18T12:41:21.817Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
+      },
+      "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-850642"
     },
     {
       "id": "ord_1792326108936_gbjn8",
@@ -2463,6 +2575,157 @@
     }
   ],
   "audit_logs": [
+    {
+      "id": "aud_1792327638008_eotq",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792327637954_zmx5z",
+      "orderCode": "STOCKAI-729511",
+      "targetUserId": "usr_regular_trader",
+      "targetUserEmail": "user@stockai.vn",
+      "performedBy": {
+        "id": "usr_system_pay2s",
+        "email": "gateway@pay2s.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:47:18.008Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "P2S_TXN_1792327637963",
+        "transactionTime": "2026-10-18T12:47:18.004Z",
+        "reconciliationNotes": "Tự động kích hoạt qua cổng Pay2S IPN. Mã GD Pay2S: P2S_TXN_1792327637963",
+        "newValidUntil": "2026-12-17"
+      }
+    },
+    {
+      "id": "aud_1792327637909_qe2e",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792327637827_a0lsp",
+      "orderCode": "STOCKAI-286915",
+      "targetUserId": "usr_regular_trader",
+      "targetUserEmail": "user@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:47:17.909Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản không hợp lệ hoặc khách hàng hủy yêu cầu",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792327637789_fdoa",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792327637713_97kvk",
+      "orderCode": "STOCKAI-870127",
+      "targetUserId": "usr_regular_trader",
+      "targetUserEmail": "user@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:47:17.789Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "VCB_TX_1792327637761",
+        "transactionTime": "2026-10-18T12:47:17.789Z",
+        "reconciliationNotes": "Khớp sao kê VCB lúc 14:30",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792327281818_8vsh",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792326511415_iax00",
+      "orderCode": "STOCKAI-850642",
+      "targetUserId": "usr_regular_trader",
+      "targetUserEmail": "user@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:41:21.817Z",
+      "details": {
+        "tier": "ENTERPRISE",
+        "amount": 299000,
+        "actualAmount": 299000,
+        "bankTransactionRef": "BANK_REF_1792327280496",
+        "transactionTime": "2026-10-18T12:41:21.801Z",
+        "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-850642",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792327279043_jujo",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792326710480_1m1pg",
+      "orderCode": "STOCKAI-442370",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:41:19.043Z",
+      "details": {
+        "tier": "ENTERPRISE",
+        "amount": 299000,
+        "actualAmount": 299000,
+        "bankTransactionRef": "BANK_REF_1792327278140",
+        "transactionTime": "2026-10-18T12:41:19.025Z",
+        "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-442370",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792327277017_fk18",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792326710815_cks0g",
+      "orderCode": "STOCKAI-719895",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:41:17.017Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "BANK_REF_1792327275553",
+        "transactionTime": "2026-10-18T12:41:17.001Z",
+        "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-719895",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792327141914_h0gi",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792326710815_cks0g",
+      "orderCode": "STOCKAI-719895",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:39:01.914Z",
+      "details": {
+        "reason": "chưa thấy tiền",
+        "previousStatus": "REJECTED"
+      }
+    },
     {
       "id": "aud_1792326710861_f5px",
       "action": "UPDATE_BANK_CONFIG",
@@ -4163,6 +4426,79 @@
         "reason": "Hoàn nguyên biểu phí chuẩn 299.000 VNĐ sau khi kiểm thử",
         "note": "Thay đổi giá áp dụng cho các đơn hàng mới, TUYỆT ĐỐI không hồi tố các đơn hàng đã thanh toán."
       }
+    },
+    {
+      "id": "aud_1792327637627_ubou",
+      "action": "LOCK_USER",
+      "targetUserId": "usr_regular_trader",
+      "targetUserEmail": "user@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:47:17.627Z",
+      "details": {
+        "reason": "Kiểm tra tài khoản vi phạm chính sách chia sẻ thông tin",
+        "userName": "Nhà Đầu Tư StockAI"
+      }
+    },
+    {
+      "id": "aud_1792327637672_ydk9",
+      "action": "UNLOCK_USER",
+      "targetUserId": "usr_regular_trader",
+      "targetUserEmail": "user@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:47:17.672Z",
+      "details": {
+        "userName": "Nhà Đầu Tư StockAI"
+      }
+    },
+    {
+      "id": "aud_1792327638123_vnk3",
+      "action": "UPDATE_PLAN_PRICE",
+      "targetUserId": "plan_ENTERPRISE",
+      "targetUserEmail": "plan_ENTERPRISE@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:47:18.123Z",
+      "details": {
+        "tier": "ENTERPRISE",
+        "oldPrice": 299000,
+        "newPrice": 349000,
+        "oldFormattedPrice": "299.000 đ/tháng",
+        "newFormattedPrice": "349.000 đ/tháng",
+        "reason": "Điều chỉnh biểu phí theo yêu cầu nâng cấp băng thông hạ tầng",
+        "note": "Thay đổi giá áp dụng cho các đơn hàng mới, TUYỆT ĐỐI không hồi tố các đơn hàng đã thanh toán."
+      }
+    },
+    {
+      "id": "aud_1792327638164_gy4b",
+      "action": "UPDATE_PLAN_PRICE",
+      "targetUserId": "plan_ENTERPRISE",
+      "targetUserEmail": "plan_ENTERPRISE@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T12:47:18.164Z",
+      "details": {
+        "tier": "ENTERPRISE",
+        "oldPrice": 299000,
+        "newPrice": 299000,
+        "oldFormattedPrice": "299.000 đ/tháng",
+        "newFormattedPrice": "299.000 đ/tháng",
+        "reason": "Hoàn nguyên biểu phí chuẩn 299.000 VNĐ sau khi kiểm thử",
+        "note": "Thay đổi giá áp dụng cho các đơn hàng mới, TUYỆT ĐỐI không hồi tố các đơn hàng đã thanh toán."
+      }
     }
   ],
   "bank_config": {
@@ -4179,14 +4515,14 @@
       "name": "Quang Nhựt Trí (Admin)",
       "email": "triqnnamabank@gmail.com",
       "role": "ADMIN",
-      "tier": "FREE",
-      "validUntil": "2036-10-15",
+      "tier": "ENTERPRISE",
+      "validUntil": "2026-11-17",
       "features": [
-        "Bảng giá 3 sàn HOSE, HNX, UPCoM",
-        "Bộ lọc cổ phiếu cơ bản (P/E, ROE, Vốn hóa)",
-        "Tín hiệu T+3 xem lại cuối ngày (EOD)",
-        "Biểu đồ kỹ thuật nến cơ bản",
-        "Dữ liệu mô phỏng DEMO"
+        "Toàn bộ tính năng gói PRO",
+        "Streaming dữ liệu WebSocket tick-by-tick tốc độ cao",
+        "Tùy biến công thức chiến lược định lượng T+1–T+5 riêng",
+        "Phân tích dòng tiền khối ngoại và tự doanh chuyên sâu",
+        "Ưu tiên hỗ trợ kỹ thuật và bảo mật chuyên biệt"
       ]
     },
     {
@@ -4226,7 +4562,7 @@
       "name": "Nhà Đầu Tư StockAI",
       "role": "USER",
       "tier": "PRO",
-      "validUntil": "2027-03-17",
+      "validUntil": "2026-12-17",
       "features": [
         "Toàn bộ tính năng gói FREE",
         "Bộ quét tín hiệu T+1–T+5 thời gian thực (Realtime Radar)",
