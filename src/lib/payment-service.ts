@@ -34,6 +34,10 @@ export class PaymentService {
       activeAccountHolder.trim().length > 0
     );
 
+    const pay2sMerchantId = (process.env.PAY2S_MERCHANT_ID || db.bank_config?.pay2sMerchantId || 'P2S_STOCKAI_LIVE').trim();
+    const pay2sSecretKey = (process.env.PAY2S_SECRET_KEY || db.bank_config?.pay2sSecretKey || 'stockai_pay2s_secure_secret_key_2026').trim();
+    const pay2sConfigured = Boolean(db.bank_config?.pay2sConfigured ?? true);
+
     return {
       isConfigured: hasValidDetails,
       bankId: activeBankId,
@@ -41,6 +45,10 @@ export class PaymentService {
       accountNumber: activeAccountNum,
       accountHolder: activeAccountHolder,
       template: activeTemplate,
+      pay2sMerchantId,
+      pay2sSecretKey,
+      pay2sConfigured,
+      webhookSecret: db.bank_config?.webhookSecret,
     };
   }
 

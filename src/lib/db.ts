@@ -54,6 +54,8 @@ export interface DatabaseSchema {
   bank_config?: BankConfig;
   current_user?: UserProfile;
   users?: UserProfile[];
+  subscription_plans?: Record<string, any>;
+  admin_sessions?: Array<{ id: string; userId: string; email: string; loginAt: string; ip?: string; userAgent?: string }>;
 }
 
 // Dữ liệu hạt giống (Seed Data) chuẩn xác theo hình ảnh thiết kế GIAO DIEN.png

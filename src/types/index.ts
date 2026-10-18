@@ -145,6 +145,12 @@ export interface UserProfile {
   avatarUrl?: string;
   googleId?: string;
   createdAt?: string;
+  isLocked?: boolean;
+  lockedReason?: string;
+  lockedAt?: string;
+  lockedBy?: string;
+  phone?: string;
+  lastLoginAt?: string;
 }
 
 export type OrderStatus = 'PENDING' | 'PENDING_CONFIRMATION' | 'PAID' | 'REJECTED' | 'CANCELLED';
@@ -165,6 +171,8 @@ export interface SubscriptionOrder {
   expiresAt: string; // 15 mins expiry for payment session
   customerReportedAt?: string;
   customerNote?: string;
+  paymentGateway?: 'VIETQR' | 'PAY2S';
+  pay2sTransactionId?: string;
   // Reconciliation fields (Admin only upon verification)
   reconciledAt?: string;
   reconciledBy?: { id: string; email: string; name: string };
@@ -188,11 +196,27 @@ export interface BankConfig {
   accountHolder: string;
   template: string;
   webhookSecret?: string;
+  pay2sMerchantId?: string;
+  pay2sSecretKey?: string;
+  pay2sConfigured?: boolean;
 }
+
+export type AdminActionType =
+  | 'VERIFY_PAYMENT'
+  | 'REJECT_PAYMENT'
+  | 'MANUAL_GRANT'
+  | 'REVOKE_SUBSCRIPTION'
+  | 'UPDATE_BANK_CONFIG'
+  | 'LOCK_USER'
+  | 'UNLOCK_USER'
+  | 'UPDATE_PLAN_PRICE'
+  | 'UPDATE_PLAN_CONFIG'
+  | 'ADMIN_LOGIN'
+  | 'SYSTEM_CONFIG_UPDATE';
 
 export interface AdminAuditLog {
   id: string;
-  action: 'VERIFY_PAYMENT' | 'REJECT_PAYMENT' | 'MANUAL_GRANT' | 'REVOKE_SUBSCRIPTION' | 'UPDATE_BANK_CONFIG';
+  action: AdminActionType;
   orderId?: string;
   orderCode?: string;
   targetUserId: string;

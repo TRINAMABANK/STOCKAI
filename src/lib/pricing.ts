@@ -70,8 +70,13 @@ export const SUBSCRIPTION_PLANS: Record<SubscriptionTier, PlanConfig> = {
   },
 };
 
+export function getAllPlans(): Record<SubscriptionTier, PlanConfig> {
+  return SUBSCRIPTION_PLANS;
+}
+
 export function getPlanPrice(tier: SubscriptionTier): number {
-  const plan = SUBSCRIPTION_PLANS[tier];
+  const plans = getAllPlans();
+  const plan = plans[tier];
   if (!plan) {
     throw new Error(`Gói thuê bao không hợp lệ: ${tier}`);
   }
@@ -81,3 +86,4 @@ export function getPlanPrice(tier: SubscriptionTier): number {
 export function formatVnd(amount: number): string {
   return `${amount.toLocaleString('vi-VN')} đ`;
 }
+
