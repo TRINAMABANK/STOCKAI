@@ -431,7 +431,7 @@
       "code": "BMSC",
       "description": "Chưa có Open API công khai từ BMSC — Hỗ trợ nhập sao kê định dạng CSV/Excel",
       "status": "NOT_SUPPORTED",
-      "lastSyncTime": "07:10:13",
+      "lastSyncTime": "09:13:29",
       "lastError": "BMSC hiện tại chưa cung cấp Open API cho nhà đầu tư cá nhân. Hãy dùng tính năng Nhập file sao kê CSV/Excel.",
       "hasKeyConfigured": false,
       "responseTimeMs": 0
@@ -442,8 +442,8 @@
       "code": "VIETSTOCK",
       "description": "Dữ liệu giá khớp lệnh, chỉ số VN-Index, HNX, UPCoM thời gian thực",
       "status": "CONNECTED",
-      "responseTimeMs": 370,
-      "lastSyncTime": "07:10:13",
+      "responseTimeMs": 150,
+      "lastSyncTime": "07:19:49",
       "hasKeyConfigured": true
     },
     {
@@ -468,6 +468,33 @@
     }
   ],
   "api_sync_logs": [
+    {
+      "id": "log-1792289609167",
+      "timestamp": "09:13:29 18/10/2026",
+      "provider": "BMSC",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "BMSC hiện tại chưa cung cấp Open API cho nhà đầu tư cá nhân. Hãy dùng tính năng Nhập file sao kê CSV/Excel.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792282789347",
+      "timestamp": "07:19:49 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 150ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 150
+    },
+    {
+      "id": "log-1792282611536",
+      "timestamp": "07:16:51 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 114ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 114
+    },
     {
       "id": "log-1792282213858",
       "timestamp": "07:10:13 18/10/2026",

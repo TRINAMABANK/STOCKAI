@@ -24,12 +24,12 @@ export default function T3RadarView({
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-[#172033] tracking-tight">Hệ thống Phát hiện Tín hiệu Giao dịch T+3</h2>
+            <h2 className="text-xl font-bold text-[#172033] tracking-tight">Quét Cơ Hội Giao Dịch Ngắn Hạn T+1 đến T+5</h2>
             <span className="px-2.5 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] text-xs font-bold border border-[#BAE6FD]">
-              Định lượng 1-5 phiên
+              HOSE • HNX • UPCoM
             </span>
           </div>
-          <p className="text-xs text-[#64748B] mt-0.5">Xác định điểm bùng nổ, vùng mua an toàn và quản trị tỷ lệ R:R bằng công thức toán học</p>
+          <p className="text-xs text-[#64748B] mt-0.5">Xác định điểm bùng nổ, vùng mua an toàn và quản trị tỷ lệ R:R bằng công thức định lượng khách quan</p>
         </div>
         <button
           onClick={onRefreshSignals}
@@ -39,6 +39,17 @@ export default function T3RadarView({
           <span>Quét lại tín hiệu toàn thị trường</span>
         </button>
       </div>
+
+      {/* Zero-match & Market Condition Notice if empty */}
+      {signals.length === 0 && (
+        <div className="p-4 rounded-2xl bg-[#FFFBEB] border border-[#FDE68A] flex items-center gap-3">
+          <AlertTriangle className="w-5 h-5 text-[#D97706] shrink-0" />
+          <div className="text-xs">
+            <p className="font-bold text-[#92400E]">Thị trường không có cổ phiếu đạt tiêu chí T+1–T+5 hôm nay</p>
+            <p className="text-[#B45309] mt-0.5">Các mã được theo dõi đều có tỷ lệ R:R &lt; 1.5 hoặc RSI đang ở vùng quá mua. Kỷ luật đứng ngoài quan sát để bảo vệ vốn.</p>
+          </div>
+        </div>
+      )}
 
       {/* 4 Strategy Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">

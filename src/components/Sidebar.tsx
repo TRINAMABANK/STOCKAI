@@ -22,7 +22,7 @@ import {
 
 export type ActiveMenu = 
   | 'dashboard'
-  | 'bmsc'
+  | 'subscription'
   | 'portfolio'
   | 'transactions'
   | 'market'
@@ -51,17 +51,17 @@ export default function Sidebar({
 }: SidebarProps) {
   const menuItems = [
     { id: 'dashboard', label: 'Tổng quan', icon: LayoutDashboard },
-    { id: 'bmsc', label: 'Tài khoản chứng khoán', icon: Wallet },
-    { id: 'portfolio', label: 'Danh mục đầu tư', icon: PieChart },
-    { id: 'transactions', label: 'Giao dịch & Sổ lệnh', icon: ArrowLeftRight },
+    { id: 'subscription', label: 'Gói thuê bao StockAI', icon: Wallet },
+    { id: 'portfolio', label: 'Danh mục mô phỏng', icon: PieChart },
+    { id: 'transactions', label: 'Sổ giao dịch ghi nhận', icon: ArrowLeftRight },
     { id: 'market', label: 'Thị trường & Bảng giá', icon: TrendingUp },
     { id: 'screener', label: 'Bộ lọc cổ phiếu', icon: Filter },
-    { id: 't3', label: 'Giao dịch T+3', icon: Zap },
+    { id: 't3', label: 'Quét T+1–T+5', icon: Zap },
     { id: 'analysis', label: 'Phân tích cổ phiếu', icon: LineChart },
     { id: 'ai', label: 'Trợ lý AI', icon: Bot, isAi: true },
     { id: 'watchlist', label: 'Danh sách theo dõi', icon: Bookmark },
     { id: 'alerts', label: 'Cảnh báo', icon: Bell },
-    { id: 'api-center', label: 'Trung tâm API', icon: Radio },
+    { id: 'api-center', label: 'Trung tâm API & Dữ liệu', icon: Radio },
     { id: 'backtest', label: 'Kiểm định chiến lược', icon: History },
     { id: 'settings', label: 'Cài đặt & Sao lưu', icon: Settings },
   ];

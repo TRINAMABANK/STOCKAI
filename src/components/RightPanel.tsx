@@ -188,7 +188,7 @@ export default function RightPanel({
         <div className="space-y-3">
           {news.map((item) => (
             <div key={item.id} className="flex gap-3 items-start group cursor-pointer">
-              <div className="w-11 h-11 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] flex items-center justify-center text-[#64748B] shrink-0 font-bold text-[10px]">
+              <div className="w-12 h-10 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] flex items-center justify-center text-[#64748B] shrink-0 font-bold text-[9px] px-1 text-center leading-tight">
                 {item.source}
               </div>
               <div className="flex-1">

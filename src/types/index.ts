@@ -60,6 +60,8 @@ export interface T3Signal {
   invalidationLevel: number;
   risksAndEvents: string;
   isFavorite?: boolean;
+  isDemo?: boolean;
+  qualityScore?: number;
 }
 
 export interface PortfolioItem {
@@ -103,6 +105,18 @@ export interface Transaction {
   notes?: string;
 }
 
+export type SubscriptionTier = 'FREE' | 'PRO' | 'ENTERPRISE';
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  name: string;
+  role: 'USER' | 'ADMIN';
+  tier: SubscriptionTier;
+  validUntil: string;
+  features: string[];
+}
+
 export type ApiConnectionStatus = 
   | 'CONNECTED' 
   | 'DISCONNECTED' 
@@ -114,7 +128,7 @@ export type ApiConnectionStatus =
 export interface ApiProvider {
   id: string;
   name: string;
-  code: 'BMSC' | 'VIETSTOCK' | 'FIINTRADE' | 'OPENAI';
+  code: 'SSI' | 'MOCK_DEMO' | 'BMSC' | 'VIETSTOCK' | 'FIINTRADE' | 'OPENAI';
   description: string;
   status: ApiConnectionStatus;
   responseTimeMs?: number;

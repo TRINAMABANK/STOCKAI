@@ -12,7 +12,7 @@ import T3SignalsTable from '@/components/T3SignalsTable';
 import T3DetailModal from '@/components/T3DetailModal';
 
 // Views
-import BmscAccountView from '@/components/views/BmscAccountView';
+import SubscriptionView from '@/components/views/SubscriptionView';
 import PortfolioView from '@/components/views/PortfolioView';
 import TransactionsView from '@/components/views/TransactionsView';
 import MarketBoardView from '@/components/views/MarketBoardView';
@@ -215,9 +215,9 @@ export default function Home() {
 
         {/* Scrollable Center Area */}
         <div className="flex-1 overflow-y-auto p-4 lg:p-6">
-          <div className="flex flex-col xl:flex-row gap-6">
+          <div className="flex flex-col xl:flex-row gap-6 items-start">
             {/* Center Content Column */}
-            <div className="flex-1 min-w-0 space-y-6">
+            <div className="flex-1 min-w-0 space-y-6 w-full">
               {/* Menu 1: Tổng quan Dashboard */}
               {activeMenu === 'dashboard' && (
                 <>
@@ -250,11 +250,11 @@ export default function Home() {
                   <StatCards summary={summary} />
 
                   {/* 2 Interactive Charts Row */}
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    <div className="lg:col-span-2">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <div className="lg:col-span-7 2xl:col-span-8">
                       <AssetChart />
                     </div>
-                    <div>
+                    <div className="lg:col-span-5 2xl:col-span-4">
                       <PortfolioDonut />
                     </div>
                   </div>
@@ -278,13 +278,9 @@ export default function Home() {
                 </>
               )}
 
-              {/* Menu 2: BMSC Account */}
-              {activeMenu === 'bmsc' && (
-                <BmscAccountView
-                  summary={summary}
-                  holdings={holdings}
-                  onRefresh={loadPortfolioData}
-                />
+              {/* Menu 2: Gói thuê bao StockAI */}
+              {activeMenu === 'subscription' && (
+                <SubscriptionView />
               )}
 
               {/* Menu 3: Danh mục đầu tư */}
@@ -377,7 +373,7 @@ export default function Home() {
             </div>
 
             {/* Right Sidebar Panel (Always visible in Dashboard, or responsive) */}
-            <div className="shrink-0">
+            <div className="w-full xl:w-80 xl:shrink-0">
               <RightPanel
                 news={news}
                 apiProviders={apiProviders}
