@@ -9,24 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        stockai: {
-          navy: "#0a1120",
-          sidebar: "#0d1527",
-          sidebarActive: "#1e293b",
-          sidebarHover: "#17233a",
-          teal: "#00d084",
-          tealGlow: "rgba(0, 208, 132, 0.2)",
-          accentPurple: "#6366f1",
-          cardDark: "#0f172a",
-          cardBorder: "#1e293b",
-          bgLight: "#f8fafc",
-          green: "#10b981",
-          greenLight: "#dcfce7",
-          red: "#ef4444",
-          redLight: "#fee2e2",
-          yellow: "#f59e0b",
-          blue: "#3b82f6",
+        // FireAnt-inspired precise color palette
+        fireant: {
+          bg: "#F5F8FC",           // Nền tổng thể
+          card: "#FFFFFF",         // Thẻ nội dung
+          primary: "#008FD3",      // Màu chủ đạo
+          primaryHover: "#007bb8",
+          menuActive: "#E0F2FE",   // Màu nền khi chọn menu
+          textMain: "#172033",     // Tiêu đề và nội dung chính
+          textSub: "#64748B",      // Chữ phụ
+          border: "#E2E8F0",       // Đường viền
+          ai: "#8B5CF6",           // Tính năng AI
+          aiLight: "#EDE9FE",
+          profit: "#10B981",       // Lợi nhuận
+          profitLight: "#D1FAE5",
+          loss: "#F43F5E",         // Thua lỗ và cảnh báo
+          lossLight: "#FFE4E6",
         },
+      },
+      borderRadius: {
+        'card': '14px',
       },
       fontFamily: {
         sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],

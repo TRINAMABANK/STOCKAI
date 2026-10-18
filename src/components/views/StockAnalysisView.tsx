@@ -63,8 +63,8 @@ export default function StockAnalysisView({
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Phân tích cổ phiếu chuyên sâu</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Đánh giá cơ bản, kỹ thuật và kịch bản biến động giá theo định lượng</p>
+          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Phân tích cổ phiếu chuyên sâu</h2>
+          <p className="text-xs text-[#64748B] mt-0.5">Đánh giá cơ bản, kỹ thuật và kịch bản biến động giá theo định lượng</p>
         </div>
 
         {/* Stock Selector */}
@@ -77,10 +77,10 @@ export default function StockAnalysisView({
                 onSelectSymbol(sym);
                 setAiReport(null);
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${
                 symbolInput.toUpperCase() === sym
-                  ? 'bg-blue-600 text-white shadow-xs'
-                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                  ? 'bg-[#008FD3] text-white shadow-2xs'
+                  : 'bg-white border border-[#E2E8F0] text-[#172033] hover:bg-[#F5F8FC]'
               }`}
             >
               {sym}
@@ -90,21 +90,21 @@ export default function StockAnalysisView({
       </div>
 
       {/* Main Stock Banner */}
-      <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-6">
+      <div className="bg-[#FFFFFF] rounded-2xl p-6 border border-[#E2E8F0] shadow-xs flex flex-wrap items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-3">
-            <h3 className="text-2xl font-bold text-slate-900">{stock.symbol}</h3>
-            <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">{stock.exchange}</span>
-            <span className="text-xs px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold">{stock.industry}</span>
+            <h3 className="text-2xl font-bold text-[#172033]">{stock.symbol}</h3>
+            <span className="text-xs px-2 py-0.5 rounded bg-[#F5F8FC] text-[#64748B] font-bold border border-[#E2E8F0]">{stock.exchange}</span>
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] font-bold">{stock.industry}</span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">{stock.companyName}</p>
+          <p className="text-xs text-[#64748B] mt-1">{stock.companyName}</p>
         </div>
 
         <div className="flex items-center gap-6">
           <div>
-            <p className="text-xs text-slate-400 font-medium">Giá thị trường</p>
-            <h4 className="text-2xl font-bold text-slate-900 font-mono mt-0.5">{stock.price.toLocaleString('vi-VN')} đ</h4>
-            <span className={`text-xs font-semibold ${stock.change >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+            <p className="text-xs text-[#64748B] font-medium">Giá thị trường</p>
+            <h4 className="text-2xl font-bold text-[#172033] font-mono mt-0.5">{stock.price.toLocaleString('vi-VN')} đ</h4>
+            <span className={`text-xs font-bold font-mono ${stock.change >= 0 ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
               {stock.change >= 0 ? '+' : ''}{stock.change.toLocaleString('vi-VN')} ({stock.changePercent.toFixed(2)}%)
             </span>
           </div>
@@ -112,9 +112,9 @@ export default function StockAnalysisView({
           <button
             onClick={handleGenerateAiAnalysis}
             disabled={isAiLoading}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold text-xs flex items-center gap-2 shadow-sm transition disabled:opacity-50"
+            className="px-5 py-2.5 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-semibold text-xs flex items-center gap-2 shadow-xs transition disabled:opacity-50"
           >
-            {isAiLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {isAiLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-white" />}
             <span>{isAiLoading ? 'AI đang phân tích...' : 'StockAI Phân tích'}</span>
           </button>
         </div>
@@ -122,45 +122,45 @@ export default function StockAnalysisView({
 
       {/* Metrics Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-          <p className="text-[11px] text-slate-400 font-medium">P/E Hiện tại</p>
-          <p className="text-base font-bold text-slate-900 mt-0.5 font-mono">{stock.pe || '-'}x</p>
+        <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+          <p className="text-[11px] text-[#64748B] font-medium">P/E Hiện tại</p>
+          <p className="text-base font-bold text-[#172033] mt-0.5 font-mono">{stock.pe || '-'}x</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-          <p className="text-[11px] text-slate-400 font-medium">P/B Định giá</p>
-          <p className="text-base font-bold text-slate-900 mt-0.5 font-mono">{stock.pb || '-'}x</p>
+        <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+          <p className="text-[11px] text-[#64748B] font-medium">P/B Định giá</p>
+          <p className="text-base font-bold text-[#172033] mt-0.5 font-mono">{stock.pb || '-'}x</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-          <p className="text-[11px] text-slate-400 font-medium">ROE Sinh lời</p>
-          <p className="text-base font-bold text-emerald-600 mt-0.5 font-mono">{stock.roe || '-'}%</p>
+        <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+          <p className="text-[11px] text-[#64748B] font-medium">ROE Sinh lời</p>
+          <p className="text-base font-bold text-[#10B981] mt-0.5 font-mono">{stock.roe || '-'}%</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-          <p className="text-[11px] text-slate-400 font-medium">EPS Cơ bản</p>
-          <p className="text-base font-bold text-slate-900 mt-0.5 font-mono">{stock.eps?.toLocaleString() || '-'} đ</p>
+        <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+          <p className="text-[11px] text-[#64748B] font-medium">EPS Cơ bản</p>
+          <p className="text-base font-bold text-[#172033] mt-0.5 font-mono">{stock.eps?.toLocaleString() || '-'} đ</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-          <p className="text-[11px] text-slate-400 font-medium">RSI(14)</p>
-          <p className="text-base font-bold text-blue-600 mt-0.5 font-mono">{stock.rsi || 50}</p>
+        <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+          <p className="text-[11px] text-[#64748B] font-medium">RSI(14)</p>
+          <p className="text-base font-bold text-[#008FD3] mt-0.5 font-mono">{stock.rsi || 50}</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-          <p className="text-[11px] text-slate-400 font-medium">Khối lượng khớp</p>
-          <p className="text-base font-bold text-slate-900 mt-0.5 font-mono">{stock.volume.toLocaleString()}</p>
+        <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+          <p className="text-[11px] text-[#64748B] font-medium">Khối lượng khớp</p>
+          <p className="text-base font-bold text-[#172033] mt-0.5 font-mono">{stock.volume.toLocaleString()}</p>
         </div>
       </div>
 
       {/* AI Report Card */}
       {aiReport && (
-        <div className="bg-slate-900 text-white rounded-2xl p-6 border border-slate-800 shadow-xl space-y-4 animate-in fade-in">
-          <div className="flex items-center gap-2 text-indigo-400 font-bold text-sm">
-            <Sparkles className="w-5 h-5" />
+        <div className="bg-[#FFFFFF] text-[#172033] rounded-2xl p-6 border border-[#BAE6FD] shadow-xs space-y-4 animate-in fade-in">
+          <div className="flex items-center gap-2 text-[#8B5CF6] font-bold text-sm">
+            <Sparkles className="w-5 h-5 text-[#8B5CF6]" />
             <span>KẾT QUẢ ĐÁNH GIÁ TỔNG HỢP CHO {stock.symbol}</span>
           </div>
-          <div className="prose prose-invert max-w-none text-xs sm:text-sm text-slate-200 whitespace-pre-line leading-relaxed">
+          <div className="text-xs sm:text-sm text-[#172033] whitespace-pre-line leading-relaxed">
             {aiReport}
           </div>
         </div>

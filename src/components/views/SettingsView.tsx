@@ -85,47 +85,47 @@ export default function SettingsView({ onRefreshAll }: SettingsViewProps) {
     <div className="space-y-6 max-w-4xl">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Cài đặt Hệ thống & Quản lý Sao lưu</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Tùy biến tham số giao dịch BMSC, cấu hình AI và an toàn dữ liệu cá nhân</p>
+          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Cài đặt Hệ thống & Quản lý Sao lưu</h2>
+          <p className="text-xs text-[#64748B] mt-0.5">Tùy biến tham số giao dịch BMSC, cấu hình AI và an toàn dữ liệu cá nhân</p>
         </div>
       </div>
 
       {/* Financial Parameters */}
-      <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm space-y-4">
-        <h3 className="font-bold text-sm text-slate-800 flex items-center gap-2">
-          <Settings className="w-4 h-4 text-emerald-600" />
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs space-y-4">
+        <h3 className="font-bold text-sm text-[#172033] flex items-center gap-2">
+          <Settings className="w-4 h-4 text-[#008FD3]" />
           <span>Tham số Giao dịch & Thuế Phí</span>
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
           <div>
-            <label className="text-slate-500 font-medium block mb-1">Phí giao dịch mặc định (BMSC)</label>
+            <label className="text-[#64748B] font-medium block mb-1">Phí giao dịch mặc định (BMSC)</label>
             <input
               type="text"
               value={feeRate}
               onChange={(e) => setFeeRate(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-mono font-semibold"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-mono font-bold text-[#172033]"
             />
-            <p className="text-[10px] text-slate-400 mt-1">Mặc định: 0.0015 (tương đương 0.15%)</p>
+            <p className="text-[10px] text-[#64748B] mt-1">Mặc định: 0.0015 (tương đương 0.15%)</p>
           </div>
 
           <div>
-            <label className="text-slate-500 font-medium block mb-1">Thuế TNCN bán chứng khoán</label>
+            <label className="text-[#64748B] font-medium block mb-1">Thuế TNCN bán chứng khoán</label>
             <input
               type="text"
               value={taxRate}
               onChange={(e) => setTaxRate(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-mono font-semibold"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-mono font-bold text-[#172033]"
             />
-            <p className="text-[10px] text-slate-400 mt-1">Quy định luật: 0.0010 (tương đương 0.1%)</p>
+            <p className="text-[10px] text-[#64748B] mt-1">Quy định luật: 0.0010 (tương đương 0.1%)</p>
           </div>
 
           <div>
-            <label className="text-slate-500 font-medium block mb-1">Mô hình AI ưu tiên</label>
+            <label className="text-[#64748B] font-medium block mb-1">Mô hình AI ưu tiên</label>
             <select
               value={openAiModel}
               onChange={(e) => setOpenAiModel(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-semibold"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-bold text-[#172033]"
             >
               <option value="gpt-4o">GPT-4o (Khuyên dùng - Phân tích sâu)</option>
               <option value="gpt-4o-mini">GPT-4o Mini (Phản hồi siêu tốc)</option>
@@ -135,18 +135,18 @@ export default function SettingsView({ onRefreshAll }: SettingsViewProps) {
       </div>
 
       {/* Backup & Restore Panel */}
-      <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm space-y-4">
-        <h3 className="font-bold text-sm text-slate-800 flex items-center gap-2">
-          <Database className="w-4 h-4 text-blue-600" />
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs space-y-4">
+        <h3 className="font-bold text-sm text-[#172033] flex items-center gap-2">
+          <Database className="w-4 h-4 text-[#008FD3]" />
           <span>Sao lưu & Khôi phục Cơ sở Dữ liệu (SQLite / JSON)</span>
         </h3>
 
-        <p className="text-xs text-slate-500 leading-relaxed">
+        <p className="text-xs text-[#64748B] leading-relaxed">
           Toàn bộ tài khoản, lịch sử lệnh, danh mục và cấu hình đều được lưu an toàn tại máy tính Windows của bạn trong thư mục <code>data/</code>. Bạn có thể tạo bản sao lưu định kỳ để không bao giờ bị mất dữ liệu.
         </p>
 
         {backupMessage && (
-          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800">
+          <div className="p-3 rounded-xl bg-[#E0F2FE] border border-[#BAE6FD] text-xs font-bold text-[#008FD3]">
             {backupMessage}
           </div>
         )}
@@ -155,35 +155,35 @@ export default function SettingsView({ onRefreshAll }: SettingsViewProps) {
           <button
             onClick={handleCreateSnapshot}
             disabled={isProcessing}
-            className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-semibold text-xs flex items-center gap-2 transition"
+            className="px-4 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-50 text-white font-semibold text-xs flex items-center gap-2 transition shadow-xs"
           >
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <ShieldCheck className="w-4 h-4 text-white" />
             <span>Tạo bản Snapshot lưu trên đĩa</span>
           </button>
 
           <button
             onClick={handleDownloadJson}
-            className="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center gap-2 transition"
+            className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] hover:bg-[#F5F8FC] text-[#172033] font-semibold text-xs flex items-center gap-2 transition"
           >
-            <Download className="w-4 h-4 text-blue-600" />
+            <Download className="w-4 h-4 text-[#008FD3]" />
             <span>Tải file sao lưu JSON về máy</span>
           </button>
         </div>
 
         {/* Restore area */}
-        <div className="pt-4 border-t border-slate-100 space-y-2">
-          <label className="text-xs font-semibold text-slate-700 block">Khôi phục từ nội dung file sao lưu JSON:</label>
+        <div className="pt-4 border-t border-[#E2E8F0] space-y-2">
+          <label className="text-xs font-bold text-[#172033] block">Khôi phục từ nội dung file sao lưu JSON:</label>
           <textarea
             rows={4}
             value={restoreText}
             onChange={(e) => setRestoreText(e.target.value)}
             placeholder="Dán toàn bộ nội dung file sao lưu JSON vào đây để khôi phục..."
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs font-mono text-slate-800 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-3 text-xs font-mono text-[#172033] focus:outline-none focus:ring-1 focus:ring-[#008FD3]"
           />
           <button
             onClick={handleRestore}
             disabled={isProcessing || !restoreText.trim()}
-            className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-semibold text-xs flex items-center gap-1.5 transition"
+            className="px-4 py-2 rounded-xl bg-[#F43F5E] hover:bg-[#e11d48] disabled:opacity-50 text-white font-semibold text-xs flex items-center gap-1.5 transition shadow-2xs"
           >
             <Upload className="w-3.5 h-3.5" />
             <span>Khôi phục dữ liệu ngay</span>

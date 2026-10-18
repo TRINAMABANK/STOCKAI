@@ -29,7 +29,7 @@ export default function BacktestView() {
         setResult(data.data);
       }
     } catch {
-      // error handling
+      // error
     } finally {
       setIsRunning(false);
     }
@@ -39,22 +39,22 @@ export default function BacktestView() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Kiểm định Chiến lược Giao dịch (Backtesting Engine)</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Mô phỏng chuỗi lệnh lịch sử không có lookahead bias, trừ phí 0.15%, thuế 0.1% và trượt giá 0.1%</p>
+          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Kiểm định Chiến lược Giao dịch (Backtesting Engine)</h2>
+          <p className="text-xs text-[#64748B] mt-0.5">Mô phỏng chuỗi lệnh lịch sử không có lookahead bias, trừ phí 0.15%, thuế 0.1% và trượt giá 0.1%</p>
         </div>
       </div>
 
       {/* Control Configuration Panel */}
-      <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm space-y-4">
-        <h3 className="font-bold text-sm text-slate-800">Thông số kiểm định</h3>
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs space-y-4">
+        <h3 className="font-bold text-sm text-[#172033]">Thông số kiểm định</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
           <div>
-            <label className="text-slate-500 font-medium block mb-1">Chiến lược T+3</label>
+            <label className="text-[#64748B] font-medium block mb-1">Chiến lược T+3</label>
             <select
               value={strategy}
               onChange={(e) => setStrategy(e.target.value as any)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-bold text-slate-900"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-bold text-[#172033]"
             >
               <option value="Breakout">Breakout (Phá nền giá)</option>
               <option value="Pullback">Pullback (Điều chỉnh MA20)</option>
@@ -64,11 +64,11 @@ export default function BacktestView() {
           </div>
 
           <div>
-            <label className="text-slate-500 font-medium block mb-1">Khoảng thời gian lịch sử</label>
+            <label className="text-[#64748B] font-medium block mb-1">Khoảng thời gian lịch sử</label>
             <select
               value={timeframe}
               onChange={(e) => setTimeframe(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-semibold text-slate-800"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-semibold text-[#172033]"
             >
               <option value="3M">3 Tháng gần nhất</option>
               <option value="6M">6 Tháng gần nhất</option>
@@ -77,13 +77,13 @@ export default function BacktestView() {
           </div>
 
           <div>
-            <label className="text-slate-500 font-medium block mb-1">Vốn khởi điểm (VNĐ)</label>
+            <label className="text-[#64748B] font-medium block mb-1">Vốn khởi điểm (VNĐ)</label>
             <input
               type="number"
               step="10000000"
               value={initialCapital}
               onChange={(e) => setInitialCapital(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-bold text-slate-900 font-mono"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-bold text-[#172033] font-mono"
             />
           </div>
 
@@ -91,7 +91,7 @@ export default function BacktestView() {
             <button
               onClick={handleRunBacktest}
               disabled={isRunning}
-              className="w-full px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold transition flex items-center justify-center gap-2 shadow-sm"
+              className="w-full px-5 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-50 text-white font-semibold transition flex items-center justify-center gap-2 shadow-2xs"
             >
               {isRunning ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
               <span>{isRunning ? 'Đang chạy kiểm định...' : 'Chạy kiểm định ngay'}</span>
@@ -105,54 +105,54 @@ export default function BacktestView() {
         <div className="space-y-4 animate-in fade-in">
           {/* KPI Summary Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-              <p className="text-[11px] text-slate-400 font-medium">Tỷ lệ thắng (Win Rate)</p>
-              <h4 className="text-xl font-bold text-emerald-600 mt-0.5">{result.winRate}%</h4>
-              <p className="text-[10px] text-slate-400 mt-1">{result.winningTrades} thắng / {result.losingTrades} thua</p>
+            <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+              <p className="text-[11px] text-[#64748B] font-medium">Tỷ lệ thắng (Win Rate)</p>
+              <h4 className="text-xl font-bold text-[#10B981] mt-0.5 font-mono">{result.winRate}%</h4>
+              <p className="text-[10px] text-[#64748B] mt-1">{result.winningTrades} thắng / {result.losingTrades} thua</p>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-              <p className="text-[11px] text-slate-400 font-medium">Tổng lợi nhuận ròng</p>
-              <h4 className="text-xl font-bold text-emerald-600 mt-0.5">+{result.totalReturnPercent}%</h4>
-              <p className="text-[10px] text-slate-400 mt-1">Vốn cuối: {result.finalCapital.toLocaleString('vi-VN')} đ</p>
+            <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+              <p className="text-[11px] text-[#64748B] font-medium">Tổng lợi nhuận ròng</p>
+              <h4 className="text-xl font-bold text-[#10B981] mt-0.5 font-mono">+{result.totalReturnPercent}%</h4>
+              <p className="text-[10px] text-[#64748B] mt-1 font-mono">Vốn: {result.finalCapital.toLocaleString('vi-VN')} đ</p>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-              <p className="text-[11px] text-slate-400 font-medium">Lợi nhuận TB / Lệnh</p>
-              <h4 className="text-xl font-bold text-blue-600 mt-0.5">+{result.avgReturnPerTradePercent}%</h4>
-              <p className="text-[10px] text-slate-400 mt-1">Đã trừ toàn bộ phí</p>
+            <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+              <p className="text-[11px] text-[#64748B] font-medium">Lợi nhuận TB / Lệnh</p>
+              <h4 className="text-xl font-bold text-[#008FD3] mt-0.5 font-mono">+{result.avgReturnPerTradePercent}%</h4>
+              <p className="text-[10px] text-[#64748B] mt-1">Đã trừ toàn bộ phí</p>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-              <p className="text-[11px] text-slate-400 font-medium">Sụt giảm lớn nhất (MDD)</p>
-              <h4 className="text-xl font-bold text-amber-600 mt-0.5">-{result.maxDrawdownPercent}%</h4>
-              <p className="text-[10px] text-emerald-600 mt-1 font-semibold">Mức kiểm soát tốt</p>
+            <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+              <p className="text-[11px] text-[#64748B] font-medium">Sụt giảm lớn nhất (MDD)</p>
+              <h4 className="text-xl font-bold text-[#F43F5E] mt-0.5 font-mono">-{result.maxDrawdownPercent}%</h4>
+              <p className="text-[10px] text-[#10B981] mt-1 font-bold">Mức kiểm soát tốt</p>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-              <p className="text-[11px] text-slate-400 font-medium">Hệ số lãi/lỗ (Factor)</p>
-              <h4 className="text-xl font-bold text-slate-900 mt-0.5">{result.profitFactor}</h4>
-              <p className="text-[10px] text-slate-400 mt-1">&gt; 1.5 là chiến lược tối ưu</p>
+            <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+              <p className="text-[11px] text-[#64748B] font-medium">Hệ số lãi/lỗ (Factor)</p>
+              <h4 className="text-xl font-bold text-[#172033] mt-0.5 font-mono">{result.profitFactor}</h4>
+              <p className="text-[10px] text-[#64748B] mt-1">&gt; 1.5 là chiến lược tối ưu</p>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-              <p className="text-[11px] text-slate-400 font-medium">So sánh VN-Index</p>
-              <h4 className="text-xl font-bold text-purple-600 mt-0.5">+{result.benchmarkReturnPercent}%</h4>
-              <p className="text-[10px] text-emerald-600 mt-1 font-semibold">Alpha: +{(result.totalReturnPercent - result.benchmarkReturnPercent).toFixed(1)}%</p>
+            <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+              <p className="text-[11px] text-[#64748B] font-medium">So sánh VN-Index</p>
+              <h4 className="text-xl font-bold text-[#8B5CF6] mt-0.5 font-mono">+{result.benchmarkReturnPercent}%</h4>
+              <p className="text-[10px] text-[#10B981] mt-1 font-bold">Alpha: +{(result.totalReturnPercent - result.benchmarkReturnPercent).toFixed(1)}%</p>
             </div>
           </div>
 
           {/* Trade Details Table */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-              <h4 className="font-bold text-sm text-slate-800">Chi tiết {result.totalTrades} giao dịch trong kỳ kiểm định</h4>
-              <span className="text-xs text-slate-500 font-medium">Chiến lược: {result.strategy}</span>
+          <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+            <div className="p-4 border-b border-[#E2E8F0] flex items-center justify-between">
+              <h4 className="font-bold text-sm text-[#172033]">Chi tiết {result.totalTrades} giao dịch trong kỳ kiểm định</h4>
+              <span className="text-xs text-[#008FD3] font-bold">Chiến lược: {result.strategy}</span>
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="bg-slate-50 text-slate-500 uppercase tracking-wider text-[11px] border-b border-slate-200">
+                  <tr className="bg-[#F5F8FC] text-[#64748B] uppercase tracking-wider text-[11px] border-b border-[#E2E8F0]">
                     <th className="py-3 px-4 font-semibold">Mã CP</th>
                     <th className="py-3 px-4 font-semibold">Ngày vào</th>
                     <th className="py-3 px-4 font-semibold text-right">Giá vào</th>
@@ -164,26 +164,26 @@ export default function BacktestView() {
                     <th className="py-3 px-4 font-semibold text-center">Lý do đóng lệnh</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 font-medium">
+                <tbody className="divide-y divide-[#F1F5F9] font-medium">
                   {result.trades.map((t) => {
                     const isWin = t.pnl > 0;
                     return (
-                      <tr key={t.id} className="hover:bg-slate-50/80 transition">
-                        <td className="py-3 px-4 font-bold text-blue-600">{t.symbol}</td>
-                        <td className="py-3 px-4 text-slate-600">{t.entryDate}</td>
-                        <td className="py-3 px-4 text-right font-mono">{t.entryPrice.toLocaleString('vi-VN')}</td>
-                        <td className="py-3 px-4 text-slate-600">{t.exitDate}</td>
-                        <td className="py-3 px-4 text-right font-mono">{t.exitPrice.toLocaleString('vi-VN')}</td>
-                        <td className="py-3 px-4 text-center font-mono">{t.holdingDays} phiên</td>
-                        <td className={`py-3 px-4 text-right font-bold font-mono ${isWin ? 'text-emerald-600' : 'text-rose-600'}`}>
+                      <tr key={t.id} className="hover:bg-[#F5F8FC] transition">
+                        <td className="py-3 px-4 font-bold text-[#008FD3]">{t.symbol}</td>
+                        <td className="py-3 px-4 text-[#64748B]">{t.entryDate}</td>
+                        <td className="py-3 px-4 text-right font-mono text-[#172033]">{t.entryPrice.toLocaleString('vi-VN')}</td>
+                        <td className="py-3 px-4 text-[#64748B]">{t.exitDate}</td>
+                        <td className="py-3 px-4 text-right font-mono text-[#172033]">{t.exitPrice.toLocaleString('vi-VN')}</td>
+                        <td className="py-3 px-4 text-center font-mono text-[#64748B]">{t.holdingDays} phiên</td>
+                        <td className={`py-3 px-4 text-right font-bold font-mono ${isWin ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                           {isWin ? '+' : ''}{t.pnl.toLocaleString('vi-VN')} đ
                         </td>
-                        <td className={`py-3 px-4 text-right font-bold ${isWin ? 'text-emerald-600' : 'text-rose-600'}`}>
+                        <td className={`py-3 px-4 text-right font-bold font-mono ${isWin ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                           {isWin ? '+' : ''}{t.pnlPercent}%
                         </td>
                         <td className="py-3 px-4 text-center">
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                            t.exitReason === 'TARGET' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                            t.exitReason === 'TARGET' ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#FFE4E6] text-[#F43F5E]'
                           }`}>
                             {t.exitReason === 'TARGET' ? 'CHỐT LỜI' : 'CẮT LỖ'}
                           </span>

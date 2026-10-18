@@ -1,10 +1,10 @@
 {
   "portfolios": {
-    "totalAssets": 1268450000,
-    "stockValue": 985320000,
-    "cash": 283130000,
-    "realizedPnL": 48320000,
-    "unrealizedPnL": 64200000,
+    "totalAssets": 1268382200,
+    "stockValue": 958200000,
+    "cash": 310182200,
+    "realizedPnL": 50972200,
+    "unrealizedPnL": 73459200,
     "totalReturnPercent": 8.92,
     "dailyChange": 35620000,
     "dailyChangePercent": 2.89
@@ -14,13 +14,13 @@
       "id": "h-1",
       "symbol": "FPT",
       "companyName": "CTCP FPT",
-      "shares": 2500,
+      "shares": 2300,
       "costBasis": 122000,
       "currentPrice": 135600,
-      "marketValue": 339000000,
-      "unrealizedPnL": 34000000,
+      "marketValue": 311880000,
+      "unrealizedPnL": 31280000,
       "unrealizedPnLPercent": 11.15,
-      "weightPercent": 32.5,
+      "weightPercent": 24.6,
       "sector": "Công nghệ"
     },
     {
@@ -33,7 +33,7 @@
       "marketValue": 248250000,
       "unrealizedPnL": 19500000,
       "unrealizedPnLPercent": 8.52,
-      "weightPercent": 24.8,
+      "weightPercent": 19.6,
       "sector": "Ngân hàng"
     },
     {
@@ -46,7 +46,7 @@
       "marketValue": 152900000,
       "unrealizedPnL": 9900000,
       "unrealizedPnLPercent": 6.92,
-      "weightPercent": 15.2,
+      "weightPercent": 12.1,
       "sector": "Thép"
     },
     {
@@ -59,7 +59,7 @@
       "marketValue": 123300000,
       "unrealizedPnL": 6300000,
       "unrealizedPnLPercent": 5.38,
-      "weightPercent": 12.6,
+      "weightPercent": 9.7,
       "sector": "Bất động sản"
     },
     {
@@ -72,7 +72,7 @@
       "marketValue": 83640000,
       "unrealizedPnL": 4760000,
       "unrealizedPnLPercent": 6.03,
-      "weightPercent": 8.3,
+      "weightPercent": 6.6,
       "sector": "Chứng khoán"
     },
     {
@@ -85,11 +85,37 @@
       "marketValue": 38230000,
       "unrealizedPnL": 1719200,
       "unrealizedPnLPercent": 4.71,
-      "weightPercent": 6.6,
+      "weightPercent": 3,
       "sector": "Khác"
     }
   ],
   "transactions": [
+    {
+      "id": "tx-1792281632272",
+      "date": "2026-10-18",
+      "type": "SELL",
+      "symbol": "FPT",
+      "shares": 100,
+      "price": 135600,
+      "grossAmount": 13560000,
+      "fee": 20340,
+      "tax": 13560,
+      "netAmount": 13526100,
+      "notes": "Lệnh Bán thủ công"
+    },
+    {
+      "id": "tx-1792281631161",
+      "date": "2026-10-18",
+      "type": "SELL",
+      "symbol": "FPT",
+      "shares": 100,
+      "price": 135600,
+      "grossAmount": 13560000,
+      "fee": 20340,
+      "tax": 13560,
+      "netAmount": 13526100,
+      "notes": "Lệnh Bán thủ công"
+    },
     {
       "id": "tx-001",
       "date": "2025-03-20",
@@ -405,7 +431,7 @@
       "code": "BMSC",
       "description": "Chưa có Open API công khai từ BMSC — Hỗ trợ nhập sao kê định dạng CSV/Excel",
       "status": "NOT_SUPPORTED",
-      "lastSyncTime": "06:50:14",
+      "lastSyncTime": "07:10:13",
       "lastError": "BMSC hiện tại chưa cung cấp Open API cho nhà đầu tư cá nhân. Hãy dùng tính năng Nhập file sao kê CSV/Excel.",
       "hasKeyConfigured": false,
       "responseTimeMs": 0
@@ -416,8 +442,8 @@
       "code": "VIETSTOCK",
       "description": "Dữ liệu giá khớp lệnh, chỉ số VN-Index, HNX, UPCoM thời gian thực",
       "status": "CONNECTED",
-      "responseTimeMs": 314,
-      "lastSyncTime": "06:50:14",
+      "responseTimeMs": 370,
+      "lastSyncTime": "07:10:13",
       "hasKeyConfigured": true
     },
     {
@@ -442,6 +468,60 @@
     }
   ],
   "api_sync_logs": [
+    {
+      "id": "log-1792282213858",
+      "timestamp": "07:10:13 18/10/2026",
+      "provider": "BMSC",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "BMSC hiện tại chưa cung cấp Open API cho nhà đầu tư cá nhân. Hãy dùng tính năng Nhập file sao kê CSV/Excel.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792282213824",
+      "timestamp": "07:10:13 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 370ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 370
+    },
+    {
+      "id": "log-1792281610735",
+      "timestamp": "07:00:10 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 130ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 130
+    },
+    {
+      "id": "log-1792281608080",
+      "timestamp": "07:00:08 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 96ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 96
+    },
+    {
+      "id": "log-1792281606468",
+      "timestamp": "07:00:06 18/10/2026",
+      "provider": "BMSC",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "BMSC hiện tại chưa cung cấp Open API cho nhà đầu tư cá nhân. Hãy dùng tính năng Nhập file sao kê CSV/Excel.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792281601355",
+      "timestamp": "07:00:01 18/10/2026",
+      "provider": "BMSC",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "BMSC hiện tại chưa cung cấp Open API cho nhà đầu tư cá nhân. Hãy dùng tính năng Nhập file sao kê CSV/Excel.",
+      "latencyMs": 0
+    },
     {
       "id": "log-1792281014768",
       "timestamp": "06:50:14 18/10/2026",
@@ -590,6 +670,6 @@
     "defaultTaxRate": 0.001,
     "openAiModel": "gpt-4o",
     "marketDataProvider": "vietstock",
-    "lastBackupTime": "06:50:14 18/10/2026"
+    "lastBackupTime": "07:10:13 18/10/2026"
   }
 }

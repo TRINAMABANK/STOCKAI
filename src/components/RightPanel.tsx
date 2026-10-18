@@ -86,37 +86,37 @@ export default function RightPanel({
   return (
     <div className="w-full xl:w-80 space-y-4 shrink-0">
       {/* 1. Trợ lý AI - StockAI */}
-      <div className="bg-[#0f172a] rounded-2xl p-4.5 border border-slate-800 text-white shadow-sm flex flex-col justify-between">
+      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
         {/* Header */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-blue-600/30 border border-blue-500/40 flex items-center justify-center">
-              <span className="font-bold text-xs text-blue-400">ai</span>
+            <div className="w-8 h-8 rounded-xl bg-[#EDE9FE] border border-[#DDD6FE] flex items-center justify-center">
+              <span className="font-bold text-xs text-[#8B5CF6]">ai</span>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h4 className="font-bold text-sm text-slate-100">Trợ lý AI - StockAI</h4>
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-700/60 font-semibold flex items-center gap-1">
+                <h4 className="font-bold text-sm text-[#172033]">Trợ lý AI - StockAI</h4>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#EDE9FE] text-[#8B5CF6] font-bold flex items-center gap-1">
                   <Sparkles className="w-2.5 h-2.5" />
                   GPT-4o
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400">Hỏi đáp, phân tích và tìm cơ hội đầu tư</p>
+              <p className="text-[11px] text-[#64748B]">Hỏi đáp, phân tích và tìm cơ hội đầu tư</p>
             </div>
           </div>
         </div>
 
         {/* Prompt Suggestions */}
         <div className="my-3 space-y-1.5">
-          <p className="text-[11px] text-slate-400 font-medium">Bạn có thể hỏi tôi:</p>
+          <p className="text-[11px] text-[#64748B] font-semibold">Bạn có thể hỏi tôi:</p>
           <div className="space-y-1.5">
             {samplePrompts.map((p, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendPrompt(p)}
-                className="w-full text-left text-[11px] px-3 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition flex items-center gap-2 group"
+                className="w-full text-left text-[11px] px-3 py-1.5 rounded-xl bg-[#F5F8FC] hover:bg-[#E0F2FE] border border-[#E2E8F0] text-[#172033] hover:text-[#008FD3] transition flex items-center gap-2 group"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover:bg-emerald-400 transition"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#94A3B8] group-hover:bg-[#008FD3] transition"></span>
                 <span className="truncate">{p}</span>
               </button>
             ))}
@@ -125,18 +125,18 @@ export default function RightPanel({
 
         {/* Conversation Dialogue Display if messages exist */}
         {chatMessages.length > 0 && (
-          <div className="max-h-60 overflow-y-auto space-y-2.5 my-2 p-2 rounded-xl bg-slate-900/80 border border-slate-800 text-xs">
+          <div className="max-h-60 overflow-y-auto space-y-2.5 my-2 p-2.5 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-xs">
             {chatMessages.map((msg, i) => (
               <div 
                 key={i} 
                 className={`p-2.5 rounded-xl ${
                   msg.sender === 'user' 
-                    ? 'bg-blue-600/30 border border-blue-500/30 text-white ml-4' 
-                    : 'bg-slate-800/90 border border-slate-700 text-slate-200 mr-2'
+                    ? 'bg-[#E0F2FE] border border-[#BAE6FD] text-[#008FD3] font-medium ml-4' 
+                    : 'bg-[#FFFFFF] border border-[#E2E8F0] text-[#172033] mr-2 shadow-2xs'
                 }`}
               >
-                <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-                  <span>{msg.sender === 'user' ? 'Bạn' : 'StockAI'}</span>
+                <div className="flex items-center justify-between text-[10px] text-[#64748B] mb-1">
+                  <span className="font-bold">{msg.sender === 'user' ? 'Bạn' : 'StockAI'}</span>
                   <span>{msg.time}</span>
                 </div>
                 <div className="whitespace-pre-line leading-relaxed text-[11px]">
@@ -145,8 +145,8 @@ export default function RightPanel({
               </div>
             ))}
             {isAiLoading && (
-              <div className="p-2 text-xs text-slate-400 animate-pulse flex items-center gap-2">
-                <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-400" />
+              <div className="p-2 text-xs text-[#64748B] animate-pulse flex items-center gap-2">
+                <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#008FD3]" />
                 <span>StockAI đang truy xuất dữ liệu & suy luận...</span>
               </div>
             )}
@@ -164,12 +164,12 @@ export default function RightPanel({
             }}
             disabled={isAiLoading}
             placeholder="Nhập câu hỏi của anh..."
-            className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition"
+            className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-[#172033] placeholder-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#008FD3]/20 focus:border-[#008FD3] transition"
           />
           <button
             onClick={() => handleSendPrompt(chatInput)}
             disabled={isAiLoading || !chatInput.trim()}
-            className="absolute right-1.5 top-1.5 bottom-1.5 px-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 disabled:opacity-40 text-slate-950 flex items-center justify-center transition"
+            className="absolute right-1.5 top-1.5 bottom-1.5 px-2.5 rounded-lg bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-40 text-white flex items-center justify-center transition shadow-2xs"
           >
             <Send className="w-3.5 h-3.5" />
           </button>
@@ -177,10 +177,10 @@ export default function RightPanel({
       </div>
 
       {/* 2. Tin tức nổi bật */}
-      <div className="bg-white rounded-2xl p-4.5 border border-slate-200/90 shadow-sm">
+      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs">
         <div className="flex items-center justify-between mb-3">
-          <h4 className="font-bold text-sm text-slate-800">Tin tức nổi bật</h4>
-          <span className="text-xs text-blue-600 font-medium cursor-pointer hover:underline">
+          <h4 className="font-bold text-sm text-[#172033]">Tin tức nổi bật</h4>
+          <span className="text-xs text-[#008FD3] hover:text-[#007bb8] font-semibold cursor-pointer transition">
             Xem tất cả
           </span>
         </div>
@@ -188,14 +188,14 @@ export default function RightPanel({
         <div className="space-y-3">
           {news.map((item) => (
             <div key={item.id} className="flex gap-3 items-start group cursor-pointer">
-              <div className="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 shrink-0 overflow-hidden font-bold text-[10px]">
+              <div className="w-11 h-11 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] flex items-center justify-center text-[#64748B] shrink-0 font-bold text-[10px]">
                 {item.source}
               </div>
               <div className="flex-1">
-                <h5 className="text-xs font-semibold text-slate-800 group-hover:text-blue-600 transition line-clamp-2 leading-snug">
+                <h5 className="text-xs font-semibold text-[#172033] group-hover:text-[#008FD3] transition line-clamp-2 leading-snug">
                   {item.title}
                 </h5>
-                <p className="text-[11px] text-slate-400 mt-1">
+                <p className="text-[11px] text-[#64748B] mt-1 font-medium">
                   {item.source} • {item.timeAgo}
                 </p>
               </div>
@@ -205,12 +205,12 @@ export default function RightPanel({
       </div>
 
       {/* 3. Kết nối API */}
-      <div className="bg-white rounded-2xl p-4.5 border border-slate-200/90 shadow-sm">
+      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs">
         <div className="flex items-center justify-between mb-3">
-          <h4 className="font-bold text-sm text-slate-800">Kết nối API</h4>
+          <h4 className="font-bold text-sm text-[#172033]">Kết nối API</h4>
           <button 
             onClick={onOpenApiCenter}
-            className="text-xs text-blue-600 font-medium hover:underline"
+            className="text-xs text-[#008FD3] hover:text-[#007bb8] font-semibold transition"
           >
             Quản lý
           </button>
@@ -224,18 +224,18 @@ export default function RightPanel({
             return (
               <div 
                 key={provider.id} 
-                className="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-100 text-xs"
+                className="flex items-center justify-between p-2 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-xs"
               >
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-semibold text-slate-900">{provider.name}</span>
+                    <span className="font-bold text-[#172033]">{provider.name}</span>
                   </div>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className={`w-1.5 h-1.5 rounded-full ${
-                      isConnected ? 'bg-emerald-500' : 'bg-rose-500'
+                      isConnected ? 'bg-[#10B981]' : 'bg-[#F43F5E]'
                     }`}></span>
-                    <span className={`text-[11px] font-medium ${
-                      isConnected ? 'text-emerald-700' : 'text-rose-600'
+                    <span className={`text-[11px] font-semibold ${
+                      isConnected ? 'text-[#10B981]' : 'text-[#F43F5E]'
                     }`}>
                       {isConnected ? 'Đang hoạt động' : 'Chưa kết nối'}
                     </span>
@@ -245,14 +245,14 @@ export default function RightPanel({
                 <button
                   onClick={() => onTestApi(provider.code)}
                   disabled={isTesting}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1 ${
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1 ${
                     provider.code === 'BMSC'
-                      ? 'bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100'
-                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
+                      ? 'bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD] hover:bg-[#BAE6FD]'
+                      : 'bg-white text-[#172033] border border-[#E2E8F0] hover:bg-[#F5F8FC]'
                   }`}
                 >
                   {isTesting ? (
-                    <RefreshCw className="w-3 h-3 animate-spin text-blue-600" />
+                    <RefreshCw className="w-3 h-3 animate-spin text-[#008FD3]" />
                   ) : (
                     <span>{provider.code === 'BMSC' ? 'Kết nối' : 'Kiểm tra'}</span>
                   )}

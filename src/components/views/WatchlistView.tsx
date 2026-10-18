@@ -34,8 +34,8 @@ export default function WatchlistView({
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Danh sách theo dõi (Watchlist)</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Theo dõi sát diễn biến giá và khối lượng các mã cổ phiếu mục tiêu</p>
+          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Danh sách theo dõi (Watchlist)</h2>
+          <p className="text-xs text-[#64748B] mt-0.5">Theo dõi sát diễn biến giá và khối lượng các mã cổ phiếu mục tiêu</p>
         </div>
 
         {/* Add Stock */}
@@ -45,11 +45,11 @@ export default function WatchlistView({
             value={newSymbol}
             onChange={(e) => setNewSymbol(e.target.value)}
             placeholder="Nhập mã (VD: MBB)..."
-            className="w-36 bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 uppercase font-bold focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-36 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl px-3 py-1.5 text-xs text-[#172033] uppercase font-bold focus:outline-none focus:ring-1 focus:ring-[#008FD3]"
           />
           <button
             onClick={handleAdd}
-            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition flex items-center gap-1"
+            className="px-3.5 py-1.5 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-semibold text-xs transition flex items-center gap-1 shadow-2xs"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Thêm mã</span>
@@ -57,11 +57,11 @@ export default function WatchlistView({
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="bg-slate-50 text-slate-500 uppercase tracking-wider text-[11px] border-b border-slate-200">
+              <tr className="bg-[#F5F8FC] text-[#64748B] uppercase tracking-wider text-[11px] border-b border-[#E2E8F0]">
                 <th className="py-3 px-4 font-semibold">Mã CP</th>
                 <th className="py-3 px-4 font-semibold">Sàn</th>
                 <th className="py-3 px-4 font-semibold">Ngành</th>
@@ -73,27 +73,27 @@ export default function WatchlistView({
                 <th className="py-3 px-4 font-semibold text-right">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-medium">
+            <tbody className="divide-y divide-[#F1F5F9] font-medium">
               {watchlistQuotes.map(stock => {
                 const isUp = stock.change >= 0;
                 return (
-                  <tr key={stock.symbol} className="hover:bg-slate-50/80 transition">
-                    <td className="py-3 px-4 font-bold text-blue-600 cursor-pointer" onClick={() => onSelectStock(stock.symbol)}>
+                  <tr key={stock.symbol} className="hover:bg-[#F5F8FC] transition">
+                    <td className="py-3 px-4 font-bold text-[#008FD3] cursor-pointer" onClick={() => onSelectStock(stock.symbol)}>
                       {stock.symbol}
-                      <span className="block text-[10px] text-slate-400 font-normal">{stock.companyName}</span>
+                      <span className="block text-[10px] text-[#64748B] font-normal">{stock.companyName}</span>
                     </td>
-                    <td className="py-3 px-4 text-slate-500">{stock.exchange}</td>
-                    <td className="py-3 px-4 text-slate-600">{stock.industry}</td>
-                    <td className="py-3 px-4 text-right font-bold text-slate-900 font-mono">{stock.price.toLocaleString('vi-VN')}</td>
-                    <td className={`py-3 px-4 text-right font-semibold font-mono ${isUp ? 'text-emerald-600' : 'text-rose-600'}`}>
+                    <td className="py-3 px-4 text-[#64748B]">{stock.exchange}</td>
+                    <td className="py-3 px-4 text-[#64748B]">{stock.industry}</td>
+                    <td className="py-3 px-4 text-right font-bold text-[#172033] font-mono">{stock.price.toLocaleString('vi-VN')}</td>
+                    <td className={`py-3 px-4 text-right font-semibold font-mono ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                       {isUp ? '+' : ''}{stock.change.toLocaleString('vi-VN')}
                     </td>
-                    <td className={`py-3 px-4 text-right font-bold ${isUp ? 'text-emerald-600' : 'text-rose-600'}`}>
+                    <td className={`py-3 px-4 text-right font-bold font-mono ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                       {isUp ? '+' : ''}{stock.changePercent.toFixed(2)}%
                     </td>
-                    <td className="py-3 px-4 text-right font-mono text-slate-700">{stock.volume.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-right font-mono text-[#64748B]">{stock.volume.toLocaleString()}</td>
                     <td className="py-3 px-4 text-center">
-                      <span className="px-2 py-0.5 rounded bg-slate-100 font-bold text-slate-800 text-[11px]">
+                      <span className="px-2 py-0.5 rounded-full bg-[#F5F8FC] border border-[#E2E8F0] font-bold text-[#172033] text-[11px]">
                         {stock.rsi || 50}
                       </span>
                     </td>
@@ -101,13 +101,13 @@ export default function WatchlistView({
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => onSelectStock(stock.symbol)}
-                          className="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition"
+                          className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#008FD3] font-semibold text-[11px] transition"
                         >
                           Phân tích
                         </button>
                         <button
                           onClick={() => handleRemove(stock.symbol)}
-                          className="p-1 text-slate-400 hover:text-rose-600 transition"
+                          className="p-1 text-[#CBD5E1] hover:text-[#F43F5E] transition"
                           title="Xóa khỏi danh sách"
                         >
                           <Trash2 className="w-3.5 h-3.5" />

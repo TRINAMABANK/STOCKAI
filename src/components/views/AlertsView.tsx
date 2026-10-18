@@ -41,10 +41,10 @@ export default function AlertsView() {
 
   const getConditionLabel = (cond: string) => {
     switch (cond) {
-      case 'PRICE_ABOVE': return 'Giá vượt lên trên';
-      case 'PRICE_BELOW': return 'Giá giảm xuống dưới';
-      case 'RSI_OVERSOLD': return 'RSI chạm vùng quá bán (<)';
-      case 'RSI_OVERBOUGHT': return 'RSI chạm vùng quá mua (>)';
+      case 'PRICE_ABOVE': return 'Giá vượt lên trên (>=)';
+      case 'PRICE_BELOW': return 'Giá giảm xuống dưới (<=)';
+      case 'RSI_OVERSOLD': return 'RSI chạm vùng quá bán (<=)';
+      case 'RSI_OVERBOUGHT': return 'RSI chạm vùng quá mua (>=)';
       default: return cond;
     }
   };
@@ -53,32 +53,32 @@ export default function AlertsView() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Trung tâm Cảnh báo Kỹ thuật & Giá</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Tự động giám sát giá mục tiêu, ngưỡng cắt lỗ và chỉ báo kỹ thuật</p>
+          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Trung tâm Cảnh báo Kỹ thuật & Giá</h2>
+          <p className="text-xs text-[#64748B] mt-0.5">Tự động giám sát giá mục tiêu, ngưỡng cắt lỗ và chỉ báo kỹ thuật</p>
         </div>
       </div>
 
       {/* Add Alert Form */}
-      <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm space-y-4">
-        <h3 className="font-bold text-sm text-slate-800">Thiết lập quy tắc cảnh báo mới</h3>
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs space-y-4">
+        <h3 className="font-bold text-sm text-[#172033]">Thiết lập quy tắc cảnh báo mới</h3>
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
           <div>
-            <label className="text-slate-500 font-medium block mb-1">Mã cổ phiếu</label>
+            <label className="text-[#64748B] font-medium block mb-1">Mã cổ phiếu</label>
             <input
               type="text"
               value={symbol}
               onChange={(e) => setSymbol(e.target.value)}
               placeholder="VD: HPG"
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-bold uppercase text-slate-900"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-bold uppercase text-[#172033]"
             />
           </div>
 
           <div>
-            <label className="text-slate-500 font-medium block mb-1">Điều kiện kích hoạt</label>
+            <label className="text-[#64748B] font-medium block mb-1">Điều kiện kích hoạt</label>
             <select
               value={condition}
               onChange={(e) => setCondition(e.target.value as any)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-semibold text-slate-800"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-bold text-[#172033]"
             >
               <option value="PRICE_ABOVE">Giá vượt lên trên (&gt;=)</option>
               <option value="PRICE_BELOW">Giá giảm xuống dưới (&lt;=)</option>
@@ -88,13 +88,13 @@ export default function AlertsView() {
           </div>
 
           <div>
-            <label className="text-slate-500 font-medium block mb-1">Giá trị mục tiêu</label>
+            <label className="text-[#64748B] font-medium block mb-1">Giá trị mục tiêu</label>
             <input
               type="number"
               value={targetValue}
               onChange={(e) => setTargetValue(e.target.value)}
               placeholder="VD: 28000 hoặc 35"
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-semibold text-slate-900"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-bold text-[#172033]"
             />
           </div>
 
@@ -102,7 +102,7 @@ export default function AlertsView() {
             <button
               onClick={handleAdd}
               disabled={!symbol.trim() || !targetValue.trim()}
-              className="w-full px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold transition flex items-center justify-center gap-1.5"
+              className="w-full px-4 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-50 text-white font-semibold transition flex items-center justify-center gap-1.5 shadow-2xs"
             >
               <Plus className="w-4 h-4" />
               <span>Tạo cảnh báo</span>
@@ -112,11 +112,11 @@ export default function AlertsView() {
       </div>
 
       {/* Alerts Table */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="bg-slate-50 text-slate-500 uppercase tracking-wider text-[11px] border-b border-slate-200">
+              <tr className="bg-[#F5F8FC] text-[#64748B] uppercase tracking-wider text-[11px] border-b border-[#E2E8F0]">
                 <th className="py-3 px-4 font-semibold">Mã CP</th>
                 <th className="py-3 px-4 font-semibold">Điều kiện</th>
                 <th className="py-3 px-4 font-semibold text-right">Ngưỡng mục tiêu</th>
@@ -125,22 +125,22 @@ export default function AlertsView() {
                 <th className="py-3 px-4 font-semibold text-right">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-medium">
+            <tbody className="divide-y divide-[#F1F5F9] font-medium">
               {alerts.map((alt) => (
-                <tr key={alt.id} className="hover:bg-slate-50/80 transition">
-                  <td className="py-3 px-4 font-bold text-slate-900 text-sm">{alt.symbol}</td>
-                  <td className="py-3 px-4 text-slate-700">{getConditionLabel(alt.condition)}</td>
-                  <td className="py-3 px-4 text-right font-bold text-slate-900 font-mono">
+                <tr key={alt.id} className="hover:bg-[#F5F8FC] transition">
+                  <td className="py-3 px-4 font-bold text-[#008FD3] text-sm">{alt.symbol}</td>
+                  <td className="py-3 px-4 text-[#172033]">{getConditionLabel(alt.condition)}</td>
+                  <td className="py-3 px-4 text-right font-bold text-[#172033] font-mono">
                     {alt.targetValue.toLocaleString('vi-VN')}
                   </td>
-                  <td className="py-3 px-4 text-slate-500">{alt.createdAt}</td>
+                  <td className="py-3 px-4 text-[#64748B]">{alt.createdAt}</td>
                   <td className="py-3 px-4 text-center">
                     <button
                       onClick={() => toggleAlert(alt.id)}
-                      className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold transition ${
+                      className={`px-3 py-0.5 rounded-full text-[11px] font-bold transition ${
                         alt.isActive 
-                          ? 'bg-emerald-100 text-emerald-800' 
-                          : 'bg-slate-100 text-slate-500'
+                          ? 'bg-[#D1FAE5] text-[#10B981]' 
+                          : 'bg-[#F5F8FC] border border-[#E2E8F0] text-[#64748B]'
                       }`}
                     >
                       {alt.isActive ? 'ĐANG BẬT' : 'TẠM TẮT'}
@@ -149,7 +149,7 @@ export default function AlertsView() {
                   <td className="py-3 px-4 text-right">
                     <button
                       onClick={() => removeAlert(alt.id)}
-                      className="p-1 text-slate-400 hover:text-rose-600 transition"
+                      className="p-1 text-[#CBD5E1] hover:text-[#F43F5E] transition"
                       title="Xóa cảnh báo"
                     >
                       <Trash2 className="w-3.5 h-3.5" />

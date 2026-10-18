@@ -187,10 +187,10 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen bg-[#f1f5f9] overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#F5F8FC] overflow-hidden font-sans">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-2xl border border-slate-700 text-xs font-semibold animate-in fade-in slide-in-from-top-2">
+        <div className="fixed top-4 right-4 z-50 bg-[#172033] text-white px-4 py-2.5 rounded-xl shadow-xl border border-[#E2E8F0] text-xs font-semibold animate-in fade-in slide-in-from-top-2">
           {toastMessage}
         </div>
       )}
@@ -224,20 +224,20 @@ export default function Home() {
                   {/* Dashboard Header Bar */}
                   <div className="flex flex-wrap items-center justify-between gap-4">
                     <div>
-                      <h2 className="text-xl font-bold text-slate-900 tracking-tight">Tổng quan danh mục</h2>
-                      <p className="text-xs text-slate-500 mt-0.5">Theo dõi tài sản và hiệu quả đầu tư của bạn</p>
+                      <h2 className="text-xl font-bold text-[#172033] tracking-tight">Tổng quan danh mục</h2>
+                      <p className="text-xs text-[#64748B] mt-0.5">Theo dõi tài sản và hiệu quả đầu tư của bạn</p>
                     </div>
 
                     {/* Time Filter Pills */}
-                    <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200/90 shadow-2xs">
+                    <div className="flex items-center gap-1 bg-[#FFFFFF] p-1 rounded-xl border border-[#E2E8F0] shadow-2xs">
                       {(['1D', '1W', '1M', '3M', '6M', '1Y', 'ALL'] as const).map((tf) => (
                         <button
                           key={tf}
                           onClick={() => setTimeFilter(tf)}
                           className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
                             timeFilter === tf
-                              ? 'bg-blue-600 text-white shadow-2xs'
-                              : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+                              ? 'bg-[#008FD3] text-white shadow-2xs'
+                              : 'text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC]'
                           }`}
                         >
                           {tf === 'ALL' ? 'Tất cả' : tf}

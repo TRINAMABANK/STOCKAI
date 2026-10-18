@@ -32,47 +32,45 @@ export default function T3SignalsTable({
     : signals.filter(s => s.strategy.toLowerCase() === activeTab.toLowerCase());
 
   const getScoreBadgeClass = (score: number) => {
-    if (score >= 85) return 'bg-emerald-100 text-emerald-800 border-emerald-300';
-    if (score >= 80) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-    if (score >= 75) return 'bg-amber-100 text-amber-800 border-amber-300';
-    return 'bg-amber-50 text-amber-700 border-amber-200';
+    if (score >= 80) return 'bg-[#D1FAE5] text-[#10B981] border-[#A7F3D0]';
+    return 'bg-[#FEF3C7] text-[#D97706] border-[#FDE68A]';
   };
 
   const getStrategyColor = (strategy: T3Strategy) => {
     switch (strategy) {
-      case 'Breakout': return 'text-emerald-600 font-semibold';
-      case 'Pullback': return 'text-blue-600 font-semibold';
-      case 'Momentum': return 'text-amber-600 font-semibold';
-      case 'Reversal': return 'text-rose-600 font-semibold';
-      default: return 'text-slate-600';
+      case 'Breakout': return 'text-[#10B981] font-bold';
+      case 'Pullback': return 'text-[#008FD3] font-bold';
+      case 'Momentum': return 'text-[#D97706] font-bold';
+      case 'Reversal': return 'text-[#8B5CF6] font-bold';
+      default: return 'text-[#172033] font-medium';
     }
   };
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
-      case 'Thấp': return 'text-emerald-600 font-medium';
-      case 'Trung bình': return 'text-amber-600 font-medium';
-      case 'Cao': return 'text-rose-600 font-medium';
-      default: return 'text-slate-600';
+      case 'Thấp': return 'text-[#10B981] font-semibold';
+      case 'Trung bình': return 'text-[#D97706] font-semibold';
+      case 'Cao': return 'text-[#F43F5E] font-semibold';
+      default: return 'text-[#64748B] font-medium';
     }
   };
 
   return (
-    <div className="bg-white rounded-xl p-5 border border-slate-200/90 shadow-sm space-y-4">
+    <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs space-y-4">
       {/* Table Header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <h3 className="font-bold text-base text-slate-900 tracking-tight">
+          <h3 className="font-bold text-base text-[#172033] tracking-tight">
             Giao dịch T+3 — Cơ hội ngắn hạn
           </h3>
-          <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD]">
             Tìm kiếm cơ hội trong 1-5 phiên
           </span>
         </div>
         {onViewAllSignals && (
           <button 
             onClick={onViewAllSignals}
-            className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+            className="text-xs text-[#008FD3] hover:text-[#007bb8] font-semibold transition"
           >
             Xem tất cả tín hiệu
           </button>
@@ -80,17 +78,17 @@ export default function T3SignalsTable({
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-100 pb-2 overflow-x-auto">
+      <div className="flex items-center gap-1.5 border-b border-[#E2E8F0] pb-2 overflow-x-auto">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition whitespace-nowrap ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition whitespace-nowrap ${
                 isActive
-                  ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-xs'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                  ? 'bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD] shadow-2xs'
+                  : 'text-[#64748B] hover:bg-[#F5F8FC] hover:text-[#172033]'
               }`}
             >
               {tab.label}
@@ -103,7 +101,7 @@ export default function T3SignalsTable({
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs">
           <thead>
-            <tr className="text-slate-400 border-b border-slate-100 uppercase tracking-wider text-[11px]">
+            <tr className="text-[#64748B] border-b border-[#E2E8F0] uppercase tracking-wider text-[11px]">
               <th className="pb-2.5 font-semibold">Mã</th>
               <th className="pb-2.5 font-semibold">Sàn</th>
               <th className="pb-2.5 font-semibold text-right">Giá hiện tại</th>
@@ -116,18 +114,18 @@ export default function T3SignalsTable({
               <th className="pb-2.5 font-semibold text-right">Thao tác</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 font-medium">
+          <tbody className="divide-y divide-[#F1F5F9] font-medium">
             {filteredSignals.length > 0 ? (
               filteredSignals.map((s) => (
-                <tr key={s.id} className="hover:bg-slate-50/80 transition group">
+                <tr key={s.id} className="hover:bg-[#F5F8FC] transition group">
                   {/* Mã */}
-                  <td className="py-3 font-bold text-slate-900 text-sm">{s.symbol}</td>
+                  <td className="py-3 font-bold text-[#008FD3] text-sm">{s.symbol}</td>
                   
                   {/* Sàn */}
-                  <td className="py-3 text-slate-500">{s.exchange}</td>
+                  <td className="py-3 text-[#64748B]">{s.exchange}</td>
 
                   {/* Giá hiện tại */}
-                  <td className="py-3 text-right font-semibold text-slate-900 font-mono">
+                  <td className="py-3 text-right font-bold text-[#172033] font-mono">
                     {s.currentPrice.toLocaleString('vi-VN')}
                   </td>
 
@@ -144,13 +142,13 @@ export default function T3SignalsTable({
                   </td>
 
                   {/* Vùng mua */}
-                  <td className="py-3 text-slate-700 font-mono">{s.buyZone}</td>
+                  <td className="py-3 text-[#172033] font-mono">{s.buyZone}</td>
 
                   {/* Mục tiêu */}
-                  <td className="py-3 text-slate-900 font-semibold font-mono">{s.targetPrice}</td>
+                  <td className="py-3 text-[#172033] font-bold font-mono">{s.targetPrice}</td>
 
                   {/* Cắt lỗ */}
-                  <td className="py-3 text-right text-rose-600 font-semibold font-mono">
+                  <td className="py-3 text-right text-[#F43F5E] font-bold font-mono">
                     {(s.stopLoss / 1000).toFixed(1)}
                   </td>
 
@@ -164,7 +162,7 @@ export default function T3SignalsTable({
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => onSelectSignal(s)}
-                        className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold text-[11px] border border-emerald-200/80 transition"
+                        className="px-3 py-1 rounded-lg bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#008FD3] font-semibold text-[11px] transition"
                       >
                         Xem chi tiết
                       </button>
@@ -173,12 +171,12 @@ export default function T3SignalsTable({
                           e.stopPropagation();
                           onToggleFavorite(s.id);
                         }}
-                        className="p-1 text-slate-300 hover:text-amber-400 transition"
+                        className="p-1 text-[#CBD5E1] hover:text-[#F59E0B] transition"
                         title={s.isFavorite ? 'Bỏ theo dõi' : 'Thêm vào yêu thích'}
                       >
                         <Star 
                           className={`w-4 h-4 ${
-                            s.isFavorite ? 'fill-amber-400 text-amber-400' : 'text-slate-300'
+                            s.isFavorite ? 'fill-[#F59E0B] text-[#F59E0B]' : 'text-[#CBD5E1]'
                           }`} 
                         />
                       </button>
@@ -188,12 +186,12 @@ export default function T3SignalsTable({
               ))
             ) : (
               <tr>
-                <td colSpan={10} className="py-8 text-center text-slate-400">
+                <td colSpan={10} className="py-8 text-center text-[#64748B]">
                   <div className="flex flex-col items-center justify-center gap-2">
-                    <Zap className="w-6 h-6 text-slate-300" />
-                    <p className="font-medium text-slate-500">HIỆN TẠI KHÔNG CÓ CƠ HỘI ĐỦ ĐIỀU KIỆN T+3</p>
-                    <p className="text-[11px] text-slate-400 max-w-md">
-                      Hệ thống tự động bảo vệ kỷ luật giao dịch, không cố tình phát tín hiệu khi biên độ lợi nhuận/rủi ro chưa đạt chuẩn an toàn.
+                    <Zap className="w-6 h-6 text-[#94A3B8]" />
+                    <p className="font-semibold text-[#172033]">HIỆN TẠI KHÔNG CÓ CƠ HỘI ĐỦ ĐIỀU KIỆN T+3</p>
+                    <p className="text-[11px] text-[#64748B] max-w-md">
+                      Hệ thống tự động bảo vệ kỷ luật giao dịch, không phát tín hiệu khi biên độ lợi nhuận/rủi ro chưa đạt chuẩn an toàn.
                     </p>
                   </div>
                 </td>
