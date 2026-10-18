@@ -5,16 +5,65 @@
 :root {
   --foreground: #172033;
   --background: #F5F8FC;
+  --font-calibri: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif;
+  --font-sans: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif;
+  --font-mono: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 11pt;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  font-family: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 11pt;
+  line-height: 1.45;
 }
 
-/* Custom scrollbars - FireAnt subtle style */
+*, *::before, *::after,
+button, input, select, textarea,
+h1, h2, h3, h4, h5, h6, p, span, a, label, div,
+table, thead, tbody, tr, th, td {
+  font-family: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif !important;
+}
+
+/* Chuẩn hóa toàn bộ bảng dữ liệu tài chính theo font Calibri 11pt đồng đều */
+table {
+  font-family: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 11pt;
+}
+
+table th {
+  font-family: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 11pt;
+}
+
+table td {
+  font-family: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 11pt;
+}
+
+/* Tabular digits for strictly aligned financial numbers while keeping Calibri */
+.tabular-nums,
+table td.font-mono,
+table th.font-mono,
+.font-mono {
+  font-family: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif !important;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Custom scrollbars - FireAnt clean minimal style */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -33,6 +82,11 @@ body {
   background: #94A3B8;
 }
 
+/* Financial data table row transitions */
+table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
 /* Pulse animation for live data status */
 @keyframes pulse-profit {
   0%, 100% {
@@ -48,3 +102,4 @@ body {
 .animate-pulse-profit {
   animation: pulse-profit 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+

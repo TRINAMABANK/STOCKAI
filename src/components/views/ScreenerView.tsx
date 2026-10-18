@@ -39,11 +39,11 @@ export default function ScreenerView({
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Bộ lọc cổ phiếu tiềm năng (Stock Screener)</h2>
-          <p className="text-xs text-[#64748B] mt-0.5">Sàng lọc đa chiều kết hợp Cơ bản (P/E, ROE) và Kỹ thuật (RSI, Khối lượng)</p>
+          <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">Bộ lọc cổ phiếu tiềm năng (Stock Screener)</h2>
+          <p className="text-[13px] text-[#64748B] mt-0.5">Sàng lọc đa chiều kết hợp Cơ bản (P/E, ROE) và Kỹ thuật (RSI, Khối lượng)</p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs px-3 py-1 rounded-full bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD] font-bold">
+          <span className="text-xs px-3 py-1 rounded-full bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD] font-semibold">
             {filtered.length} mã thỏa điều kiện
           </span>
         </div>
@@ -51,7 +51,7 @@ export default function ScreenerView({
 
       {/* Filter Criteria Cards */}
       <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs space-y-4">
-        <div className="flex items-center gap-2 text-xs font-bold text-[#172033] uppercase tracking-wider pb-2 border-b border-[#E2E8F0]">
+        <div className="flex items-center gap-2 text-[13px] font-semibold text-[#172033] uppercase tracking-wider pb-2 border-b border-[#E2E8F0]">
           <Sliders className="w-4 h-4 text-[#008FD3]" />
           <span>Tiêu chí sàng lọc</span>
         </div>
@@ -145,50 +145,50 @@ export default function ScreenerView({
       {/* Results Table */}
       <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-[13px]">
             <thead>
-              <tr className="bg-[#F5F8FC] text-[#64748B] uppercase tracking-wider text-[11px] border-b border-[#E2E8F0]">
-                <th className="py-3 px-4 font-semibold">Mã CP</th>
-                <th className="py-3 px-4 font-semibold">Ngành</th>
-                <th className="py-3 px-4 font-semibold text-right">Giá</th>
-                <th className="py-3 px-4 font-semibold text-right">%</th>
-                <th className="py-3 px-4 font-semibold text-right">Khối lượng</th>
-                <th className="py-3 px-4 font-semibold text-right">ROE (%)</th>
-                <th className="py-3 px-4 font-semibold text-right">P/E (x)</th>
-                <th className="py-3 px-4 font-semibold text-center">RSI</th>
-                <th className="py-3 px-4 font-semibold text-center">Đánh giá</th>
-                <th className="py-3 px-4 font-semibold text-right">Thao tác</th>
+              <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                <th className="py-3 px-4 font-medium text-left">Mã CP</th>
+                <th className="py-3 px-3 font-medium text-left">Ngành</th>
+                <th className="py-3 px-4 font-medium text-right">Giá</th>
+                <th className="py-3 px-3 font-medium text-right">%</th>
+                <th className="py-3 px-4 font-medium text-right">Khối lượng</th>
+                <th className="py-3 px-3 font-medium text-right">ROE (%)</th>
+                <th className="py-3 px-3 font-medium text-right">P/E (x)</th>
+                <th className="py-3 px-3 font-medium text-center">RSI</th>
+                <th className="py-3 px-3 font-medium text-center">Đánh giá</th>
+                <th className="py-3 px-4 font-medium text-right">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium">
+            <tbody className="divide-y divide-[#F1F5F9]">
               {filtered.map((stock) => (
-                <tr key={stock.symbol} className="hover:bg-[#F5F8FC] transition">
-                  <td className="py-3 px-4 font-bold text-[#008FD3] cursor-pointer" onClick={() => onSelectStock(stock.symbol)}>
+                <tr key={stock.symbol} className="hover:bg-[#F8FAFC] transition h-[42px]">
+                  <td className="py-2.5 px-4 font-semibold text-[#008FD3] cursor-pointer" onClick={() => onSelectStock(stock.symbol)}>
                     {stock.symbol}
-                    <span className="block text-[10px] text-[#64748B] font-normal">{stock.companyName}</span>
+                    <span className="block text-[11px] text-[#64748B] font-normal">{stock.companyName}</span>
                   </td>
-                  <td className="py-3 px-4 text-[#64748B]">{stock.industry}</td>
-                  <td className="py-3 px-4 text-right font-bold text-[#172033] font-mono">{stock.price.toLocaleString('vi-VN')}</td>
-                  <td className={`py-3 px-4 text-right font-bold font-mono ${stock.change >= 0 ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                  <td className="py-2.5 px-3 text-[#64748B] text-xs font-medium">{stock.industry}</td>
+                  <td className="py-2.5 px-4 text-right font-medium text-[#172033] font-mono tabular-nums">{stock.price.toLocaleString('vi-VN')}</td>
+                  <td className={`py-2.5 px-3 text-right font-bold font-mono tabular-nums ${stock.change >= 0 ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                     {stock.change >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
                   </td>
-                  <td className="py-3 px-4 text-right font-mono text-[#64748B]">{stock.volume.toLocaleString()}</td>
-                  <td className="py-3 px-4 text-right font-bold text-[#10B981] font-mono">{stock.roe || '-'}%</td>
-                  <td className="py-3 px-4 text-right font-mono text-[#172033]">{stock.pe || '-'}</td>
-                  <td className="py-3 px-4 text-center">
-                    <span className="px-2 py-0.5 rounded-full bg-[#F5F8FC] border border-[#E2E8F0] font-bold text-[#172033] text-[11px]">
+                  <td className="py-2.5 px-4 text-right font-mono tabular-nums text-[#64748B]">{stock.volume.toLocaleString()}</td>
+                  <td className="py-2.5 px-3 text-right font-semibold text-[#10B981] font-mono tabular-nums">{stock.roe || '-'}%</td>
+                  <td className="py-2.5 px-3 text-right font-mono tabular-nums text-[#172033]">{stock.pe || '-'}</td>
+                  <td className="py-2.5 px-3 text-center">
+                    <span className="px-2 py-0.5 rounded-full bg-[#F5F8FC] border border-[#E2E8F0] font-semibold text-[#172033] text-[11px] font-mono tabular-nums">
                       {stock.rsi || 50}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-center">
+                  <td className="py-2.5 px-3 text-center">
                     <span className="px-2.5 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] font-bold text-[10px]">
                       ĐẠT TIÊU CHUẨN
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-right">
+                  <td className="py-2.5 px-4 text-right">
                     <button
                       onClick={() => onAddToWatchlist(stock.symbol)}
-                      className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] text-[#008FD3] hover:bg-[#BAE6FD] font-semibold text-[11px] transition"
+                      className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] text-[#008FD3] hover:bg-[#BAE6FD] font-semibold text-[12px] transition"
                     >
                       Theo dõi
                     </button>

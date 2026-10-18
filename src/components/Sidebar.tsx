@@ -17,12 +17,14 @@ import {
   History, 
   Settings,
   RefreshCw,
-  Activity
+  Activity,
+  ShieldCheck
 } from 'lucide-react';
 
 export type ActiveMenu = 
   | 'dashboard'
   | 'subscription'
+  | 'admin-subscription'
   | 'portfolio'
   | 'transactions'
   | 'market'
@@ -43,6 +45,8 @@ interface SidebarProps {
   isCheckingConn?: boolean;
 }
 
+import Logo from './Logo';
+
 export default function Sidebar({
   activeMenu,
   onSelectMenu,
@@ -52,6 +56,7 @@ export default function Sidebar({
   const menuItems = [
     { id: 'dashboard', label: 'Tổng quan', icon: LayoutDashboard },
     { id: 'subscription', label: 'Gói thuê bao StockAI', icon: Wallet },
+    { id: 'admin-subscription', label: 'Admin Duyệt Thuê Bao', icon: ShieldCheck, isAdmin: true },
     { id: 'portfolio', label: 'Danh mục mô phỏng', icon: PieChart },
     { id: 'transactions', label: 'Sổ giao dịch ghi nhận', icon: ArrowLeftRight },
     { id: 'market', label: 'Thị trường & Bảng giá', icon: TrendingUp },
@@ -68,31 +73,26 @@ export default function Sidebar({
 
   return (
     <aside className="w-64 bg-[#FFFFFF] text-[#172033] flex flex-col h-screen select-none border-r border-[#E2E8F0] shrink-0 shadow-xs">
-      {/* Brand Header */}
-      <div className="h-16 px-5 flex items-center gap-3 border-b border-[#E2E8F0]">
-        <div className="w-9 h-9 rounded-xl bg-[#E0F2FE] border border-[#BAE6FD] flex items-center justify-center">
-          <TrendingUp className="w-5 h-5 text-[#008FD3]" />
-        </div>
-        <div>
-          <div className="flex items-center gap-1 font-bold text-base text-[#172033] tracking-tight">
-            <span>StockAI</span>
-          </div>
-          <p className="text-[11px] text-[#64748B] font-medium leading-none">Personal</p>
-        </div>
+      {/* Brand Header with Official StockAI Logo */}
+      <div className="h-16 px-4 flex items-center justify-between border-b border-[#E2E8F0]">
+        <Logo size="md" variant="default" onClick={() => onSelectMenu('dashboard')} />
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD]">
+          Personal
+        </span>
       </div>
 
       {/* Navigation List */}
-      <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
+      <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-1.5">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeMenu === item.id;
 
-          let btnClass = 'flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-left ';
+          let btnClass = 'flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-[13.5px] transition-all text-left ';
 
           if (isActive) {
-            btnClass += 'bg-[#E0F2FE] text-[#008FD3] shadow-xs';
+            btnClass += 'bg-[#E0F2FE] text-[#008FD3] font-semibold shadow-2xs';
           } else {
-            btnClass += 'text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC]';
+            btnClass += 'text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC] font-medium';
           }
 
           return (
@@ -101,15 +101,20 @@ export default function Sidebar({
               onClick={() => onSelectMenu(item.id as ActiveMenu)}
               className={btnClass}
             >
-              <Icon className={`w-4 h-4 shrink-0 transition ${
+              <Icon className={`w-[18px] h-[18px] shrink-0 transition ${
                 isActive 
                   ? 'text-[#008FD3]' 
                   : (item.isAi ? 'text-[#8B5CF6]' : 'text-[#64748B]')
               }`} />
               <span className="truncate">{item.label}</span>
               {item.isAi && !isActive && (
-                <span className="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#EDE9FE] text-[#8B5CF6]">
+                <span className="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#EDE9FE] text-[#8B5CF6]">
                   AI
+                </span>
+              )}
+              {item.isAdmin && (
+                <span className={`ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded ${isActive ? 'bg-[#008FD3] text-white' : 'bg-[#FFE4E6] text-[#F43F5E]'}`}>
+                  ADMIN
                 </span>
               )}
             </button>
@@ -121,7 +126,7 @@ export default function Sidebar({
       <div className="p-3.5 m-3 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-xs">
         <div className="flex items-center gap-2 mb-1">
           <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse-profit"></span>
-          <span className="font-bold text-[#172033]">Dữ liệu thị trường</span>
+          <span className="font-semibold text-[#172033] text-[12px]">Dữ liệu thị trường</span>
         </div>
         <p className="text-[#64748B] text-[11px] mb-2 flex items-center gap-1">
           <Activity className="w-3 h-3 text-[#10B981]" />

@@ -83,13 +83,13 @@ export default function PortfolioView({
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Danh mục đầu tư cá nhân</h2>
-          <p className="text-xs text-[#64748B] mt-0.5">Theo dõi vị thế cổ phiếu nắm giữ, tỷ trọng và hiệu suất thực tế</p>
+          <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">Danh mục đầu tư cá nhân</h2>
+          <p className="text-[13px] text-[#64748B] mt-0.5">Theo dõi vị thế cổ phiếu nắm giữ, tỷ trọng và hiệu suất thực tế</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="text-right">
-            <p className="text-[11px] text-[#64748B]">Tổng giá trị cổ phiếu</p>
-            <p className="text-lg font-bold text-[#172033] font-mono">{summary.stockValue.toLocaleString('vi-VN')} đ</p>
+            <p className="text-[12px] text-[#64748B] font-medium">Tổng giá trị cổ phiếu</p>
+            <p className="text-[20px] font-bold text-[#172033] font-mono tabular-nums">{summary.stockValue.toLocaleString('vi-VN')} đ</p>
           </div>
         </div>
       </div>
@@ -97,65 +97,65 @@ export default function PortfolioView({
       {/* Holdings Table */}
       <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
         <div className="p-4 border-b border-[#E2E8F0] flex items-center justify-between">
-          <h3 className="font-bold text-sm text-[#172033]">Chi tiết cổ phiếu đang nắm giữ ({holdings.length} mã)</h3>
-          <span className="text-xs text-[#10B981] font-bold">
+          <h3 className="font-semibold text-[15px] text-[#172033]">Chi tiết cổ phiếu đang nắm giữ ({holdings.length} mã)</h3>
+          <span className="text-[13px] text-[#10B981] font-semibold font-mono tabular-nums">
             Lãi chưa thực hiện: +{summary.unrealizedPnL.toLocaleString('vi-VN')} đ
           </span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-[13px]">
             <thead>
-              <tr className="bg-[#F5F8FC] text-[#64748B] uppercase tracking-wider text-[11px] border-b border-[#E2E8F0]">
-                <th className="py-3 px-4 font-semibold">Mã CP</th>
-                <th className="py-3 px-4 font-semibold">Ngành</th>
-                <th className="py-3 px-4 font-semibold text-right">Khối lượng</th>
-                <th className="py-3 px-4 font-semibold text-right">Giá vốn (BQ)</th>
-                <th className="py-3 px-4 font-semibold text-right">Giá thị trường</th>
-                <th className="py-3 px-4 font-semibold text-right">Giá trị TT</th>
-                <th className="py-3 px-4 font-semibold text-right">Lãi/Lỗ (%)</th>
-                <th className="py-3 px-4 font-semibold text-center">Tỷ trọng</th>
-                <th className="py-3 px-4 font-semibold text-right">Thao tác</th>
+              <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                <th className="py-3 px-4 font-medium text-left">Mã CP</th>
+                <th className="py-3 px-3 font-medium text-left">Ngành</th>
+                <th className="py-3 px-3 font-medium text-right">Khối lượng</th>
+                <th className="py-3 px-3 font-medium text-right">Giá vốn (BQ)</th>
+                <th className="py-3 px-3 font-medium text-right">Giá thị trường</th>
+                <th className="py-3 px-4 font-medium text-right">Giá trị TT</th>
+                <th className="py-3 px-4 font-medium text-right">Lãi/Lỗ (%)</th>
+                <th className="py-3 px-3 font-medium text-center">Tỷ trọng</th>
+                <th className="py-3 px-4 font-medium text-right">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium">
+            <tbody className="divide-y divide-[#F1F5F9]">
               {holdings.map((h) => {
                 const isProfitable = h.unrealizedPnL >= 0;
                 return (
-                  <tr key={h.id} className="hover:bg-[#F5F8FC] transition">
-                    <td className="py-3.5 px-4 font-bold text-[#008FD3] cursor-pointer" onClick={() => onSelectStock(h.symbol)}>
+                  <tr key={h.id} className="hover:bg-[#F8FAFC] transition h-[44px]">
+                    <td className="py-2.5 px-4 font-semibold text-[#008FD3] cursor-pointer" onClick={() => onSelectStock(h.symbol)}>
                       {h.symbol}
-                      <span className="block text-[10px] text-[#64748B] font-normal">{h.companyName}</span>
+                      <span className="block text-[11px] text-[#64748B] font-normal">{h.companyName}</span>
                     </td>
-                    <td className="py-3.5 px-4 text-[#64748B]">{h.sector}</td>
-                    <td className="py-3.5 px-4 text-right font-bold text-[#172033] font-mono">{h.shares.toLocaleString()}</td>
-                    <td className="py-3.5 px-4 text-right text-[#64748B] font-mono">{h.costBasis.toLocaleString('vi-VN')}</td>
-                    <td className="py-3.5 px-4 text-right font-bold text-[#172033] font-mono">{h.currentPrice.toLocaleString('vi-VN')}</td>
-                    <td className="py-3.5 px-4 text-right font-bold text-[#172033] font-mono">{h.marketValue.toLocaleString('vi-VN')}</td>
-                    <td className="py-3.5 px-4 text-right">
-                      <span className={`inline-flex items-center gap-0.5 font-bold font-mono ${isProfitable ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                    <td className="py-2.5 px-3 text-[#64748B] text-xs font-medium">{h.sector}</td>
+                    <td className="py-2.5 px-3 text-right font-medium text-[#172033] font-mono tabular-nums">{h.shares.toLocaleString()}</td>
+                    <td className="py-2.5 px-3 text-right text-[#64748B] font-mono tabular-nums">{h.costBasis.toLocaleString('vi-VN')}</td>
+                    <td className="py-2.5 px-3 text-right font-medium text-[#172033] font-mono tabular-nums">{h.currentPrice.toLocaleString('vi-VN')}</td>
+                    <td className="py-2.5 px-4 text-right font-semibold text-[#172033] font-mono tabular-nums">{h.marketValue.toLocaleString('vi-VN')}</td>
+                    <td className="py-2.5 px-4 text-right">
+                      <span className={`inline-flex items-center gap-0.5 font-bold font-mono tabular-nums ${isProfitable ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                         {isProfitable ? '+' : ''}{h.unrealizedPnLPercent}%
                       </span>
-                      <span className="block text-[10px] text-[#64748B] font-mono">
+                      <span className="block text-[11px] text-[#64748B] font-mono tabular-nums">
                         {isProfitable ? '+' : ''}{h.unrealizedPnL.toLocaleString('vi-VN')} đ
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 text-center">
-                      <span className="px-2 py-0.5 rounded-full bg-[#F5F8FC] border border-[#E2E8F0] text-[#172033] font-bold text-[11px]">
+                    <td className="py-2.5 px-3 text-center">
+                      <span className="px-2 py-0.5 rounded-full bg-[#F5F8FC] border border-[#E2E8F0] text-[#172033] font-semibold text-[11px] font-mono tabular-nums">
                         {h.weightPercent}%
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 text-right">
+                    <td className="py-2.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => openTradeModal('BUY', h)}
-                          className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] text-[#008FD3] hover:bg-[#BAE6FD] text-[11px] font-bold transition"
+                          className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] text-[#008FD3] hover:bg-[#BAE6FD] text-[12px] font-semibold transition"
                         >
                           Mua thêm
                         </button>
                         <button
                           onClick={() => openTradeModal('SELL', h)}
-                          className="px-2.5 py-1 rounded-lg bg-[#FFE4E6] text-[#F43F5E] hover:bg-[#FECDD3] text-[11px] font-bold transition"
+                          className="px-2.5 py-1 rounded-lg bg-[#FFE4E6] text-[#F43F5E] hover:bg-[#FECDD3] text-[12px] font-semibold transition"
                         >
                           Bán bớt
                         </button>

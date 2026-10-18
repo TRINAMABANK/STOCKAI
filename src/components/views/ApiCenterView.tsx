@@ -44,8 +44,8 @@ export default function ApiCenterView({
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Trung tâm Quản trị Kết nối API (API Center)</h2>
-          <p className="text-xs text-[#64748B] mt-0.5">Kiểm tra kết nối thực tế, đo độ trễ và giám sát nhật ký các nhà cung cấp dữ liệu</p>
+          <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">Trung tâm Quản trị Kết nối API (API Center)</h2>
+          <p className="text-[13px] text-[#64748B] mt-0.5">Kiểm tra kết nối thực tế, đo độ trễ và giám sát nhật ký các nhà cung cấp dữ liệu</p>
         </div>
       </div>
 
@@ -57,22 +57,22 @@ export default function ApiCenterView({
             <div key={p.id} className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between space-y-4">
               <div>
                 <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-base text-[#172033]">{p.name}</h3>
+                  <h3 className="text-[15px] font-semibold text-[#172033]">{p.name}</h3>
                   {getStatusBadge(p.status)}
                 </div>
-                <p className="text-xs text-[#64748B] mt-1 leading-relaxed">{p.description}</p>
+                <p className="text-[13px] text-[#64748B] mt-1 leading-relaxed">{p.description}</p>
               </div>
 
               <div className="bg-[#F5F8FC] p-3 rounded-xl border border-[#E2E8F0] text-xs space-y-1.5">
                 <div className="flex justify-between">
                   <span className="text-[#64748B]">Độ trễ phản hồi (Latency):</span>
-                  <span className="font-bold text-[#172033] font-mono">
+                  <span className="font-semibold text-[#172033] font-mono tabular-nums">
                     {p.responseTimeMs ? `${p.responseTimeMs} ms` : 'Không áp dụng'}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#64748B]">Thời điểm kiểm tra:</span>
-                  <span className="font-semibold text-[#172033]">{p.lastSyncTime || 'Vừa xong'}</span>
+                  <span className="font-semibold text-[#172033] font-mono tabular-nums">{p.lastSyncTime || 'Vừa xong'}</span>
                 </div>
                 {p.lastError && (
                   <p className="text-[11px] text-[#D97706] font-medium pt-1 border-t border-[#E2E8F0]">
@@ -104,36 +104,36 @@ export default function ApiCenterView({
         <div className="p-4 border-b border-[#E2E8F0] flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-[#64748B]" />
-            <h3 className="font-bold text-sm text-[#172033]">Nhật ký kiểm tra & Yêu cầu kết nối (API Sync Logs)</h3>
+            <h3 className="font-semibold text-[15px] text-[#172033]">Nhật ký kiểm tra & Yêu cầu kết nối (API Sync Logs)</h3>
           </div>
-          <span className="text-xs text-[#64748B]">Lưu tối đa 50 bản ghi</span>
+          <span className="text-[12px] text-[#64748B]">Lưu tối đa 50 bản ghi</span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-[13px]">
             <thead>
-              <tr className="bg-[#F5F8FC] text-[#64748B] uppercase tracking-wider text-[11px] border-b border-[#E2E8F0]">
-                <th className="py-3 px-4 font-semibold">Thời gian</th>
-                <th className="py-3 px-4 font-semibold">Nhà cung cấp</th>
-                <th className="py-3 px-4 font-semibold">Độ trễ</th>
-                <th className="py-3 px-4 font-semibold">Trạng thái</th>
-                <th className="py-3 px-4 font-semibold">Thông điệp chi tiết</th>
+              <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                <th className="py-3 px-4 font-medium text-left">Thời gian</th>
+                <th className="py-3 px-4 font-medium text-left">Nhà cung cấp</th>
+                <th className="py-3 px-4 font-medium text-right">Độ trễ</th>
+                <th className="py-3 px-4 font-medium text-center">Trạng thái</th>
+                <th className="py-3 px-4 font-medium text-left">Thông điệp chi tiết</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium">
+            <tbody className="divide-y divide-[#F1F5F9]">
               {logs.map((log, idx) => (
-                <tr key={idx} className="hover:bg-[#F5F8FC] transition">
-                  <td className="py-3 px-4 text-[#64748B] font-mono text-[11px]">{log.timestamp}</td>
-                  <td className="py-3 px-4 font-bold text-[#008FD3]">{log.provider}</td>
-                  <td className="py-3 px-4 font-mono font-bold text-[#172033]">{log.latency ? `${log.latency} ms` : '-'}</td>
-                  <td className="py-3 px-4">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                <tr key={idx} className="hover:bg-[#F8FAFC] transition h-[40px]">
+                  <td className="py-2.5 px-4 text-[#64748B] font-mono tabular-nums text-xs">{log.timestamp}</td>
+                  <td className="py-2.5 px-4 font-semibold text-[#008FD3]">{log.provider}</td>
+                  <td className="py-2.5 px-4 text-right font-mono tabular-nums font-semibold text-[#172033]">{log.latency ? `${log.latency} ms` : '-'}</td>
+                  <td className="py-2.5 px-4 text-center">
+                    <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
                       log.status === 'SUCCESS' ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#E0F2FE] text-[#008FD3]'
                     }`}>
                       {log.status}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-[#172033] text-xs">{log.message}</td>
+                  <td className="py-2.5 px-4 text-[#172033] text-[13px]">{log.message}</td>
                 </tr>
               ))}
             </tbody>

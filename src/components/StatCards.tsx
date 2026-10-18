@@ -10,15 +10,15 @@ interface StatCardsProps {
 
 export default function StatCards({ summary }: StatCardsProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
       {/* 1. Tổng tài sản */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs flex items-center justify-between">
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex items-center justify-between">
         <div>
-          <p className="text-xs text-[#64748B] font-medium mb-1">Tổng tài sản</p>
-          <h3 className="text-xl lg:text-2xl font-bold text-[#172033] tracking-tight font-mono">
+          <p className="text-[13px] text-[#64748B] font-medium mb-1.5">Tổng tài sản</p>
+          <h3 className="text-[24px] font-bold text-[#172033] tracking-tight font-mono tabular-nums leading-tight">
             {summary.totalAssets.toLocaleString('vi-VN')} đ
           </h3>
-          <div className="flex items-center gap-1 mt-1 text-xs font-semibold text-[#10B981]">
+          <div className="flex items-center gap-1.5 mt-1.5 text-[12px] font-semibold text-[#10B981] font-mono tabular-nums">
             <ArrowUpRight className="w-3.5 h-3.5" />
             <span>+{summary.dailyChange.toLocaleString('vi-VN')} (+{summary.dailyChangePercent}%)</span>
           </div>
@@ -29,13 +29,13 @@ export default function StatCards({ summary }: StatCardsProps) {
       </div>
 
       {/* 2. Giá trị cổ phiếu */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs flex items-center justify-between">
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex items-center justify-between">
         <div>
-          <p className="text-xs text-[#64748B] font-medium mb-1">Giá trị cổ phiếu</p>
-          <h3 className="text-xl lg:text-2xl font-bold text-[#172033] tracking-tight font-mono">
+          <p className="text-[13px] text-[#64748B] font-medium mb-1.5">Giá trị cổ phiếu</p>
+          <h3 className="text-[24px] font-bold text-[#172033] tracking-tight font-mono tabular-nums leading-tight">
             {summary.stockValue.toLocaleString('vi-VN')} đ
           </h3>
-          <div className="flex items-center gap-1 mt-1 text-xs font-semibold text-[#10B981]">
+          <div className="flex items-center gap-1.5 mt-1.5 text-[12px] font-semibold text-[#10B981] font-mono tabular-nums">
             <ArrowUpRight className="w-3.5 h-3.5" />
             <span>+28,450,000 (+2.97%)</span>
           </div>
@@ -46,14 +46,14 @@ export default function StatCards({ summary }: StatCardsProps) {
       </div>
 
       {/* 3. Tiền mặt */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs flex items-center justify-between">
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex items-center justify-between">
         <div>
-          <p className="text-xs text-[#64748B] font-medium mb-1">Tiền mặt</p>
-          <h3 className="text-xl lg:text-2xl font-bold text-[#172033] tracking-tight font-mono">
+          <p className="text-[13px] text-[#64748B] font-medium mb-1.5">Tiền mặt khả dụng</p>
+          <h3 className="text-[24px] font-bold text-[#172033] tracking-tight font-mono tabular-nums leading-tight">
             {summary.cash.toLocaleString('vi-VN')} đ
           </h3>
-          <div className="flex items-center gap-1 mt-1 text-xs text-[#64748B]">
-            <span>Khả dụng giao dịch BMSC</span>
+          <div className="flex items-center gap-1.5 mt-1.5 text-[12px] text-[#64748B] font-medium">
+            <span>Sẵn sàng giải ngân cơ hội T+3</span>
           </div>
         </div>
         <div className="w-11 h-11 rounded-xl bg-[#FEF3C7] border border-[#FDE68A] flex items-center justify-center shrink-0">
@@ -62,13 +62,13 @@ export default function StatCards({ summary }: StatCardsProps) {
       </div>
 
       {/* 4. Lãi/Lỗ đã thực hiện */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs flex items-center justify-between">
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex items-center justify-between">
         <div>
-          <p className="text-xs text-[#64748B] font-medium mb-1">Lãi/Lỗ đã thực hiện</p>
-          <h3 className="text-xl lg:text-2xl font-bold text-[#10B981] tracking-tight font-mono">
+          <p className="text-[13px] text-[#64748B] font-medium mb-1.5">Lãi/Lỗ đã thực hiện</p>
+          <h3 className="text-[24px] font-bold text-[#10B981] tracking-tight font-mono tabular-nums leading-tight">
             +{summary.realizedPnL.toLocaleString('vi-VN')} đ
           </h3>
-          <div className="flex items-center gap-1 mt-1 text-xs text-[#10B981] font-semibold">
+          <div className="flex items-center gap-1.5 mt-1.5 text-[12px] text-[#10B981] font-semibold">
             <span>Hiệu suất chốt lời danh mục</span>
           </div>
         </div>
@@ -79,3 +79,4 @@ export default function StatCards({ summary }: StatCardsProps) {
     </div>
   );
 }
+

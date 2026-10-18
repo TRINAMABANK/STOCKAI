@@ -19,6 +19,7 @@ data/stockai.db
 data/stockai.db-journal
 data/stockai.db-wal
 data/stockai.db-shm
+data/backups/
 
 # OS & Logs
 .DS_Store

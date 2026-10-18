@@ -45,8 +45,8 @@ export default function AssetChart() {
     <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between h-[340px]">
       {/* Title & Legend */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
-        <h4 className="font-bold text-sm text-[#172033]">Biểu đồ tài sản theo thời gian</h4>
-        <div className="flex items-center gap-4 text-xs font-medium">
+        <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Biểu đồ tài sản theo thời gian</h4>
+        <div className="flex items-center gap-4 text-[12px] font-medium">
           <div className="flex items-center gap-1.5 text-[#172033]">
             <span className="w-2.5 h-2.5 rounded-full bg-[#008FD3]"></span>
             <span>Tổng tài sản</span>

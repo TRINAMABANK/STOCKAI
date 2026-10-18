@@ -34,8 +34,8 @@ export default function WatchlistView({
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Danh sách theo dõi (Watchlist)</h2>
-          <p className="text-xs text-[#64748B] mt-0.5">Theo dõi sát diễn biến giá và khối lượng các mã cổ phiếu mục tiêu</p>
+          <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">Danh sách theo dõi (Watchlist)</h2>
+          <p className="text-[13px] text-[#64748B] mt-0.5">Theo dõi sát diễn biến giá và khối lượng các mã cổ phiếu mục tiêu</p>
         </div>
 
         {/* Add Stock */}
@@ -59,49 +59,49 @@ export default function WatchlistView({
 
       <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-[13px]">
             <thead>
-              <tr className="bg-[#F5F8FC] text-[#64748B] uppercase tracking-wider text-[11px] border-b border-[#E2E8F0]">
-                <th className="py-3 px-4 font-semibold">Mã CP</th>
-                <th className="py-3 px-4 font-semibold">Sàn</th>
-                <th className="py-3 px-4 font-semibold">Ngành</th>
-                <th className="py-3 px-4 font-semibold text-right">Giá</th>
-                <th className="py-3 px-4 font-semibold text-right">+/-</th>
-                <th className="py-3 px-4 font-semibold text-right">%</th>
-                <th className="py-3 px-4 font-semibold text-right">Khối lượng</th>
-                <th className="py-3 px-4 font-semibold text-center">RSI</th>
-                <th className="py-3 px-4 font-semibold text-right">Thao tác</th>
+              <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                <th className="py-3 px-4 font-medium text-left">Mã CP</th>
+                <th className="py-3 px-3 font-medium text-left">Sàn</th>
+                <th className="py-3 px-3 font-medium text-left">Ngành</th>
+                <th className="py-3 px-4 font-medium text-right">Giá</th>
+                <th className="py-3 px-3 font-medium text-right">+/-</th>
+                <th className="py-3 px-3 font-medium text-right">%</th>
+                <th className="py-3 px-4 font-medium text-right">Khối lượng</th>
+                <th className="py-3 px-3 font-medium text-center">RSI</th>
+                <th className="py-3 px-4 font-medium text-right">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium">
+            <tbody className="divide-y divide-[#F1F5F9]">
               {watchlistQuotes.map(stock => {
                 const isUp = stock.change >= 0;
                 return (
-                  <tr key={stock.symbol} className="hover:bg-[#F5F8FC] transition">
-                    <td className="py-3 px-4 font-bold text-[#008FD3] cursor-pointer" onClick={() => onSelectStock(stock.symbol)}>
+                  <tr key={stock.symbol} className="hover:bg-[#F8FAFC] transition h-[42px]">
+                    <td className="py-2.5 px-4 font-semibold text-[#008FD3] cursor-pointer" onClick={() => onSelectStock(stock.symbol)}>
                       {stock.symbol}
-                      <span className="block text-[10px] text-[#64748B] font-normal">{stock.companyName}</span>
+                      <span className="block text-[11px] text-[#64748B] font-normal">{stock.companyName}</span>
                     </td>
-                    <td className="py-3 px-4 text-[#64748B]">{stock.exchange}</td>
-                    <td className="py-3 px-4 text-[#64748B]">{stock.industry}</td>
-                    <td className="py-3 px-4 text-right font-bold text-[#172033] font-mono">{stock.price.toLocaleString('vi-VN')}</td>
-                    <td className={`py-3 px-4 text-right font-semibold font-mono ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                    <td className="py-2.5 px-3 text-[#64748B] text-xs font-medium">{stock.exchange}</td>
+                    <td className="py-2.5 px-3 text-[#64748B] text-xs">{stock.industry}</td>
+                    <td className="py-2.5 px-4 text-right font-medium text-[#172033] font-mono tabular-nums">{stock.price.toLocaleString('vi-VN')}</td>
+                    <td className={`py-2.5 px-3 text-right font-semibold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                       {isUp ? '+' : ''}{stock.change.toLocaleString('vi-VN')}
                     </td>
-                    <td className={`py-3 px-4 text-right font-bold font-mono ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                    <td className={`py-2.5 px-3 text-right font-bold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                       {isUp ? '+' : ''}{stock.changePercent.toFixed(2)}%
                     </td>
-                    <td className="py-3 px-4 text-right font-mono text-[#64748B]">{stock.volume.toLocaleString()}</td>
-                    <td className="py-3 px-4 text-center">
-                      <span className="px-2 py-0.5 rounded-full bg-[#F5F8FC] border border-[#E2E8F0] font-bold text-[#172033] text-[11px]">
+                    <td className="py-2.5 px-4 text-right font-mono tabular-nums text-[#64748B]">{stock.volume.toLocaleString()}</td>
+                    <td className="py-2.5 px-3 text-center">
+                      <span className="px-2 py-0.5 rounded-full bg-[#F5F8FC] border border-[#E2E8F0] font-semibold text-[#172033] text-[11px] font-mono tabular-nums">
                         {stock.rsi || 50}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-right">
+                    <td className="py-2.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => onSelectStock(stock.symbol)}
-                          className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#008FD3] font-semibold text-[11px] transition"
+                          className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#008FD3] font-semibold text-[12px] transition"
                         >
                           Phân tích
                         </button>

@@ -25,6 +25,7 @@ import AlertsView from '@/components/views/AlertsView';
 import ApiCenterView from '@/components/views/ApiCenterView';
 import BacktestView from '@/components/views/BacktestView';
 import SettingsView from '@/components/views/SettingsView';
+import AdminSubscriptionView from '@/components/views/AdminSubscriptionView';
 
 import { 
   PortfolioSummary, 
@@ -42,6 +43,15 @@ export default function Home() {
   const [selectedStockSymbol, setSelectedStockSymbol] = useState<string>('FPT');
   const [selectedT3Signal, setSelectedT3Signal] = useState<T3Signal | null>(null);
   const [timeFilter, setTimeFilter] = useState<'1D' | '1W' | '1M' | '3M' | '6M' | '1Y' | 'ALL'>('1M');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const paramMenu = new URLSearchParams(window.location.search).get('menu') as ActiveMenu;
+      if (paramMenu) {
+        setActiveMenu(paramMenu);
+      }
+    }
+  }, []);
 
   // State data
   const [summary, setSummary] = useState<PortfolioSummary>({
@@ -224,8 +234,8 @@ export default function Home() {
                   {/* Dashboard Header Bar */}
                   <div className="flex flex-wrap items-center justify-between gap-4">
                     <div>
-                      <h2 className="text-xl font-bold text-[#172033] tracking-tight">Tổng quan danh mục</h2>
-                      <p className="text-xs text-[#64748B] mt-0.5">Theo dõi tài sản và hiệu quả đầu tư của bạn</p>
+                      <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">Tổng quan danh mục</h2>
+                      <p className="text-[13px] text-[#64748B] mt-0.5">Theo dõi tài sản và hiệu quả đầu tư của bạn</p>
                     </div>
 
                     {/* Time Filter Pills */}
@@ -281,6 +291,11 @@ export default function Home() {
               {/* Menu 2: Gói thuê bao StockAI */}
               {activeMenu === 'subscription' && (
                 <SubscriptionView />
+              )}
+
+              {/* Menu: Admin Duyệt Thuê Bao & Đối Soát QR */}
+              {activeMenu === 'admin-subscription' && (
+                <AdminSubscriptionView />
               )}
 
               {/* Menu 3: Danh mục đầu tư */}

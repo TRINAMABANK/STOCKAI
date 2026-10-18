@@ -30,14 +30,14 @@ export default function MarketBoardView({
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Thị trường & Bảng giá trực tuyến</h2>
-          <p className="text-xs text-[#64748B] mt-0.5">Dữ liệu giá khớp lệnh, chỉ số và thanh khoản HOSE, HNX, UPCoM</p>
+          <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">Thị trường & Bảng giá trực tuyến</h2>
+          <p className="text-[13px] text-[#64748B] mt-0.5">Dữ liệu giá khớp lệnh, chỉ số và thanh khoản HOSE, HNX, UPCoM</p>
         </div>
         <div className="flex items-center gap-2 text-xs">
           <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse-profit"></span>
           <span className="text-[#64748B] font-medium">Nguồn: <strong className="text-[#172033]">Vietstock API</strong></span>
           <span className="text-[#E2E8F0]">|</span>
-          <span className="text-[#64748B] font-mono">14:35:22</span>
+          <span className="text-[#64748B] font-mono tabular-nums">14:35:22</span>
         </div>
       </div>
 
@@ -46,12 +46,12 @@ export default function MarketBoardView({
         {indices.map(idx => {
           const isUp = idx.change >= 0;
           return (
-            <div key={idx.symbol} className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs flex items-center justify-between">
+            <div key={idx.symbol} className="bg-[#FFFFFF] p-4 rounded-2xl border border-[#E2E8F0] shadow-xs flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-bold text-[#64748B]">{idx.name}</p>
-                <h4 className="text-base font-bold text-[#172033] mt-0.5 font-mono">{idx.value.toLocaleString('vi-VN', { minimumFractionDigits: 2 })}</h4>
+                <p className="text-[12px] font-medium text-[#64748B]">{idx.name}</p>
+                <h4 className="text-[18px] font-bold text-[#172033] mt-0.5 font-mono tabular-nums">{idx.value.toLocaleString('vi-VN', { minimumFractionDigits: 2 })}</h4>
               </div>
-              <span className={`text-xs font-bold font-mono ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+              <span className={`text-[13px] font-bold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                 {isUp ? '+' : ''}{idx.changePercent.toFixed(2)}%
               </span>
             </div>
@@ -92,52 +92,52 @@ export default function MarketBoardView({
       {/* Main Board Table */}
       <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-[13px]">
             <thead>
-              <tr className="bg-[#F5F8FC] text-[#64748B] uppercase tracking-wider text-[11px] border-b border-[#E2E8F0]">
-                <th className="py-3 px-4 font-semibold">Mã CP</th>
-                <th className="py-3 px-4 font-semibold">Sàn</th>
-                <th className="py-3 px-4 font-semibold text-right">Giá khớp</th>
-                <th className="py-3 px-4 font-semibold text-right">+/-</th>
-                <th className="py-3 px-4 font-semibold text-right">%</th>
-                <th className="py-3 px-4 font-semibold text-right">Mở cửa</th>
-                <th className="py-3 px-4 font-semibold text-right">Cao nhất</th>
-                <th className="py-3 px-4 font-semibold text-right">Thấp nhất</th>
-                <th className="py-3 px-4 font-semibold text-right">Khối lượng</th>
-                <th className="py-3 px-4 font-semibold text-right">P/E</th>
-                <th className="py-3 px-4 font-semibold text-center">RSI</th>
+              <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                <th className="py-3 px-4 font-medium text-left">Mã CP</th>
+                <th className="py-3 px-3 font-medium text-left">Sàn</th>
+                <th className="py-3 px-4 font-medium text-right">Giá khớp</th>
+                <th className="py-3 px-3 font-medium text-right">+/-</th>
+                <th className="py-3 px-3 font-medium text-right">%</th>
+                <th className="py-3 px-3 font-medium text-right">Mở cửa</th>
+                <th className="py-3 px-3 font-medium text-right">Cao nhất</th>
+                <th className="py-3 px-3 font-medium text-right">Thấp nhất</th>
+                <th className="py-3 px-4 font-medium text-right">Khối lượng</th>
+                <th className="py-3 px-3 font-medium text-right">P/E</th>
+                <th className="py-3 px-3 font-medium text-center">RSI</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium">
+            <tbody className="divide-y divide-[#F1F5F9]">
               {filtered.map((stock) => {
                 const isUp = stock.change >= 0;
                 return (
                   <tr 
                     key={stock.symbol}
                     onClick={() => onSelectStock(stock.symbol)}
-                    className="hover:bg-[#F5F8FC] cursor-pointer transition"
+                    className="hover:bg-[#F8FAFC] cursor-pointer transition h-[42px]"
                   >
-                    <td className="py-3 px-4 font-bold text-[#008FD3]">
+                    <td className="py-2.5 px-4 font-semibold text-[#008FD3]">
                       {stock.symbol}
-                      <span className="block text-[10px] text-[#64748B] font-normal">{stock.industry}</span>
+                      <span className="block text-[11px] text-[#64748B] font-normal">{stock.industry}</span>
                     </td>
-                    <td className="py-3 px-4 text-[#64748B]">{stock.exchange}</td>
-                    <td className="py-3 px-4 text-right font-bold text-[#172033] font-mono">
+                    <td className="py-2.5 px-3 text-[#64748B] text-xs font-medium">{stock.exchange}</td>
+                    <td className="py-2.5 px-4 text-right font-medium text-[#172033] font-mono tabular-nums">
                       {stock.price.toLocaleString('vi-VN')}
                     </td>
-                    <td className={`py-3 px-4 text-right font-semibold font-mono ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                    <td className={`py-2.5 px-3 text-right font-semibold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                       {isUp ? '+' : ''}{stock.change.toLocaleString('vi-VN')}
                     </td>
-                    <td className={`py-3 px-4 text-right font-bold font-mono ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                    <td className={`py-2.5 px-3 text-right font-bold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                       {isUp ? '+' : ''}{stock.changePercent.toFixed(2)}%
                     </td>
-                    <td className="py-3 px-4 text-right text-[#64748B] font-mono">{stock.open.toLocaleString('vi-VN')}</td>
-                    <td className="py-3 px-4 text-right text-[#10B981] font-mono">{stock.high.toLocaleString('vi-VN')}</td>
-                    <td className="py-3 px-4 text-right text-[#F43F5E] font-mono">{stock.low.toLocaleString('vi-VN')}</td>
-                    <td className="py-3 px-4 text-right font-bold text-[#172033] font-mono">{stock.volume.toLocaleString()}</td>
-                    <td className="py-3 px-4 text-right text-[#64748B] font-mono">{stock.pe ? stock.pe.toFixed(1) : '-'}</td>
-                    <td className="py-3 px-4 text-center">
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                    <td className="py-2.5 px-3 text-right text-[#64748B] font-mono tabular-nums">{stock.open.toLocaleString('vi-VN')}</td>
+                    <td className="py-2.5 px-3 text-right text-[#10B981] font-mono tabular-nums">{stock.high.toLocaleString('vi-VN')}</td>
+                    <td className="py-2.5 px-3 text-right text-[#F43F5E] font-mono tabular-nums">{stock.low.toLocaleString('vi-VN')}</td>
+                    <td className="py-2.5 px-4 text-right font-medium text-[#172033] font-mono tabular-nums">{stock.volume.toLocaleString()}</td>
+                    <td className="py-2.5 px-3 text-right text-[#64748B] font-mono tabular-nums">{stock.pe ? stock.pe.toFixed(1) : '-'}</td>
+                    <td className="py-2.5 px-3 text-center">
+                      <span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold font-mono tabular-nums ${
                         (stock.rsi || 50) > 70 ? 'bg-[#FFE4E6] text-[#F43F5E]' :
                         (stock.rsi || 50) < 35 ? 'bg-[#E0F2FE] text-[#008FD3]' : 'bg-[#F5F8FC] border border-[#E2E8F0] text-[#172033]'
                       }`}>

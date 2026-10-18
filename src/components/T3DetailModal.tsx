@@ -28,13 +28,13 @@ export default function T3DetailModal({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-bold text-lg text-[#172033]">{signal.symbol}</h3>
-                <span className="text-xs px-2 py-0.5 rounded bg-white text-[#64748B] font-bold border border-[#E2E8F0]">{signal.exchange}</span>
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] font-bold">
+                <h3 className="font-bold text-[20px] text-[#172033] tracking-tight">{signal.symbol}</h3>
+                <span className="text-xs px-2 py-0.5 rounded bg-white text-[#64748B] font-semibold border border-[#E2E8F0]">{signal.exchange}</span>
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] font-bold font-mono tabular-nums">
                   Điểm T+3: {signal.t3Score}/100
                 </span>
               </div>
-              <p className="text-xs text-[#64748B]">{signal.companyName}</p>
+              <p className="text-[13px] text-[#64748B] font-medium">{signal.companyName}</p>
             </div>
           </div>
           <button 
@@ -50,20 +50,20 @@ export default function T3DetailModal({
           {/* Key Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#F5F8FC] p-4 rounded-xl border border-[#E2E8F0]">
             <div>
-              <p className="text-[11px] text-[#64748B] font-semibold">Chiến lược</p>
-              <p className="font-bold text-[#008FD3] mt-0.5">{signal.strategy}</p>
+              <p className="text-[12px] text-[#64748B] font-medium">Chiến lược</p>
+              <p className="font-semibold text-[#008FD3] text-[14px] mt-0.5">{signal.strategy}</p>
             </div>
             <div>
-              <p className="text-[11px] text-[#64748B] font-semibold">Giá hiện tại</p>
-              <p className="font-bold text-[#172033] font-mono mt-0.5">{signal.currentPrice.toLocaleString('vi-VN')} đ</p>
+              <p className="text-[12px] text-[#64748B] font-medium">Giá hiện tại</p>
+              <p className="font-bold text-[#172033] font-mono tabular-nums text-[14px] mt-0.5">{signal.currentPrice.toLocaleString('vi-VN')} đ</p>
             </div>
             <div>
-              <p className="text-[11px] text-[#64748B] font-semibold">Tỷ lệ Lợi nhuận/Rủi ro</p>
-              <p className="font-bold text-[#10B981] font-mono mt-0.5">{signal.rewardRiskRatio} : 1</p>
+              <p className="text-[12px] text-[#64748B] font-medium">Tỷ lệ Lợi nhuận/Rủi ro</p>
+              <p className="font-bold text-[#10B981] font-mono tabular-nums text-[14px] mt-0.5">{signal.rewardRiskRatio} : 1</p>
             </div>
             <div>
-              <p className="text-[11px] text-[#64748B] font-semibold">Mức độ rủi ro</p>
-              <p className={`font-bold mt-0.5 ${
+              <p className="text-[12px] text-[#64748B] font-medium">Mức độ rủi ro</p>
+              <p className={`font-semibold text-[14px] mt-0.5 ${
                 signal.riskLevel === 'Thấp' ? 'text-[#10B981]' :
                 signal.riskLevel === 'Trung bình' ? 'text-[#D97706]' : 'text-[#F43F5E]'
               }`}>
@@ -74,41 +74,43 @@ export default function T3DetailModal({
 
           {/* Execution Zones */}
           <div className="space-y-3">
-            <h4 className="font-bold text-xs text-[#64748B] uppercase tracking-wider">Kế hoạch giao dịch tham khảo</h4>
+            <h4 className="font-semibold text-[13px] text-[#64748B] uppercase tracking-wider">Kế hoạch giao dịch tham khảo</h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="p-3.5 rounded-xl border border-[#BAE6FD] bg-[#F0F9FF]">
-                <div className="flex items-center gap-1.5 text-[#008FD3] font-bold text-xs mb-1">
+              <div className="p-4 rounded-xl border border-[#BAE6FD] bg-[#F0F9FF]">
+                <div className="flex items-center gap-1.5 text-[#008FD3] font-semibold text-xs mb-1">
                   <Target className="w-4 h-4" />
                   <span>Vùng mua tích lũy</span>
                 </div>
-                <p className="text-base font-bold text-[#172033] font-mono">{signal.buyZone}</p>
-                <p className="text-[11px] text-[#64748B] mt-0.5">Thời gian: {signal.holdingDays}</p>
+                <p className="text-base font-bold text-[#172033] font-mono tabular-nums">{signal.buyZone}</p>
+                <p className="text-[12px] text-[#64748B] mt-0.5 font-medium">Thời gian: {signal.holdingDays}</p>
               </div>
 
-              <div className="p-3.5 rounded-xl border border-[#A7F3D0] bg-[#ECFDF5]">
-                <div className="flex items-center gap-1.5 text-[#10B981] font-bold text-xs mb-1">
+              <div className="p-4 rounded-xl border border-[#A7F3D0] bg-[#ECFDF5]">
+                <div className="flex items-center gap-1.5 text-[#10B981] font-semibold text-xs mb-1">
                   <CheckCircle className="w-4 h-4" />
                   <span>Mục tiêu chốt lời (T1/T2)</span>
                 </div>
-                <p className="text-base font-bold text-[#172033] font-mono">{signal.targetPrice}</p>
-                <p className="text-[11px] text-[#10B981] mt-0.5 font-semibold">Kỳ vọng lợi nhuận 5-10%</p>
+                <p className="text-base font-bold text-[#172033] font-mono tabular-nums">{signal.targetPrice}</p>
+                <p className="text-[12px] text-[#10B981] mt-0.5 font-semibold">Kỳ vọng lợi nhuận 5-10%</p>
               </div>
 
-              <div className="p-3.5 rounded-xl border border-[#FECDD3] bg-[#FFF1F2]">
-                <div className="flex items-center gap-1.5 text-[#F43F5E] font-bold text-xs mb-1">
+              <div className="p-4 rounded-xl border border-[#FECDD3] bg-[#FFF1F2]">
+                <div className="flex items-center gap-1.5 text-[#F43F5E] font-semibold text-xs mb-1">
                   <ShieldAlert className="w-4 h-4" />
                   <span>Ngưỡng cắt lỗ kỷ luật</span>
                 </div>
-                <p className="text-base font-bold text-[#F43F5E] font-mono">{signal.stopLoss.toLocaleString('vi-VN')} đ</p>
-                <p className="text-[11px] text-[#F43F5E] mt-0.5 font-medium">Mức vô hiệu hóa chiến lược</p>
+                <p className="text-base font-bold text-[#F43F5E] font-mono tabular-nums">
+                  {signal.stopLoss < 1000 ? signal.stopLoss.toFixed(1) : (signal.stopLoss / 1000).toFixed(1)} ({signal.stopLoss < 1000 ? (signal.stopLoss * 1000).toLocaleString('vi-VN') : signal.stopLoss.toLocaleString('vi-VN')} đ)
+                </p>
+                <p className="text-[12px] text-[#F43F5E] mt-0.5 font-medium">Mức vô hiệu hóa chiến lược</p>
               </div>
             </div>
           </div>
 
           {/* Reasoning & Conditions */}
           <div className="space-y-2">
-            <h4 className="font-bold text-xs text-[#64748B] uppercase tracking-wider">Lý do chọn mã & Phân tích kỹ thuật</h4>
-            <div className="p-3.5 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-[#172033] leading-relaxed text-xs sm:text-sm">
+            <h4 className="font-semibold text-[13px] text-[#64748B] uppercase tracking-wider">Lý do chọn mã & Phân tích kỹ thuật</h4>
+            <div className="p-4 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-[#172033] leading-relaxed text-[13px]">
               {signal.rationale}
             </div>
           </div>

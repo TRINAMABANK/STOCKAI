@@ -1,10 +1,10 @@
 {
   "portfolios": {
-    "totalAssets": 1268382200,
-    "stockValue": 958200000,
-    "cash": 310182200,
+    "totalAssets": 1268341520,
+    "stockValue": 985320000,
+    "cash": 283021520,
     "realizedPnL": 50972200,
-    "unrealizedPnL": 73459200,
+    "unrealizedPnL": 73419200,
     "totalReturnPercent": 8.92,
     "dailyChange": 35620000,
     "dailyChangePercent": 2.89
@@ -14,13 +14,13 @@
       "id": "h-1",
       "symbol": "FPT",
       "companyName": "CTCP FPT",
-      "shares": 2300,
-      "costBasis": 122000,
+      "shares": 2500,
+      "costBasis": 123104,
       "currentPrice": 135600,
-      "marketValue": 311880000,
-      "unrealizedPnL": 31280000,
-      "unrealizedPnLPercent": 11.15,
-      "weightPercent": 24.6,
+      "marketValue": 339000000,
+      "unrealizedPnL": 31240000,
+      "unrealizedPnLPercent": 10.15,
+      "weightPercent": 26.7,
       "sector": "Công nghệ"
     },
     {
@@ -90,6 +90,32 @@
     }
   ],
   "transactions": [
+    {
+      "id": "tx-1792314865928",
+      "date": "2026-10-18",
+      "type": "BUY",
+      "symbol": "FPT",
+      "shares": 100,
+      "price": 135600,
+      "grossAmount": 13560000,
+      "fee": 20340,
+      "tax": 0,
+      "netAmount": 13580340,
+      "notes": "Lệnh Mua thủ công"
+    },
+    {
+      "id": "tx-1792304120642",
+      "date": "2026-10-18",
+      "type": "BUY",
+      "symbol": "FPT",
+      "shares": 100,
+      "price": 135600,
+      "grossAmount": 13560000,
+      "fee": 20340,
+      "tax": 0,
+      "netAmount": 13580340,
+      "notes": "Lệnh Mua thủ công"
+    },
     {
       "id": "tx-1792281632272",
       "date": "2026-10-18",
@@ -282,16 +308,22 @@
       "symbol": "HPG",
       "companyName": "Tập đoàn Hòa Phát",
       "exchange": "HOSE",
+      "industry": "Thép",
       "currentPrice": 27800,
+      "change": 800,
+      "changePercent": 2.96,
       "dataTimestamp": "14:35:22",
       "t3Score": 85,
       "strategy": "Breakout",
+      "signalType": "BUY",
+      "period": "T+3",
       "buyZone": "27.4 - 27.8",
       "targetPrice": "29.5 / 30.2",
       "stopLoss": 26.8,
       "rewardRiskRatio": 2.4,
       "riskLevel": "Thấp",
       "liquidity": "Rất cao (>25 triệu cp/phiên)",
+      "liquidityValue": 25800000,
       "holdingDays": "1 - 5 phiên",
       "rationale": "Khối lượng bùng nổ vượt 180% MA20 volume, giá phá vỡ nền kháng cự 27.5 với nến Marubozu tăng mạnh.",
       "confirmationCondition": "Đóng nến trên 27.6 với thanh khoản duy trì cao",
@@ -304,43 +336,335 @@
       "symbol": "TCB",
       "companyName": "Ngân hàng Techcombank",
       "exchange": "HOSE",
+      "industry": "Ngân hàng",
       "currentPrice": 33100,
+      "change": 600,
+      "changePercent": 1.85,
       "dataTimestamp": "14:35:22",
       "t3Score": 82,
       "strategy": "Pullback",
+      "signalType": "BUY",
+      "period": "T+3",
       "buyZone": "32.5 - 33.0",
       "targetPrice": "35.0 / 36.0",
       "stopLoss": 31.8,
       "rewardRiskRatio": 2.1,
       "riskLevel": "Trung bình",
       "liquidity": "Cao (>12 triệu cp/phiên)",
+      "liquidityValue": 12400000,
       "holdingDays": "2 - 4 phiên",
       "rationale": "Test thành công đường EMA20 sau nhịp tăng trước đó, xuất hiện nến Hammer rút chân vùng hỗ trợ 32.5.",
       "confirmationCondition": "Mở cửa phiên kế tiếp giữ vững trên mốc 32.8",
       "invalidationLevel": 31.8,
       "risksAndEvents": "Động thái lãi suất liên ngân hàng, tỷ giá USD/VND",
-      "isFavorite": true
+      "isFavorite": false
+    },
+    {
+      "id": "t3-shs",
+      "symbol": "SHS",
+      "companyName": "CTCP Chứng khoán Sài Gòn - Hà Nội",
+      "exchange": "HNX",
+      "industry": "Chứng khoán",
+      "currentPrice": 14200,
+      "change": 600,
+      "changePercent": 4.41,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 88,
+      "strategy": "Momentum",
+      "signalType": "BUY",
+      "period": "T+1",
+      "buyZone": "13.8 - 14.2",
+      "targetPrice": "15.4 / 16.0",
+      "stopLoss": 13.3,
+      "rewardRiskRatio": 2.2,
+      "riskLevel": "Trung bình",
+      "liquidity": "Rất cao (>18 triệu cp/phiên)",
+      "liquidityValue": 18500000,
+      "holdingDays": "1 - 2 phiên",
+      "rationale": "Dòng tiền lớn nhập cuộc dứt khoát trên sàn HNX, RSI(14) bứt phá lên 66 vượt cản ngắn hạn.",
+      "confirmationCondition": "Khối lượng phiên sáng khớp trên 8 triệu cổ phiếu",
+      "invalidationLevel": 13.3,
+      "risksAndEvents": "Áp lực rung lắc khi chỉ số HNX tiếp cận kháng cự 245 điểm",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-mwg",
+      "symbol": "MWG",
+      "companyName": "CTCP Đầu tư Thế Giới Di Động",
+      "exchange": "HOSE",
+      "industry": "Bán lẻ",
+      "currentPrice": 62500,
+      "change": 2300,
+      "changePercent": 3.82,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 86,
+      "strategy": "Breakout",
+      "signalType": "BUY",
+      "period": "T+1",
+      "buyZone": "61.5 - 62.5",
+      "targetPrice": "66.5 / 68.0",
+      "stopLoss": 59.8,
+      "rewardRiskRatio": 2.3,
+      "riskLevel": "Thấp",
+      "liquidity": "Rất cao (>15 triệu cp/phiên)",
+      "liquidityValue": 15200000,
+      "holdingDays": "1 - 3 phiên",
+      "rationale": "Bứt phá qua vùng tích lũy 61.0 kèm dòng tiền tổ chức mua ròng mạnh mẽ 3 phiên liên tục.",
+      "confirmationCondition": "Duy trì giá trên 62.0 sau 10h sáng",
+      "invalidationLevel": 59.8,
+      "risksAndEvents": "Áp lực chốt lời ngắn hạn từ các quỹ ETF",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-pvs",
+      "symbol": "PVS",
+      "companyName": "Tổng CTCP Dịch vụ Kỹ thuật Dầu khí",
+      "exchange": "HNX",
+      "industry": "Dầu khí",
+      "currentPrice": 38500,
+      "change": 1200,
+      "changePercent": 3.22,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 84,
+      "strategy": "Breakout",
+      "signalType": "BUY",
+      "period": "T+3",
+      "buyZone": "37.8 - 38.5",
+      "targetPrice": "41.5 / 43.0",
+      "stopLoss": 36.5,
+      "rewardRiskRatio": 2.1,
+      "riskLevel": "Trung bình",
+      "liquidity": "Cao (>7 triệu cp/phiên)",
+      "liquidityValue": 7400000,
+      "holdingDays": "2 - 5 phiên",
+      "rationale": "Hưởng lợi từ tiến độ dự án Lô B Ô Môn, nến vượt đỉnh 3 tháng với thanh khoản gấp đôi trung bình 20 phiên.",
+      "confirmationCondition": "Đóng cửa trên 38.0 với volume trên 6 triệu đơn vị",
+      "invalidationLevel": 36.5,
+      "risksAndEvents": "Biến động giá dầu Brent trên thị trường quốc tế",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-bsr",
+      "symbol": "BSR",
+      "companyName": "CTCP Lọc Hóa Dầu Bình Sơn",
+      "exchange": "UPCOM",
+      "industry": "Dầu khí",
+      "currentPrice": 19800,
+      "change": 400,
+      "changePercent": 2.06,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 79,
+      "strategy": "Pullback",
+      "signalType": "BUY",
+      "period": "T+1",
+      "buyZone": "19.4 - 19.8",
+      "targetPrice": "21.2 / 22.0",
+      "stopLoss": 18.9,
+      "rewardRiskRatio": 2,
+      "riskLevel": "Thấp",
+      "liquidity": "Rất cao (>14 triệu cp/phiên)",
+      "liquidityValue": 14100000,
+      "holdingDays": "1 - 3 phiên",
+      "rationale": "Chạm hỗ trợ kỹ thuật 19.5 trên sàn UPCoM, lực cầu gom giá thấp xuất hiện tạo nến Doji đảo chiều.",
+      "confirmationCondition": "Khối lượng duy trì trên 10 triệu cổ phiếu",
+      "invalidationLevel": 18.9,
+      "risksAndEvents": "Biên lợi nhuận lọc dầu crack spread điều chỉnh ngắn hạn",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-gmd",
+      "symbol": "GMD",
+      "companyName": "CTCP Gemadept",
+      "exchange": "HOSE",
+      "industry": "Vận tải và logistics",
+      "currentPrice": 78400,
+      "change": 3200,
+      "changePercent": 4.25,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 87,
+      "strategy": "Breakout",
+      "signalType": "BUY",
+      "period": "T+5",
+      "buyZone": "76.5 - 78.4",
+      "targetPrice": "84.0 / 87.5",
+      "stopLoss": 74.5,
+      "rewardRiskRatio": 2.2,
+      "riskLevel": "Thấp",
+      "liquidity": "Cao (>4 triệu cp/phiên)",
+      "liquidityValue": 4300000,
+      "holdingDays": "3 - 5 phiên",
+      "rationale": "Sản lượng thông qua cụm cảng nước sâu Gemalink tăng trưởng cao kỷ lục, giá vượt đỉnh mọi thời đại.",
+      "confirmationCondition": "Khối lượng phiên chiều tiếp tục tăng mạnh",
+      "invalidationLevel": 74.5,
+      "risksAndEvents": "Tốc độ phục hồi của chuỗi cung ứng hàng hải toàn cầu",
+      "isFavorite": false
     },
     {
       "id": "t3-fpt",
       "symbol": "FPT",
       "companyName": "CTCP FPT",
       "exchange": "HOSE",
+      "industry": "Công nghệ thông tin",
       "currentPrice": 135600,
+      "change": 4100,
+      "changePercent": 3.12,
       "dataTimestamp": "14:35:22",
       "t3Score": 78,
       "strategy": "Momentum",
+      "signalType": "BUY",
+      "period": "T+3",
       "buyZone": "133.0 - 136.0",
       "targetPrice": "141.0 / 146.0",
       "stopLoss": 131,
       "rewardRiskRatio": 2.3,
       "riskLevel": "Trung bình",
       "liquidity": "Trung bình (3 - 5 triệu cp/phiên)",
+      "liquidityValue": 4100000,
       "holdingDays": "3 - 5 phiên",
       "rationale": "RSI(14) đạt 64 dốc lên, MACD Histogram mở rộng dương, dòng tiền nước ngoài mua ròng 5 phiên liên tục.",
       "confirmationCondition": "Khối lượng phiên sáng đạt tối thiểu 1.5 triệu đơn vị",
       "invalidationLevel": 131,
       "risksAndEvents": "Định giá P/E vùng cao lịch sử (24x), áp lực bán từ quỹ cơ cấu",
+      "isFavorite": true
+    },
+    {
+      "id": "t3-ssi",
+      "symbol": "SSI",
+      "companyName": "CTCP Chứng khoán SSI",
+      "exchange": "HOSE",
+      "industry": "Chứng khoán",
+      "currentPrice": 32400,
+      "change": 800,
+      "changePercent": 2.53,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 81,
+      "strategy": "Breakout",
+      "signalType": "BUY",
+      "period": "T+3",
+      "buyZone": "31.8 - 32.4",
+      "targetPrice": "34.8 / 36.0",
+      "stopLoss": 30.8,
+      "rewardRiskRatio": 2.1,
+      "riskLevel": "Trung bình",
+      "liquidity": "Rất cao (>22 triệu cp/phiên)",
+      "liquidityValue": 22400000,
+      "holdingDays": "2 - 4 phiên",
+      "rationale": "Thanh khoản toàn thị trường vượt 20.000 tỷ, cổ phiếu đầu ngành chứng khoán phát tín hiệu dẫn dắt.",
+      "confirmationCondition": "Giữ vững sắc xanh trên 32.0 trong toàn phiên chiều",
+      "invalidationLevel": 30.8,
+      "risksAndEvents": "Tiến độ triển khai hệ thống giao dịch mới KRX",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-idc",
+      "symbol": "IDC",
+      "companyName": "Tổng Công ty IDICO",
+      "exchange": "HNX",
+      "industry": "Bất động sản",
+      "currentPrice": 54600,
+      "change": 1800,
+      "changePercent": 3.41,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 83,
+      "strategy": "Momentum",
+      "signalType": "BUY",
+      "period": "T+5",
+      "buyZone": "53.5 - 54.6",
+      "targetPrice": "59.0 / 61.5",
+      "stopLoss": 51.8,
+      "rewardRiskRatio": 2.2,
+      "riskLevel": "Thấp",
+      "liquidity": "Cao (>5 triệu cp/phiên)",
+      "liquidityValue": 5200000,
+      "holdingDays": "3 - 5 phiên",
+      "rationale": "Doanh thu cho thuê đất KCN ghi nhận đột biến, cấu trúc giá dốc lên bám dải trên Bollinger Bands.",
+      "confirmationCondition": "Khối lượng khớp lệnh vượt trung bình 20 phiên",
+      "invalidationLevel": 51.8,
+      "risksAndEvents": "Tiến độ bàn giao mặt bằng các dự án mới tại Bà Rịa - Vũng Tàu",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-vcg",
+      "symbol": "VCG",
+      "companyName": "Tổng CTCP Xuất nhập khẩu và Xây dựng Việt Nam",
+      "exchange": "HOSE",
+      "industry": "Xây dựng và vật liệu",
+      "currentPrice": 23800,
+      "change": 600,
+      "changePercent": 2.59,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 80,
+      "strategy": "Breakout",
+      "signalType": "BUY",
+      "period": "T+3",
+      "buyZone": "23.2 - 23.8",
+      "targetPrice": "25.8 / 26.8",
+      "stopLoss": 22.4,
+      "rewardRiskRatio": 2,
+      "riskLevel": "Trung bình",
+      "liquidity": "Cao (>9 triệu cp/phiên)",
+      "liquidityValue": 9300000,
+      "holdingDays": "2 - 5 phiên",
+      "rationale": "Đón sóng giải ngân đầu tư công quý 2, giá vượt cản chéo tích lũy 4 tuần với nến xanh thân dài.",
+      "confirmationCondition": "Khối lượng phiên sáng đạt trên 5 triệu đơn vị",
+      "invalidationLevel": 22.4,
+      "risksAndEvents": "Giá nguyên vật liệu xây dựng cát và đá san lấp gia tăng",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-qns",
+      "symbol": "QNS",
+      "companyName": "CTCP Đường Quảng Ngãi",
+      "exchange": "UPCOM",
+      "industry": "Thực phẩm và đồ uống",
+      "currentPrice": 49500,
+      "change": 1200,
+      "changePercent": 2.48,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 82,
+      "strategy": "Momentum",
+      "signalType": "BUY",
+      "period": "T+3",
+      "buyZone": "48.6 - 49.5",
+      "targetPrice": "53.5 / 55.0",
+      "stopLoss": 47.2,
+      "rewardRiskRatio": 2.1,
+      "riskLevel": "Thấp",
+      "liquidity": "Ổn định (>1.5 triệu cp/phiên)",
+      "liquidityValue": 1600000,
+      "holdingDays": "2 - 4 phiên",
+      "rationale": "Sản lượng sữa đậu nành Fami và đường phục hồi tích cực, chỉ số tài chính lành mạnh với cổ tức cao.",
+      "confirmationCondition": "Giữ vững mốc 49.0 trong phiên giao dịch",
+      "invalidationLevel": 47.2,
+      "risksAndEvents": "Chính sách phòng vệ thương mại đường mía nhập khẩu",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-pow",
+      "symbol": "POW",
+      "companyName": "Tổng CTCP Điện lực Dầu khí Việt Nam",
+      "exchange": "HOSE",
+      "industry": "Điện và tiện ích",
+      "currentPrice": 12600,
+      "change": 200,
+      "changePercent": 1.61,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 74,
+      "strategy": "Pullback",
+      "signalType": "BUY",
+      "period": "T+5",
+      "buyZone": "12.3 - 12.6",
+      "targetPrice": "13.6 / 14.2",
+      "stopLoss": 11.9,
+      "rewardRiskRatio": 1.9,
+      "riskLevel": "Thấp",
+      "liquidity": "Cao (>11 triệu cp/phiên)",
+      "liquidityValue": 11200000,
+      "holdingDays": "3 - 5 phiên",
+      "rationale": "Cổ phiếu ngành điện phòng thủ, nến test MA50 tại vùng 12.4 với thanh khoản cạn kiệt.",
+      "confirmationCondition": "Xuất hiện lực cầu chủ động phiên ATC",
+      "invalidationLevel": 11.9,
+      "risksAndEvents": "Thời tiết mưa nhiều ảnh hưởng huy động điện khí",
       "isFavorite": false
     },
     {
@@ -348,16 +672,22 @@
       "symbol": "DGC",
       "companyName": "Hóa chất Đức Giang",
       "exchange": "HOSE",
+      "industry": "Hóa chất",
       "currentPrice": 118000,
+      "change": 1000,
+      "changePercent": 0.85,
       "dataTimestamp": "14:35:22",
       "t3Score": 75,
       "strategy": "Reversal",
+      "signalType": "WATCHLIST",
+      "period": "T+3",
       "buyZone": "115.0 - 118.0",
       "targetPrice": "123.0 / 127.0",
       "stopLoss": 112,
       "rewardRiskRatio": 1.8,
       "riskLevel": "Cao",
       "liquidity": "Trung bình (2 - 4 triệu cp/phiên)",
+      "liquidityValue": 3100000,
       "holdingDays": "2 - 5 phiên",
       "rationale": "Phân kỳ dương kép RSI tại vùng hỗ trợ đáy cũ 115.0, lực cầu bắt đáy xuất hiện với nến xanh bao phủ.",
       "confirmationCondition": "Vượt dứt khoát 119.0 với dòng tiền lớn",
@@ -367,24 +697,170 @@
     },
     {
       "id": "t3-gvr",
-      "symbol": "GVR",
-      "companyName": "Tập đoàn Cao su Việt Nam",
+      "symbol": "Tập đoàn Cao su Việt Nam",
+      "companyName": "Tập đoàn Công nghiệp Cao su Việt Nam",
       "exchange": "HOSE",
+      "industry": "Hóa chất",
       "currentPrice": 34600,
+      "change": 500,
+      "changePercent": 1.47,
       "dataTimestamp": "14:35:22",
       "t3Score": 72,
       "strategy": "Pullback",
+      "signalType": "BUY",
+      "period": "T+3",
       "buyZone": "33.8 - 34.8",
       "targetPrice": "37.0 / 38.5",
       "stopLoss": 32.5,
       "rewardRiskRatio": 1.9,
       "riskLevel": "Thấp",
       "liquidity": "Cao (>8 triệu cp/phiên)",
+      "liquidityValue": 8400000,
       "holdingDays": "3 - 5 phiên",
       "rationale": "Tích lũy cạn kiệt khối lượng trên vùng hỗ trợ MA50, xuất hiện lực cầu gom chủ động phiên chiều.",
       "confirmationCondition": "Khối lượng giao dịch vượt trung bình 10 phiên",
       "invalidationLevel": 32.5,
       "risksAndEvents": "Tiến độ chuyển đổi đất khu công nghiệp và chính sách giá đất",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-vhm",
+      "symbol": "VHM",
+      "companyName": "CTCP Vinhomes",
+      "exchange": "HOSE",
+      "industry": "Bất động sản",
+      "currentPrice": 44200,
+      "change": 800,
+      "changePercent": 1.84,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 76,
+      "strategy": "Reversal",
+      "signalType": "BUY",
+      "period": "T+5",
+      "buyZone": "43.2 - 44.2",
+      "targetPrice": "47.5 / 49.0",
+      "stopLoss": 41.8,
+      "rewardRiskRatio": 1.9,
+      "riskLevel": "Trung bình",
+      "liquidity": "Cao (>10 triệu cp/phiên)",
+      "liquidityValue": 10500000,
+      "holdingDays": "3 - 5 phiên",
+      "rationale": "Tạo đáy 2 thành công tại vùng 43.0, chỉ báo MACD cắt lên đường tín hiệu ủng hộ sóng hồi kỹ thuật.",
+      "confirmationCondition": "Đóng nến giữ trên đường MA20 phiên hôm nay",
+      "invalidationLevel": 41.8,
+      "risksAndEvents": "Tâm lý thị trường bất động sản dân cư và tiến độ mở bán dự án lớn",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-vnm",
+      "symbol": "VNM",
+      "companyName": "CTCP Sữa Việt Nam",
+      "exchange": "HOSE",
+      "industry": "Thực phẩm và đồ uống",
+      "currentPrice": 68200,
+      "change": 800,
+      "changePercent": 1.19,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 77,
+      "strategy": "Reversal",
+      "signalType": "BUY",
+      "period": "T+5",
+      "buyZone": "67.0 - 68.2",
+      "targetPrice": "72.0 / 74.5",
+      "stopLoss": 65.5,
+      "rewardRiskRatio": 2,
+      "riskLevel": "Thấp",
+      "liquidity": "Trung bình (3 - 5 triệu cp/phiên)",
+      "liquidityValue": 3800000,
+      "holdingDays": "3 - 5 phiên",
+      "rationale": "Khối ngoại ngừng bán ròng và quay lại mua ròng nhẹ, mẫu hình nến Morning Star đảo chiều tại đáy.",
+      "confirmationCondition": "Khối lượng giao dịch đạt trên 3.5 triệu cổ phiếu",
+      "invalidationLevel": 65.5,
+      "risksAndEvents": "Chi phí nguyên liệu sữa bột nhập khẩu",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-mbb",
+      "symbol": "MBB",
+      "companyName": "Ngân hàng Quân Đội",
+      "exchange": "HOSE",
+      "industry": "Ngân hàng",
+      "currentPrice": 24100,
+      "change": 700,
+      "changePercent": 2.99,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 83,
+      "strategy": "Momentum",
+      "signalType": "BUY",
+      "period": "T+1",
+      "buyZone": "23.6 - 24.1",
+      "targetPrice": "25.8 / 26.5",
+      "stopLoss": 23,
+      "rewardRiskRatio": 2.2,
+      "riskLevel": "Thấp",
+      "liquidity": "Rất cao (>20 triệu cp/phiên)",
+      "liquidityValue": 21000000,
+      "holdingDays": "1 - 3 phiên",
+      "rationale": "Tăng trưởng tín dụng dẫn đầu nhóm ngân hàng, dòng tiền lớn kéo dứt khoát vượt cản 24.0.",
+      "confirmationCondition": "Lực mua chủ động áp đảo trong 15 phút đầu phiên chiều",
+      "invalidationLevel": 23,
+      "risksAndEvents": "Biến động tỷ lệ nợ xấu nhóm bán lẻ",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-vnd",
+      "symbol": "VND",
+      "companyName": "CTCP Chứng khoán VNDIRECT",
+      "exchange": "HOSE",
+      "industry": "Chứng khoán",
+      "currentPrice": 15800,
+      "change": -300,
+      "changePercent": -1.86,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 71,
+      "strategy": "Reversal",
+      "signalType": "SELL",
+      "period": "T+3",
+      "buyZone": "15.0 - 15.4",
+      "targetPrice": "16.2 / 16.5",
+      "stopLoss": 15.2,
+      "rewardRiskRatio": 1.6,
+      "riskLevel": "Cao",
+      "liquidity": "Rất cao (>24 triệu cp/phiên)",
+      "liquidityValue": 24500000,
+      "holdingDays": "1 - 3 phiên",
+      "rationale": "Chạm vùng kháng cự mạnh 16.2 xuất hiện nến Shooting Star đảo chiều giảm, RSI phân kỳ âm cảnh báo hạ tỷ trọng.",
+      "confirmationCondition": "Thủng mốc 15.6 kích hoạt tín hiệu bán chốt lời bảo toàn vốn",
+      "invalidationLevel": 16.5,
+      "risksAndEvents": "Rủi ro áp lực bán giải chấp và chậm phục hồi thanh khoản",
+      "isFavorite": false
+    },
+    {
+      "id": "t3-frt",
+      "symbol": "FRT",
+      "companyName": "CTCP Bán lẻ Kỹ thuật số FPT",
+      "exchange": "HOSE",
+      "industry": "Bán lẻ",
+      "currentPrice": 172000,
+      "change": -1000,
+      "changePercent": -0.58,
+      "dataTimestamp": "14:35:22",
+      "t3Score": 73,
+      "strategy": "Momentum",
+      "signalType": "SELL",
+      "period": "T+3",
+      "buyZone": "165.0 - 168.0",
+      "targetPrice": "175.0 / 180.0",
+      "stopLoss": 166,
+      "rewardRiskRatio": 1.7,
+      "riskLevel": "Trung bình",
+      "liquidity": "Trung bình (1 - 2 triệu cp/phiên)",
+      "liquidityValue": 1800000,
+      "holdingDays": "1 - 3 phiên",
+      "rationale": "Đạt mức sinh lời kỳ vọng chạm mục tiêu 175k, lực chốt lời chủ động của nhà đầu tư ngắn hạn.",
+      "confirmationCondition": "Khuyến nghị chốt lời 50% vị thế, nâng điểm chặn lãi lên 168k",
+      "invalidationLevel": 166,
+      "risksAndEvents": "Rung lắc mạnh quanh vùng đỉnh lịch sử",
       "isFavorite": false
     }
   ],
@@ -426,13 +902,25 @@
   ],
   "api_providers": [
     {
+      "id": "api-ssi",
+      "name": "SSI FastConnect Data API",
+      "code": "SSI",
+      "description": "Dữ liệu thị trường HOSE, HNX, UPCoM chính thức từ Công ty Chứng khoán SSI",
+      "status": "NOT_CONFIGURED",
+      "lastSyncTime": "13:20:21",
+      "lastError": "Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.",
+      "endpoint": "https://fc-data.ssi.com.vn/api/v2/Market/AccessToken",
+      "hasKeyConfigured": false,
+      "responseTimeMs": 0
+    },
+    {
       "id": "api-bmsc",
       "name": "Bảo Minh Securities (BMSC)",
       "code": "BMSC",
       "description": "Chưa có Open API công khai từ BMSC — Hỗ trợ nhập sao kê định dạng CSV/Excel",
       "status": "NOT_SUPPORTED",
-      "lastSyncTime": "09:13:29",
-      "lastError": "BMSC hiện tại chưa cung cấp Open API cho nhà đầu tư cá nhân. Hãy dùng tính năng Nhập file sao kê CSV/Excel.",
+      "lastSyncTime": "13:20:23",
+      "lastError": "StockAI là nền tảng phân tích độc lập, không tích hợp tài khoản môi giới BMSC và không lưu mật khẩu giao dịch.",
       "hasKeyConfigured": false,
       "responseTimeMs": 0
     },
@@ -442,8 +930,8 @@
       "code": "VIETSTOCK",
       "description": "Dữ liệu giá khớp lệnh, chỉ số VN-Index, HNX, UPCoM thời gian thực",
       "status": "CONNECTED",
-      "responseTimeMs": 150,
-      "lastSyncTime": "07:19:49",
+      "responseTimeMs": 115,
+      "lastSyncTime": "12:09:08",
       "hasKeyConfigured": true
     },
     {
@@ -461,13 +949,168 @@
       "name": "OpenAI API",
       "code": "OPENAI",
       "description": "Mô hình ngôn ngữ GPT-4o phân tích cơ bản, kỹ thuật và giải thích T+3",
+      "status": "NOT_CONFIGURED",
+      "responseTimeMs": 0,
+      "lastSyncTime": "12:09:03",
+      "hasKeyConfigured": false,
+      "lastError": "Chưa cấu hình OPENAI_API_KEY. Vui lòng thêm key vào file .env.local trên máy tính của bạn."
+    },
+    {
+      "id": "api-mock",
+      "name": "StockAI Demo Simulation",
+      "code": "MOCK_DEMO",
+      "description": "Dữ liệu mô phỏng HOSE, HNX, UPCoM (Dùng khi chưa có API key SSI)",
       "status": "CONNECTED",
-      "responseTimeMs": 310,
-      "lastSyncTime": "Vừa xong",
-      "hasKeyConfigured": false
+      "responseTimeMs": 15,
+      "lastSyncTime": "09:55:17",
+      "hasKeyConfigured": true
     }
   ],
   "api_sync_logs": [
+    {
+      "id": "log-1792304423442",
+      "timestamp": "13:20:23 18/10/2026",
+      "provider": "BMSC",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "StockAI là nền tảng phân tích độc lập, không tích hợp tài khoản môi giới BMSC và không lưu mật khẩu giao dịch.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792304421327",
+      "timestamp": "13:20:21 18/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792304420290",
+      "timestamp": "13:20:20 18/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.",
+      "latencyMs": 1
+    },
+    {
+      "id": "log-1792300149079",
+      "timestamp": "12:09:09 18/10/2026",
+      "provider": "BMSC",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "StockAI là nền tảng phân tích độc lập, không tích hợp tài khoản môi giới BMSC và không lưu mật khẩu giao dịch.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792300148350",
+      "timestamp": "12:09:08 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 115ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 115
+    },
+    {
+      "id": "log-1792300146842",
+      "timestamp": "12:09:06 18/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792300146063",
+      "timestamp": "12:09:06 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 130ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 130
+    },
+    {
+      "id": "log-1792300143789",
+      "timestamp": "12:09:03 18/10/2026",
+      "provider": "OPENAI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "Chưa cấu hình OPENAI_API_KEY. Vui lòng thêm key vào file .env.local trên máy tính của bạn.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792296963672",
+      "timestamp": "11:16:03 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 214ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 214
+    },
+    {
+      "id": "log-1792296955538",
+      "timestamp": "11:15:55 18/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792296952435",
+      "timestamp": "11:15:52 18/10/2026",
+      "provider": "BMSC",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "StockAI là nền tảng phân tích độc lập, không tích hợp tài khoản môi giới BMSC và không lưu mật khẩu giao dịch.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792294817498",
+      "timestamp": "10:40:17 18/10/2026",
+      "provider": "BMSC",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "StockAI là nền tảng phân tích độc lập, không tích hợp tài khoản môi giới BMSC và không lưu mật khẩu giao dịch.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792294817479",
+      "timestamp": "10:40:17 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 209ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 209
+    },
+    {
+      "id": "log-1792292448731",
+      "timestamp": "10:00:48 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 91ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 91
+    },
+    {
+      "id": "log-1792292117788",
+      "timestamp": "09:55:17 18/10/2026",
+      "provider": "MOCK_DEMO",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Chế độ mô phỏng DEMO đang hoạt động bình thường. (Lưu ý: Không dùng dữ liệu DEMO phát tín hiệu thật)",
+      "latencyMs": 15
+    },
+    {
+      "id": "log-1792291830875",
+      "timestamp": "09:50:30 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 221ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 221
+    },
     {
       "id": "log-1792289609167",
       "timestamp": "09:13:29 18/10/2026",
@@ -697,6 +1340,1606 @@
     "defaultTaxRate": 0.001,
     "openAiModel": "gpt-4o",
     "marketDataProvider": "vietstock",
-    "lastBackupTime": "07:10:13 18/10/2026"
-  }
+    "lastBackupTime": "10:40:17 18/10/2026"
+  },
+  "current_user": {
+    "id": "usr_stockai_lead",
+    "name": "Lê Trí Anh (Admin)",
+    "email": "trinamabank@stockai.vn",
+    "role": "ADMIN",
+    "tier": "PRO",
+    "validUntil": "2026-11-17",
+    "features": [
+      "Toàn bộ tính năng gói FREE",
+      "Bộ quét tín hiệu T+1–T+5 thời gian thực (Realtime Radar)",
+      "Kết nối SSI FastConnect Data API chính thức",
+      "Trợ lý AI StockAI Copilot (GPT-4o) phân tích chuyên sâu",
+      "Kiểm định chiến lược Backtest không giới hạn",
+      "Cảnh báo giá và tín hiệu tự động qua Web/App",
+      "Xuất và sao lưu dữ liệu SQLite cá nhân an toàn"
+    ]
+  },
+  "subscription_orders": [
+    {
+      "id": "ord_1792304432935_571wx",
+      "orderCode": "STOCKAI-109382",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PENDING",
+      "transferContent": "STOCKAI-109382",
+      "createdAt": "2026-10-18T06:20:32.935Z",
+      "expiresAt": "2026-10-18T06:35:32.935Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-109382&accountName=QUANG%20NHUT%20TRI"
+    },
+    {
+      "id": "ord_1792304432642_ga7jx",
+      "orderCode": "STOCKAI-241346",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-241346",
+      "createdAt": "2026-10-18T06:20:32.642Z",
+      "expiresAt": "2026-10-18T06:35:32.642Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-241346&accountName=QUANG%20NHUT%20TRI",
+      "rejectedAt": "2026-10-18T06:20:32.866Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792302723978_57mnf",
+      "orderCode": "STOCKAI-830422",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-830422",
+      "createdAt": "2026-10-18T05:52:03.978Z",
+      "expiresAt": "2026-10-18T06:07:03.978Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-830422&accountName=QUANG%20NHUT%20TRI",
+      "customerReportedAt": "2026-10-18T06:20:32.681Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792304432720_001",
+      "transactionTime": "2026-10-18T06:20:32.734Z",
+      "reconciledAt": "2026-10-18T06:20:32.734Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Lê Trí Anh (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
+      "id": "ord_1792302723578_tmql4",
+      "orderCode": "STOCKAI-903691",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-903691",
+      "createdAt": "2026-10-18T05:52:03.578Z",
+      "expiresAt": "2026-10-18T06:07:03.578Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-903691&accountName=QUANG%20NHUT%20TRI",
+      "rejectedAt": "2026-10-18T05:52:03.894Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792302075086_h4xn5",
+      "orderCode": "STOCKAI-971985",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-971985",
+      "createdAt": "2026-10-18T05:41:15.086Z",
+      "expiresAt": "2026-10-18T05:56:15.086Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-971985&accountName=QUANG%20NHUT%20TRI",
+      "customerReportedAt": "2026-10-18T05:52:03.628Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792302723701_001",
+      "transactionTime": "2026-10-18T05:52:03.719Z",
+      "reconciledAt": "2026-10-18T05:52:03.719Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Lê Trí Anh (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
+      "id": "ord_1792302074821_3w5o7",
+      "orderCode": "STOCKAI-141759",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-141759",
+      "createdAt": "2026-10-18T05:41:14.821Z",
+      "expiresAt": "2026-10-18T05:56:14.821Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-141759&accountName=QUANG%20NHUT%20TRI",
+      "rejectedAt": "2026-10-18T05:41:15.017Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792301976052_9rvmz",
+      "orderCode": "STOCKAI-760721",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-760721",
+      "createdAt": "2026-10-18T05:39:36.052Z",
+      "expiresAt": "2026-10-18T05:54:36.052Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-760721&accountName=QUANG%20NHUT%20TRI",
+      "customerReportedAt": "2026-10-18T05:41:14.856Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792302074895_001",
+      "transactionTime": "2026-10-18T05:41:14.905Z",
+      "reconciledAt": "2026-10-18T05:41:14.905Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Lê Trí Anh (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
+      "id": "ord_1792301975799_skuh2",
+      "orderCode": "STOCKAI-705392",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-705392",
+      "createdAt": "2026-10-18T05:39:35.799Z",
+      "expiresAt": "2026-10-18T05:54:35.799Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-705392&accountName=QUANG%20NHUT%20TRI",
+      "rejectedAt": "2026-10-18T05:39:35.983Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792299571569_g8b01",
+      "orderCode": "STOCKAI-732505",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-732505",
+      "createdAt": "2026-10-18T04:59:31.569Z",
+      "expiresAt": "2026-10-18T05:14:31.569Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-732505&accountName=QUANG%20NHUT%20TRI",
+      "customerReportedAt": "2026-10-18T05:39:35.828Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792301975862_001",
+      "transactionTime": "2026-10-18T05:39:35.879Z",
+      "reconciledAt": "2026-10-18T05:39:35.879Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Lê Trí Anh (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
+      "id": "ord_1792299114229_5obxs",
+      "orderCode": "STOCKAI-773188",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-773188",
+      "createdAt": "2026-10-18T04:51:54.229Z",
+      "expiresAt": "2026-10-18T05:06:54.229Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-773188&accountName=QUANG%20NHUT%20TRI",
+      "rejectedAt": "2026-10-18T04:59:31.528Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792298815151_cr0fn",
+      "orderCode": "STOCKAI-350182",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-350182",
+      "createdAt": "2026-10-18T04:46:55.151Z",
+      "expiresAt": "2026-10-18T05:01:55.151Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-350182&accountName=QUANG%20NHUT%20TRI",
+      "customerReportedAt": "2026-10-18T04:59:31.366Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792299571395_001",
+      "transactionTime": "2026-10-18T04:59:31.404Z",
+      "reconciledAt": "2026-10-18T04:59:31.404Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Lê Trí Anh (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
+      "id": "ord_1792298814920_rc9qt",
+      "orderCode": "STOCKAI-127480",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-127480",
+      "createdAt": "2026-10-18T04:46:54.920Z",
+      "expiresAt": "2026-10-18T05:01:54.920Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-127480&accountName=QUANG%20NHUT%20TRI",
+      "rejectedAt": "2026-10-18T04:46:55.105Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792298290908_r17se",
+      "orderCode": "STOCKAI-867639",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-867639",
+      "createdAt": "2026-10-18T04:38:10.908Z",
+      "expiresAt": "2026-10-18T04:53:10.908Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-867639&accountName=QUANG%20NHUT%20TRI",
+      "customerReportedAt": "2026-10-18T04:46:54.983Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792298815009_001",
+      "transactionTime": "2026-10-18T04:46:55.017Z",
+      "reconciledAt": "2026-10-18T04:46:55.017Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Lê Trí Anh (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
+      "id": "ord_1792298290758_ny01k",
+      "orderCode": "STOCKAI-762135",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Lê Trí Anh (Admin)",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-762135",
+      "createdAt": "2026-10-18T04:38:10.758Z",
+      "expiresAt": "2026-10-18T04:53:10.758Z",
+      "qrUrl": "https://img.vietqr.io/image/OCB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-762135&accountName=QUANG%20NH%E1%BB%B0T%20TR%C3%8D",
+      "rejectedAt": "2026-10-18T04:38:10.874Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792297697744_vg210",
+      "orderCode": "STOCKAI-383545",
+      "userId": "usr_g_1792297684936_7sbit",
+      "userEmail": "google.customer@gmail.com",
+      "userName": "Google Customer",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "PENDING",
+      "transferContent": "STOCKAI-383545",
+      "createdAt": "2026-10-18T04:28:17.744Z",
+      "expiresAt": "2026-10-18T04:43:17.744Z",
+      "qrUrl": "https://img.vietqr.io/image/OCB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-383545&accountName=QUANG%20NH%E1%BB%B0T%20TR%C3%8D"
+    },
+    {
+      "id": "ord_1792297697697_c13k5",
+      "orderCode": "STOCKAI-886599",
+      "userId": "usr_g_1792297684936_7sbit",
+      "userEmail": "google.customer@gmail.com",
+      "userName": "Google Customer",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PENDING_CONFIRMATION",
+      "transferContent": "STOCKAI-886599",
+      "createdAt": "2026-10-18T04:28:17.697Z",
+      "expiresAt": "2026-10-18T04:43:17.697Z",
+      "qrUrl": "https://img.vietqr.io/image/OCB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-886599&accountName=QUANG%20NH%E1%BB%B0T%20TR%C3%8D",
+      "customerReportedAt": "2026-10-18T04:28:17.762Z",
+      "customerNote": "Khách báo đã chuyển"
+    },
+    {
+      "id": "ord_1792296635817_k6521",
+      "orderCode": "STOCKAI-893048",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-893048",
+      "createdAt": "2026-10-18T04:10:35.817Z",
+      "expiresAt": "2026-10-18T04:25:35.817Z",
+      "qrUrl": "https://img.vietqr.io/image/OCB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-893048&accountName=QUANG%20NH%E1%BB%B0T%20TR%C3%8D",
+      "customerReportedAt": "2026-10-18T04:38:10.781Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792298290802_001",
+      "transactionTime": "2026-10-18T04:38:10.809Z",
+      "reconciledAt": "2026-10-18T04:38:10.809Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Lê Trí Anh (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
+      "id": "ord_1792296635610_pjole",
+      "orderCode": "STOCKAI-495323",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-495323",
+      "createdAt": "2026-10-18T04:10:35.610Z",
+      "expiresAt": "2026-10-18T04:25:35.610Z",
+      "qrUrl": "https://img.vietqr.io/image/OCB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-495323&accountName=QUANG%20NH%E1%BB%B0T%20TR%C3%8D",
+      "rejectedAt": "2026-10-18T04:10:35.781Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792294769404_pkn2e",
+      "orderCode": "STOCKAI-641356",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-641356",
+      "createdAt": "2026-10-18T03:39:29.404Z",
+      "expiresAt": "2026-10-18T03:54:29.404Z",
+      "qrUrl": "https://img.vietqr.io/image/OCB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-641356&accountName=QUANG%20NH%E1%BB%B0T%20TR%C3%8D",
+      "customerReportedAt": "2026-10-18T04:10:35.673Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792296635698_001",
+      "transactionTime": "2026-10-18T04:10:35.707Z",
+      "reconciledAt": "2026-10-18T04:10:35.707Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Nhà Đầu Tư StockAI"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
+      "id": "ord_1792294174513_r6omq",
+      "orderCode": "STOCKAI-602995",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-602995",
+      "createdAt": "2026-10-18T03:29:34.513Z",
+      "expiresAt": "2026-10-18T03:44:34.513Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-602995&accountName=LE%20TRI%20ANH",
+      "customerReportedAt": "2026-10-18T03:29:43.370Z",
+      "customerNote": "Khách báo đã chuyển khoản 299.000 đ cho đơn STOCKAI-602995",
+      "rejectedAt": "2026-10-18T03:39:29.364Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792294102607_tom2o",
+      "orderCode": "STOCKAI-966203",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-966203",
+      "createdAt": "2026-10-18T03:28:22.607Z",
+      "expiresAt": "2026-10-18T03:43:22.607Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-966203&accountName=LE%20TRI%20ANH",
+      "customerReportedAt": "2026-10-18T03:39:29.216Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792294769239_001",
+      "transactionTime": "2026-10-18T03:39:29.248Z",
+      "reconciledAt": "2026-10-18T03:39:29.248Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Nhà Đầu Tư StockAI"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
+      "id": "ord_1792294102444_t3ltg",
+      "orderCode": "STOCKAI-160025",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-160025",
+      "createdAt": "2026-10-18T03:28:22.444Z",
+      "expiresAt": "2026-10-18T03:43:22.444Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-160025&accountName=LE%20TRI%20ANH",
+      "customerReportedAt": "2026-10-18T03:28:22.553Z",
+      "rejectedAt": "2026-10-18T03:28:22.580Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792294102401_h19u8",
+      "orderCode": "STOCKAI-189164",
+      "userId": "usr_stockai_lead",
+      "userEmail": "trinamabank@stockai.vn",
+      "userName": "Nhà Đầu Tư StockAI",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-189164",
+      "createdAt": "2026-10-18T03:28:22.401Z",
+      "expiresAt": "2026-10-18T03:43:22.401Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-189164&accountName=LE%20TRI%20ANH",
+      "customerReportedAt": "2026-10-18T03:28:22.462Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792294102488_001",
+      "transactionTime": "2026-10-18T03:28:22.499Z",
+      "reconciledAt": "2026-10-18T03:28:22.499Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "name": "Nhà Đầu Tư StockAI"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": "aud_1792304432967_oxa7",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T06:20:32.967Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792304432900_es2f",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T06:20:32.900Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792304432866_t2gb",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792304432642_ga7jx",
+      "orderCode": "STOCKAI-241346",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T06:20:32.866Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792304432734_8e4i",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792302723978_57mnf",
+      "orderCode": "STOCKAI-830422",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T06:20:32.734Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792304432720_001",
+        "transactionTime": "2026-10-18T06:20:32.734Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792304432490_dfi8",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T06:20:32.490Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792302724013_99wn",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:52:04.013Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792302723936_887o",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:52:03.936Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792302723894_z9qg",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792302723578_tmql4",
+      "orderCode": "STOCKAI-903691",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:52:03.894Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792302723719_byx6",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792302075086_h4xn5",
+      "orderCode": "STOCKAI-971985",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:52:03.719Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792302723701_001",
+        "transactionTime": "2026-10-18T05:52:03.719Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792302723302_z231",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:52:03.302Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792302075121_n2ax",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:41:15.121Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792302075048_12fb",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:41:15.048Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792302075018_qi8l",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792302074821_3w5o7",
+      "orderCode": "STOCKAI-141759",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:41:15.017Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792302074905_w8r6",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792301976052_9rvmz",
+      "orderCode": "STOCKAI-760721",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:41:14.905Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792302074895_001",
+        "transactionTime": "2026-10-18T05:41:14.905Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792302074657_pko9",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:41:14.657Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792301976080_33mh",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:39:36.080Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792301976014_55mt",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:39:36.014Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792301975984_hf0d",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792301975799_skuh2",
+      "orderCode": "STOCKAI-705392",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:39:35.983Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792301975879_0d1o",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792299571569_g8b01",
+      "orderCode": "STOCKAI-732505",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:39:35.879Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792301975862_001",
+        "transactionTime": "2026-10-18T05:39:35.879Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792301975648_ca8h",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:39:35.648Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792300198726_5re4",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:09:58.726Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng OCB",
+        "accountHolder": "QUANG NHUT TRI",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792300187008_q3bv",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T05:09:47.008Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng OCB",
+        "accountHolder": "QUANG NHUT TRI",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792299571586_u869",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:59:31.586Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792299571547_lj72",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:59:31.547Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792299571528_92op",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792299114229_5obxs",
+      "orderCode": "STOCKAI-773188",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:59:31.528Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792299571404_zc8g",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792298815151_cr0fn",
+      "orderCode": "STOCKAI-350182",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:59:31.404Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792299571395_001",
+        "transactionTime": "2026-10-18T04:59:31.404Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792299571216_gn51",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:59:31.216Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792298815174_stm7",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:46:55.174Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792298815130_h031",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:46:55.130Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792298815105_n9sb",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792298814920_rc9qt",
+      "orderCode": "STOCKAI-127480",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:46:55.105Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792298815017_4wzo",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792298290908_r17se",
+      "orderCode": "STOCKAI-867639",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:46:55.017Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792298815009_001",
+        "transactionTime": "2026-10-18T04:46:55.017Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792298814809_t6tg",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:46:54.809Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792298290925_hmav",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:38:10.925Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792298290892_98c2",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:38:10.892Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792298290874_nere",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792298290758_ny01k",
+      "orderCode": "STOCKAI-762135",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:38:10.874Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792298290809_67qr",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792296635817_k6521",
+      "orderCode": "STOCKAI-893048",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:38:10.809Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792298290802_001",
+        "transactionTime": "2026-10-18T04:38:10.809Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792298290671_2c0g",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:38:10.671Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792296635836_7v4b",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:10:35.836Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792296635800_dnv4",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:10:35.800Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792296635781_sd9p",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792296635610_pjole",
+      "orderCode": "STOCKAI-495323",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:10:35.781Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792296635707_zqgz",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792294769404_pkn2e",
+      "orderCode": "STOCKAI-641356",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:10:35.707Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792296635698_001",
+        "transactionTime": "2026-10-18T04:10:35.707Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792296635491_gm4a",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T04:10:35.491Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792294769421_y1ez",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T03:39:29.421Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "LE TRI ANH",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792294769383_mx9n",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T03:39:29.383Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792294769364_hqh4",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792294174513_r6omq",
+      "orderCode": "STOCKAI-602995",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T03:39:29.364Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792294769248_q5n6",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792294102607_tom2o",
+      "orderCode": "STOCKAI-966203",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T03:39:29.248Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792294769239_001",
+        "transactionTime": "2026-10-18T03:39:29.248Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2028-02-29"
+      }
+    },
+    {
+      "id": "aud_1792294769143_lcjc",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T03:39:29.143Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "LE TRI ANH",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792294102622_wyuc",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T03:28:22.622Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "LE TRI ANH",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792294102580_ljay",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792294102444_t3ltg",
+      "orderCode": "STOCKAI-160025",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T03:28:22.580Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792294102499_15zc",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792294102401_h19u8",
+      "orderCode": "STOCKAI-189164",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T03:28:22.499Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792294102488_001",
+        "transactionTime": "2026-10-18T03:28:22.499Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2028-01-30"
+      }
+    },
+    {
+      "id": "aud_1792294102369_0ud3",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "trinamabank@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "trinamabank@stockai.vn",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T03:28:22.369Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "LE TRI ANH",
+        "accountNumberMasked": "******1446"
+      }
+    }
+  ],
+  "bank_config": {
+    "isConfigured": true,
+    "bankId": "MB",
+    "bankName": "Ngân hàng OCB",
+    "accountNumber": "0982441446",
+    "accountHolder": "QUANG NHUT TRI",
+    "template": "compact2"
+  },
+  "users": [
+    {
+      "id": "usr_stockai_lead",
+      "name": "Lê Trí Anh (Admin)",
+      "email": "trinamabank@stockai.vn",
+      "role": "ADMIN",
+      "tier": "PRO",
+      "validUntil": "2026-11-17",
+      "features": [
+        "Toàn bộ tính năng gói FREE",
+        "Bộ quét tín hiệu T+1–T+5 thời gian thực (Realtime Radar)",
+        "Kết nối SSI FastConnect Data API chính thức",
+        "Trợ lý AI StockAI Copilot (GPT-4o) phân tích chuyên sâu",
+        "Kiểm định chiến lược Backtest không giới hạn",
+        "Cảnh báo giá và tín hiệu tự động qua Web/App",
+        "Xuất và sao lưu dữ liệu SQLite cá nhân an toàn"
+      ]
+    },
+    {
+      "id": "usr_trader_demo",
+      "name": "Trần Văn Đầu Tư",
+      "email": "investor.demo@stockai.vn",
+      "role": "USER",
+      "tier": "FREE",
+      "validUntil": "2026-12-31",
+      "features": [
+        "Bảng giá 3 sàn HOSE, HNX, UPCoM",
+        "Bộ lọc cổ phiếu cơ bản (P/E, ROE, Vốn hóa)",
+        "Tín hiệu T+3 xem lại cuối ngày (EOD)",
+        "Dữ liệu mô phỏng DEMO"
+      ]
+    },
+    {
+      "id": "usr_g_1792297684936_7sbit",
+      "email": "google.customer@gmail.com",
+      "name": "Google Customer",
+      "role": "USER",
+      "tier": "FREE",
+      "validUntil": "2036-12-28",
+      "features": [
+        "Bảng giá 3 sàn HOSE, HNX, UPCoM",
+        "Bộ lọc cổ phiếu cơ bản (P/E, ROE, Vốn hóa)",
+        "Tín hiệu T+3 xem lại cuối ngày (EOD)",
+        "Biểu đồ kỹ thuật nến cơ bản",
+        "Dữ liệu mô phỏng DEMO"
+      ],
+      "googleId": "sub_google_12345",
+      "createdAt": "2026-10-18T04:28:04.936Z"
+    }
+  ]
 }

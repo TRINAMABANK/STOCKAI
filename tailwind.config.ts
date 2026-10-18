@@ -31,8 +31,10 @@ const config: Config = {
         'card': '14px',
       },
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["'Calibri'", "'Calibri (Body)'", "'Carlito'", "'Segoe UI'", "Arial", "sans-serif"],
+        mono: ["'Calibri'", "'Calibri (Body)'", "'Carlito'", "'Segoe UI'", "Arial", "sans-serif"],
       },
+
     },
   },
   plugins: [],

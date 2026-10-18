@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Send, Sparkles, Bot, ExternalLink, RefreshCw, CheckCircle, AlertCircle, ShieldAlert } from 'lucide-react';
 import { NewsItem, ApiProvider } from '@/types';
+import Logo from './Logo';
 
 interface RightPanelProps {
   news: NewsItem[];
@@ -86,16 +87,14 @@ export default function RightPanel({
   return (
     <div className="w-full xl:w-80 space-y-4 shrink-0">
       {/* 1. Trợ lý AI - StockAI */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
         {/* Header */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[#EDE9FE] border border-[#DDD6FE] flex items-center justify-center">
-              <span className="font-bold text-xs text-[#8B5CF6]">ai</span>
-            </div>
+            <Logo size="xs" variant="default" onClick={onOpenAiAssistant} />
             <div>
               <div className="flex items-center gap-2">
-                <h4 className="font-bold text-sm text-[#172033]">Trợ lý AI - StockAI</h4>
+                <h4 className="text-[14px] font-semibold text-[#172033] tracking-tight">Trợ lý StockAI</h4>
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#EDE9FE] text-[#8B5CF6] font-bold flex items-center gap-1">
                   <Sparkles className="w-2.5 h-2.5" />
                   GPT-4o
@@ -108,13 +107,13 @@ export default function RightPanel({
 
         {/* Prompt Suggestions */}
         <div className="my-3 space-y-1.5">
-          <p className="text-[11px] text-[#64748B] font-semibold">Bạn có thể hỏi tôi:</p>
+          <p className="text-[12px] text-[#64748B] font-medium">Bạn có thể hỏi tôi:</p>
           <div className="space-y-1.5">
             {samplePrompts.map((p, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendPrompt(p)}
-                className="w-full text-left text-[11px] px-3 py-1.5 rounded-xl bg-[#F5F8FC] hover:bg-[#E0F2FE] border border-[#E2E8F0] text-[#172033] hover:text-[#008FD3] transition flex items-center gap-2 group"
+                className="w-full text-left text-[12px] px-3 py-1.5 rounded-xl bg-[#F5F8FC] hover:bg-[#E0F2FE] border border-[#E2E8F0] text-[#172033] hover:text-[#008FD3] transition flex items-center gap-2 group"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#94A3B8] group-hover:bg-[#008FD3] transition"></span>
                 <span className="truncate">{p}</span>
@@ -177,10 +176,10 @@ export default function RightPanel({
       </div>
 
       {/* 2. Tin tức nổi bật */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="font-bold text-sm text-[#172033]">Tin tức nổi bật</h4>
-          <span className="text-xs text-[#008FD3] hover:text-[#007bb8] font-semibold cursor-pointer transition">
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs">
+        <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#F1F5F9]">
+          <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Tin tức nổi bật</h4>
+          <span className="text-[12px] font-medium text-[#008FD3] hover:text-[#007bb8] cursor-pointer transition">
             Xem tất cả
           </span>
         </div>
@@ -188,11 +187,11 @@ export default function RightPanel({
         <div className="space-y-3">
           {news.map((item) => (
             <div key={item.id} className="flex gap-3 items-start group cursor-pointer">
-              <div className="w-12 h-10 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] flex items-center justify-center text-[#64748B] shrink-0 font-bold text-[9px] px-1 text-center leading-tight">
+              <div className="w-12 h-10 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] flex items-center justify-center text-[#64748B] shrink-0 font-semibold text-[10px] px-1 text-center leading-tight">
                 {item.source}
               </div>
-              <div className="flex-1">
-                <h5 className="text-xs font-semibold text-[#172033] group-hover:text-[#008FD3] transition line-clamp-2 leading-snug">
+              <div className="flex-1 min-w-0">
+                <h5 className="text-[13px] font-semibold text-[#172033] group-hover:text-[#008FD3] transition line-clamp-2 leading-snug">
                   {item.title}
                 </h5>
                 <p className="text-[11px] text-[#64748B] mt-1 font-medium">
@@ -205,12 +204,12 @@ export default function RightPanel({
       </div>
 
       {/* 3. Kết nối API */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="font-bold text-sm text-[#172033]">Kết nối API</h4>
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs">
+        <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#F1F5F9]">
+          <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Kết nối API</h4>
           <button 
             onClick={onOpenApiCenter}
-            className="text-xs text-[#008FD3] hover:text-[#007bb8] font-semibold transition"
+            className="text-[12px] font-medium text-[#008FD3] hover:text-[#007bb8] transition"
           >
             Quản lý
           </button>
@@ -224,17 +223,17 @@ export default function RightPanel({
             return (
               <div 
                 key={provider.id} 
-                className="flex items-center justify-between p-2 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-xs"
+                className="flex items-center justify-between p-2.5 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-[13px]"
               >
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-bold text-[#172033]">{provider.name}</span>
+                    <span className="font-semibold text-[#172033] text-[13px]">{provider.name}</span>
                   </div>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className={`w-1.5 h-1.5 rounded-full ${
                       isConnected ? 'bg-[#10B981]' : 'bg-[#F43F5E]'
                     }`}></span>
-                    <span className={`text-[11px] font-semibold ${
+                    <span className={`text-[11px] font-medium ${
                       isConnected ? 'text-[#10B981]' : 'text-[#F43F5E]'
                     }`}>
                       {isConnected ? 'Đang hoạt động' : 'Chưa kết nối'}
@@ -245,7 +244,7 @@ export default function RightPanel({
                 <button
                   onClick={() => onTestApi(provider.code)}
                   disabled={isTesting}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1 ${
+                  className={`px-3 py-1 rounded-lg text-[12px] font-semibold transition flex items-center gap-1 ${
                     provider.code === 'BMSC'
                       ? 'bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD] hover:bg-[#BAE6FD]'
                       : 'bg-white text-[#172033] border border-[#E2E8F0] hover:bg-[#F5F8FC]'

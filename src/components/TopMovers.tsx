@@ -19,154 +19,189 @@ export default function TopMovers({
   onViewAllStocks,
 }: TopMoversProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
       {/* 1. Top Cổ phiếu Tăng */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="font-bold text-sm text-[#172033]">Top cổ phiếu tăng</h4>
-          <button 
-            onClick={onViewAllStocks}
-            className="text-xs text-[#008FD3] hover:text-[#007bb8] font-semibold transition"
-          >
-            Xem tất cả
-          </button>
-        </div>
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
+        <div>
+          {/* Card Header */}
+          <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#F1F5F9]">
+            <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Top cổ phiếu tăng</h4>
+            <button 
+              onClick={onViewAllStocks}
+              className="text-[12px] font-medium text-[#008FD3] hover:text-[#007bb8] transition flex items-center gap-1"
+            >
+              Xem tất cả
+            </button>
+          </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="text-[#64748B] border-b border-[#E2E8F0]">
-                <th className="pb-2 font-semibold">Mã</th>
-                <th className="pb-2 font-semibold text-right">Giá</th>
-                <th className="pb-2 font-semibold text-right">+/-</th>
-                <th className="pb-2 font-semibold text-right">%</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium">
-              {topGainers.map((stock) => (
-                <tr 
-                  key={stock.symbol}
-                  onClick={() => onSelectStock(stock.symbol)}
-                  className="hover:bg-[#F5F8FC] cursor-pointer transition"
-                >
-                  <td className="py-2.5 font-bold text-[#008FD3]">{stock.symbol}</td>
-                  <td className="py-2.5 text-right font-semibold text-[#172033] font-mono">
-                    {stock.price.toLocaleString('vi-VN')}
-                  </td>
-                  <td className="py-2.5 text-right font-semibold text-[#10B981] font-mono">
-                    +{stock.change.toLocaleString('vi-VN')}
-                  </td>
-                  <td className="py-2.5 text-right font-bold text-[#10B981] font-mono">
-                    +{stock.changePercent.toFixed(2)}%
-                  </td>
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-[13px]">
+              <thead>
+                <tr className="text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                  <th className="pb-2.5 font-medium text-left w-16">Mã</th>
+                  <th className="pb-2.5 font-medium text-right">Giá</th>
+                  <th className="pb-2.5 font-medium text-right">+/-</th>
+                  <th className="pb-2.5 font-medium text-right">%</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-[#F1F5F9]">
+                {topGainers.slice(0, 5).map((stock) => (
+                  <tr 
+                    key={stock.symbol}
+                    onClick={() => onSelectStock(stock.symbol)}
+                    className="hover:bg-[#F8FAFC] cursor-pointer transition h-[38px]"
+                  >
+                    <td className="py-2.5 font-semibold text-[#008FD3] text-left">
+                      {stock.symbol}
+                    </td>
+                    <td className="py-2.5 text-right font-medium text-[#172033] font-mono tabular-nums">
+                      {stock.price.toLocaleString('vi-VN')}
+                    </td>
+                    <td className="py-2.5 text-right font-semibold text-[#10B981] font-mono tabular-nums">
+                      +{stock.change.toLocaleString('vi-VN')}
+                    </td>
+                    <td className="py-2.5 text-right font-bold text-[#10B981] font-mono tabular-nums">
+                      +{stock.changePercent.toFixed(2)}%
+                    </td>
+                  </tr>
+                ))}
+                {topGainers.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="py-6 text-center text-[#64748B] text-xs">
+                      Không có dữ liệu cổ phiếu tăng
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       {/* 2. Top Cổ phiếu Giảm */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="font-bold text-sm text-[#172033]">Top cổ phiếu giảm</h4>
-          <button 
-            onClick={onViewAllStocks}
-            className="text-xs text-[#008FD3] hover:text-[#007bb8] font-semibold transition"
-          >
-            Xem tất cả
-          </button>
-        </div>
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
+        <div>
+          {/* Card Header */}
+          <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#F1F5F9]">
+            <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Top cổ phiếu giảm</h4>
+            <button 
+              onClick={onViewAllStocks}
+              className="text-[12px] font-medium text-[#008FD3] hover:text-[#007bb8] transition flex items-center gap-1"
+            >
+              Xem tất cả
+            </button>
+          </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="text-[#64748B] border-b border-[#E2E8F0]">
-                <th className="pb-2 font-semibold">Mã</th>
-                <th className="pb-2 font-semibold text-right">Giá</th>
-                <th className="pb-2 font-semibold text-right">+/-</th>
-                <th className="pb-2 font-semibold text-right">%</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium">
-              {topLosers.map((stock) => (
-                <tr 
-                  key={stock.symbol}
-                  onClick={() => onSelectStock(stock.symbol)}
-                  className="hover:bg-[#F5F8FC] cursor-pointer transition"
-                >
-                  <td className="py-2.5 font-bold text-[#008FD3]">{stock.symbol}</td>
-                  <td className="py-2.5 text-right font-semibold text-[#172033] font-mono">
-                    {stock.price.toLocaleString('vi-VN')}
-                  </td>
-                  <td className="py-2.5 text-right font-semibold text-[#F43F5E] font-mono">
-                    {stock.change.toLocaleString('vi-VN')}
-                  </td>
-                  <td className="py-2.5 text-right font-bold text-[#F43F5E] font-mono">
-                    {stock.changePercent.toFixed(2)}%
-                  </td>
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-[13px]">
+              <thead>
+                <tr className="text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                  <th className="pb-2.5 font-medium text-left w-16">Mã</th>
+                  <th className="pb-2.5 font-medium text-right">Giá</th>
+                  <th className="pb-2.5 font-medium text-right">+/-</th>
+                  <th className="pb-2.5 font-medium text-right">%</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-[#F1F5F9]">
+                {topLosers.slice(0, 5).map((stock) => (
+                  <tr 
+                    key={stock.symbol}
+                    onClick={() => onSelectStock(stock.symbol)}
+                    className="hover:bg-[#F8FAFC] cursor-pointer transition h-[38px]"
+                  >
+                    <td className="py-2.5 font-semibold text-[#008FD3] text-left">
+                      {stock.symbol}
+                    </td>
+                    <td className="py-2.5 text-right font-medium text-[#172033] font-mono tabular-nums">
+                      {stock.price.toLocaleString('vi-VN')}
+                    </td>
+                    <td className="py-2.5 text-right font-semibold text-[#F43F5E] font-mono tabular-nums">
+                      {stock.change.toLocaleString('vi-VN')}
+                    </td>
+                    <td className="py-2.5 text-right font-bold text-[#F43F5E] font-mono tabular-nums">
+                      {stock.changePercent.toFixed(2)}%
+                    </td>
+                  </tr>
+                ))}
+                {topLosers.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="py-6 text-center text-[#64748B] text-xs">
+                      Không có dữ liệu cổ phiếu giảm
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       {/* 3. Chỉ số Thị trường */}
-      <div className="bg-[#FFFFFF] rounded-2xl p-4.5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="font-bold text-sm text-[#172033]">Chỉ số thị trường</h4>
-          <button 
-            onClick={onViewAllStocks}
-            className="text-xs text-[#008FD3] hover:text-[#007bb8] font-semibold transition"
-          >
-            Xem chi tiết
-          </button>
-        </div>
+      <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
+        <div>
+          {/* Card Header */}
+          <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#F1F5F9]">
+            <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Chỉ số thị trường</h4>
+            <button 
+              onClick={onViewAllStocks}
+              className="text-[12px] font-medium text-[#008FD3] hover:text-[#007bb8] transition flex items-center gap-1"
+            >
+              Xem chi tiết
+            </button>
+          </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="text-[#64748B] border-b border-[#E2E8F0]">
-                <th className="pb-2 font-semibold">Tên</th>
-                <th className="pb-2 font-semibold text-right">Giá trị</th>
-                <th className="pb-2 font-semibold text-right">+/-</th>
-                <th className="pb-2 font-semibold text-center">Đồ thị</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium">
-              {indices.map((idx) => {
-                const isUp = idx.change >= 0;
-                return (
-                  <tr key={idx.symbol} className="hover:bg-[#F5F8FC] transition">
-                    <td className="py-2.5 font-bold text-[#172033]">{idx.symbol}</td>
-                    <td className="py-2.5 text-right font-semibold text-[#172033] font-mono">
-                      {idx.value.toLocaleString('vi-VN', { minimumFractionDigits: 2 })}
-                    </td>
-                    <td className="py-2.5 text-right font-mono">
-                      <span className={`font-bold ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-[13px]">
+              <thead>
+                <tr className="text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                  <th className="pb-2.5 font-medium text-left">Chỉ số</th>
+                  <th className="pb-2.5 font-medium text-right">Điểm</th>
+                  <th className="pb-2.5 font-medium text-right">+/-</th>
+                  <th className="pb-2.5 font-medium text-right">%</th>
+                  <th className="pb-2.5 font-medium text-center w-14">Đồ thị</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#F1F5F9]">
+                {indices.map((idx) => {
+                  const isUp = idx.change >= 0;
+                  return (
+                    <tr key={idx.symbol} className="hover:bg-[#F8FAFC] transition h-[38px]">
+                      <td className="py-2.5 font-semibold text-[#172033] text-left">
+                        {idx.symbol}
+                      </td>
+                      <td className="py-2.5 text-right font-medium text-[#172033] font-mono tabular-nums">
+                        {idx.value.toLocaleString('vi-VN', { minimumFractionDigits: 2 })}
+                      </td>
+                      <td className={`py-2.5 text-right font-semibold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                        {isUp ? '+' : ''}{idx.change.toFixed(2)}
+                      </td>
+                      <td className={`py-2.5 text-right font-bold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                         {isUp ? '+' : ''}{idx.changePercent.toFixed(2)}%
-                      </span>
-                    </td>
-                    <td className="py-2.5 text-center">
-                      <svg className="w-16 h-5 inline-block" viewBox="0 0 60 20">
-                        <polyline
-                          fill="none"
-                          stroke={isUp ? '#10B981' : '#F43F5E'}
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          points={isUp ? "2,15 15,12 30,14 45,7 58,4" : "2,5 15,9 30,7 45,14 58,18"}
-                        />
-                      </svg>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </td>
+                      <td className="py-2.5 text-center">
+                        <svg className="w-12 h-4 inline-block align-middle" viewBox="0 0 60 20">
+                          <polyline
+                            fill="none"
+                            stroke={isUp ? '#10B981' : '#F43F5E'}
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            points={isUp ? "2,15 15,12 30,14 45,7 58,4" : "2,5 15,9 30,7 45,14 58,18"}
+                          />
+                        </svg>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+

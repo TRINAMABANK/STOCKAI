@@ -19,22 +19,22 @@ export default function PortfolioDonut() {
   ];
 
   // SVG Donut calculation
-  const radius = 52;
-  const strokeWidth = 20;
+  const radius = 50;
+  const strokeWidth = 18;
   const circumference = 2 * Math.PI * radius;
 
   let accumulatedPercent = 0;
 
   return (
-    <div className="bg-[#FFFFFF] rounded-2xl p-4 sm:p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between h-[340px] overflow-hidden">
+    <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between h-[340px] overflow-hidden">
       <div className="flex items-center justify-between mb-2">
-        <h4 className="font-bold text-sm text-[#172033]">Phân bổ danh mục</h4>
-        <span className="text-[11px] font-semibold text-[#64748B]">6 ngành</span>
+        <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Phân bổ danh mục</h4>
+        <span className="text-[12px] font-medium text-[#64748B]">6 nhóm ngành</span>
       </div>
 
-      <div className="flex items-center justify-between gap-3 sm:gap-4 flex-1 min-w-0">
+      <div className="flex items-center justify-between gap-4 flex-1 min-w-0">
         {/* SVG Donut Circle */}
-        <div className="relative w-32 h-32 sm:w-36 sm:h-36 flex items-center justify-center shrink-0">
+        <div className="relative w-32 h-32 flex items-center justify-center shrink-0">
           <svg className="w-full h-full -rotate-90" viewBox="0 0 140 140">
             {sectors.map((s, idx) => {
               const strokeDasharray = `${(s.percent / 100) * circumference} ${circumference}`;
@@ -52,7 +52,7 @@ export default function PortfolioDonut() {
                   strokeWidth={strokeWidth}
                   strokeDasharray={strokeDasharray}
                   strokeDashoffset={strokeDashoffset}
-                  className="transition-all duration-300 hover:opacity-80 cursor-pointer"
+                  className="transition-all duration-300 hover:opacity-85 cursor-pointer"
                 />
               );
             })}
@@ -60,25 +60,29 @@ export default function PortfolioDonut() {
 
           {/* Center Text */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
-            <span className="text-lg font-bold text-[#172033] tracking-tight font-mono">1.27B</span>
-            <span className="text-[9px] text-[#64748B] font-semibold leading-tight">Tổng tài sản</span>
+            <span className="text-[20px] font-bold text-[#172033] tracking-tight font-mono tabular-nums leading-none">
+              1.27B
+            </span>
+            <span className="text-[11px] text-[#64748B] font-medium mt-1">
+              Tổng tài sản
+            </span>
           </div>
         </div>
 
         {/* Legend List */}
-        <div className="flex-1 min-w-0 space-y-1.5 text-xs">
+        <div className="flex-1 min-w-0 space-y-1.5 text-[12px]">
           {sectors.map((item) => (
-            <div key={item.name} className="flex items-center justify-between gap-1.5 min-w-0">
-              <div className="flex items-center gap-1.5 min-w-0">
+            <div key={item.name} className="flex items-center justify-between gap-2 min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
                 <span 
-                  className="w-2 h-2 rounded-full shrink-0" 
+                  className="w-2.5 h-2.5 rounded-full shrink-0" 
                   style={{ backgroundColor: item.color }}
                 />
-                <span className="text-[#64748B] text-[11px] truncate font-medium" title={item.name}>
+                <span className="text-[#64748B] font-medium truncate" title={item.name}>
                   {item.name}
                 </span>
               </div>
-              <span className="font-bold text-[#172033] text-[11px] font-mono shrink-0">
+              <span className="font-semibold text-[#172033] font-mono tabular-nums shrink-0">
                 {item.percent}%
               </span>
             </div>
@@ -87,10 +91,13 @@ export default function PortfolioDonut() {
       </div>
 
       {/* Bottom Footer Cash Ratio */}
-      <div className="pt-2.5 border-t border-[#E2E8F0] flex items-center justify-between text-xs text-[#64748B]">
+      <div className="pt-3 border-t border-[#F1F5F9] flex items-center justify-between text-[12px] text-[#64748B]">
         <span className="font-medium truncate">Tiền mặt khả dụng:</span>
-        <span className="font-bold text-[#008FD3] font-mono shrink-0 ml-1">22.3% (283.1 triệu)</span>
+        <span className="font-semibold text-[#008FD3] font-mono tabular-nums shrink-0 ml-1">
+          22.3% (283.1 triệu)
+        </span>
       </div>
     </div>
   );
 }
+

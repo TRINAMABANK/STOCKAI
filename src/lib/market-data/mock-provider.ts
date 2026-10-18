@@ -89,20 +89,20 @@ export class MockMarketDataProvider implements IMarketDataProvider {
 
     const currentPrice = basePrices[sym] || 30000;
     const bars: NormalizedOhlcv[] = [];
-    const numBars = 35; // 35 phiên lịch sử đủ để tính MA20, MA50, RSI
+    const numBars = 85; // 85 phiên lịch sử đủ để tính MA20, MA50, Bollinger, RSI, MACD
 
-    let rollingPrice = currentPrice * 0.88;
+    let rollingPrice = Math.round(currentPrice * 0.85);
     const now = new Date();
 
     for (let i = numBars; i >= 0; i--) {
       const d = new Date(now);
-      d.setDate(d.getDate() - i * 1.4); // tính ngày xấp xỉ
+      d.setDate(d.getDate() - i * 1.45); // tính ngày xấp xỉ
 
       // Bỏ qua thứ 7 và CN
       if (d.getDay() === 0) d.setDate(d.getDate() - 2);
       if (d.getDay() === 6) d.setDate(d.getDate() - 1);
 
-      const changePct = ((i * 17) % 7 - 3) * 0.008; // dao động giả lập nhẹ
+      const changePct = ((i * 17) % 7 - 3) * 0.007; // dao động nhẹ mô phỏng
       rollingPrice = Math.round(rollingPrice * (1 + changePct));
 
       const open = Math.round(rollingPrice * 0.995);
@@ -128,8 +128,14 @@ export class MockMarketDataProvider implements IMarketDataProvider {
     return bars;
   }
 
-  async getIntradayOhlcv(symbol: string): Promise<NormalizedOhlcv[]> {
-    return this.getDailyOhlcv(symbol, '', '');
+  async getIntradayOhlcv(
+    symbol: string,
+    fromDate: string = '',
+    toDate: string = '',
+    resolutionMinutes: number = 1
+  ): Promise<NormalizedOhlcv[]> {
+    // Không giả mạo dữ liệu tick trong phiên khi chưa có API WebSocket/Streaming
+    return [];
   }
 
   async getStockQuote(symbol: string): Promise<NormalizedQuote | null> {

@@ -38,6 +38,27 @@ export interface StockQuote {
 
 export type T3Strategy = 'Breakout' | 'Pullback' | 'Momentum' | 'Reversal';
 export type RiskLevel = 'Thấp' | 'Trung bình' | 'Cao';
+export type T3Period = 'T+1' | 'T+3' | 'T+5';
+export type T3SignalType = 'BUY' | 'SELL' | 'WATCHLIST';
+
+export const STOCKAI_SECTORS = [
+  'Tất cả ngành',
+  'Ngân hàng',
+  'Chứng khoán',
+  'Bất động sản',
+  'Thép',
+  'Bán lẻ',
+  'Công nghệ thông tin',
+  'Dầu khí',
+  'Điện và tiện ích',
+  'Xây dựng và vật liệu',
+  'Thực phẩm và đồ uống',
+  'Vận tải và logistics',
+  'Hóa chất',
+  'Khác/chưa phân ngành',
+] as const;
+
+export type StockAiSector = typeof STOCKAI_SECTORS[number];
 
 export interface T3Signal {
   id: string;
@@ -45,6 +66,8 @@ export interface T3Signal {
   companyName: string;
   exchange: Exchange;
   currentPrice: number;
+  change?: number;
+  changePercent?: number;
   dataTimestamp: string;
   t3Score: number;
   strategy: T3Strategy;
@@ -54,6 +77,7 @@ export interface T3Signal {
   rewardRiskRatio: number;
   riskLevel: RiskLevel;
   liquidity: string;
+  liquidityValue?: number;
   holdingDays: string;
   rationale: string;
   confirmationCondition: string;
@@ -62,6 +86,9 @@ export interface T3Signal {
   isFavorite?: boolean;
   isDemo?: boolean;
   qualityScore?: number;
+  industry?: string;
+  signalType?: T3SignalType;
+  period?: T3Period;
 }
 
 export interface PortfolioItem {
@@ -115,6 +142,75 @@ export interface UserProfile {
   tier: SubscriptionTier;
   validUntil: string;
   features: string[];
+  avatarUrl?: string;
+  googleId?: string;
+  createdAt?: string;
+}
+
+export type OrderStatus = 'PENDING' | 'PENDING_CONFIRMATION' | 'PAID' | 'REJECTED' | 'CANCELLED';
+
+export interface SubscriptionOrder {
+  id: string; // ord_...
+  orderCode: string; // STOCKAI-123456
+  userId: string;
+  userEmail: string;
+  userName: string;
+  tier: SubscriptionTier;
+  amount: number;
+  formattedAmount: string;
+  currency: 'VND';
+  status: OrderStatus;
+  transferContent: string;
+  createdAt: string;
+  expiresAt: string; // 15 mins expiry for payment session
+  customerReportedAt?: string;
+  customerNote?: string;
+  // Reconciliation fields (Admin only upon verification)
+  reconciledAt?: string;
+  reconciledBy?: { id: string; email: string; name: string };
+  actualAmount?: number;
+  bankTransactionRef?: string;
+  transactionTime?: string;
+  reconciliationNotes?: string;
+  // Rejection fields
+  rejectedAt?: string;
+  rejectedBy?: { id: string; email: string };
+  rejectionReason?: string;
+  // QR metadata
+  qrUrl?: string;
+}
+
+export interface BankConfig {
+  isConfigured: boolean;
+  bankId: string;
+  bankName: string;
+  accountNumber: string;
+  accountHolder: string;
+  template: string;
+  webhookSecret?: string;
+}
+
+export interface AdminAuditLog {
+  id: string;
+  action: 'VERIFY_PAYMENT' | 'REJECT_PAYMENT' | 'MANUAL_GRANT' | 'REVOKE_SUBSCRIPTION' | 'UPDATE_BANK_CONFIG';
+  orderId?: string;
+  orderCode?: string;
+  targetUserId: string;
+  targetUserEmail: string;
+  performedBy: { id: string; email: string; role: string };
+  timestamp: string;
+  details: Record<string, any>;
+  ipAddress?: string;
+}
+
+export interface AdminOverviewKpis {
+  totalOrders: number;
+  pendingApproval: number;
+  confirmedPaid: number;
+  rejected: number;
+  totalRevenue: number;
+  activeSubscriptions: number;
+  expiringSubscriptions: number;
 }
 
 export type ApiConnectionStatus = 

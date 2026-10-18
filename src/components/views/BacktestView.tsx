@@ -39,14 +39,14 @@ export default function BacktestView() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#172033] tracking-tight">Kiểm định Chiến lược Giao dịch (Backtesting Engine)</h2>
-          <p className="text-xs text-[#64748B] mt-0.5">Mô phỏng chuỗi lệnh lịch sử không có lookahead bias, trừ phí 0.15%, thuế 0.1% và trượt giá 0.1%</p>
+          <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">Kiểm định Chiến lược Giao dịch (Backtesting Engine)</h2>
+          <p className="text-[13px] text-[#64748B] mt-0.5">Mô phỏng chuỗi lệnh lịch sử không có lookahead bias, trừ phí 0.15%, thuế 0.1% và trượt giá 0.1%</p>
         </div>
       </div>
 
       {/* Control Configuration Panel */}
       <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs space-y-4">
-        <h3 className="font-bold text-sm text-[#172033]">Thông số kiểm định</h3>
+        <h3 className="text-[15px] font-semibold text-[#172033]">Thông số kiểm định</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
           <div>
@@ -83,7 +83,7 @@ export default function BacktestView() {
               step="10000000"
               value={initialCapital}
               onChange={(e) => setInitialCapital(e.target.value)}
-              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-bold text-[#172033] font-mono"
+              className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-bold text-[#172033] font-mono tabular-nums"
             />
           </div>
 
@@ -91,7 +91,7 @@ export default function BacktestView() {
             <button
               onClick={handleRunBacktest}
               disabled={isRunning}
-              className="w-full px-5 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-50 text-white font-semibold transition flex items-center justify-center gap-2 shadow-2xs"
+              className="w-full px-5 py-2.5 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-50 text-white font-semibold text-xs transition flex items-center justify-center gap-2 shadow-2xs"
             >
               {isRunning ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
               <span>{isRunning ? 'Đang chạy kiểm định...' : 'Chạy kiểm định ngay'}</span>
@@ -105,14 +105,14 @@ export default function BacktestView() {
         <div className="space-y-4 animate-in fade-in">
           {/* KPI Summary Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
-              <p className="text-[11px] text-[#64748B] font-medium">Tỷ lệ thắng (Win Rate)</p>
-              <h4 className="text-xl font-bold text-[#10B981] mt-0.5 font-mono">{result.winRate}%</h4>
-              <p className="text-[10px] text-[#64748B] mt-1">{result.winningTrades} thắng / {result.losingTrades} thua</p>
+            <div className="bg-[#FFFFFF] p-4 rounded-2xl border border-[#E2E8F0] shadow-xs">
+              <p className="text-[12px] text-[#64748B] font-medium">Tỷ lệ thắng (Win Rate)</p>
+              <h4 className="text-[20px] font-bold text-[#10B981] mt-0.5 font-mono tabular-nums">{result.winRate}%</h4>
+              <p className="text-[11px] text-[#64748B] mt-1">{result.winningTrades} thắng / {result.losingTrades} thua</p>
             </div>
 
-            <div className="bg-[#FFFFFF] p-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs">
-              <p className="text-[11px] text-[#64748B] font-medium">Tổng lợi nhuận ròng</p>
+            <div className="bg-[#FFFFFF] p-4 rounded-2xl border border-[#E2E8F0] shadow-xs">
+              <p className="text-[12px] text-[#64748B] font-medium">Tổng lợi nhuận ròng</p>
               <h4 className="text-xl font-bold text-[#10B981] mt-0.5 font-mono">+{result.totalReturnPercent}%</h4>
               <p className="text-[10px] text-[#64748B] mt-1 font-mono">Vốn: {result.finalCapital.toLocaleString('vi-VN')} đ</p>
             </div>
