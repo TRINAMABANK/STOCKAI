@@ -11,7 +11,10 @@ import TopMovers from '@/components/TopMovers';
 import T3SignalsTable from '@/components/T3SignalsTable';
 import T3DetailModal from '@/components/T3DetailModal';
 
-// Views
+// User Portal Views
+import MarketDashboardView from '@/components/views/MarketDashboardView';
+import UserProfileView from '@/components/views/UserProfileView';
+import UserGuideView from '@/components/views/UserGuideView';
 import SubscriptionView from '@/components/views/SubscriptionView';
 import PortfolioView from '@/components/views/PortfolioView';
 import TransactionsView from '@/components/views/TransactionsView';
@@ -35,7 +38,8 @@ import {
   StockQuote, 
   MarketIndex, 
   NewsItem, 
-  ApiProvider 
+  ApiProvider,
+  UserProfile
 } from '@/types';
 
 export default function Home() {
@@ -43,6 +47,8 @@ export default function Home() {
   const [selectedStockSymbol, setSelectedStockSymbol] = useState<string>('FPT');
   const [selectedT3Signal, setSelectedT3Signal] = useState<T3Signal | null>(null);
   const [timeFilter, setTimeFilter] = useState<'1D' | '1W' | '1M' | '3M' | '6M' | '1Y' | 'ALL'>('1M');
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -83,6 +89,19 @@ export default function Home() {
     setTimeout(() => setToastMessage(null), 3500);
   };
 
+  // Load User Profile
+  const loadCurrentUser = async () => {
+    try {
+      const res = await fetch('/api/auth/me');
+      const data = await res.json();
+      if (data.success && data.data?.user) {
+        setCurrentUser(data.data.user);
+      }
+    } catch (e) {
+      console.error('Lỗi tải user:', e);
+    }
+  };
+
   // Load Initial Data
   const loadPortfolioData = async () => {
     try {
@@ -103,10 +122,10 @@ export default function Home() {
       const res = await fetch('/api/market');
       const data = await res.json();
       if (data.success) {
-        setQuotes(data.data.quotes);
-        setTopGainers(data.data.topGainers);
-        setTopLosers(data.data.topLosers);
-        setIndices(data.data.indices);
+        setQuotes(data.data.quotes || []);
+        setTopGainers(data.data.topGainers || []);
+        setTopLosers(data.data.topLosers || []);
+        setIndices(data.data.indices || []);
       }
     } catch (e) {
       console.error('Lỗi tải market:', e);
@@ -118,7 +137,7 @@ export default function Home() {
       const res = await fetch('/api/t3-signals');
       const data = await res.json();
       if (data.success) {
-        setT3Signals(data.data.signals);
+        setT3Signals(data.data.signals || []);
       }
     } catch (e) {
       console.error('Lỗi tải T3 signals:', e);
@@ -130,7 +149,7 @@ export default function Home() {
       const res = await fetch('/api/api-center');
       const data = await res.json();
       if (data.success) {
-        setApiProviders(data.data.providers);
+        setApiProviders(data.data.providers || []);
       }
     } catch (e) {
       console.error('Lỗi tải API providers:', e);
@@ -138,12 +157,12 @@ export default function Home() {
   };
 
   useEffect(() => {
+    loadCurrentUser();
     loadPortfolioData();
     loadMarketData();
     loadT3Signals();
     loadApiProviders();
 
-    // Default static news from image
     setNews([
       { id: '1', title: 'VN-Index tăng gần 13 điểm, dòng tiền quay lại nhóm ngân hàng', source: 'Cafef', timeAgo: '2 giờ trước' },
       { id: '2', title: 'FPT công bố kết quả kinh doanh Quý 1/2025 với mức tăng trưởng ấn tượng', source: 'VnExpress', timeAgo: '3 giờ trước' },
@@ -211,6 +230,9 @@ export default function Home() {
         onSelectMenu={(menu) => setActiveMenu(menu)}
         onCheckConnection={() => handleTestApi('VIETSTOCK')}
         isCheckingConn={testingProvider === 'VIETSTOCK'}
+        currentUser={currentUser}
+        isOpenMobile={isMobileMenuOpen}
+        onCloseMobile={() => setIsMobileMenuOpen(false)}
       />
 
       {/* Main Container */}
@@ -221,6 +243,9 @@ export default function Home() {
           onSelectStock={handleSelectStock}
           onOpenSettings={() => setActiveMenu('settings')}
           quotes={quotes}
+          currentUser={currentUser}
+          onOpenProfile={() => setActiveMenu('profile')}
+          onToggleMobileMenu={() => setIsMobileMenuOpen(prev => !prev)}
         />
 
         {/* Scrollable Center Area */}
@@ -228,115 +253,87 @@ export default function Home() {
           <div className="flex flex-col xl:flex-row gap-6 items-start">
             {/* Center Content Column */}
             <div className="flex-1 min-w-0 space-y-6 w-full">
-              {/* Menu 1: Tổng quan Dashboard */}
+              {/* Trang 1: Dashboard thị trường chuyên nghiệp */}
               {activeMenu === 'dashboard' && (
-                <>
-                  {/* Dashboard Header Bar */}
-                  <div className="flex flex-wrap items-center justify-between gap-4">
-                    <div>
-                      <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">Tổng quan danh mục</h2>
-                      <p className="text-[13px] text-[#64748B] mt-0.5">Theo dõi tài sản và hiệu quả đầu tư của bạn</p>
-                    </div>
-
-                    {/* Time Filter Pills */}
-                    <div className="flex items-center gap-1 bg-[#FFFFFF] p-1 rounded-xl border border-[#E2E8F0] shadow-2xs">
-                      {(['1D', '1W', '1M', '3M', '6M', '1Y', 'ALL'] as const).map((tf) => (
-                        <button
-                          key={tf}
-                          onClick={() => setTimeFilter(tf)}
-                          className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
-                            timeFilter === tf
-                              ? 'bg-[#008FD3] text-white shadow-2xs'
-                              : 'text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC]'
-                          }`}
-                        >
-                          {tf === 'ALL' ? 'Tất cả' : tf}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* 4 Stat Cards */}
-                  <StatCards summary={summary} />
-
-                  {/* 2 Interactive Charts Row */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                    <div className="lg:col-span-7 2xl:col-span-8">
-                      <AssetChart />
-                    </div>
-                    <div className="lg:col-span-5 2xl:col-span-4">
-                      <PortfolioDonut />
-                    </div>
-                  </div>
-
-                  {/* Top Movers Row */}
-                  <TopMovers
-                    topGainers={topGainers}
-                    topLosers={topLosers}
-                    indices={indices}
-                    onSelectStock={handleSelectStock}
-                    onViewAllStocks={() => setActiveMenu('market')}
-                  />
-
-                  {/* T+3 Signals Table */}
-                  <T3SignalsTable
-                    signals={t3Signals}
-                    onSelectSignal={(s) => setSelectedT3Signal(s)}
-                    onToggleFavorite={handleToggleFavorite}
-                    onViewAllSignals={() => setActiveMenu('t3')}
-                  />
-                </>
-              )}
-
-              {/* Menu 2: Gói thuê bao StockAI */}
-              {activeMenu === 'subscription' && (
-                <SubscriptionView />
-              )}
-
-              {/* Menu: Admin Duyệt Thuê Bao & Đối Soát QR */}
-              {activeMenu === 'admin-subscription' && (
-                <AdminSubscriptionView />
-              )}
-
-              {/* Menu 3: Danh mục đầu tư */}
-              {activeMenu === 'portfolio' && (
-                <PortfolioView
-                  summary={summary}
-                  holdings={holdings}
-                  onRefresh={loadPortfolioData}
-                  onSelectStock={handleSelectStock}
-                />
-              )}
-
-              {/* Menu 4: Giao dịch & Sổ lệnh */}
-              {activeMenu === 'transactions' && (
-                <TransactionsView
-                  transactions={transactions}
-                  onRefresh={loadPortfolioData}
-                />
-              )}
-
-              {/* Menu 5: Thị trường & Bảng giá */}
-              {activeMenu === 'market' && (
-                <MarketBoardView
-                  quotes={quotes}
+                <MarketDashboardView
                   indices={indices}
+                  quotes={quotes}
+                  t3Signals={t3Signals}
                   onSelectStock={handleSelectStock}
+                  onViewScreener={() => setActiveMenu('screener')}
+                  onViewWatchlist={() => setActiveMenu('watchlist')}
+                  onViewT3Radar={() => setActiveMenu('t3')}
                 />
               )}
 
-              {/* Menu 6: Bộ lọc cổ phiếu */}
+              {/* Trang 2: Bộ quét cổ phiếu định lượng */}
               {activeMenu === 'screener' && (
                 <ScreenerView
                   quotes={quotes}
                   onSelectStock={handleSelectStock}
-                  onAddToWatchlist={(sym) => {
-                    showToast(`Đã thêm ${sym} vào danh sách theo dõi!`);
+                  onAddToWatchlist={async (sym) => {
+                    try {
+                      const res = await fetch('/api/watchlist', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'ADD_SYMBOL', symbol: sym }),
+                      });
+                      const data = await res.json();
+                      if (data.success) {
+                        showToast(`⭐ Đã thêm ${sym} vào danh sách theo dõi cá nhân!`);
+                      } else {
+                        showToast(`⚠️ ${data.message}`);
+                      }
+                    } catch {
+                      showToast(`Đã thêm ${sym} vào danh sách theo dõi!`);
+                    }
+                  }}
+                  userTier={currentUser?.tier}
+                  onOpenSubscription={() => setActiveMenu('subscription')}
+                />
+              )}
+
+              {/* Trang 3: Phân tích kỹ thuật & Đồ thị TradingView */}
+              {activeMenu === 'analysis' && (
+                <StockAnalysisView
+                  quotes={quotes}
+                  selectedSymbol={selectedStockSymbol}
+                  onSelectSymbol={(sym) => setSelectedStockSymbol(sym)}
+                />
+              )}
+
+              {/* Trang 4: Danh sách theo dõi cá nhân hóa */}
+              {activeMenu === 'watchlist' && (
+                <WatchlistView
+                  quotes={quotes}
+                  onSelectStock={handleSelectStock}
+                  onOpenSubscription={() => setActiveMenu('subscription')}
+                />
+              )}
+
+              {/* Trang 5: Tài khoản cá nhân & Lịch sử đơn hàng */}
+              {activeMenu === 'profile' && (
+                <UserProfileView
+                  onOpenSubscription={() => setActiveMenu('subscription')}
+                  onOpenAuthModal={() => {
+                    // Trigger modal in header
+                    const googleBtn = document.querySelector('button[title*="Google"]') as HTMLButtonElement;
+                    if (googleBtn) googleBtn.click();
                   }}
                 />
               )}
 
-              {/* Menu 7: Giao dịch T+3 */}
+              {/* Trang 6: Gói dịch vụ StockAI */}
+              {activeMenu === 'subscription' && (
+                <SubscriptionView />
+              )}
+
+              {/* Trang 7: Cẩm nang kỷ luật & Hướng dẫn sử dụng */}
+              {activeMenu === 'guide' && (
+                <UserGuideView />
+              )}
+
+              {/* Quét T+1–T+5 */}
               {activeMenu === 't3' && (
                 <T3RadarView
                   signals={t3Signals}
@@ -346,30 +343,40 @@ export default function Home() {
                 />
               )}
 
-              {/* Menu 8: Phân tích cổ phiếu */}
-              {activeMenu === 'analysis' && (
-                <StockAnalysisView
-                  quotes={quotes}
-                  selectedSymbol={selectedStockSymbol}
-                  onSelectSymbol={(sym) => setSelectedStockSymbol(sym)}
-                />
-              )}
-
-              {/* Menu 9: Trợ lý AI */}
-              {activeMenu === 'ai' && <AiAssistantView />}
-
-              {/* Menu 10: Danh sách theo dõi */}
-              {activeMenu === 'watchlist' && (
-                <WatchlistView
-                  quotes={quotes}
+              {/* Danh mục mô phỏng */}
+              {activeMenu === 'portfolio' && (
+                <PortfolioView
+                  summary={summary}
+                  holdings={holdings}
+                  onRefresh={loadPortfolioData}
                   onSelectStock={handleSelectStock}
                 />
               )}
 
-              {/* Menu 11: Cảnh báo */}
+              {/* Sổ giao dịch */}
+              {activeMenu === 'transactions' && (
+                <TransactionsView
+                  transactions={transactions}
+                  onRefresh={loadPortfolioData}
+                />
+              )}
+
+              {/* Bảng giá trực tuyến */}
+              {activeMenu === 'market' && (
+                <MarketBoardView
+                  quotes={quotes}
+                  indices={indices}
+                  onSelectStock={handleSelectStock}
+                />
+              )}
+
+              {/* Trợ lý AI */}
+              {activeMenu === 'ai' && <AiAssistantView />}
+
+              {/* Cảnh báo */}
               {activeMenu === 'alerts' && <AlertsView />}
 
-              {/* Menu 12: Trung tâm API */}
+              {/* Trung tâm API */}
               {activeMenu === 'api-center' && (
                 <ApiCenterView
                   providers={apiProviders}
@@ -378,16 +385,28 @@ export default function Home() {
                 />
               )}
 
-              {/* Menu 13: Kiểm định chiến lược */}
+              {/* Kiểm định chiến lược */}
               {activeMenu === 'backtest' && <BacktestView />}
 
-              {/* Menu 14: Cài đặt & Sao lưu */}
+              {/* Cài đặt hệ thống */}
               {activeMenu === 'settings' && (
                 <SettingsView onRefreshAll={loadPortfolioData} />
               )}
+
+              {/* Khu vực Quản trị Admin: Bảo vệ nghiêm ngặt */}
+              {activeMenu === 'admin-subscription' && (
+                currentUser?.role === 'ADMIN' ? (
+                  <AdminSubscriptionView />
+                ) : (
+                  <div className="p-8 text-center bg-white rounded-2xl border border-[#FECDD3] space-y-2">
+                    <p className="text-sm font-bold text-[#F43F5E]">Khu vực dành riêng cho Quản trị viên (Admin)</p>
+                    <p className="text-xs text-[#64748B]">Tài khoản của bạn không có quyền truy cập trang quản trị này.</p>
+                  </div>
+                )
+              )}
             </div>
 
-            {/* Right Sidebar Panel (Always visible in Dashboard, or responsive) */}
+            {/* Right Sidebar Panel */}
             <div className="w-full xl:w-80 xl:shrink-0">
               <RightPanel
                 news={news}

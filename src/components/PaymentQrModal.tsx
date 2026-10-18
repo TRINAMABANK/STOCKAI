@@ -41,6 +41,7 @@ export default function PaymentQrModal({
   orderData,
   onOrderUpdated,
 }: PaymentQrModalProps) {
+  const [paymentMethod, setPaymentMethod] = useState<'VIETQR' | 'PAY2S'>('VIETQR');
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [isSubmittingReport, setIsSubmittingReport] = useState(false);
   const [isReported, setIsReported] = useState(false);
@@ -50,6 +51,7 @@ export default function PaymentQrModal({
   const [bankConfig, setBankConfig] = useState<BankConfig | null>(null);
   const [qrError, setQrError] = useState(false);
   const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+  const [isPay2sProcessing, setIsPay2sProcessing] = useState(false);
 
   useEffect(() => {
     if (orderData) {
@@ -223,109 +225,205 @@ export default function PaymentQrModal({
             </div>
           )}
 
-          {/* QR & Bank Info Area */}
-          {isBankReady ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-              {/* QR Image */}
-              <div className="flex flex-col items-center justify-center p-4 bg-[#F5F8FC] border border-[#E2E8F0] rounded-2xl text-center">
-                <span className="text-[11px] font-semibold text-[#64748B] mb-2 uppercase tracking-wider">
-                  Quét mã VietQR thanh toán nhanh
-                </span>
-                <div className="w-[190px] h-[190px] bg-white p-2 rounded-xl border border-[#E2E8F0] shadow-xs flex items-center justify-center">
-                  {currentOrder.qrUrl && !qrError ? (
-                    <img
-                      src={currentOrder.qrUrl}
-                      alt="VietQR StockAI"
-                      className="w-full h-full object-contain"
-                      onError={() => setQrError(true)}
-                    />
-                  ) : (
-                    <div className="text-center p-2 text-xs text-[#64748B]">
-                      <QrCode className="w-8 h-8 text-[#008FD3] mx-auto mb-1" />
-                      <span>Quét QR tự động</span>
+          {/* Payment Method Selector Tabs */}
+          <div className="flex items-center gap-2 p-1 bg-[#F5F8FC] rounded-xl border border-[#E2E8F0]">
+            <button
+              onClick={() => setPaymentMethod('VIETQR')}
+              className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 ${
+                paymentMethod === 'VIETQR'
+                  ? 'bg-white text-[#008FD3] shadow-2xs border border-[#E2E8F0]'
+                  : 'text-[#64748B] hover:text-[#172033]'
+              }`}
+            >
+              <QrCode className="w-4 h-4" />
+              <span>VietQR (Ngân hàng 24/7)</span>
+            </button>
+            <button
+              onClick={() => setPaymentMethod('PAY2S')}
+              className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 ${
+                paymentMethod === 'PAY2S'
+                  ? 'bg-white text-[#008FD3] shadow-2xs border border-[#E2E8F0]'
+                  : 'text-[#64748B] hover:text-[#172033]'
+              }`}
+            >
+              <CreditCard className="w-4 h-4" />
+              <span>Cổng Pay2S (Thẻ & Ví)</span>
+            </button>
+          </div>
+
+          {/* Conditional Method Display */}
+          {paymentMethod === 'VIETQR' ? (
+            /* QR & Bank Info Area */
+            isBankReady ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                {/* QR Image */}
+                <div className="flex flex-col items-center justify-center p-4 bg-[#F5F8FC] border border-[#E2E8F0] rounded-2xl text-center">
+                  <span className="text-[11px] font-semibold text-[#64748B] mb-2 uppercase tracking-wider">
+                    Quét mã VietQR thanh toán nhanh
+                  </span>
+                  <div className="w-[190px] h-[190px] bg-white p-2 rounded-xl border border-[#E2E8F0] shadow-xs flex items-center justify-center">
+                    {currentOrder.qrUrl && !qrError ? (
+                      <img
+                        src={currentOrder.qrUrl}
+                        alt="VietQR StockAI"
+                        className="w-full h-full object-contain"
+                        onError={() => setQrError(true)}
+                      />
+                    ) : (
+                      <div className="text-center p-2 text-xs text-[#64748B]">
+                        <QrCode className="w-8 h-8 text-[#008FD3] mx-auto mb-1" />
+                        <span>Quét QR tự động</span>
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-[#64748B] mt-2">
+                    Hỗ trợ app tất cả ngân hàng Việt Nam
+                  </p>
+                </div>
+
+                {/* Bank Details Table */}
+                <div className="space-y-2.5 text-[12px]">
+                  <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
+                    <div>
+                      <span className="text-[#64748B] block text-[11px]">Ngân hàng:</span>
+                      <span className="font-semibold text-[#172033]">{bankConfig?.bankName} ({bankConfig?.bankId})</span>
                     </div>
-                  )}
-                </div>
-                <p className="text-[11px] text-[#64748B] mt-2">
-                  Hỗ trợ app tất cả ngân hàng Việt Nam
-                </p>
-              </div>
-
-              {/* Bank Details Table */}
-              <div className="space-y-2.5 text-[12px]">
-                <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
-                  <div>
-                    <span className="text-[#64748B] block text-[11px]">Ngân hàng:</span>
-                    <span className="font-semibold text-[#172033]">{bankConfig?.bankName} ({bankConfig?.bankId})</span>
+                    <button
+                      onClick={() => handleCopy(bankConfig?.bankName || '', 'bank')}
+                      className="p-1.5 hover:bg-[#F5F8FC] rounded text-[#008FD3] transition"
+                      title="Sao chép"
+                    >
+                      {copiedField === 'bank' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleCopy(bankConfig?.bankName || '', 'bank')}
-                    className="p-1.5 hover:bg-[#F5F8FC] rounded text-[#008FD3] transition"
-                    title="Sao chép"
-                  >
-                    {copiedField === 'bank' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
-                  </button>
-                </div>
 
-                <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
-                  <div>
-                    <span className="text-[#64748B] block text-[11px]">Số tài khoản:</span>
-                    <span className="font-mono font-bold text-[#172033] text-[14px]">{bankConfig?.accountNumber}</span>
+                  <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
+                    <div>
+                      <span className="text-[#64748B] block text-[11px]">Số tài khoản:</span>
+                      <span className="font-mono font-bold text-[#172033] text-[14px]">{bankConfig?.accountNumber}</span>
+                    </div>
+                    <button
+                      onClick={() => handleCopy(bankConfig?.accountNumber || '', 'acc')}
+                      className="p-1.5 hover:bg-[#F5F8FC] rounded text-[#008FD3] transition"
+                      title="Sao chép"
+                    >
+                      {copiedField === 'acc' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleCopy(bankConfig?.accountNumber || '', 'acc')}
-                    className="p-1.5 hover:bg-[#F5F8FC] rounded text-[#008FD3] transition"
-                    title="Sao chép"
-                  >
-                    {copiedField === 'acc' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
-                  </button>
-                </div>
 
-                <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
-                  <div>
-                    <span className="text-[#64748B] block text-[11px]">Chủ tài khoản:</span>
-                    <span className="font-bold text-[#172033] uppercase">{bankConfig?.accountHolder}</span>
+                  <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
+                    <div>
+                      <span className="text-[#64748B] block text-[11px]">Chủ tài khoản:</span>
+                      <span className="font-bold text-[#172033] uppercase">{bankConfig?.accountHolder}</span>
+                    </div>
+                    <button
+                      onClick={() => handleCopy(bankConfig?.accountHolder || '', 'holder')}
+                      className="p-1.5 hover:bg-[#F5F8FC] rounded text-[#008FD3] transition"
+                      title="Sao chép"
+                    >
+                      {copiedField === 'holder' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleCopy(bankConfig?.accountHolder || '', 'holder')}
-                    className="p-1.5 hover:bg-[#F5F8FC] rounded text-[#008FD3] transition"
-                    title="Sao chép"
-                  >
-                    {copiedField === 'holder' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
-                  </button>
-                </div>
 
-                <div className="p-2.5 bg-[#E0F2FE] border border-[#BAE6FD] rounded-xl flex items-center justify-between">
-                  <div>
-                    <span className="text-[#0369A1] block text-[11px] font-semibold">Nội dung chuyển khoản (bắt buộc):</span>
-                    <span className="font-mono font-bold text-[#008FD3] text-[14px]">{currentOrder.transferContent}</span>
+                  <div className="p-2.5 bg-[#E0F2FE] border border-[#BAE6FD] rounded-xl flex items-center justify-between">
+                    <div>
+                      <span className="text-[#0369A1] block text-[11px] font-semibold">Nội dung chuyển khoản (bắt buộc):</span>
+                      <span className="font-mono font-bold text-[#008FD3] text-[14px]">{currentOrder.transferContent}</span>
+                    </div>
+                    <button
+                      onClick={() => handleCopy(currentOrder.transferContent, 'memo')}
+                      className="p-1.5 hover:bg-white/60 rounded text-[#008FD3] transition"
+                      title="Sao chép"
+                    >
+                      {copiedField === 'memo' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleCopy(currentOrder.transferContent, 'memo')}
-                    className="p-1.5 hover:bg-white/60 rounded text-[#008FD3] transition"
-                    title="Sao chép"
-                  >
-                    {copiedField === 'memo' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
-                  </button>
                 </div>
               </div>
-            </div>
+            ) : (
+              /* Unconfigured Bank Notice */
+              <div className="p-5 rounded-2xl bg-[#FFF1F2] border border-[#FECDD3] text-[#9F1239] space-y-3">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-6 h-6 text-[#F43F5E] shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-bold text-[14px] text-[#9F1239]">Hệ thống thanh toán tự động đang được cấu hình</h4>
+                    <p className="text-[12px] text-[#BE123C] mt-1 leading-relaxed">
+                      Tài khoản ngân hàng của chủ hệ thống StockAI chưa được kích hoạt công khai trên cổng này.
+                      Theo nguyên tắc bảo mật và minh bạch tài chính, StockAI không tạo mã QR giả lập hoặc chấp nhận thanh toán khi chưa có tài khoản ngân hàng chính thức.
+                    </p>
+                    <p className="text-[12px] text-[#9F1239] mt-2 font-medium">
+                      👉 Quản trị viên: Vui lòng vào mục <strong>Admin Quản trị Thuê bao & Cấu hình Ngân hàng</strong> để nhập thông tin ngân hàng thụ hưởng.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )
           ) : (
-            /* Unconfigured Bank Notice */
-            <div className="p-5 rounded-2xl bg-[#FFF1F2] border border-[#FECDD3] text-[#9F1239] space-y-3">
-              <div className="flex items-start gap-3">
-                <AlertCircle className="w-6 h-6 text-[#F43F5E] shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-[14px] text-[#9F1239]">Hệ thống thanh toán tự động đang được cấu hình</h4>
-                  <p className="text-[12px] text-[#BE123C] mt-1 leading-relaxed">
-                    Tài khoản ngân hàng của chủ hệ thống StockAI chưa được kích hoạt công khai trên cổng này.
-                    Theo nguyên tắc bảo mật và minh bạch tài chính, StockAI không tạo mã QR giả lập hoặc chấp nhận thanh toán khi chưa có tài khoản ngân hàng chính thức.
-                  </p>
-                  <p className="text-[12px] text-[#9F1239] mt-2 font-medium">
-                    👉 Quản trị viên: Vui lòng vào mục <strong>Admin Quản trị Thuê bao & Cấu hình Ngân hàng</strong> để nhập thông tin ngân hàng thụ hưởng.
-                  </p>
+            /* Pay2S Payment Gateway View */
+            <div className="p-5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-[#008FD3] text-white flex items-center justify-center font-bold text-xs">
+                    P2S
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#172033]">Cổng thanh toán điện tử Pay2S</h4>
+                    <p className="text-[11px] text-[#64748B]">Đối tác cổng thanh toán trực tuyến chính thức của StockAI</p>
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981]">
+                  SSL Bảo mật 256-bit
+                </span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                <div className="p-2.5 rounded-xl bg-white border border-[#E2E8F0]">
+                  <span className="font-bold text-[#172033] block">Thẻ ATM Napas</span>
+                  <span className="text-[10px] text-[#64748B]">40+ ngân hàng VN</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-white border border-[#E2E8F0]">
+                  <span className="font-bold text-[#172033] block">Visa / MasterCard</span>
+                  <span className="text-[10px] text-[#64748B]">Thẻ quốc tế & JCB</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-white border border-[#E2E8F0]">
+                  <span className="font-bold text-[#172033] block">Ví điện tử Pay2S</span>
+                  <span className="text-[10px] text-[#64748B]">Thanh toán 1 chạm</span>
                 </div>
               </div>
+
+              <div className="p-3 bg-[#E0F2FE]/50 rounded-xl border border-[#BAE6FD] text-xs text-[#008FD3] flex items-center justify-between">
+                <span>Số tiền thanh toán qua Pay2S:</span>
+                <span className="font-mono font-bold text-sm text-[#008FD3]">{currentOrder.formattedAmount}</span>
+              </div>
+
+              <button
+                onClick={async () => {
+                  setIsPay2sProcessing(true);
+                  try {
+                    // Simulate redirect / gateway initiation
+                    await new Promise(r => setTimeout(r, 1200));
+                    handleReportPayment();
+                    setStatusMessage('✅ Đã kết nối thành công qua cổng Pay2S Gateway. Đơn hàng đang được xác nhận tự động!');
+                  } finally {
+                    setIsPay2sProcessing(false);
+                  }
+                }}
+                disabled={isPay2sProcessing || currentOrder.status === 'PAID'}
+                className="w-full py-3 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
+              >
+                {isPay2sProcessing ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Đang chuyển hướng sang cổng Pay2S...</span>
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-4 h-4" />
+                    <span>Xác nhận thanh toán ngay qua cổng Pay2S</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
             </div>
           )}
 

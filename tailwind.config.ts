@@ -31,8 +31,8 @@ const config: Config = {
         'card': '14px',
       },
       fontFamily: {
-        sans: ["'Calibri'", "'Calibri (Body)'", "'Carlito'", "'Segoe UI'", "Arial", "sans-serif"],
-        mono: ["'Calibri'", "'Calibri (Body)'", "'Carlito'", "'Segoe UI'", "Arial", "sans-serif"],
+        sans: ["'Inter'", "'Be Vietnam Pro'", "'Calibri'", "'Segoe UI'", "Arial", "sans-serif"],
+        mono: ["'JetBrains Mono'", "'Calibri'", "'Segoe UI'", "monospace"],
       },
 
     },

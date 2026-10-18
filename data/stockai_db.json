@@ -1263,6 +1263,98 @@
         "DGC",
         "GVR"
       ]
+    },
+    {
+      "id": "wl_usr_stockai_lead_default",
+      "userId": "usr_stockai_lead",
+      "name": "Mặc định",
+      "category": "Theo dõi ngắn hạn",
+      "symbols": [
+        "FPT",
+        "HPG",
+        "TCB",
+        "VNM",
+        "MWG"
+      ],
+      "updatedAt": "2026-10-18T11:11:15.636Z"
+    },
+    {
+      "id": "wl_usr_test_retail_a_default",
+      "userId": "usr_test_retail_a",
+      "name": "Mặc định",
+      "category": "Theo dõi ngắn hạn",
+      "symbols": [
+        "FPT",
+        "HPG",
+        "TCB"
+      ],
+      "updatedAt": "2026-10-18T11:11:52.434Z"
+    },
+    {
+      "id": "wl_usr_test_retail_b_default",
+      "userId": "usr_test_retail_b",
+      "name": "Mặc định",
+      "category": "Theo dõi ngắn hạn",
+      "symbols": [
+        "FPT",
+        "HPG",
+        "TCB"
+      ],
+      "updatedAt": "2026-10-18T11:11:52.456Z"
+    },
+    {
+      "id": "wl_usr_free_tester_limit_default",
+      "userId": "usr_free_tester_limit",
+      "name": "Mặc định",
+      "category": "Theo dõi ngắn hạn",
+      "symbols": [
+        "FPT",
+        "HPG",
+        "TCB",
+        "VNM",
+        "SSI"
+      ],
+      "updatedAt": "2026-10-18T11:11:52.547Z"
+    },
+    {
+      "id": "wl_usr_ops_test_default",
+      "userId": "usr_ops_test",
+      "name": "Mặc định",
+      "category": "Theo dõi ngắn hạn",
+      "symbols": [
+        "FPT",
+        "HPG",
+        "TCB"
+      ],
+      "updatedAt": "2026-10-18T11:13:40.910Z"
+    },
+    {
+      "id": "wl_usr_free_demo_test_default",
+      "userId": "usr_free_demo_test",
+      "name": "Mặc định",
+      "category": "Theo dõi ngắn hạn",
+      "symbols": [
+        "FPT",
+        "HPG",
+        "TCB",
+        "VIC",
+        "VHM"
+      ],
+      "updatedAt": "2026-10-18T11:13:02.336Z"
+    },
+    {
+      "id": "wl_usr_free_tester_limit_1792322020743_default",
+      "userId": "usr_free_tester_limit_1792322020743",
+      "name": "Mặc định",
+      "category": "Theo dõi ngắn hạn",
+      "symbols": [
+        "FPT",
+        "HPG",
+        "TCB",
+        "VHM",
+        "VIC"
+      ],
+      "updatedAt": "2026-10-18T11:13:40.780Z"
     }
   ],
   "alerts": [
@@ -1370,6 +1462,44 @@
   },
   "subscription_orders": [
     {
+      "id": "ord_1792322081892_kbwsq",
+      "orderCode": "STOCKAI-443471",
+      "userId": "usr_stockai_lead",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PENDING",
+      "transferContent": "STOCKAI-443471",
+      "createdAt": "2026-10-18T11:14:41.892Z",
+      "expiresAt": "2026-10-18T11:29:41.892Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-443471&accountName=QUANG%20NHUT%20TRI"
+    },
+    {
+      "id": "ord_1792322081694_winnb",
+      "orderCode": "STOCKAI-778278",
+      "userId": "usr_stockai_lead",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-778278",
+      "createdAt": "2026-10-18T11:14:41.694Z",
+      "expiresAt": "2026-10-18T11:29:41.694Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-778278&accountName=QUANG%20NHUT%20TRI",
+      "rejectedAt": "2026-10-18T11:14:41.830Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
       "id": "ord_1792318815096_74h02",
       "orderCode": "STOCKAI-173398",
       "userId": "usr_stockai_lead",
@@ -1379,11 +1509,23 @@
       "amount": 199000,
       "formattedAmount": "199.000 đ",
       "currency": "VND",
-      "status": "PENDING",
+      "status": "PAID",
       "transferContent": "STOCKAI-173398",
       "createdAt": "2026-10-18T10:20:15.096Z",
       "expiresAt": "2026-10-18T10:35:15.096Z",
-      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-173398&accountName=QUANG%20NHUT%20TRI"
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-173398&accountName=QUANG%20NHUT%20TRI",
+      "customerReportedAt": "2026-10-18T11:14:41.717Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792322081743_001",
+      "transactionTime": "2026-10-18T11:14:41.752Z",
+      "reconciledAt": "2026-10-18T11:14:41.752Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
     },
     {
       "id": "ord_1792318814926_7y3ap",
@@ -1990,6 +2132,101 @@
     }
   ],
   "audit_logs": [
+    {
+      "id": "aud_1792322081924_xbf9",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T11:14:41.924Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792322081860_bd0j",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T11:14:41.860Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792322081830_l8ow",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792322081694_winnb",
+      "orderCode": "STOCKAI-778278",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T11:14:41.830Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792322081752_esxv",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792318815096_74h02",
+      "orderCode": "STOCKAI-173398",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T11:14:41.752Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792322081743_001",
+        "transactionTime": "2026-10-18T11:14:41.752Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792322081605_kogh",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T11:14:41.606Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
     {
       "id": "aud_1792318815121_5f1n",
       "action": "UPDATE_BANK_CONFIG",

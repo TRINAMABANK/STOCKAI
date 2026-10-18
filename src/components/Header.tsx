@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, Bell, Settings, User, TrendingUp, LogOut, Shield } from 'lucide-react';
+import { Search, Bell, Settings, User, TrendingUp, LogOut, Shield, Menu } from 'lucide-react';
 import { MarketIndex, StockQuote, UserProfile } from '@/types';
 import GoogleAuthModal from './GoogleAuthModal';
 
@@ -12,6 +12,9 @@ interface HeaderProps {
   onSelectStock: (symbol: string) => void;
   onOpenSettings: () => void;
   quotes?: StockQuote[];
+  currentUser?: UserProfile | null;
+  onOpenProfile?: () => void;
+  onToggleMobileMenu?: () => void;
 }
 
 export default function Header({
@@ -19,11 +22,14 @@ export default function Header({
   onSelectStock,
   onOpenSettings,
   quotes = [],
+  currentUser: initialUser,
+  onOpenProfile,
+  onToggleMobileMenu,
 }: HeaderProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(initialUser || null);
   const [googleConfig, setGoogleConfig] = useState<{
     clientId: string;
     isConfigured: boolean;
@@ -104,8 +110,17 @@ export default function Header({
         </div>
       )}
 
-      {/* Left side: Mobile Logo & Search Bar */}
-      <div className="flex items-center gap-3">
+      {/* Left side: Mobile Toggle & Logo & Search Bar */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        {onToggleMobileMenu && (
+          <button
+            onClick={onToggleMobileMenu}
+            className="md:hidden p-2 rounded-xl text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC] transition"
+            title="Mở menu điều hướng"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        )}
         <div className="md:hidden">
           <Logo size="xs" variant="default" />
         </div>
@@ -250,9 +265,12 @@ export default function Header({
 
         {/* User Profile Capsule */}
         <button
-          onClick={() => setIsAuthModalOpen(true)}
+          onClick={() => {
+            if (onOpenProfile) onOpenProfile();
+            else setIsAuthModalOpen(true);
+          }}
           className="flex items-center gap-2 pl-2 border-l border-[#E2E8F0] hover:opacity-85 transition text-left"
-          title="Xem thông tin tài khoản & Đăng nhập Google"
+          title="Xem thông tin tài khoản cá nhân"
         >
           {currentUser?.avatarUrl ? (
             <img
