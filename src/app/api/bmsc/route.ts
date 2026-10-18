@@ -9,7 +9,7 @@ export async function GET() {
       success: true,
       data: {
         accountNumber: '021C123456-1',
-        accountName: 'LÊ TRÍ ANH',
+        accountName: 'QUANG NHỰT TRÍ',
         broker: 'Công ty Cổ phần Chứng khoán Bảo Minh (BMSC)',
         connectionStatus: 'DISCONNECTED',
         apiSupportNote: 'BMSC hiện tại không có Open API cho phép đặt lệnh hay truy vấn tự động từ phần mềm bên thứ 3.',

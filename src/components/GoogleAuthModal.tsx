@@ -163,8 +163,14 @@ export default function GoogleAuthModal({
                     className="w-10 h-10 rounded-full border border-[#86EFAC] object-cover"
                   />
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-[#DCFCE7] text-[#16A34A] font-bold flex items-center justify-center text-sm border border-[#86EFAC]">
-                    {currentUser.name ? currentUser.name.slice(0, 2).toUpperCase() : 'US'}
+                  <div className="w-10 h-10 rounded-full bg-[#DCFCE7] text-[#16A34A] font-bold flex items-center justify-center text-xs tracking-tight border border-[#86EFAC]">
+                    {(() => {
+                      if (!currentUser.name) return 'TR';
+                      const clean = currentUser.name.replace(/\s*\(Admin\)/i, '').trim();
+                      const words = clean.split(/\s+/);
+                      const lastName = words[words.length - 1];
+                      return lastName.length <= 4 ? lastName.toUpperCase() : (words[0][0] + lastName[0]).toUpperCase();
+                    })()}
                   </div>
                 )}
                 <div>

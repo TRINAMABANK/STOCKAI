@@ -930,8 +930,8 @@
       "code": "VIETSTOCK",
       "description": "Dữ liệu giá khớp lệnh, chỉ số VN-Index, HNX, UPCoM thời gian thực",
       "status": "CONNECTED",
-      "responseTimeMs": 115,
-      "lastSyncTime": "12:09:08",
+      "responseTimeMs": 220,
+      "lastSyncTime": "17:26:47",
       "hasKeyConfigured": true
     },
     {
@@ -967,6 +967,15 @@
     }
   ],
   "api_sync_logs": [
+    {
+      "id": "log-1792319207939",
+      "timestamp": "17:26:47 18/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 220ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 220
+    },
     {
       "id": "log-1792304423442",
       "timestamp": "13:20:23 18/10/2026",
@@ -1344,8 +1353,8 @@
   },
   "current_user": {
     "id": "usr_stockai_lead",
-    "name": "Lê Trí Anh (Admin)",
-    "email": "trinamabank@stockai.vn",
+    "name": "Quang Nhựt Trí (Admin)",
+    "email": "triqnnamabank@gmail.com",
     "role": "ADMIN",
     "tier": "PRO",
     "validUntil": "2026-11-17",
@@ -1361,11 +1370,77 @@
   },
   "subscription_orders": [
     {
+      "id": "ord_1792318815096_74h02",
+      "orderCode": "STOCKAI-173398",
+      "userId": "usr_stockai_lead",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PENDING",
+      "transferContent": "STOCKAI-173398",
+      "createdAt": "2026-10-18T10:20:15.096Z",
+      "expiresAt": "2026-10-18T10:35:15.096Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-173398&accountName=QUANG%20NHUT%20TRI"
+    },
+    {
+      "id": "ord_1792318814926_7y3ap",
+      "orderCode": "STOCKAI-212914",
+      "userId": "usr_stockai_lead",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
+      "tier": "ENTERPRISE",
+      "amount": 299000,
+      "formattedAmount": "299.000 đ",
+      "currency": "VND",
+      "status": "REJECTED",
+      "transferContent": "STOCKAI-212914",
+      "createdAt": "2026-10-18T10:20:14.926Z",
+      "expiresAt": "2026-10-18T10:35:14.926Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=299000&addInfo=STOCKAI-212914&accountName=QUANG%20NHUT%20TRI",
+      "rejectedAt": "2026-10-18T10:20:15.052Z",
+      "rejectedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com"
+      },
+      "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
+    },
+    {
+      "id": "ord_1792318814903_4lzbr",
+      "orderCode": "STOCKAI-602430",
+      "userId": "usr_stockai_lead",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-602430",
+      "createdAt": "2026-10-18T10:20:14.903Z",
+      "expiresAt": "2026-10-18T10:35:14.903Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-602430&accountName=QUANG%20NHUT%20TRI",
+      "customerReportedAt": "2026-10-18T10:20:14.948Z",
+      "customerNote": "Khách báo đã chuyển",
+      "actualAmount": 199000,
+      "bankTransactionRef": "MB_TX_1792318814973_001",
+      "transactionTime": "2026-10-18T10:20:14.981Z",
+      "reconciledAt": "2026-10-18T10:20:14.981Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
+      },
+      "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
+    },
+    {
       "id": "ord_1792304432935_571wx",
       "orderCode": "STOCKAI-109382",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "PRO",
       "amount": 199000,
       "formattedAmount": "199.000 đ",
@@ -1380,8 +1455,8 @@
       "id": "ord_1792304432642_ga7jx",
       "orderCode": "STOCKAI-241346",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "ENTERPRISE",
       "amount": 299000,
       "formattedAmount": "299.000 đ",
@@ -1394,7 +1469,7 @@
       "rejectedAt": "2026-10-18T06:20:32.866Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1402,8 +1477,8 @@
       "id": "ord_1792302723978_57mnf",
       "orderCode": "STOCKAI-830422",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "PRO",
       "amount": 199000,
       "formattedAmount": "199.000 đ",
@@ -1421,8 +1496,8 @@
       "reconciledAt": "2026-10-18T06:20:32.734Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
-        "name": "Lê Trí Anh (Admin)"
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
     },
@@ -1430,8 +1505,8 @@
       "id": "ord_1792302723578_tmql4",
       "orderCode": "STOCKAI-903691",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "ENTERPRISE",
       "amount": 299000,
       "formattedAmount": "299.000 đ",
@@ -1444,7 +1519,7 @@
       "rejectedAt": "2026-10-18T05:52:03.894Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1452,8 +1527,8 @@
       "id": "ord_1792302075086_h4xn5",
       "orderCode": "STOCKAI-971985",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "PRO",
       "amount": 199000,
       "formattedAmount": "199.000 đ",
@@ -1471,8 +1546,8 @@
       "reconciledAt": "2026-10-18T05:52:03.719Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
-        "name": "Lê Trí Anh (Admin)"
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
     },
@@ -1480,8 +1555,8 @@
       "id": "ord_1792302074821_3w5o7",
       "orderCode": "STOCKAI-141759",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "ENTERPRISE",
       "amount": 299000,
       "formattedAmount": "299.000 đ",
@@ -1494,7 +1569,7 @@
       "rejectedAt": "2026-10-18T05:41:15.017Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1502,8 +1577,8 @@
       "id": "ord_1792301976052_9rvmz",
       "orderCode": "STOCKAI-760721",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "PRO",
       "amount": 199000,
       "formattedAmount": "199.000 đ",
@@ -1521,8 +1596,8 @@
       "reconciledAt": "2026-10-18T05:41:14.905Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
-        "name": "Lê Trí Anh (Admin)"
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
     },
@@ -1530,8 +1605,8 @@
       "id": "ord_1792301975799_skuh2",
       "orderCode": "STOCKAI-705392",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "ENTERPRISE",
       "amount": 299000,
       "formattedAmount": "299.000 đ",
@@ -1544,7 +1619,7 @@
       "rejectedAt": "2026-10-18T05:39:35.983Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1552,8 +1627,8 @@
       "id": "ord_1792299571569_g8b01",
       "orderCode": "STOCKAI-732505",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "PRO",
       "amount": 199000,
       "formattedAmount": "199.000 đ",
@@ -1571,8 +1646,8 @@
       "reconciledAt": "2026-10-18T05:39:35.879Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
-        "name": "Lê Trí Anh (Admin)"
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
     },
@@ -1580,8 +1655,8 @@
       "id": "ord_1792299114229_5obxs",
       "orderCode": "STOCKAI-773188",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "ENTERPRISE",
       "amount": 299000,
       "formattedAmount": "299.000 đ",
@@ -1594,7 +1669,7 @@
       "rejectedAt": "2026-10-18T04:59:31.528Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1602,8 +1677,8 @@
       "id": "ord_1792298815151_cr0fn",
       "orderCode": "STOCKAI-350182",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "PRO",
       "amount": 199000,
       "formattedAmount": "199.000 đ",
@@ -1621,8 +1696,8 @@
       "reconciledAt": "2026-10-18T04:59:31.404Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
-        "name": "Lê Trí Anh (Admin)"
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
     },
@@ -1630,8 +1705,8 @@
       "id": "ord_1792298814920_rc9qt",
       "orderCode": "STOCKAI-127480",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "ENTERPRISE",
       "amount": 299000,
       "formattedAmount": "299.000 đ",
@@ -1644,7 +1719,7 @@
       "rejectedAt": "2026-10-18T04:46:55.105Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1652,8 +1727,8 @@
       "id": "ord_1792298290908_r17se",
       "orderCode": "STOCKAI-867639",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "PRO",
       "amount": 199000,
       "formattedAmount": "199.000 đ",
@@ -1671,8 +1746,8 @@
       "reconciledAt": "2026-10-18T04:46:55.017Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
-        "name": "Lê Trí Anh (Admin)"
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
     },
@@ -1680,8 +1755,8 @@
       "id": "ord_1792298290758_ny01k",
       "orderCode": "STOCKAI-762135",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
-      "userName": "Lê Trí Anh (Admin)",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
       "tier": "ENTERPRISE",
       "amount": 299000,
       "formattedAmount": "299.000 đ",
@@ -1694,7 +1769,7 @@
       "rejectedAt": "2026-10-18T04:38:10.874Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1736,7 +1811,7 @@
       "id": "ord_1792296635817_k6521",
       "orderCode": "STOCKAI-893048",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
+      "userEmail": "triqnnamabank@gmail.com",
       "userName": "Nhà Đầu Tư StockAI",
       "tier": "PRO",
       "amount": 199000,
@@ -1755,8 +1830,8 @@
       "reconciledAt": "2026-10-18T04:38:10.809Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
-        "name": "Lê Trí Anh (Admin)"
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
     },
@@ -1764,7 +1839,7 @@
       "id": "ord_1792296635610_pjole",
       "orderCode": "STOCKAI-495323",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
+      "userEmail": "triqnnamabank@gmail.com",
       "userName": "Nhà Đầu Tư StockAI",
       "tier": "ENTERPRISE",
       "amount": 299000,
@@ -1778,7 +1853,7 @@
       "rejectedAt": "2026-10-18T04:10:35.781Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1786,7 +1861,7 @@
       "id": "ord_1792294769404_pkn2e",
       "orderCode": "STOCKAI-641356",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
+      "userEmail": "triqnnamabank@gmail.com",
       "userName": "Nhà Đầu Tư StockAI",
       "tier": "PRO",
       "amount": 199000,
@@ -1805,7 +1880,7 @@
       "reconciledAt": "2026-10-18T04:10:35.707Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "name": "Nhà Đầu Tư StockAI"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
@@ -1814,7 +1889,7 @@
       "id": "ord_1792294174513_r6omq",
       "orderCode": "STOCKAI-602995",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
+      "userEmail": "triqnnamabank@gmail.com",
       "userName": "Nhà Đầu Tư StockAI",
       "tier": "ENTERPRISE",
       "amount": 299000,
@@ -1830,7 +1905,7 @@
       "rejectedAt": "2026-10-18T03:39:29.364Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1838,7 +1913,7 @@
       "id": "ord_1792294102607_tom2o",
       "orderCode": "STOCKAI-966203",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
+      "userEmail": "triqnnamabank@gmail.com",
       "userName": "Nhà Đầu Tư StockAI",
       "tier": "PRO",
       "amount": 199000,
@@ -1857,7 +1932,7 @@
       "reconciledAt": "2026-10-18T03:39:29.248Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "name": "Nhà Đầu Tư StockAI"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
@@ -1866,7 +1941,7 @@
       "id": "ord_1792294102444_t3ltg",
       "orderCode": "STOCKAI-160025",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
+      "userEmail": "triqnnamabank@gmail.com",
       "userName": "Nhà Đầu Tư StockAI",
       "tier": "ENTERPRISE",
       "amount": 299000,
@@ -1881,7 +1956,7 @@
       "rejectedAt": "2026-10-18T03:28:22.580Z",
       "rejectedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn"
+        "email": "triqnnamabank@gmail.com"
       },
       "rejectionReason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định"
     },
@@ -1889,7 +1964,7 @@
       "id": "ord_1792294102401_h19u8",
       "orderCode": "STOCKAI-189164",
       "userId": "usr_stockai_lead",
-      "userEmail": "trinamabank@stockai.vn",
+      "userEmail": "triqnnamabank@gmail.com",
       "userName": "Nhà Đầu Tư StockAI",
       "tier": "PRO",
       "amount": 199000,
@@ -1908,7 +1983,7 @@
       "reconciledAt": "2026-10-18T03:28:22.499Z",
       "reconciledBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "name": "Nhà Đầu Tư StockAI"
       },
       "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ"
@@ -1916,13 +1991,108 @@
   ],
   "audit_logs": [
     {
+      "id": "aud_1792318815121_5f1n",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T10:20:15.121Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
+      "id": "aud_1792318815074_4eh6",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T10:20:15.074Z",
+      "details": {
+        "bankId": "MB",
+        "bankName": "Ngân hàng TMCP Quân Đội",
+        "accountHolder": "",
+        "accountNumberMasked": ""
+      }
+    },
+    {
+      "id": "aud_1792318815052_rflf",
+      "action": "REJECT_PAYMENT",
+      "orderId": "ord_1792318814926_7y3ap",
+      "orderCode": "STOCKAI-212914",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T10:20:15.052Z",
+      "details": {
+        "reason": "Số tiền chuyển khoản thiếu 50.000đ so với giá gói quy định",
+        "previousStatus": "REJECTED"
+      }
+    },
+    {
+      "id": "aud_1792318814982_77f3",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792318814903_4lzbr",
+      "orderCode": "STOCKAI-602430",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T10:20:14.981Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "MB_TX_1792318814973_001",
+        "transactionTime": "2026-10-18T10:20:14.981Z",
+        "reconciliationNotes": "Khớp sao kê MB Bank 199.000đ",
+        "newValidUntil": "2026-11-17"
+      }
+    },
+    {
+      "id": "aud_1792318814835_uay2",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-18T10:20:14.835Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng TMCP Phương Đông (OCB)",
+        "accountHolder": "QUANG NHỰT TRÍ",
+        "accountNumberMasked": "******1446"
+      }
+    },
+    {
       "id": "aud_1792304432967_oxa7",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T06:20:32.967Z",
@@ -1937,10 +2107,10 @@
       "id": "aud_1792304432900_es2f",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T06:20:32.900Z",
@@ -1957,10 +2127,10 @@
       "orderId": "ord_1792304432642_ga7jx",
       "orderCode": "STOCKAI-241346",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T06:20:32.866Z",
@@ -1975,10 +2145,10 @@
       "orderId": "ord_1792302723978_57mnf",
       "orderCode": "STOCKAI-830422",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T06:20:32.734Z",
@@ -1996,10 +2166,10 @@
       "id": "aud_1792304432490_dfi8",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T06:20:32.490Z",
@@ -2014,10 +2184,10 @@
       "id": "aud_1792302724013_99wn",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:52:04.013Z",
@@ -2032,10 +2202,10 @@
       "id": "aud_1792302723936_887o",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:52:03.936Z",
@@ -2052,10 +2222,10 @@
       "orderId": "ord_1792302723578_tmql4",
       "orderCode": "STOCKAI-903691",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:52:03.894Z",
@@ -2070,10 +2240,10 @@
       "orderId": "ord_1792302075086_h4xn5",
       "orderCode": "STOCKAI-971985",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:52:03.719Z",
@@ -2091,10 +2261,10 @@
       "id": "aud_1792302723302_z231",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:52:03.302Z",
@@ -2109,10 +2279,10 @@
       "id": "aud_1792302075121_n2ax",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:41:15.121Z",
@@ -2127,10 +2297,10 @@
       "id": "aud_1792302075048_12fb",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:41:15.048Z",
@@ -2147,10 +2317,10 @@
       "orderId": "ord_1792302074821_3w5o7",
       "orderCode": "STOCKAI-141759",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:41:15.017Z",
@@ -2165,10 +2335,10 @@
       "orderId": "ord_1792301976052_9rvmz",
       "orderCode": "STOCKAI-760721",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:41:14.905Z",
@@ -2186,10 +2356,10 @@
       "id": "aud_1792302074657_pko9",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:41:14.657Z",
@@ -2204,10 +2374,10 @@
       "id": "aud_1792301976080_33mh",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:39:36.080Z",
@@ -2222,10 +2392,10 @@
       "id": "aud_1792301976014_55mt",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:39:36.014Z",
@@ -2242,10 +2412,10 @@
       "orderId": "ord_1792301975799_skuh2",
       "orderCode": "STOCKAI-705392",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:39:35.983Z",
@@ -2260,10 +2430,10 @@
       "orderId": "ord_1792299571569_g8b01",
       "orderCode": "STOCKAI-732505",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:39:35.879Z",
@@ -2281,10 +2451,10 @@
       "id": "aud_1792301975648_ca8h",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:39:35.648Z",
@@ -2299,10 +2469,10 @@
       "id": "aud_1792300198726_5re4",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:09:58.726Z",
@@ -2317,10 +2487,10 @@
       "id": "aud_1792300187008_q3bv",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T05:09:47.008Z",
@@ -2335,10 +2505,10 @@
       "id": "aud_1792299571586_u869",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:59:31.586Z",
@@ -2353,10 +2523,10 @@
       "id": "aud_1792299571547_lj72",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:59:31.547Z",
@@ -2373,10 +2543,10 @@
       "orderId": "ord_1792299114229_5obxs",
       "orderCode": "STOCKAI-773188",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:59:31.528Z",
@@ -2391,10 +2561,10 @@
       "orderId": "ord_1792298815151_cr0fn",
       "orderCode": "STOCKAI-350182",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:59:31.404Z",
@@ -2412,10 +2582,10 @@
       "id": "aud_1792299571216_gn51",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:59:31.216Z",
@@ -2430,10 +2600,10 @@
       "id": "aud_1792298815174_stm7",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:46:55.174Z",
@@ -2448,10 +2618,10 @@
       "id": "aud_1792298815130_h031",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:46:55.130Z",
@@ -2468,10 +2638,10 @@
       "orderId": "ord_1792298814920_rc9qt",
       "orderCode": "STOCKAI-127480",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:46:55.105Z",
@@ -2486,10 +2656,10 @@
       "orderId": "ord_1792298290908_r17se",
       "orderCode": "STOCKAI-867639",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:46:55.017Z",
@@ -2507,10 +2677,10 @@
       "id": "aud_1792298814809_t6tg",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:46:54.809Z",
@@ -2525,10 +2695,10 @@
       "id": "aud_1792298290925_hmav",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:38:10.925Z",
@@ -2543,10 +2713,10 @@
       "id": "aud_1792298290892_98c2",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:38:10.892Z",
@@ -2563,10 +2733,10 @@
       "orderId": "ord_1792298290758_ny01k",
       "orderCode": "STOCKAI-762135",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:38:10.874Z",
@@ -2581,10 +2751,10 @@
       "orderId": "ord_1792296635817_k6521",
       "orderCode": "STOCKAI-893048",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:38:10.809Z",
@@ -2602,10 +2772,10 @@
       "id": "aud_1792298290671_2c0g",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:38:10.671Z",
@@ -2620,10 +2790,10 @@
       "id": "aud_1792296635836_7v4b",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:10:35.836Z",
@@ -2638,10 +2808,10 @@
       "id": "aud_1792296635800_dnv4",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:10:35.800Z",
@@ -2658,10 +2828,10 @@
       "orderId": "ord_1792296635610_pjole",
       "orderCode": "STOCKAI-495323",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:10:35.781Z",
@@ -2676,10 +2846,10 @@
       "orderId": "ord_1792294769404_pkn2e",
       "orderCode": "STOCKAI-641356",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:10:35.707Z",
@@ -2697,10 +2867,10 @@
       "id": "aud_1792296635491_gm4a",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T04:10:35.491Z",
@@ -2715,17 +2885,17 @@
       "id": "aud_1792294769421_y1ez",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T03:39:29.421Z",
       "details": {
         "bankId": "MB",
         "bankName": "Ngân hàng TMCP Quân Đội",
-        "accountHolder": "LE TRI ANH",
+        "accountHolder": "QUANG NHUT TRI",
         "accountNumberMasked": "******1446"
       }
     },
@@ -2733,10 +2903,10 @@
       "id": "aud_1792294769383_mx9n",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T03:39:29.383Z",
@@ -2753,10 +2923,10 @@
       "orderId": "ord_1792294174513_r6omq",
       "orderCode": "STOCKAI-602995",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T03:39:29.364Z",
@@ -2771,10 +2941,10 @@
       "orderId": "ord_1792294102607_tom2o",
       "orderCode": "STOCKAI-966203",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T03:39:29.248Z",
@@ -2792,17 +2962,17 @@
       "id": "aud_1792294769143_lcjc",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T03:39:29.143Z",
       "details": {
         "bankId": "MB",
         "bankName": "Ngân hàng TMCP Quân Đội",
-        "accountHolder": "LE TRI ANH",
+        "accountHolder": "QUANG NHUT TRI",
         "accountNumberMasked": "******1446"
       }
     },
@@ -2810,17 +2980,17 @@
       "id": "aud_1792294102622_wyuc",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T03:28:22.622Z",
       "details": {
         "bankId": "MB",
         "bankName": "Ngân hàng TMCP Quân Đội",
-        "accountHolder": "LE TRI ANH",
+        "accountHolder": "QUANG NHUT TRI",
         "accountNumberMasked": "******1446"
       }
     },
@@ -2830,10 +3000,10 @@
       "orderId": "ord_1792294102444_t3ltg",
       "orderCode": "STOCKAI-160025",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T03:28:22.580Z",
@@ -2848,10 +3018,10 @@
       "orderId": "ord_1792294102401_h19u8",
       "orderCode": "STOCKAI-189164",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T03:28:22.499Z",
@@ -2869,17 +3039,17 @@
       "id": "aud_1792294102369_0ud3",
       "action": "UPDATE_BANK_CONFIG",
       "targetUserId": "usr_stockai_lead",
-      "targetUserEmail": "trinamabank@stockai.vn",
+      "targetUserEmail": "triqnnamabank@gmail.com",
       "performedBy": {
         "id": "usr_stockai_lead",
-        "email": "trinamabank@stockai.vn",
+        "email": "triqnnamabank@gmail.com",
         "role": "ADMIN"
       },
       "timestamp": "2026-10-18T03:28:22.369Z",
       "details": {
         "bankId": "MB",
         "bankName": "Ngân hàng TMCP Quân Đội",
-        "accountHolder": "LE TRI ANH",
+        "accountHolder": "QUANG NHUT TRI",
         "accountNumberMasked": "******1446"
       }
     }
@@ -2895,8 +3065,8 @@
   "users": [
     {
       "id": "usr_stockai_lead",
-      "name": "Lê Trí Anh (Admin)",
-      "email": "trinamabank@stockai.vn",
+      "name": "Quang Nhựt Trí (Admin)",
+      "email": "triqnnamabank@gmail.com",
       "role": "ADMIN",
       "tier": "PRO",
       "validUntil": "2026-11-17",

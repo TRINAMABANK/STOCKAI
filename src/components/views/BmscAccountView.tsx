@@ -71,7 +71,7 @@ export default function BmscAccountView({
         <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs">
           <p className="text-[13px] text-[#64748B] font-medium">Số tài khoản BMSC</p>
           <h4 className="text-[24px] font-bold text-[#172033] mt-1 font-mono tracking-tight tabular-nums">021C123456-1</h4>
-          <p className="text-[12px] text-[#64748B] mt-1">Chủ tài khoản: <span className="font-semibold text-[#172033]">LÊ TRÍ ANH</span></p>
+          <p className="text-[12px] text-[#64748B] mt-1">Chủ tài khoản: <span className="font-semibold text-[#172033]">QUANG NHỰT TRÍ</span></p>
           <div className="mt-3 pt-3 border-t border-[#E2E8F0] text-[12px] text-[#64748B] flex items-center justify-between">
             <span>Chi nhánh: TP. Hồ Chí Minh</span>
             <span className="text-[#008FD3] font-semibold">Tài khoản thường (Đuôi 1)</span>

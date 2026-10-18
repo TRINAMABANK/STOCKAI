@@ -262,20 +262,19 @@ export default function Header({
             />
           ) : (
             <div className="w-8 h-8 rounded-full bg-[#E0F2FE] border border-[#BAE6FD] flex items-center justify-center text-[#008FD3] font-bold text-xs shadow-2xs">
-              {currentUser?.name
-                ? currentUser.name
-                    .split(' ')
-                    .map((n) => n[0])
-                    .slice(0, 2)
-                    .join('')
-                    .toUpperCase()
-                : 'AT'}
+              {(() => {
+                if (!currentUser?.name) return 'TRÍ';
+                const clean = currentUser.name.replace(/\s*\(Admin\)/i, '').trim();
+                const words = clean.split(/\s+/);
+                const lastName = words[words.length - 1];
+                return lastName.length <= 4 ? lastName.toUpperCase() : (words[0][0] + lastName[0]).toUpperCase();
+              })()}
             </div>
           )}
           <div className="hidden sm:block">
             <div className="flex items-center gap-1.5">
-              <span className="text-xs font-bold text-[#172033] truncate max-w-[110px]">
-                {currentUser?.name || 'Anh Trí'}
+              <span className="text-xs font-bold text-[#172033] truncate max-w-[130px]">
+                {currentUser?.name || 'Quang Nhựt Trí'}
               </span>
               <span
                 className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${

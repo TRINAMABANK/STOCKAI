@@ -629,8 +629,8 @@ export function getDatabase(): DatabaseSchema {
 
     const defaultAdminUser: UserProfile = {
       id: 'usr_stockai_lead',
-      name: 'Lê Trí Anh (Admin)',
-      email: 'trinamabank@stockai.vn',
+      name: 'Quang Nhựt Trí (Admin)',
+      email: 'triqnnamabank@gmail.com',
       role: 'ADMIN',
       tier: 'PRO',
       validUntil: '2027-12-31',
