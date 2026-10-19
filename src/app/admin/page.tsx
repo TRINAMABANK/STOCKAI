@@ -27,9 +27,24 @@ import {
   ExternalLink,
   Info,
   Calendar,
-  AlertCircle
+  AlertCircle,
+  Key,
+  Database,
+  Eye,
+  EyeOff,
+  Trash2,
+  Zap
 } from 'lucide-react';
-import { SubscriptionOrder, UserProfile, SubscriptionTier, BankConfig, AdminAuditLog } from '@/types';
+import { 
+  SubscriptionOrder, 
+  UserProfile, 
+  SubscriptionTier, 
+  BankConfig, 
+  AdminAuditLog,
+  SsiConfig,
+  ApiProvider,
+  ApiConnectionStatus
+} from '@/types';
 import { PlanConfig } from '@/lib/pricing';
 
 export type AdminTab = 
@@ -38,6 +53,7 @@ export type AdminTab =
   | 'orders' 
   | 'subscriptions' 
   | 'plans' 
+  | 'api-center'
   | 'audit-logs' 
   | 'system';
 
@@ -182,9 +198,153 @@ export default function AdminPage() {
     if (activeTab === 'users' || activeTab === 'subscriptions') loadUsers();
     if (activeTab === 'orders') loadOrders();
     if (activeTab === 'plans') loadPlans();
+    if (activeTab === 'api-center') loadApiCenter();
     if (activeTab === 'audit-logs') loadAuditLogs();
     if (activeTab === 'system') loadSystem();
   }, [activeTab]);
+
+  // 7. DATA STATE: API CENTER (SSI FASTCONNECT & DATA PROVIDERS)
+  const [apiCenterData, setApiCenterData] = useState<{
+    ssi_config?: SsiConfig;
+    providers?: ApiProvider[];
+    logs?: any[];
+    activeProvider?: string;
+  } | null>(null);
+  const [isLoadingApiCenter, setIsLoadingApiCenter] = useState(false);
+  const [isTestingSsi, setIsTestingSsi] = useState(false);
+  const [isSyncingSsi, setIsSyncingSsi] = useState(false);
+  const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
+  const [formConsumerId, setFormConsumerId] = useState('');
+  const [formConsumerSecret, setFormConsumerSecret] = useState('');
+  const [formPrivateKey, setFormPrivateKey] = useState('');
+  const [formApiUrl, setFormApiUrl] = useState('https://fc-data.ssi.com.vn/api/v2');
+  const [formStreamingUrl, setFormStreamingUrl] = useState('wss://fc-data.ssi.com.vn/v2.0/signalr');
+  const [formAutoSync, setFormAutoSync] = useState(true);
+  const [showSecret, setShowSecret] = useState(false);
+  const [isSavingConfig, setIsSavingConfig] = useState(false);
+  const [apiLogFilter, setApiLogFilter] = useState('ALL');
+
+  const loadApiCenter = async () => {
+    setIsLoadingApiCenter(true);
+    try {
+      const res = await fetch('/api/api-center');
+      const json = await res.json();
+      if (json.success && json.data) {
+        setApiCenterData(json.data);
+        if (json.data.ssi_config) {
+          setFormConsumerId(json.data.ssi_config.consumerId || '');
+          setFormApiUrl(json.data.ssi_config.apiUrl || 'https://fc-data.ssi.com.vn/api/v2');
+          setFormStreamingUrl(json.data.ssi_config.streamingUrl || 'wss://fc-data.ssi.com.vn/v2.0/signalr');
+          setFormAutoSync(json.data.ssi_config.autoSync ?? true);
+        }
+      }
+    } catch {
+      showToast('❌ Lỗi tải dữ liệu Trung tâm API');
+    } finally {
+      setIsLoadingApiCenter(false);
+    }
+  };
+
+  const handleSaveSsiConfig = async () => {
+    if (!formConsumerId.trim()) {
+      showToast('❌ Vui lòng nhập Consumer ID');
+      return;
+    }
+    setIsSavingConfig(true);
+    try {
+      const res = await fetch('/api/api-center', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'SAVE_SSI_CONFIG',
+          consumerId: formConsumerId.trim(),
+          consumerSecret: formConsumerSecret.trim(),
+          privateKey: formPrivateKey.trim(),
+          apiUrl: formApiUrl.trim(),
+          streamingUrl: formStreamingUrl.trim(),
+          autoSync: formAutoSync,
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast('✅ Đã lưu cấu hình SSI FastConnect Data thành công');
+        setIsConfigModalOpen(false);
+        setFormConsumerSecret('');
+        loadApiCenter();
+      } else {
+        showToast(`❌ ${json.message}`);
+      }
+    } catch {
+      showToast('❌ Lỗi lưu cấu hình SSI');
+    } finally {
+      setIsSavingConfig(false);
+    }
+  };
+
+  const handleTestSsi = async () => {
+    setIsTestingSsi(true);
+    try {
+      const res = await fetch('/api/api-center', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'TEST_CONNECTION',
+          providerCode: 'SSI',
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast(`✅ ${json.data?.message || 'Kết nối SSI FastConnect thành công'}`);
+      } else {
+        showToast(`❌ ${json.data?.message || json.message || 'Kết nối SSI thất bại'}`);
+      }
+      loadApiCenter();
+    } catch {
+      showToast('❌ Lỗi kiểm tra kết nối SSI');
+    } finally {
+      setIsTestingSsi(false);
+    }
+  };
+
+  const handleSyncSsi = async () => {
+    setIsSyncingSsi(true);
+    try {
+      const res = await fetch('/api/api-center', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'SYNC_DATA' }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast(`⚡ ${json.message}`);
+      } else {
+        showToast(`❌ ${json.message}`);
+      }
+      loadApiCenter();
+      loadOverview();
+    } catch {
+      showToast('❌ Lỗi đồng bộ dữ liệu SSI');
+    } finally {
+      setIsSyncingSsi(false);
+    }
+  };
+
+  const handleClearLogs = async () => {
+    try {
+      const res = await fetch('/api/api-center', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'CLEAR_LOGS' }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast('🗑️ Đã xóa toàn bộ nhật ký đồng bộ');
+        loadApiCenter();
+      }
+    } catch {
+      showToast('❌ Lỗi xóa nhật ký');
+    }
+  };
 
   // Search debounce / trigger
   useEffect(() => {
@@ -412,6 +572,7 @@ export default function AdminPage() {
     { id: 'orders', label: 'Đơn hàng & Pay2S', icon: ShoppingBag },
     { id: 'subscriptions', label: 'Quản lý Thuê bao', icon: Crown },
     { id: 'plans', label: 'Gói dịch vụ SaaS', icon: Layers },
+    { id: 'api-center', label: 'Trung tâm API (SSI)', icon: Radio },
     { id: 'audit-logs', label: 'Nhật ký Kiểm toán', icon: FileText },
     { id: 'system', label: 'Cấu hình & Tích hợp', icon: Settings },
   ];
@@ -1212,6 +1373,381 @@ export default function AdminPage() {
           </div>
         )}
 
+        {/* TAB: API CENTER (SSI FASTCONNECT DATA & MARKET FEEDS) */}
+        {activeTab === 'api-center' && (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Trung tâm Quản trị API & SSI FastConnect Data</h1>
+                <p className="text-xs text-[#64748B] mt-0.5">Kết nối dữ liệu chứng khoán HOSE, HNX, UPCoM chính thống; quản lý key, kiểm tra độ trễ và đồng bộ dữ liệu</p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  onClick={handleSyncSsi}
+                  disabled={isSyncingSsi || isTestingSsi}
+                  className="px-4 py-2 rounded-xl bg-[#8B5CF6] hover:bg-[#7c3aed] text-white font-bold text-xs transition flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                  title="Đồng bộ chỉ số và bảng giá cổ phiếu toàn sàn từ SSI"
+                >
+                  <Zap className={`w-3.5 h-3.5 ${isSyncingSsi ? 'animate-spin' : ''}`} />
+                  <span>{isSyncingSsi ? 'Đang đồng bộ...' : 'Đồng bộ dữ liệu ngay'}</span>
+                </button>
+
+                <button
+                  onClick={handleTestSsi}
+                  disabled={isTestingSsi || isSyncingSsi}
+                  className="px-4 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-bold text-xs transition flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                  title="Kiểm tra kết nối thực tế tới máy chủ SSI FastConnect"
+                >
+                  <Radio className={`w-3.5 h-3.5 ${isTestingSsi ? 'animate-pulse' : ''}`} />
+                  <span>{isTestingSsi ? 'Đang ping SSI...' : 'Kiểm tra kết nối SSI'}</span>
+                </button>
+
+                <button
+                  onClick={() => setIsConfigModalOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] hover:bg-[#F5F8FC] text-[#172033] font-bold text-xs transition flex items-center gap-1.5 shadow-2xs"
+                >
+                  <Key className="w-3.5 h-3.5 text-[#008FD3]" />
+                  <span>Cấu hình SSI FastConnect</span>
+                </button>
+
+                <button
+                  onClick={loadApiCenter}
+                  disabled={isLoadingApiCenter}
+                  className="p-2 rounded-xl bg-white border border-[#E2E8F0] hover:bg-[#F5F8FC] text-[#64748B] transition shadow-2xs"
+                  title="Tải lại trạng thái"
+                >
+                  <RefreshCw className={`w-4 h-4 ${isLoadingApiCenter ? 'animate-spin text-[#008FD3]' : ''}`} />
+                </button>
+              </div>
+            </div>
+
+            {/* SSI FastConnect Hero Card */}
+            {(() => {
+              const ssi = apiCenterData?.ssi_config || {
+                consumerId: '',
+                apiUrl: 'https://fc-data.ssi.com.vn/api/v2',
+                streamingUrl: 'wss://fc-data.ssi.com.vn/v2.0/signalr',
+                status: 'NOT_CONFIGURED',
+                isConfigured: false,
+              };
+              const status: ApiConnectionStatus = ssi.status || (ssi.isConfigured ? 'CONFIGURED' : 'NOT_CONFIGURED');
+
+              return (
+                <div className="bg-white rounded-3xl p-6 border border-[#E2E8F0] shadow-xs space-y-6">
+                  {/* Card Header */}
+                  <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#008FD3]/20 to-[#8B5CF6]/20 border border-[#BAE6FD] flex items-center justify-center shrink-0">
+                        <Radio className="w-6 h-6 text-[#008FD3]" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-lg text-[#172033]">SSI FastConnect Data API v2.0</h3>
+                          <span className="text-[11px] px-2 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] font-mono font-bold">PROD</span>
+                        </div>
+                        <p className="text-xs text-[#64748B] mt-0.5">Dữ liệu thị trường HOSE, HNX, UPCoM chính thống từ Công ty Cổ phần Chứng khoán SSI</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {status === 'NOT_CONFIGURED' && (
+                        <span className="px-3.5 py-1 rounded-full bg-[#F1F5F9] border border-[#CBD5E1] text-[#64748B] text-xs font-bold inline-flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#94A3B8]"></span>
+                          CHƯA CẤU HÌNH
+                        </span>
+                      )}
+                      {status === 'CONFIGURED' && (
+                        <span className="px-3.5 py-1 rounded-full bg-[#E0F2FE] border border-[#BAE6FD] text-[#008FD3] text-xs font-bold inline-flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#008FD3]"></span>
+                          ĐÃ CẤU HÌNH
+                        </span>
+                      )}
+                      {status === 'TESTING' && (
+                        <span className="px-3.5 py-1 rounded-full bg-[#E0F2FE] border border-[#008FD3] text-[#008FD3] text-xs font-bold inline-flex items-center gap-1.5">
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#008FD3]" />
+                          ĐANG KIỂM TRA...
+                        </span>
+                      )}
+                      {status === 'CONNECTED' && (
+                        <span className="px-3.5 py-1 rounded-full bg-[#D1FAE5] border border-[#6EE7B7] text-[#047857] text-xs font-bold inline-flex items-center gap-1.5 shadow-2xs">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-ping"></span>
+                          KẾT NỐI THÀNH CÔNG
+                        </span>
+                      )}
+                      {(status === 'CONNECTION_FAILED' || status === 'ERROR') && (
+                        <span className="px-3.5 py-1 rounded-full bg-[#FFE4E6] border border-[#FECDD3] text-[#F43F5E] text-xs font-bold inline-flex items-center gap-1.5">
+                          <AlertCircle className="w-3.5 h-3.5 text-[#F43F5E]" />
+                          KẾT NỐI THẤT BẠI
+                        </span>
+                      )}
+                      {status === 'SYNCING' && (
+                        <span className="px-3.5 py-1 rounded-full bg-[#EDE9FE] border border-[#DDD6FE] text-[#8B5CF6] text-xs font-bold inline-flex items-center gap-1.5">
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#8B5CF6]" />
+                          ĐANG ĐỒNG BỘ DỮ LIỆU...
+                        </span>
+                      )}
+                      {status === 'SYNC_ERROR' && (
+                        <span className="px-3.5 py-1 rounded-full bg-[#FEF3C7] border border-[#FDE68A] text-[#D97706] text-xs font-bold inline-flex items-center gap-1.5">
+                          <AlertTriangle className="w-3.5 h-3.5 text-[#D97706]" />
+                          ĐỒNG BỘ LỖI
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Warning / Error banner if any */}
+                  {ssi.lastError && (
+                    <div className="p-3.5 rounded-2xl bg-[#FFE4E6] border border-[#FECDD3] text-[#F43F5E] text-xs flex items-start gap-2.5">
+                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                      <div>
+                        <strong className="block font-semibold">Thông báo từ hệ thống kiểm tra SSI:</strong>
+                        <p className="mt-0.5">{ssi.lastError}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Config & Metrics Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <div className="p-3.5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-1">
+                      <span className="text-[#64748B] block">Consumer ID</span>
+                      <strong className="font-mono text-[#172033] block truncate font-bold">
+                        {ssi.consumerId ? ssi.consumerId : <span className="text-[#94A3B8] font-normal">Chưa cấu hình</span>}
+                      </strong>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-1">
+                      <span className="text-[#64748B] block">Consumer Secret</span>
+                      <strong className="font-mono text-[#64748B] block">
+                        {ssi.maskedSecret ? ssi.maskedSecret : <span className="text-[#94A3B8] font-normal">Chưa cấu hình</span>}
+                      </strong>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-1">
+                      <span className="text-[#64748B] block">Độ trễ phản hồi (Latency)</span>
+                      <strong className="font-mono text-base font-bold text-[#172033] block">
+                        {ssi.lastLatencyMs ? `${ssi.lastLatencyMs} ms` : <span className="text-[#94A3B8] font-normal text-xs">Chưa đo</span>}
+                      </strong>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-1">
+                      <span className="text-[#64748B] block">Đồng bộ gần nhất</span>
+                      <strong className="font-mono text-[#172033] block">
+                        {ssi.lastSyncTime || <span className="text-[#94A3B8] font-normal">Chưa đồng bộ</span>}
+                      </strong>
+                    </div>
+                  </div>
+
+                  {/* Advanced Spec Rows */}
+                  <div className="bg-[#F8FAFC] rounded-2xl p-4 border border-[#E2E8F0] text-xs space-y-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <div>
+                        <span className="text-[#64748B]">API Endpoint:</span>
+                        <code className="block font-mono text-[#008FD3] mt-0.5 truncate">{ssi.apiUrl}</code>
+                      </div>
+                      <div>
+                        <span className="text-[#64748B]">Streaming Hub Endpoint:</span>
+                        <code className="block font-mono text-[#8B5CF6] mt-0.5 truncate">{ssi.streamingUrl}</code>
+                      </div>
+                      <div>
+                        <span className="text-[#64748B]">Khóa ký RSA Private Key:</span>
+                        <strong className="block text-[#172033] mt-0.5">
+                          {ssi.hasPrivateKey ? '✅ Đã nạp RSA Key' : '⚪ Chưa thiết lập (Tùy chọn)'}
+                        </strong>
+                      </div>
+                    </div>
+
+                    {ssi.recordsSynced && (
+                      <div className="pt-2 border-t border-[#E2E8F0] flex flex-wrap items-center justify-between text-[#64748B]">
+                        <span>Dữ liệu lưu trữ CSDL gần nhất ({ssi.recordsSynced.lastBatchTime}):</span>
+                        <div className="flex gap-4 font-mono font-bold text-[#172033]">
+                          <span>📈 {ssi.recordsSynced.indices} chỉ số thị trường</span>
+                          <span>🏢 {ssi.recordsSynced.quotes} báo giá cổ phiếu</span>
+                          <span>📜 {ssi.recordsSynced.securities} mã niêm yết</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Action Bar */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                    <div className="text-xs text-[#64748B] flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-[#10B981]" />
+                      <span>Xác thực 2 chiều OAuth 2.0 / Access Token tự động gia hạn an toàn</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setIsConfigModalOpen(true)}
+                        className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] hover:bg-[#F5F8FC] text-[#172033] text-xs font-bold transition flex items-center gap-1.5"
+                      >
+                        <Settings className="w-3.5 h-3.5 text-[#64748B]" />
+                        <span>Chỉnh sửa cấu hình</span>
+                      </button>
+
+                      <button
+                        onClick={handleTestSsi}
+                        disabled={isTestingSsi}
+                        className="px-4 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white text-xs font-bold transition flex items-center gap-1.5 disabled:opacity-50"
+                      >
+                        <RefreshCw className={`w-3.5 h-3.5 ${isTestingSsi ? 'animate-spin' : ''}`} />
+                        <span>Kiểm tra kết nối thực tế</span>
+                      </button>
+
+                      <button
+                        onClick={handleSyncSsi}
+                        disabled={isSyncingSsi}
+                        className="px-4 py-2 rounded-xl bg-[#8B5CF6] hover:bg-[#7c3aed] text-white text-xs font-bold transition flex items-center gap-1.5 disabled:opacity-50"
+                      >
+                        <Zap className={`w-3.5 h-3.5 ${isSyncingSsi ? 'animate-spin' : ''}`} />
+                        <span>Đồng bộ toàn sàn</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Other Providers Grid */}
+            <div>
+              <h3 className="font-bold text-base text-[#172033] mb-3">Các nhà cung cấp dữ liệu phụ trợ</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {(apiCenterData?.providers || []).filter(p => p.code !== 'SSI').map(p => (
+                  <div key={p.id} className="bg-white rounded-2xl p-4 border border-[#E2E8F0] shadow-xs flex flex-col justify-between space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-bold text-sm text-[#172033]">{p.name}</h4>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                          p.status === 'CONNECTED' ? 'bg-[#D1FAE5] text-[#10B981]' : 
+                          p.status === 'NOT_CONFIGURED' ? 'bg-[#F1F5F9] text-[#64748B]' : 'bg-[#FFE4E6] text-[#F43F5E]'
+                        }`}>
+                          {p.status === 'CONNECTED' ? 'HOẠT ĐỘNG' : p.status === 'NOT_CONFIGURED' ? 'CHƯA CẤU HÌNH' : 'LỖI'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#64748B] mt-1 line-clamp-2">{p.description}</p>
+                    </div>
+
+                    <div className="pt-2 border-t border-[#F1F5F9] flex items-center justify-between text-xs">
+                      <span className="text-[#64748B] font-mono">{p.responseTimeMs ? `${p.responseTimeMs} ms` : 'N/A'}</span>
+                      <button
+                        onClick={async () => {
+                          const res = await fetch('/api/api-center', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ action: 'TEST_CONNECTION', providerCode: p.code }),
+                          });
+                          const json = await res.json();
+                          showToast(json.success ? `✅ ${json.data.message}` : `❌ ${json.data?.message || json.message}`);
+                          loadApiCenter();
+                        }}
+                        className="text-[#008FD3] hover:underline font-bold text-[11px]"
+                      >
+                        Kiểm tra
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Sync Logs Table */}
+            <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+              <div className="p-5 border-b border-[#E2E8F0] flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-[#008FD3]" />
+                  <h3 className="font-bold text-base text-[#172033]">Nhật ký đồng bộ & Kiểm tra kết nối API (API Sync Logs)</h3>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
+                    <span>Lọc:</span>
+                    {['ALL', 'SUCCESS', 'ERROR'].map(f => (
+                      <button
+                        key={f}
+                        onClick={() => setApiLogFilter(f)}
+                        className={`px-2.5 py-1 rounded-lg font-semibold transition ${
+                          apiLogFilter === f ? 'bg-[#008FD3] text-white' : 'bg-[#F1F5F9] text-[#64748B] hover:bg-[#E2E8F0]'
+                        }`}
+                      >
+                        {f === 'ALL' ? 'Tất cả' : f === 'SUCCESS' ? 'Thành công' : 'Lỗi'}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={handleClearLogs}
+                    className="p-1.5 text-[#94A3B8] hover:text-[#F43F5E] hover:bg-[#FFE4E6] rounded-xl transition"
+                    title="Xóa lịch sử nhật ký"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-[11pt]">
+                  <thead>
+                    <tr className="bg-[#F5F8FC] text-[#64748B] text-[11pt] font-semibold border-b border-[#E2E8F0]">
+                      <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Thời gian</th>
+                      <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Nhà cung cấp</th>
+                      <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Tác vụ</th>
+                      <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">Trạng thái</th>
+                      <th className="py-3 px-3 font-semibold text-right whitespace-nowrap">Độ trễ</th>
+                      <th className="py-3 px-4 font-semibold text-left">Thông điệp chi tiết / Số bản ghi</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#F1F5F9] text-[11pt]">
+                    {(() => {
+                      const logs = (apiCenterData?.logs || []).filter(l => {
+                        if (apiLogFilter === 'ALL') return true;
+                        return l.status === apiLogFilter;
+                      });
+
+                      if (logs.length === 0) {
+                        return (
+                          <tr>
+                            <td colSpan={6} className="py-8 text-center text-[#64748B] text-[11pt]">
+                              Chưa có nhật ký đồng bộ nào được ghi nhận.
+                            </td>
+                          </tr>
+                        );
+                      }
+
+                      return logs.map((log, idx) => (
+                        <tr key={log.id || idx} className="hover:bg-[#F8FAFC] transition h-[44px]">
+                          <td className="py-2.5 px-4 font-mono text-[#64748B] text-[11pt] whitespace-nowrap tabular-nums">
+                            {log.timestamp}
+                          </td>
+                          <td className="py-2.5 px-3 font-semibold text-[#008FD3] text-[11pt] whitespace-nowrap">
+                            {log.provider}
+                          </td>
+                          <td className="py-2.5 px-3 text-[#172033] font-mono text-[11pt] whitespace-nowrap">
+                            {log.action}
+                          </td>
+                          <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                            <span className={`px-2.5 py-0.5 rounded-full text-[11pt] font-bold ${
+                              log.status === 'SUCCESS' ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#FFE4E6] text-[#F43F5E]'
+                            }`}>
+                              {log.status === 'SUCCESS' ? 'THÀNH CÔNG' : 'LỖI'}
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3 text-right font-mono text-[#172033] tabular-nums text-[11pt] whitespace-nowrap">
+                            {log.latencyMs ? `${log.latencyMs} ms` : '-'}
+                          </td>
+                          <td className="py-2.5 px-4 text-[#172033] text-[11pt]">
+                            {log.message}
+                          </td>
+                        </tr>
+                      ));
+                    })()}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* TAB 7: SYSTEM CONFIGURATION */}
         {activeTab === 'system' && (
           <div className="space-y-6">
@@ -1239,44 +1775,60 @@ export default function AdminPage() {
                     <Radio className="w-5 h-5 text-[#008FD3]" />
                     <h3 className="font-bold text-base text-[#172033]">SSI FastConnect Securities API</h3>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] font-bold text-xs">
-                    KẾT NỐI
+                  <span className={`px-2.5 py-0.5 rounded-full font-bold text-xs ${
+                    systemData?.ssi?.status === 'CONNECTED' ? 'bg-[#D1FAE5] text-[#10B981]' :
+                    systemData?.ssi?.status === 'CONFIGURED' ? 'bg-[#E0F2FE] text-[#008FD3]' :
+                    systemData?.ssi?.status === 'CONNECTION_FAILED' ? 'bg-[#FFE4E6] text-[#F43F5E]' :
+                    'bg-[#F1F5F9] text-[#64748B]'
+                  }`}>
+                    {systemData?.ssi?.status === 'CONNECTED' ? 'KẾT NỐI THÀNH CÔNG' :
+                     systemData?.ssi?.status === 'CONFIGURED' ? 'ĐÃ CẤU HÌNH' :
+                     systemData?.ssi?.status === 'CONNECTION_FAILED' ? 'KẾT NỐI THẤT BẠI' : 'CHƯA CẤU HÌNH'}
                   </span>
                 </div>
 
                 <div className="space-y-2 text-xs">
                   <div className="flex justify-between py-1 border-b border-[#F1F5F9]">
-                    <span className="text-[#64748B]">Trạng thái:</span>
-                    <strong className="text-[#10B981]">Hoạt động liên tục 24/7</strong>
+                    <span className="text-[#64748B]">Consumer ID:</span>
+                    <strong className="font-mono text-[#172033]">{systemData?.ssi?.consumerId || 'Chưa thiết lập'}</strong>
                   </div>
                   <div className="flex justify-between py-1 border-b border-[#F1F5F9]">
-                    <span className="text-[#64748B]">Độ trễ trung bình:</span>
-                    <strong className="font-mono text-[#172033]">18ms - 24ms</strong>
+                    <span className="text-[#64748B]">Độ trễ phản hồi:</span>
+                    <strong className="font-mono text-[#172033]">{systemData?.ssi?.responseTimeMs ? `${systemData.ssi.responseTimeMs}ms` : 'Chưa đo'}</strong>
                   </div>
                   <div className="flex justify-between py-1 border-b border-[#F1F5F9]">
                     <span className="text-[#64748B]">Cập nhật phiên gần nhất:</span>
-                    <strong className="font-mono text-[#172033]">{new Date().toLocaleTimeString('vi-VN')}</strong>
+                    <strong className="font-mono text-[#172033]">{systemData?.ssi?.lastSyncTime || 'Chưa đồng bộ'}</strong>
                   </div>
                   <div className="flex justify-between py-1">
                     <span className="text-[#64748B]">Chất lượng dữ liệu:</span>
-                    <strong className="text-[#10B981]">99.9% Độ chính xác</strong>
+                    <strong className="text-[#10B981]">{systemData?.ssi?.dataQuality || 'Chưa xác thực'}</strong>
                   </div>
                 </div>
 
-                <button
-                  onClick={async () => {
-                    const res = await fetch('/api/admin/system', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ action: 'TEST_SSI' }),
-                    });
-                    const json = await res.json();
-                    showToast(`✅ ${json.message}`);
-                  }}
-                  className="w-full py-2.5 rounded-xl bg-[#F5F8FC] hover:bg-[#E0F2FE] border border-[#E2E8F0] text-[#008FD3] font-bold text-xs transition"
-                >
-                  Kiểm tra phản hồi đường truyền SSI
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setActiveTab('api-center')}
+                    className="flex-1 py-2.5 rounded-xl bg-[#F5F8FC] hover:bg-[#E0F2FE] border border-[#E2E8F0] text-[#008FD3] font-bold text-xs transition"
+                  >
+                    Mở Trung tâm API
+                  </button>
+                  <button
+                    onClick={async () => {
+                      const res = await fetch('/api/admin/system', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'TEST_SSI' }),
+                      });
+                      const json = await res.json();
+                      showToast(json.success ? `✅ ${json.message}` : `❌ ${json.message}`);
+                      loadSystem();
+                    }}
+                    className="py-2.5 px-4 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-bold text-xs transition"
+                  >
+                    Ping
+                  </button>
+                </div>
               </div>
 
               {/* Pay2S Payment Gateway Card */}
@@ -1586,6 +2138,149 @@ export default function AdminPage() {
                 className="px-4 py-2 rounded-xl bg-[#008FD3] text-white text-xs font-bold hover:bg-[#007bb8] disabled:opacity-50"
               >
                 {isAdjustingTier ? 'Đang cấp...' : 'Xác nhận cấp gói'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 6: CẤU HÌNH KẾT NỐI SSI FASTCONNECT DATA */}
+      {isConfigModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-[#E2E8F0] space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+              <div className="flex items-center gap-2">
+                <div className="w-9 h-9 rounded-xl bg-[#008FD3]/10 text-[#008FD3] flex items-center justify-center">
+                  <Key className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-base text-[#172033]">Cấu hình SSI FastConnect Data</h3>
+                  <p className="text-xs text-[#64748B]">Kết nối trực tiếp hạ tầng dữ liệu thị trường SSI</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsConfigModalOpen(false)}
+                className="w-8 h-8 rounded-lg hover:bg-[#F1F5F9] text-[#64748B] flex items-center justify-center font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <div>
+                <label className="font-semibold text-[#172033] block mb-1">
+                  Consumer ID (Client ID) <span className="text-[#F43F5E]">*</span>:
+                </label>
+                <input
+                  type="text"
+                  value={formConsumerId}
+                  onChange={(e) => setFormConsumerId(e.target.value)}
+                  placeholder="Ví dụ: a1b2c3d4e5f6..."
+                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="font-semibold text-[#172033]">
+                    Consumer Secret <span className="text-[#F43F5E]">*</span>:
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowSecret(!showSecret)}
+                    className="text-[11px] text-[#008FD3] flex items-center gap-1 hover:underline"
+                  >
+                    {showSecret ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                    {showSecret ? 'Ẩn' : 'Hiện'}
+                  </button>
+                </div>
+                <input
+                  type={showSecret ? 'text' : 'password'}
+                  value={formConsumerSecret}
+                  onChange={(e) => setFormConsumerSecret(e.target.value)}
+                  placeholder={apiCenterData?.ssi_config?.hasCredentials ? '•••••••••••• (Để trống nếu không đổi)' : 'Nhập mã bí mật do SSI cung cấp'}
+                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                />
+                <p className="text-[10px] text-[#64748B] mt-0.5">
+                  Mã bí mật được mã hóa và bảo mật tại server, không hiển thị nguyên văn.
+                </p>
+              </div>
+
+              <div>
+                <label className="font-semibold text-[#172033] block mb-1">
+                  Private Key RSA (Tùy chọn theo phương thức ký của SSI):
+                </label>
+                <textarea
+                  rows={3}
+                  value={formPrivateKey}
+                  onChange={(e) => setFormPrivateKey(e.target.value)}
+                  placeholder="-----BEGIN RSA PRIVATE KEY-----&#10;...&#10;-----END RSA PRIVATE KEY-----"
+                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-[11px] text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-[#172033] block mb-1">API Endpoint URL:</label>
+                <input
+                  type="text"
+                  value={formApiUrl}
+                  onChange={(e) => setFormApiUrl(e.target.value)}
+                  placeholder="https://fc-data.ssi.com.vn/api/v2"
+                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-[#172033] block mb-1">Streaming Endpoint (SignalR/WebSocket):</label>
+                <input
+                  type="text"
+                  value={formStreamingUrl}
+                  onChange={(e) => setFormStreamingUrl(e.target.value)}
+                  placeholder="wss://fc-data.ssi.com.vn/v2.0/signalr"
+                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 p-3 bg-[#F5F8FC] rounded-xl border border-[#E2E8F0]">
+                <input
+                  type="checkbox"
+                  id="autoSyncCheck"
+                  checked={formAutoSync}
+                  onChange={(e) => setFormAutoSync(e.target.checked)}
+                  className="w-4 h-4 text-[#008FD3] rounded focus:ring-0 cursor-pointer"
+                />
+                <label htmlFor="autoSyncCheck" className="text-xs text-[#172033] font-medium cursor-pointer">
+                  Tự động đồng bộ định kỳ theo phiên giao dịch (9:00 - 15:00)
+                </label>
+              </div>
+
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-[11px] text-amber-800 space-y-1">
+                <div className="font-bold flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Quy định kiểm tra thực tế:
+                </div>
+                <p>
+                  Hệ thống không hiển thị trạng thái &quot;Đã kết nối&quot; cho đến khi thực hiện thành công bài test thực tế tới máy chủ SSI. Sau khi lưu, vui lòng bấm <strong>Kiểm tra kết nối</strong> để xác thực.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-2 border-t border-[#E2E8F0]">
+              <button
+                type="button"
+                onClick={() => setIsConfigModalOpen(false)}
+                className="px-4 py-2 rounded-xl bg-[#F1F5F9] text-xs font-semibold text-[#64748B] hover:bg-[#E2E8F0]"
+              >
+                Hủy
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveSsiConfig}
+                disabled={isSavingConfig}
+                className="px-4 py-2 rounded-xl bg-[#008FD3] text-white text-xs font-bold hover:bg-[#007bb8] disabled:opacity-50 flex items-center gap-1.5"
+              >
+                {isSavingConfig ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : null}
+                {isSavingConfig ? 'Đang lưu...' : 'Lưu cấu hình'}
               </button>
             </div>
           </div>

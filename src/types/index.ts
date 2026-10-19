@@ -2,10 +2,18 @@ export type Exchange = 'HOSE' | 'HNX' | 'UPCOM';
 
 export interface MarketIndex {
   symbol: string;
+  code?: string;
   name: string;
+  exchange?: Exchange;
   value: number;
   change: number;
   changePercent: number;
+  volume?: number;
+  valueTraded?: number;
+  advances?: number;
+  declines?: number;
+  noChange?: number;
+  time?: string;
   history?: number[];
 }
 
@@ -207,6 +215,9 @@ export type AdminActionType =
   | 'MANUAL_GRANT'
   | 'REVOKE_SUBSCRIPTION'
   | 'UPDATE_BANK_CONFIG'
+  | 'UPDATE_SSI_CONFIG'
+  | 'TEST_SSI_CONNECTION'
+  | 'SYNC_SSI_DATA'
   | 'LOCK_USER'
   | 'UNLOCK_USER'
   | 'UPDATE_PLAN_PRICE'
@@ -237,13 +248,48 @@ export interface AdminOverviewKpis {
   expiringSubscriptions: number;
 }
 
+/**
+ * 7 trạng thái kết nối và đồng bộ chuẩn của SSI FastConnect Data
+ */
 export type ApiConnectionStatus = 
-  | 'CONNECTED' 
+  | 'NOT_CONFIGURED'     // 1. Chưa cấu hình
+  | 'CONFIGURED'         // 2. Đã cấu hình
+  | 'TESTING'            // 3. Đang kiểm tra
+  | 'CONNECTED'          // 4. Kết nối thành công
+  | 'CONNECTION_FAILED'  // 5. Kết nối thất bại
+  | 'SYNCING'            // 6. Đang đồng bộ
+  | 'SYNC_ERROR'         // 7. Đồng bộ lỗi
   | 'DISCONNECTED' 
   | 'ERROR' 
-  | 'TESTING' 
-  | 'NOT_CONFIGURED' 
   | 'NOT_SUPPORTED';
+
+export interface SsiConfig {
+  consumerId: string;
+  consumerSecret?: string;
+  maskedSecret?: string;
+  privateKey?: string;
+  hasPrivateKey?: boolean;
+  hasCredentials?: boolean;
+  apiUrl: string;
+  streamingUrl?: string;
+  isConfigured: boolean;
+  status: ApiConnectionStatus;
+  lastChecked?: string;
+  lastSyncTime?: string;
+  lastError?: string;
+  lastLatencyMs?: number;
+  responseTimeMs?: number;
+  autoSync?: boolean;
+  syncedRecordsCount?: number;
+  marketDataVersion?: string;
+  timeoutSeconds?: number;
+  recordsSynced?: {
+    indices?: number;
+    quotes?: number;
+    securities?: number;
+    lastBatchTime?: string;
+  };
+}
 
 export interface ApiProvider {
   id: string;
@@ -256,6 +302,7 @@ export interface ApiProvider {
   lastError?: string;
   endpoint?: string;
   hasKeyConfigured: boolean;
+  details?: Record<string, any>;
 }
 
 export interface NewsItem {

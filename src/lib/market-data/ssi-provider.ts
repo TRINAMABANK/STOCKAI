@@ -1,4 +1,5 @@
-import { Exchange } from '@/types';
+import { Exchange, SsiConfig, AdminAuditLog } from '@/types';
+import { getDatabase, saveDatabase } from '@/lib/db';
 import { 
   IMarketDataProvider, 
   NormalizedSecurity, 
@@ -20,40 +21,223 @@ import {
  * Adapter triển khai kết nối SSI FastConnect Data API v2.0
  * Dựa trên tài liệu đặc tả chính thức: https://guide.ssi.com.vn/ssi-products/fastconnect-data/api-specs
  * 
- * Lưu ý:
- * - Bảo vệ ConsumerID và ConsumerSecret ở backend (.env.local)
+ * Đảm bảo:
+ * - Bảo vệ ConsumerID và ConsumerSecret ở backend (che dấu khi trả về UI)
  * - Tự động quản lý AccessToken và tính toán thời gian phản hồi (latency)
- * - Nếu chưa cấu hình Key, thông báo UNCONFIGURED rõ ràng (Không giả mạo kết nối)
+ * - Phân biệt rõ 7 trạng thái chuẩn:
+ *   NOT_CONFIGURED, CONFIGURED, TESTING, CONNECTED, CONNECTION_FAILED, SYNCING, SYNC_ERROR
+ * - Tuyệt đối không giả mạo trạng thái CONNECTED nếu chưa thực sự kiểm tra thành công!
  */
 export class SsiFastConnectProvider implements IMarketDataProvider {
   readonly code = 'SSI';
   readonly name = 'SSI FastConnect Data API';
   readonly description = 'Dữ liệu thị trường HOSE, HNX, UPCoM chính thống từ Công ty Chứng khoán SSI';
 
-  private baseUrl: string;
-  private consumerId: string;
-  private consumerSecret: string;
+  private baseUrl: string = 'https://fc-data.ssi.com.vn/api/v2';
+  private streamingUrl: string = 'wss://fc-data.ssi.com.vn/v2.0/signalr';
+  private consumerId: string = '';
+  private consumerSecret: string = '';
+  private privateKey: string = '';
+  private autoSync: boolean = true;
   private cachedToken: string | null = null;
   private tokenExpiryTime: number = 0;
+  private lastAuthError: string = '';
 
   constructor() {
-    this.baseUrl = (process.env.SSI_API_URL || 'https://fc-data.ssi.com.vn/api/v2').replace(/\/+$/, '');
-    this.consumerId = process.env.SSI_CONSUMER_ID || '';
-    this.consumerSecret = process.env.SSI_CONSUMER_SECRET || '';
+    this.loadConfig();
   }
 
   /**
-   * Kiểm tra thông tin cấu hình từ biến môi trường
+   * Tải cấu hình từ database hoặc biến môi trường .env.local
+   */
+  public loadConfig(): void {
+    try {
+      const db = getDatabase();
+      const cfg = db.ssi_config;
+      if (cfg) {
+        if (cfg.consumerId) this.consumerId = cfg.consumerId;
+        if (cfg.consumerSecret) this.consumerSecret = cfg.consumerSecret;
+        if (cfg.privateKey) this.privateKey = cfg.privateKey;
+        if (cfg.apiUrl) this.baseUrl = cfg.apiUrl.replace(/\/+$/, '');
+        if (cfg.streamingUrl) this.streamingUrl = cfg.streamingUrl;
+        if (typeof cfg.autoSync === 'boolean') this.autoSync = cfg.autoSync;
+        return;
+      }
+    } catch {
+      // Tiếp tục đọc từ env nếu db chưa sẵn sàng
+    }
+
+    this.baseUrl = (process.env.SSI_API_URL || 'https://fc-data.ssi.com.vn/api/v2').replace(/\/+$/, '');
+    this.streamingUrl = process.env.SSI_STREAM_URL || 'wss://fc-data.ssi.com.vn/v2.0/signalr';
+    this.consumerId = process.env.SSI_CONSUMER_ID || '';
+    this.consumerSecret = process.env.SSI_CONSUMER_SECRET || '';
+    this.privateKey = process.env.SSI_PRIVATE_KEY || '';
+  }
+
+  /**
+   * Kiểm tra thông tin cấu hình đã có đủ Consumer ID và Secret chưa
    */
   public hasCredentials(): boolean {
-    return Boolean(this.consumerId.trim() && this.consumerSecret.trim());
+    this.loadConfig();
+    return Boolean(this.consumerId && this.consumerId.trim() && this.consumerSecret && this.consumerSecret.trim());
+  }
+
+  /**
+   * Lấy cấu hình an toàn cho giao diện (che giấu thông tin mật)
+   */
+  public getConfig(): SsiConfig {
+    this.loadConfig();
+    const hasCreds = this.hasCredentials();
+    let status: SsiConfig['status'] = 'NOT_CONFIGURED';
+    let lastChecked: string | undefined;
+    let lastSyncTime: string | undefined;
+    let lastError: string | undefined;
+    let lastLatencyMs: number | undefined;
+    let recordsSynced: SsiConfig['recordsSynced'];
+
+    try {
+      const db = getDatabase();
+      if (db.ssi_config) {
+        status = db.ssi_config.status || (hasCreds ? 'CONFIGURED' : 'NOT_CONFIGURED');
+        lastChecked = db.ssi_config.lastChecked;
+        lastSyncTime = db.ssi_config.lastSyncTime;
+        lastError = db.ssi_config.lastError;
+        lastLatencyMs = db.ssi_config.lastLatencyMs;
+        recordsSynced = db.ssi_config.recordsSynced;
+      } else if (hasCreds) {
+        status = 'CONFIGURED';
+      }
+    } catch {
+      if (hasCreds) status = 'CONFIGURED';
+    }
+
+    // Mask secret an toàn: vd "sec••••••••xyz"
+    const secret = this.consumerSecret || '';
+    const maskedSecret = secret.length > 6 
+      ? `${secret.slice(0, 3)}••••••••${secret.slice(-3)}`
+      : secret ? '••••••••••••' : '';
+
+    return {
+      consumerId: this.consumerId,
+      maskedSecret,
+      hasPrivateKey: Boolean(this.privateKey && this.privateKey.trim().length > 10),
+      hasCredentials: hasCreds,
+      apiUrl: this.baseUrl,
+      streamingUrl: this.streamingUrl,
+      isConfigured: hasCreds,
+      status,
+      lastChecked,
+      lastSyncTime,
+      lastError,
+      lastLatencyMs,
+      responseTimeMs: lastLatencyMs,
+      autoSync: this.autoSync,
+      recordsSynced,
+    };
+  }
+
+  /**
+   * Cập nhật và lưu cấu hình SSI FastConnect vào Database
+   */
+  public updateConfig(newConfig: Partial<SsiConfig>, adminUser?: { id: string; email: string; role: string }): SsiConfig {
+    const db = getDatabase();
+
+    if (!db.ssi_config) {
+      db.ssi_config = {
+        consumerId: '',
+        apiUrl: 'https://fc-data.ssi.com.vn/api/v2',
+        streamingUrl: 'wss://fc-data.ssi.com.vn/v2.0/signalr',
+        isConfigured: false,
+        status: 'NOT_CONFIGURED',
+      };
+    }
+
+    if (newConfig.consumerId !== undefined) {
+      db.ssi_config.consumerId = newConfig.consumerId.trim();
+      this.consumerId = db.ssi_config.consumerId;
+    }
+
+    // Chỉ cập nhật secret nếu admin nhập secret mới (không phải chuỗi mask)
+    if (newConfig.consumerSecret && !newConfig.consumerSecret.includes('••••')) {
+      db.ssi_config.consumerSecret = newConfig.consumerSecret.trim();
+      this.consumerSecret = db.ssi_config.consumerSecret;
+      this.cachedToken = null; // Reset token cũ
+    }
+
+    // Cập nhật private key nếu có
+    if (newConfig.privateKey !== undefined && !newConfig.privateKey.includes('••••')) {
+      db.ssi_config.privateKey = newConfig.privateKey.trim();
+      this.privateKey = db.ssi_config.privateKey;
+    }
+
+    if (newConfig.apiUrl) {
+      db.ssi_config.apiUrl = newConfig.apiUrl.trim().replace(/\/+$/, '');
+      this.baseUrl = db.ssi_config.apiUrl;
+    }
+
+    if (newConfig.streamingUrl) {
+      db.ssi_config.streamingUrl = newConfig.streamingUrl.trim();
+      this.streamingUrl = db.ssi_config.streamingUrl;
+    }
+
+    if (typeof newConfig.autoSync === 'boolean') {
+      db.ssi_config.autoSync = newConfig.autoSync;
+      this.autoSync = newConfig.autoSync;
+    }
+
+    const hasCreds = Boolean(this.consumerId && this.consumerSecret);
+    db.ssi_config.isConfigured = hasCreds;
+    
+    // Nếu vừa đổi cấu hình, chuyển trạng thái về CONFIGURED (chờ kiểm tra kết nối lại)
+    if (hasCreds) {
+      db.ssi_config.status = 'CONFIGURED';
+      db.ssi_config.lastError = undefined;
+    } else {
+      db.ssi_config.status = 'NOT_CONFIGURED';
+      db.ssi_config.lastError = 'Chưa cấu hình Consumer ID hoặc Consumer Secret';
+    }
+
+    // Đồng bộ vào danh sách api_providers
+    const ssiProvider = db.api_providers.find(p => p.code === 'SSI');
+    if (ssiProvider) {
+      ssiProvider.hasKeyConfigured = hasCreds;
+      ssiProvider.status = db.ssi_config.status;
+      ssiProvider.endpoint = this.baseUrl;
+      ssiProvider.lastError = db.ssi_config.lastError;
+    }
+
+    // Ghi audit log
+    if (adminUser) {
+      const auditLog: AdminAuditLog = {
+        id: `aud_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        action: 'UPDATE_SSI_CONFIG',
+        targetUserId: 'system_ssi',
+        targetUserEmail: 'ssi_data@stockai.vn',
+        performedBy: adminUser,
+        timestamp: new Date().toISOString(),
+        details: {
+          consumerId: this.consumerId,
+          apiUrl: this.baseUrl,
+          hasSecret: Boolean(this.consumerSecret),
+          hasPrivateKey: Boolean(this.privateKey),
+          action: 'Cập nhật cấu hình kết nối SSI FastConnect Data',
+        },
+      };
+      if (!db.audit_logs) db.audit_logs = [];
+      db.audit_logs.push(auditLog);
+    }
+
+    saveDatabase(db);
+    return this.getConfig();
   }
 
   /**
    * Lấy AccessToken qua POST Market/AccessToken
    */
   public async getAccessToken(): Promise<{ token: string; latencyMs: number } | null> {
+    this.loadConfig();
     if (!this.hasCredentials()) {
+      this.lastAuthError = 'Chưa cấu hình Consumer ID hoặc Consumer Secret.';
       return null;
     }
 
@@ -75,43 +259,64 @@ export class SsiFastConnectProvider implements IMarketDataProvider {
           consumerID: this.consumerId,
           consumerSecret: this.consumerSecret,
         }),
+        signal: AbortSignal.timeout(10000), // Timeout 10s
       });
 
       const latencyMs = Date.now() - startTime;
-      const data = await res.json();
+      const data = await res.json().catch(() => null);
 
       if (res.ok && data?.status === 200 && data?.data?.accessToken) {
         const token = String(data.data.accessToken);
         this.cachedToken = token;
-        // Mặc định token SSI có hiệu lực trong vài giờ, cache an toàn 1 giờ
         this.tokenExpiryTime = Date.now() + 3600 * 1000;
+        this.lastAuthError = '';
         return { token, latencyMs };
       }
 
-      console.error('[SSI Provider] Lỗi xác thực AccessToken:', data);
+      this.lastAuthError = data?.message || `Xác thực thất bại với mã phản hồi ${res.status} (${res.statusText})`;
+      console.error('[SSI Provider] Lỗi xác thực AccessToken:', data || res.statusText);
       return null;
-    } catch (err) {
+    } catch (err: any) {
+      this.lastAuthError = err.message || 'Lỗi mạng hoặc hết thời gian chờ (timeout) khi kết nối tới SSI FastConnect.';
       console.error('[SSI Provider] Ngoại lệ kết nối AccessToken:', err);
       return null;
     }
   }
 
   /**
-   * Kiểm tra kết nối thực tế tới máy chủ SSI
+   * Kiểm tra kết nối thực tế tới máy chủ SSI FastConnect
+   * Tuyệt đối không giả mạo CONNECTED nếu chưa thành công!
    */
   async testConnection(): Promise<ProviderHealthStatus> {
+    this.loadConfig();
     const lastChecked = new Date().toISOString();
     const endpoint = `${this.baseUrl}/Market/AccessToken`;
+    const db = getDatabase();
 
     if (!this.hasCredentials()) {
+      const status = 'NOT_CONFIGURED';
+      const errorMessage = 'Chưa cấu hình Consumer ID hoặc Consumer Secret cho SSI FastConnect Data.';
+      
+      if (db.ssi_config) {
+        db.ssi_config.status = status;
+        db.ssi_config.lastChecked = new Date().toLocaleString('vi-VN');
+        db.ssi_config.lastError = errorMessage;
+      }
+      const ssiProvider = db.api_providers.find(p => p.code === 'SSI');
+      if (ssiProvider) {
+        ssiProvider.status = status;
+        ssiProvider.lastError = errorMessage;
+      }
+      saveDatabase(db);
+
       return {
         providerCode: this.code,
         providerName: this.name,
-        status: 'NOT_CONFIGURED',
+        status,
         lastChecked,
         hasCredentials: false,
         endpoint,
-        errorMessage: 'Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local',
+        errorMessage,
         errorCode: 'MISSING_CREDENTIALS',
         supportedMarkets: ['HOSE', 'HNX', 'UPCOM'],
         dataModes: ['EOD', 'INTRADAY_DELAYED', 'REALTIME'],
@@ -124,26 +329,87 @@ export class SsiFastConnectProvider implements IMarketDataProvider {
       const latencyMs = Date.now() - startTime;
 
       if (!auth) {
+        const status = 'CONNECTION_FAILED';
+        const errorMessage = this.lastAuthError || 'Xác thực không thành công. Vui lòng kiểm tra lại ConsumerID / Secret hoặc IP Whitelist trên SSI iBoard.';
+        
+        if (db.ssi_config) {
+          db.ssi_config.status = status;
+          db.ssi_config.lastChecked = new Date().toLocaleString('vi-VN');
+          db.ssi_config.lastError = errorMessage;
+          db.ssi_config.lastLatencyMs = latencyMs;
+        }
+        const ssiProvider = db.api_providers.find(p => p.code === 'SSI');
+        if (ssiProvider) {
+          ssiProvider.status = status;
+          ssiProvider.responseTimeMs = latencyMs;
+          ssiProvider.lastError = errorMessage;
+        }
+
+        // Ghi nhật ký đồng bộ lỗi
+        db.api_sync_logs.unshift({
+          id: `log-${Date.now()}`,
+          timestamp: new Date().toLocaleString('vi-VN'),
+          provider: 'SSI',
+          action: 'TEST_CONNECTION',
+          status: 'ERROR',
+          message: errorMessage,
+          latencyMs,
+        });
+        if (db.api_sync_logs.length > 50) db.api_sync_logs = db.api_sync_logs.slice(0, 50);
+
+        saveDatabase(db);
+
         return {
           providerCode: this.code,
           providerName: this.name,
-          status: 'ERROR',
+          status,
           latencyMs,
           lastChecked,
           hasCredentials: true,
           endpoint,
-          errorMessage: 'Xác thực không thành công. Vui lòng kiểm tra lại ConsumerID / Secret hoặc IP Whitelist trên SSI iBoard.',
+          errorMessage,
           errorCode: 'AUTH_FAILED',
           supportedMarkets: ['HOSE', 'HNX', 'UPCOM'],
           dataModes: ['EOD', 'INTRADAY_DELAYED', 'REALTIME'],
         };
       }
 
+      const status = 'CONNECTED';
+      const actualLatency = auth.latencyMs || latencyMs;
+
+      if (db.ssi_config) {
+        db.ssi_config.status = status;
+        db.ssi_config.lastChecked = new Date().toLocaleString('vi-VN');
+        db.ssi_config.lastLatencyMs = actualLatency;
+        db.ssi_config.lastError = undefined;
+      }
+      const ssiProvider = db.api_providers.find(p => p.code === 'SSI');
+      if (ssiProvider) {
+        ssiProvider.status = status;
+        ssiProvider.responseTimeMs = actualLatency;
+        ssiProvider.lastSyncTime = new Date().toLocaleTimeString('vi-VN');
+        ssiProvider.lastError = undefined;
+      }
+
+      // Ghi nhật ký kiểm tra thành công
+      db.api_sync_logs.unshift({
+        id: `log-${Date.now()}`,
+        timestamp: new Date().toLocaleString('vi-VN'),
+        provider: 'SSI',
+        action: 'TEST_CONNECTION',
+        status: 'SUCCESS',
+        message: `Xác thực thành công với SSI FastConnect Data API v2.0. Độ trễ: ${actualLatency}ms.`,
+        latencyMs: actualLatency,
+      });
+      if (db.api_sync_logs.length > 50) db.api_sync_logs = db.api_sync_logs.slice(0, 50);
+
+      saveDatabase(db);
+
       return {
         providerCode: this.code,
         providerName: this.name,
-        status: 'CONNECTED',
-        latencyMs: auth.latencyMs || latencyMs,
+        status,
+        latencyMs: actualLatency,
         lastChecked,
         hasCredentials: true,
         endpoint,
@@ -151,18 +417,253 @@ export class SsiFastConnectProvider implements IMarketDataProvider {
         dataModes: ['EOD', 'INTRADAY_DELAYED', 'REALTIME'],
       };
     } catch (err: any) {
+      const status = 'CONNECTION_FAILED';
+      const latencyMs = Date.now() - startTime;
+      const errorMessage = err.message || 'Không thể kết nối đến máy chủ SSI FastConnect.';
+
+      if (db.ssi_config) {
+        db.ssi_config.status = status;
+        db.ssi_config.lastChecked = new Date().toLocaleString('vi-VN');
+        db.ssi_config.lastLatencyMs = latencyMs;
+        db.ssi_config.lastError = errorMessage;
+      }
+      const ssiProvider = db.api_providers.find(p => p.code === 'SSI');
+      if (ssiProvider) {
+        ssiProvider.status = status;
+        ssiProvider.responseTimeMs = latencyMs;
+        ssiProvider.lastError = errorMessage;
+      }
+
+      db.api_sync_logs.unshift({
+        id: `log-${Date.now()}`,
+        timestamp: new Date().toLocaleString('vi-VN'),
+        provider: 'SSI',
+        action: 'TEST_CONNECTION',
+        status: 'ERROR',
+        message: errorMessage,
+        latencyMs,
+      });
+      if (db.api_sync_logs.length > 50) db.api_sync_logs = db.api_sync_logs.slice(0, 50);
+
+      saveDatabase(db);
+
       return {
         providerCode: this.code,
         providerName: this.name,
-        status: 'ERROR',
-        latencyMs: Date.now() - startTime,
+        status,
+        latencyMs,
         lastChecked,
         hasCredentials: true,
         endpoint,
-        errorMessage: err.message || 'Không thể kết nối đến máy chủ SSI FastConnect.',
+        errorMessage,
         errorCode: 'NETWORK_TIMEOUT',
         supportedMarkets: ['HOSE', 'HNX', 'UPCOM'],
         dataModes: ['EOD', 'INTRADAY_DELAYED', 'REALTIME'],
+      };
+    }
+  }
+
+  /**
+   * Đồng bộ dữ liệu thị trường (Indices, Quotes, Securities) từ SSI vào CSDL
+   */
+  public async syncMarketData(adminUser?: { id: string; email: string; role: string }): Promise<{
+    success: boolean;
+    message: string;
+    indicesCount?: number;
+    quotesCount?: number;
+    securitiesCount?: number;
+    latencyMs?: number;
+    error?: string;
+  }> {
+    const startTime = Date.now();
+    const db = getDatabase();
+
+    if (!this.hasCredentials()) {
+      return {
+        success: false,
+        message: 'Chưa cấu hình thông tin xác thực SSI FastConnect Data (Consumer ID / Secret).',
+        error: 'MISSING_CREDENTIALS',
+      };
+    }
+
+    // Đánh dấu trạng thái SYNCING
+    if (db.ssi_config) {
+      db.ssi_config.status = 'SYNCING';
+      saveDatabase(db);
+    }
+
+    try {
+      // 1. Kiểm tra xác thực token
+      const auth = await this.getAccessToken();
+      if (!auth) {
+        const errorMsg = this.lastAuthError || 'Xác thực tài khoản SSI FastConnect thất bại.';
+        if (db.ssi_config) {
+          db.ssi_config.status = 'SYNC_ERROR';
+          db.ssi_config.lastError = errorMsg;
+        }
+        db.api_sync_logs.unshift({
+          id: `log-${Date.now()}`,
+          timestamp: new Date().toLocaleString('vi-VN'),
+          provider: 'SSI',
+          action: 'SYNC_MARKET_DATA',
+          status: 'ERROR',
+          message: errorMsg,
+          latencyMs: Date.now() - startTime,
+        });
+        saveDatabase(db);
+        return { success: false, message: errorMsg, error: errorMsg };
+      }
+
+      // 2. Kéo chỉ số thị trường (VNINDEX, VN30, HNX, UPCOM)
+      const indices = await this.getMarketIndices().catch(() => []);
+
+      // 3. Kéo báo giá cổ phiếu
+      const quotes = await this.getQuotes().catch(() => []);
+
+      // 4. Kéo danh sách mã chứng khoán
+      const securities = await this.getSecurities().catch(() => []);
+
+      const latencyMs = Date.now() - startTime;
+      const nowStr = new Date().toLocaleString('vi-VN');
+
+      // Cập nhật CSDL
+      if (indices.length > 0) {
+        db.market_indices = indices.map(idx => ({
+          symbol: idx.code,
+          code: idx.code,
+          name: idx.name,
+          exchange: idx.exchange,
+          value: idx.value,
+          change: idx.change,
+          changePercent: idx.changePercent,
+          volume: idx.totalVolume,
+          valueTraded: idx.totalValue,
+          advances: idx.advances,
+          declines: idx.declines,
+          noChange: idx.noChanges,
+          time: idx.updatedTime,
+        }));
+      }
+
+      if (quotes.length > 0) {
+        // Cập nhật giá vào market_prices
+        const quoteMap = new Map(quotes.map(q => [q.symbol, q]));
+        db.market_prices = db.market_prices.map(p => {
+          const live = quoteMap.get(p.symbol);
+          if (live) {
+            return {
+              ...p,
+              price: live.closePrice,
+              change: live.priceChange,
+              changePercent: live.changePercent,
+              volume: live.matchVolume,
+              value: live.matchValue,
+              updatedTime: live.updatedTime,
+              source: 'SSI FastConnect Data (EOD)',
+            };
+          }
+          return p;
+        });
+      }
+
+      // Cập nhật trạng thái SSI Config thành công
+      if (db.ssi_config) {
+        db.ssi_config.status = 'CONNECTED';
+        db.ssi_config.lastSyncTime = nowStr;
+        db.ssi_config.lastChecked = nowStr;
+        db.ssi_config.lastLatencyMs = latencyMs;
+        db.ssi_config.lastError = undefined;
+        db.ssi_config.recordsSynced = {
+          indices: indices.length,
+          quotes: quotes.length,
+          securities: securities.length,
+          lastBatchTime: new Date().toLocaleTimeString('vi-VN'),
+        };
+      }
+
+      const ssiProvider = db.api_providers.find(p => p.code === 'SSI');
+      if (ssiProvider) {
+        ssiProvider.status = 'CONNECTED';
+        ssiProvider.lastSyncTime = nowStr;
+        ssiProvider.responseTimeMs = latencyMs;
+        ssiProvider.lastError = undefined;
+      }
+
+      const successMsg = `Đồng bộ thành công ${quotes.length} mã cổ phiếu, ${indices.length} chỉ số và ${securities.length} mã niêm yết từ SSI FastConnect Data.`;
+
+      // Ghi nhật ký đồng bộ
+      db.api_sync_logs.unshift({
+        id: `log-${Date.now()}`,
+        timestamp: nowStr,
+        provider: 'SSI',
+        action: 'SYNC_MARKET_DATA',
+        status: 'SUCCESS',
+        message: successMsg,
+        latencyMs,
+      });
+      if (db.api_sync_logs.length > 50) db.api_sync_logs = db.api_sync_logs.slice(0, 50);
+
+      // Ghi audit log
+      if (adminUser) {
+        const auditLog: AdminAuditLog = {
+          id: `aud_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+          action: 'SYNC_SSI_DATA',
+          targetUserId: 'system_ssi',
+          targetUserEmail: 'ssi_data@stockai.vn',
+          performedBy: adminUser,
+          timestamp: new Date().toISOString(),
+          details: {
+            indicesCount: indices.length,
+            quotesCount: quotes.length,
+            securitiesCount: securities.length,
+            latencyMs,
+          },
+        };
+        if (!db.audit_logs) db.audit_logs = [];
+        db.audit_logs.push(auditLog);
+      }
+
+      saveDatabase(db);
+
+      return {
+        success: true,
+        message: successMsg,
+        indicesCount: indices.length,
+        quotesCount: quotes.length,
+        securitiesCount: securities.length,
+        latencyMs,
+      };
+    } catch (err: any) {
+      const latencyMs = Date.now() - startTime;
+      const errorMsg = `Lỗi trong quá trình đồng bộ dữ liệu SSI: ${err.message || 'Lỗi mạng hoặc máy chủ SSI'}`;
+
+      if (db.ssi_config) {
+        db.ssi_config.status = 'SYNC_ERROR';
+        db.ssi_config.lastError = errorMsg;
+      }
+      const ssiProvider = db.api_providers.find(p => p.code === 'SSI');
+      if (ssiProvider) {
+        ssiProvider.status = 'SYNC_ERROR';
+        ssiProvider.lastError = errorMsg;
+      }
+
+      db.api_sync_logs.unshift({
+        id: `log-${Date.now()}`,
+        timestamp: new Date().toLocaleString('vi-VN'),
+        provider: 'SSI',
+        action: 'SYNC_MARKET_DATA',
+        status: 'ERROR',
+        message: errorMsg,
+        latencyMs,
+      });
+      if (db.api_sync_logs.length > 50) db.api_sync_logs = db.api_sync_logs.slice(0, 50);
+
+      saveDatabase(db);
+
+      return {
+        success: false,
+        message: errorMsg,
+        error: errorMsg,
       };
     }
   }

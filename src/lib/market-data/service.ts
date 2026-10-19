@@ -56,6 +56,13 @@ export class MarketDataService {
   }
 
   /**
+   * Lấy trực tiếp adapter SSI FastConnect Provider
+   */
+  public getSsiProvider(): SsiFastConnectProvider {
+    return this.providers.get('SSI') as SsiFastConnectProvider;
+  }
+
+  /**
    * Thay đổi nhà cung cấp dữ liệu thị trường (Hot-swap)
    */
   public setActiveProvider(code: string): boolean {

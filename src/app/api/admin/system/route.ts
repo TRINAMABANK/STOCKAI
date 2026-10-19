@@ -3,6 +3,7 @@ import { getDatabase, saveDatabase } from '@/lib/db';
 import { AuthService } from '@/lib/auth-service';
 import { PaymentService } from '@/lib/payment-service';
 import { AdminAuditLog } from '@/types';
+import { MarketDataService } from '@/lib/market-data/service';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,14 +22,8 @@ export async function GET(req: Request) {
     const syncLogs = db.api_sync_logs || [];
     const bankConfig = PaymentService.getBankConfig();
 
-    const ssi = providers.find(p => p.code === 'SSI') || {
-      name: 'SSI FastConnect Securities API',
-      code: 'SSI',
-      status: 'CONNECTED',
-      responseTimeMs: 24,
-      lastSyncTime: new Date().toLocaleTimeString('vi-VN'),
-      hasKeyConfigured: true,
-    };
+    const ssiProvider = MarketDataService.getInstance().getSsiProvider();
+    const ssiConfig = ssiProvider.getConfig();
 
     const vietstock = providers.find(p => p.code === 'VIETSTOCK') || {
       name: 'Vietstock Financial API Feed',
@@ -43,13 +38,19 @@ export async function GET(req: Request) {
       success: true,
       data: {
         ssi: {
-          name: ssi.name,
-          code: ssi.code,
-          status: ssi.status,
-          responseTimeMs: ssi.responseTimeMs || 24,
-          lastSyncTime: ssi.lastSyncTime || new Date().toLocaleTimeString('vi-VN'),
-          hasKeyConfigured: Boolean(ssi.hasKeyConfigured),
-          dataQuality: '99.8%',
+          name: 'SSI FastConnect Securities API',
+          code: 'SSI',
+          status: ssiConfig.status,
+          responseTimeMs: ssiConfig.lastLatencyMs || 0,
+          lastSyncTime: ssiConfig.lastSyncTime || 'Chưa đồng bộ',
+          hasKeyConfigured: ssiConfig.isConfigured,
+          consumerId: ssiConfig.consumerId,
+          maskedSecret: ssiConfig.maskedSecret,
+          apiUrl: ssiConfig.apiUrl,
+          streamingUrl: ssiConfig.streamingUrl,
+          lastError: ssiConfig.lastError,
+          recordsSynced: ssiConfig.recordsSynced,
+          dataQuality: ssiConfig.status === 'CONNECTED' ? '100% Khớp sàn' : 'Chưa xác thực',
         },
         vietstock: {
           name: vietstock.name,
@@ -171,9 +172,35 @@ export async function POST(req: Request) {
     }
 
     if (action === 'TEST_SSI') {
+      const ssiProvider = MarketDataService.getInstance().getSsiProvider();
+      const result = await ssiProvider.testConnection();
+      return NextResponse.json({
+        success: result.status === 'CONNECTED',
+        message: result.status === 'CONNECTED'
+          ? `Kết nối SSI FastConnect thành công. Độ trễ: ${result.latencyMs}ms.`
+          : (result.errorMessage || 'Kết nối SSI FastConnect thất bại.'),
+        data: result,
+      });
+    }
+
+    if (action === 'SYNC_SSI') {
+      const ssiProvider = MarketDataService.getInstance().getSsiProvider();
+      const result = await ssiProvider.syncMarketData(
+        adminUser ? { id: adminUser.id, email: adminUser.email, role: adminUser.role } : undefined
+      );
+      return NextResponse.json(result);
+    }
+
+    if (action === 'UPDATE_SSI_CONFIG') {
+      const ssiProvider = MarketDataService.getInstance().getSsiProvider();
+      const updated = ssiProvider.updateConfig(
+        body,
+        adminUser ? { id: adminUser.id, email: adminUser.email, role: adminUser.role } : undefined
+      );
       return NextResponse.json({
         success: true,
-        message: 'Kết nối SSI FastConnect thành công. Độ trễ: 18ms, Dữ liệu khớp lệnh 100% chuẩn xác.',
+        message: 'Đã lưu cấu hình kết nối SSI FastConnect Data thành công.',
+        data: updated,
       });
     }
 

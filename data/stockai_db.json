@@ -906,12 +906,12 @@
       "name": "SSI FastConnect Data API",
       "code": "SSI",
       "description": "Dữ liệu thị trường HOSE, HNX, UPCoM chính thức từ Công ty Chứng khoán SSI",
-      "status": "NOT_CONFIGURED",
-      "lastSyncTime": "20:25:35",
-      "lastError": "Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.",
-      "endpoint": "https://fc-data.ssi.com.vn/api/v2/Market/AccessToken",
+      "status": "CONNECTION_FAILED",
+      "lastSyncTime": "Chưa đồng bộ",
+      "endpoint": "https://fc-data.ssi.com.vn/api/v2",
       "hasKeyConfigured": false,
-      "responseTimeMs": 0
+      "responseTimeMs": 564,
+      "lastError": "This connection is invalid"
     },
     {
       "id": "api-bmsc",
@@ -930,8 +930,8 @@
       "code": "VIETSTOCK",
       "description": "Dữ liệu giá khớp lệnh, chỉ số VN-Index, HNX, UPCoM thời gian thực",
       "status": "CONNECTED",
-      "responseTimeMs": 313,
-      "lastSyncTime": "19:26:19",
+      "responseTimeMs": 244,
+      "lastSyncTime": "21:40:03",
       "hasKeyConfigured": true
     },
     {
@@ -940,8 +940,8 @@
       "code": "FIINTRADE",
       "description": "Báo cáo tài chính, chỉ số P/E, P/B, ROE, EPS và sự kiện doanh nghiệp",
       "status": "CONNECTED",
-      "responseTimeMs": 58,
-      "lastSyncTime": "Vừa xong",
+      "responseTimeMs": 46,
+      "lastSyncTime": "21:40:01",
       "hasKeyConfigured": true
     },
     {
@@ -950,8 +950,8 @@
       "code": "OPENAI",
       "description": "Mô hình ngôn ngữ GPT-4o phân tích cơ bản, kỹ thuật và giải thích T+3",
       "status": "NOT_CONFIGURED",
-      "responseTimeMs": 1,
-      "lastSyncTime": "20:21:31",
+      "responseTimeMs": 0,
+      "lastSyncTime": "21:40:06",
       "hasKeyConfigured": false,
       "lastError": "Chưa cấu hình OPENAI_API_KEY. Vui lòng thêm key vào file .env.local trên máy tính của bạn."
     },
@@ -962,11 +962,110 @@
       "description": "Dữ liệu mô phỏng HOSE, HNX, UPCoM (Dùng khi chưa có API key SSI)",
       "status": "CONNECTED",
       "responseTimeMs": 15,
-      "lastSyncTime": "19:27:29",
+      "lastSyncTime": "21:40:05",
       "hasKeyConfigured": true
     }
   ],
   "api_sync_logs": [
+    {
+      "id": "log-1792421276553",
+      "timestamp": "21:47:56 19/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "This connection is invalid",
+      "latencyMs": 564
+    },
+    {
+      "id": "log-1792421084795",
+      "timestamp": "21:44:44 19/10/2026",
+      "provider": "SSI",
+      "action": "SYNC_MARKET_DATA",
+      "status": "ERROR",
+      "message": "This connection is invalid",
+      "latencyMs": 172
+    },
+    {
+      "id": "log-1792421084554",
+      "timestamp": "21:44:44 19/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "This connection is invalid",
+      "latencyMs": 240
+    },
+    {
+      "id": "log-1792421084190",
+      "timestamp": "21:44:44 19/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "This connection is invalid",
+      "latencyMs": 408
+    },
+    {
+      "id": "log-1792420887121",
+      "timestamp": "21:41:27 19/10/2026",
+      "provider": "SSI",
+      "action": "SYNC_MARKET_DATA",
+      "status": "ERROR",
+      "message": "This connection is invalid",
+      "latencyMs": 270
+    },
+    {
+      "id": "log-1792420886799",
+      "timestamp": "21:41:26 19/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "This connection is invalid",
+      "latencyMs": 398
+    },
+    {
+      "id": "log-1792420806700",
+      "timestamp": "21:40:06 19/10/2026",
+      "provider": "OPENAI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "Chưa cấu hình OPENAI_API_KEY. Vui lòng thêm key vào file .env.local trên máy tính của bạn.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792420805081",
+      "timestamp": "21:40:05 19/10/2026",
+      "provider": "MOCK_DEMO",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Chế độ mô phỏng DEMO đang hoạt động bình thường. (Lưu ý: Không dùng dữ liệu DEMO phát tín hiệu thật)",
+      "latencyMs": 15
+    },
+    {
+      "id": "log-1792420803893",
+      "timestamp": "21:40:03 19/10/2026",
+      "provider": "VIETSTOCK",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới Vietstock. Độ trễ: 244ms. Dữ liệu giá sẵn sàng.",
+      "latencyMs": 244
+    },
+    {
+      "id": "log-1792420801297",
+      "timestamp": "21:40:01 19/10/2026",
+      "provider": "FIINTRADE",
+      "action": "TEST_CONNECTION",
+      "status": "SUCCESS",
+      "message": "Kết nối thành công tới FiinTrade API. Độ trễ: 46ms. Dữ liệu tài chính doanh nghiệp sẵn sàng.",
+      "latencyMs": 46
+    },
+    {
+      "id": "log-1792419906222",
+      "timestamp": "21:25:06 19/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.",
+      "latencyMs": 0
+    },
     {
       "id": "log-1792416337455",
       "timestamp": "20:25:37 19/10/2026",
@@ -1516,17 +1615,47 @@
     "name": "Quang Nhựt Trí (Admin)",
     "email": "triqnnamabank@gmail.com",
     "role": "ADMIN",
-    "tier": "ENTERPRISE",
-    "validUntil": "2026-11-17",
+    "tier": "PRO",
+    "validUntil": "2026-11-18",
     "features": [
-      "Toàn bộ tính năng gói PRO",
-      "Streaming dữ liệu WebSocket tick-by-tick tốc độ cao",
-      "Tùy biến công thức chiến lược định lượng T+1–T+5 riêng",
-      "Phân tích dòng tiền khối ngoại và tự doanh chuyên sâu",
-      "Ưu tiên hỗ trợ kỹ thuật và bảo mật chuyên biệt"
+      "Toàn bộ tính năng gói FREE",
+      "Bộ quét tín hiệu T+1–T+5 thời gian thực (Realtime Radar)",
+      "Kết nối SSI FastConnect Data API chính thức",
+      "Trợ lý AI StockAI Copilot (GPT-4o) phân tích chuyên sâu",
+      "Kiểm định chiến lược Backtest không giới hạn",
+      "Cảnh báo giá và tín hiệu tự động qua Web/App",
+      "Xuất và sao lưu dữ liệu SQLite cá nhân an toàn"
     ]
   },
   "subscription_orders": [
+    {
+      "id": "ord_1792421177313_zr5y8",
+      "orderCode": "STOCKAI-295210",
+      "userId": "usr_stockai_lead",
+      "userEmail": "triqnnamabank@gmail.com",
+      "userName": "Quang Nhựt Trí (Admin)",
+      "tier": "PRO",
+      "amount": 199000,
+      "formattedAmount": "199.000 đ",
+      "currency": "VND",
+      "status": "PAID",
+      "transferContent": "STOCKAI-295210",
+      "createdAt": "2026-10-19T14:46:17.313Z",
+      "expiresAt": "2026-10-19T15:01:17.313Z",
+      "qrUrl": "https://img.vietqr.io/image/MB-0982441446-compact2.png?amount=199000&addInfo=STOCKAI-295210&accountName=QUANG%20NHUT%20TRI",
+      "customerReportedAt": "2026-10-19T14:46:37.001Z",
+      "customerNote": "Khách báo đã chuyển khoản 199.000 đ cho đơn STOCKAI-295210 | Khách báo đã chuyển khoản 199.000 đ cho đơn STOCKAI-295210",
+      "actualAmount": 199000,
+      "bankTransactionRef": "BANK_REF_1792421285852",
+      "transactionTime": "2026-10-19T14:48:07.038Z",
+      "reconciledAt": "2026-10-19T14:48:07.050Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
+      },
+      "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-295210"
+    },
     {
       "id": "ord_1792327637954_zmx5z",
       "orderCode": "STOCKAI-729511",
@@ -2612,6 +2741,47 @@
     }
   ],
   "audit_logs": [
+    {
+      "id": "aud_1792421287050_7x3h",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792421177313_zr5y8",
+      "orderCode": "STOCKAI-295210",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-19T14:48:07.050Z",
+      "details": {
+        "tier": "PRO",
+        "amount": 199000,
+        "actualAmount": 199000,
+        "bankTransactionRef": "BANK_REF_1792421285852",
+        "transactionTime": "2026-10-19T14:48:07.038Z",
+        "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-295210",
+        "newValidUntil": "2026-11-18"
+      }
+    },
+    {
+      "id": "aud_1792419884570_ixsr",
+      "action": "UPDATE_BANK_CONFIG",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-19T14:24:44.570Z",
+      "details": {
+        "bankId": "OCB",
+        "bankName": "Ngân hàng OCB",
+        "accountHolder": "QUANG NHUT TRI",
+        "accountNumberMasked": "******1446"
+      }
+    },
     {
       "id": "aud_1792416030241_5u2m",
       "action": "VERIFY_PAYMENT",
@@ -4559,6 +4729,44 @@
         "reason": "Hoàn nguyên biểu phí chuẩn 299.000 VNĐ sau khi kiểm thử",
         "note": "Thay đổi giá áp dụng cho các đơn hàng mới, TUYỆT ĐỐI không hồi tố các đơn hàng đã thanh toán."
       }
+    },
+    {
+      "id": "aud_1792420886317_69ya",
+      "action": "UPDATE_SSI_CONFIG",
+      "targetUserId": "system_ssi",
+      "targetUserEmail": "ssi_data@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-19T14:41:26.317Z",
+      "details": {
+        "consumerId": "TEST_CONSUMER_ID_123",
+        "apiUrl": "https://fc-data.ssi.com.vn/api/v2",
+        "hasSecret": true,
+        "hasPrivateKey": false,
+        "action": "Cập nhật cấu hình kết nối SSI FastConnect Data"
+      }
+    },
+    {
+      "id": "aud_1792421084240_9p7q",
+      "action": "UPDATE_SSI_CONFIG",
+      "targetUserId": "system_ssi",
+      "targetUserEmail": "ssi_data@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-19T14:44:44.240Z",
+      "details": {
+        "consumerId": "TEST_CONSUMER_ID_123",
+        "apiUrl": "https://fc-data.ssi.com.vn/api/v2",
+        "hasSecret": true,
+        "hasPrivateKey": false,
+        "action": "Cập nhật cấu hình kết nối SSI FastConnect Data"
+      }
     }
   ],
   "bank_config": {
@@ -4575,14 +4783,16 @@
       "name": "Quang Nhựt Trí (Admin)",
       "email": "triqnnamabank@gmail.com",
       "role": "ADMIN",
-      "tier": "ENTERPRISE",
-      "validUntil": "2026-11-17",
+      "tier": "PRO",
+      "validUntil": "2026-11-18",
       "features": [
-        "Toàn bộ tính năng gói PRO",
-        "Streaming dữ liệu WebSocket tick-by-tick tốc độ cao",
-        "Tùy biến công thức chiến lược định lượng T+1–T+5 riêng",
-        "Phân tích dòng tiền khối ngoại và tự doanh chuyên sâu",
-        "Ưu tiên hỗ trợ kỹ thuật và bảo mật chuyên biệt"
+        "Toàn bộ tính năng gói FREE",
+        "Bộ quét tín hiệu T+1–T+5 thời gian thực (Realtime Radar)",
+        "Kết nối SSI FastConnect Data API chính thức",
+        "Trợ lý AI StockAI Copilot (GPT-4o) phân tích chuyên sâu",
+        "Kiểm định chiến lược Backtest không giới hạn",
+        "Cảnh báo giá và tín hiệu tự động qua Web/App",
+        "Xuất và sao lưu dữ liệu SQLite cá nhân an toàn"
       ]
     },
     {
@@ -4650,5 +4860,17 @@
         "Ưu tiên hỗ trợ kỹ thuật và bảo mật chuyên biệt"
       ]
     }
+  },
+  "ssi_config": {
+    "consumerId": "",
+    "apiUrl": "https://fc-data.ssi.com.vn/api/v2",
+    "streamingUrl": "wss://fc-data.ssi.com.vn/v2.0/signalr",
+    "isConfigured": false,
+    "status": "CONNECTION_FAILED",
+    "consumerSecret": "",
+    "autoSync": true,
+    "lastChecked": "21:47:56 19/10/2026",
+    "lastError": "This connection is invalid",
+    "lastLatencyMs": 564
   }
 }

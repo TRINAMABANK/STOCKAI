@@ -126,7 +126,7 @@ export interface NormalizedIndex {
 export interface ProviderHealthStatus {
   providerCode: string;
   providerName: string;
-  status: 'CONNECTED' | 'DISCONNECTED' | 'NOT_CONFIGURED' | 'ERROR' | 'TESTING';
+  status: 'CONNECTED' | 'DISCONNECTED' | 'NOT_CONFIGURED' | 'CONFIGURED' | 'ERROR' | 'TESTING' | 'CONNECTION_FAILED' | 'SYNCING' | 'SYNC_ERROR';
   latencyMs?: number;
   lastChecked: string;
   hasCredentials: boolean;

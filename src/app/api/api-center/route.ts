@@ -2,12 +2,16 @@ import { NextResponse } from 'next/server';
 import { getDatabase, saveDatabase } from '@/lib/db';
 import { ApiProvider, ApiConnectionStatus } from '@/types';
 import { MarketDataService } from '@/lib/market-data/service';
+import { AuthService } from '@/lib/auth-service';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
     const db = getDatabase();
     const marketService = MarketDataService.getInstance();
-    const ssiStatus = await marketService.testProvider('SSI');
+    const ssiProvider = marketService.getSsiProvider();
+    const ssiConfig = ssiProvider.getConfig();
 
     // Đồng bộ danh sách providers chuẩn của StockAI
     const currentCodes = new Set(db.api_providers.map(p => p.code));
@@ -19,22 +23,23 @@ export async function GET() {
         name: 'SSI FastConnect Data API',
         code: 'SSI',
         description: 'Dữ liệu thị trường HOSE, HNX, UPCoM chính thức từ Công ty Chứng khoán SSI',
-        status: ssiStatus.status,
-        responseTimeMs: ssiStatus.latencyMs,
-        lastSyncTime: ssiStatus.status === 'CONNECTED' ? 'Vừa xong' : 'Chưa đồng bộ',
-        lastError: ssiStatus.errorMessage,
-        endpoint: ssiStatus.endpoint,
-        hasKeyConfigured: ssiStatus.hasCredentials,
+        status: ssiConfig.status,
+        responseTimeMs: ssiConfig.lastLatencyMs,
+        lastSyncTime: ssiConfig.lastSyncTime || 'Chưa đồng bộ',
+        lastError: ssiConfig.lastError,
+        endpoint: ssiConfig.apiUrl,
+        hasKeyConfigured: ssiConfig.isConfigured,
       });
       saveDatabase(db);
     } else {
-      const ssiProvider = db.api_providers.find(p => p.code === 'SSI');
-      if (ssiProvider) {
-        ssiProvider.hasKeyConfigured = ssiStatus.hasCredentials;
-        if (!ssiStatus.hasCredentials && ssiProvider.status !== 'TESTING') {
-          ssiProvider.status = 'NOT_CONFIGURED';
-          ssiProvider.lastError = 'Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local';
-        }
+      const ssiEntry = db.api_providers.find(p => p.code === 'SSI');
+      if (ssiEntry) {
+        ssiEntry.hasKeyConfigured = ssiConfig.isConfigured;
+        ssiEntry.status = ssiConfig.status;
+        ssiEntry.endpoint = ssiConfig.apiUrl;
+        ssiEntry.responseTimeMs = ssiConfig.lastLatencyMs;
+        ssiEntry.lastSyncTime = ssiConfig.lastSyncTime || ssiEntry.lastSyncTime;
+        ssiEntry.lastError = ssiConfig.lastError;
       }
     }
 
@@ -67,8 +72,10 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       data: {
+        ssi_config: ssiConfig,
         providers: db.api_providers,
-        logs: db.api_sync_logs,
+        logs: db.api_sync_logs || [],
+        activeProvider: marketService.getActiveProvider().code,
       },
     });
   } catch (error) {
@@ -78,11 +85,70 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const adminUser = AuthService.getCurrentUserFromRequest(req);
     const body = await req.json();
     const { action, providerCode } = body;
     const db = getDatabase();
     const marketService = MarketDataService.getInstance();
+    const ssiProvider = marketService.getSsiProvider();
 
+    // 1. LƯU CẤU HÌNH SSI FASTCONNECT DATA
+    if (action === 'SAVE_SSI_CONFIG') {
+      const { consumerId, consumerSecret, privateKey, apiUrl, streamingUrl, autoSync } = body;
+
+      if (!consumerId || !consumerId.trim()) {
+        return NextResponse.json({
+          success: false,
+          message: 'Consumer ID không được để trống.',
+        }, { status: 400 });
+      }
+
+      const updatedConfig = ssiProvider.updateConfig({
+        consumerId,
+        consumerSecret,
+        privateKey,
+        apiUrl,
+        streamingUrl,
+        autoSync,
+      }, adminUser ? { id: adminUser.id, email: adminUser.email, role: adminUser.role } : undefined);
+
+      return NextResponse.json({
+        success: true,
+        message: 'Đã lưu cấu hình SSI FastConnect Data thành công.',
+        data: {
+          ssi_config: updatedConfig,
+        },
+      });
+    }
+
+    // 2. ĐỒNG BỘ DỮ LIỆU THỊ TRƯỜNG TỪ SSI
+    if (action === 'SYNC_DATA') {
+      const result = await ssiProvider.syncMarketData(
+        adminUser ? { id: adminUser.id, email: adminUser.email, role: adminUser.role } : undefined
+      );
+
+      return NextResponse.json({
+        success: result.success,
+        message: result.message,
+        data: {
+          ...result,
+          ssi_config: ssiProvider.getConfig(),
+          logs: getDatabase().api_sync_logs || [],
+        },
+      }, { status: 200 });
+    }
+
+    // 3. XÓA NHẬT KÝ ĐỒNG BỘ
+    if (action === 'CLEAR_LOGS') {
+      db.api_sync_logs = [];
+      saveDatabase(db);
+      return NextResponse.json({
+        success: true,
+        message: 'Đã xóa toàn bộ nhật ký đồng bộ API.',
+      });
+    }
+
+    // 4. KIỂM TRA KẾT NỐI (TEST_CONNECTION)
     if (action === 'TEST_CONNECTION') {
       const startTime = Date.now();
       let status: ApiConnectionStatus = 'ERROR';
@@ -90,16 +156,30 @@ export async function POST(req: Request) {
       let latencyMs = 0;
 
       if (providerCode === 'SSI') {
-        const result = await marketService.testProvider('SSI');
+        // Thực hiện kiểm tra kết nối thực tế tới máy chủ SSI
+        const result = await ssiProvider.testConnection();
         status = result.status;
         latencyMs = result.latencyMs || (Date.now() - startTime);
+
         if (result.status === 'CONNECTED') {
           message = `Kết nối thành công tới SSI FastConnect Data API! Độ trễ phản hồi: ${latencyMs}ms.`;
         } else if (result.status === 'NOT_CONFIGURED') {
-          message = 'Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.';
+          message = 'Chưa cấu hình Consumer ID hoặc Consumer Secret cho SSI FastConnect Data.';
         } else {
           message = result.errorMessage || 'Lỗi kết nối tới SSI FastConnect Data.';
         }
+
+        return NextResponse.json({
+          success: result.status === 'CONNECTED',
+          data: {
+            providerCode: 'SSI',
+            status: result.status,
+            latencyMs,
+            message,
+            ssi_config: ssiProvider.getConfig(),
+            logs: getDatabase().api_sync_logs || [],
+          },
+        });
       } else if (providerCode === 'MOCK_DEMO') {
         const result = await marketService.testProvider('MOCK_DEMO');
         status = 'CONNECTED';
@@ -184,13 +264,14 @@ export async function POST(req: Request) {
       saveDatabase(db);
 
       return NextResponse.json({
-        success: true,
+        success: status === 'CONNECTED',
         data: {
           providerCode,
           status,
           latencyMs,
           message,
           provider: target,
+          logs: db.api_sync_logs,
         },
       });
     }
