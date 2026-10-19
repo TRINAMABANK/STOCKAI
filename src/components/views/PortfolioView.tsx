@@ -104,44 +104,44 @@ export default function PortfolioView({
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-[13px]">
+          <table className="w-full text-left text-[11pt]">
             <thead>
-              <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
-                <th className="py-3 px-4 font-medium text-left">Mã CP</th>
-                <th className="py-3 px-3 font-medium text-left">Ngành</th>
-                <th className="py-3 px-3 font-medium text-right">Khối lượng</th>
-                <th className="py-3 px-3 font-medium text-right">Giá vốn (BQ)</th>
-                <th className="py-3 px-3 font-medium text-right">Giá thị trường</th>
-                <th className="py-3 px-4 font-medium text-right">Giá trị TT</th>
-                <th className="py-3 px-4 font-medium text-right">Lãi/Lỗ (%)</th>
-                <th className="py-3 px-3 font-medium text-center">Tỷ trọng</th>
-                <th className="py-3 px-4 font-medium text-right">Thao tác</th>
+              <tr className="bg-[#F5F8FC] text-[#64748B] text-[11pt] font-semibold border-b border-[#E2E8F0]">
+                <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Mã CP</th>
+                <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Ngành</th>
+                <th className="py-3 px-3 font-semibold text-right whitespace-nowrap">Khối lượng</th>
+                <th className="py-3 px-3 font-semibold text-right whitespace-nowrap">Giá vốn (BQ)</th>
+                <th className="py-3 px-3 font-semibold text-right whitespace-nowrap">Giá thị trường</th>
+                <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Giá trị TT</th>
+                <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Lãi/Lỗ (%)</th>
+                <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">Tỷ trọng</th>
+                <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9]">
+            <tbody className="divide-y divide-[#F1F5F9] text-[11pt]">
               {holdings.map((h) => {
                 const isProfitable = h.unrealizedPnL >= 0;
                 return (
                   <tr key={h.id} className="hover:bg-[#F8FAFC] transition h-[44px]">
-                    <td className="py-2.5 px-4 font-semibold text-[#008FD3] cursor-pointer" onClick={() => onSelectStock(h.symbol)}>
+                    <td className="py-2.5 px-4 font-semibold text-[#008FD3] cursor-pointer whitespace-nowrap" onClick={() => onSelectStock(h.symbol)}>
                       {h.symbol}
-                      <span className="block text-[11px] text-[#64748B] font-normal">{h.companyName}</span>
+                      <span className="block text-[11pt] text-[#64748B] font-normal">{h.companyName}</span>
                     </td>
-                    <td className="py-2.5 px-3 text-[#64748B] text-xs font-medium">{h.sector}</td>
-                    <td className="py-2.5 px-3 text-right font-medium text-[#172033] font-mono tabular-nums">{h.shares.toLocaleString()}</td>
-                    <td className="py-2.5 px-3 text-right text-[#64748B] font-mono tabular-nums">{h.costBasis.toLocaleString('vi-VN')}</td>
-                    <td className="py-2.5 px-3 text-right font-medium text-[#172033] font-mono tabular-nums">{h.currentPrice.toLocaleString('vi-VN')}</td>
-                    <td className="py-2.5 px-4 text-right font-semibold text-[#172033] font-mono tabular-nums">{h.marketValue.toLocaleString('vi-VN')}</td>
-                    <td className="py-2.5 px-4 text-right">
-                      <span className={`inline-flex items-center gap-0.5 font-bold font-mono tabular-nums ${isProfitable ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                    <td className="py-2.5 px-3 text-[#64748B] text-[11pt] font-medium whitespace-nowrap">{h.sector}</td>
+                    <td className="py-2.5 px-3 text-right font-medium text-[#172033] font-mono tabular-nums text-[11pt] whitespace-nowrap">{h.shares.toLocaleString()}</td>
+                    <td className="py-2.5 px-3 text-right text-[#64748B] font-mono tabular-nums text-[11pt] whitespace-nowrap">{h.costBasis.toLocaleString('vi-VN')}</td>
+                    <td className="py-2.5 px-3 text-right font-medium text-[#172033] font-mono tabular-nums text-[11pt] whitespace-nowrap">{h.currentPrice.toLocaleString('vi-VN')}</td>
+                    <td className="py-2.5 px-4 text-right font-semibold text-[#172033] font-mono tabular-nums text-[11pt] whitespace-nowrap">{h.marketValue.toLocaleString('vi-VN')}</td>
+                    <td className="py-2.5 px-4 text-right whitespace-nowrap">
+                      <span className={`inline-flex items-center gap-0.5 font-bold font-mono tabular-nums text-[11pt] ${isProfitable ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                         {isProfitable ? '+' : ''}{h.unrealizedPnLPercent}%
                       </span>
-                      <span className="block text-[11px] text-[#64748B] font-mono tabular-nums">
+                      <span className="block text-[11pt] text-[#64748B] font-mono tabular-nums whitespace-nowrap">
                         {isProfitable ? '+' : ''}{h.unrealizedPnL.toLocaleString('vi-VN')} đ
                       </span>
                     </td>
-                    <td className="py-2.5 px-3 text-center">
-                      <span className="px-2 py-0.5 rounded-full bg-[#F5F8FC] border border-[#E2E8F0] text-[#172033] font-semibold text-[11px] font-mono tabular-nums">
+                    <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                      <span className="px-2 py-0.5 rounded-full bg-[#F5F8FC] border border-[#E2E8F0] text-[#172033] font-semibold text-[11pt] font-mono tabular-nums">
                         {h.weightPercent}%
                       </span>
                     </td>
@@ -149,13 +149,13 @@ export default function PortfolioView({
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => openTradeModal('BUY', h)}
-                          className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] text-[#008FD3] hover:bg-[#BAE6FD] text-[12px] font-semibold transition"
+                          className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] text-[#008FD3] hover:bg-[#BAE6FD] text-[11pt] font-semibold transition"
                         >
                           Mua thêm
                         </button>
                         <button
                           onClick={() => openTradeModal('SELL', h)}
-                          className="px-2.5 py-1 rounded-lg bg-[#FFE4E6] text-[#F43F5E] hover:bg-[#FECDD3] text-[12px] font-semibold transition"
+                          className="px-2.5 py-1 rounded-lg bg-[#FFE4E6] text-[#F43F5E] hover:bg-[#FECDD3] text-[11pt] font-semibold transition"
                         >
                           Bán bớt
                         </button>

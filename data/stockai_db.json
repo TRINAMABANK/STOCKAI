@@ -907,7 +907,7 @@
       "code": "SSI",
       "description": "Dữ liệu thị trường HOSE, HNX, UPCoM chính thức từ Công ty Chứng khoán SSI",
       "status": "NOT_CONFIGURED",
-      "lastSyncTime": "13:20:21",
+      "lastSyncTime": "20:25:35",
       "lastError": "Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.",
       "endpoint": "https://fc-data.ssi.com.vn/api/v2/Market/AccessToken",
       "hasKeyConfigured": false,
@@ -919,7 +919,7 @@
       "code": "BMSC",
       "description": "Chưa có Open API công khai từ BMSC — Hỗ trợ nhập sao kê định dạng CSV/Excel",
       "status": "NOT_SUPPORTED",
-      "lastSyncTime": "18:32:52",
+      "lastSyncTime": "20:25:37",
       "lastError": "StockAI là nền tảng phân tích độc lập, không tích hợp tài khoản môi giới BMSC và không lưu mật khẩu giao dịch.",
       "hasKeyConfigured": false,
       "responseTimeMs": 0
@@ -950,8 +950,8 @@
       "code": "OPENAI",
       "description": "Mô hình ngôn ngữ GPT-4o phân tích cơ bản, kỹ thuật và giải thích T+3",
       "status": "NOT_CONFIGURED",
-      "responseTimeMs": 0,
-      "lastSyncTime": "12:09:03",
+      "responseTimeMs": 1,
+      "lastSyncTime": "20:21:31",
       "hasKeyConfigured": false,
       "lastError": "Chưa cấu hình OPENAI_API_KEY. Vui lòng thêm key vào file .env.local trên máy tính của bạn."
     },
@@ -967,6 +967,33 @@
     }
   ],
   "api_sync_logs": [
+    {
+      "id": "log-1792416337455",
+      "timestamp": "20:25:37 19/10/2026",
+      "provider": "BMSC",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "StockAI là nền tảng phân tích độc lập, không tích hợp tài khoản môi giới BMSC và không lưu mật khẩu giao dịch.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792416335006",
+      "timestamp": "20:25:35 19/10/2026",
+      "provider": "SSI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "Chưa cấu hình SSI_CONSUMER_ID hoặc SSI_CONSUMER_SECRET trong .env.local. Đang sử dụng chế độ DEMO mô phỏng.",
+      "latencyMs": 0
+    },
+    {
+      "id": "log-1792416091395",
+      "timestamp": "20:21:31 19/10/2026",
+      "provider": "OPENAI",
+      "action": "TEST_CONNECTION",
+      "status": "ERROR",
+      "message": "Chưa cấu hình OPENAI_API_KEY. Vui lòng thêm key vào file .env.local trên máy tính của bạn.",
+      "latencyMs": 1
+    },
     {
       "id": "log-1792326449805",
       "timestamp": "19:27:29 18/10/2026",
@@ -1538,7 +1565,7 @@
       "amount": 299000,
       "formattedAmount": "299.000 đ",
       "currency": "VND",
-      "status": "REJECTED",
+      "status": "PAID",
       "transferContent": "STOCKAI-286915",
       "createdAt": "2026-10-18T12:47:17.827Z",
       "expiresAt": "2026-10-18T13:02:17.827Z",
@@ -1548,7 +1575,17 @@
         "id": "usr_stockai_lead",
         "email": "triqnnamabank@gmail.com"
       },
-      "rejectionReason": "Số tiền chuyển khoản không hợp lệ hoặc khách hàng hủy yêu cầu"
+      "rejectionReason": "Số tiền chuyển khoản không hợp lệ hoặc khách hàng hủy yêu cầu",
+      "actualAmount": 299000,
+      "bankTransactionRef": "BANK_REF_1792416029000",
+      "transactionTime": "2026-10-19T13:20:30.230Z",
+      "reconciledAt": "2026-10-19T13:20:30.241Z",
+      "reconciledBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "name": "Quang Nhựt Trí (Admin)"
+      },
+      "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-286915"
     },
     {
       "id": "ord_1792327637713_97kvk",
@@ -2575,6 +2612,29 @@
     }
   ],
   "audit_logs": [
+    {
+      "id": "aud_1792416030241_5u2m",
+      "action": "VERIFY_PAYMENT",
+      "orderId": "ord_1792327637827_a0lsp",
+      "orderCode": "STOCKAI-286915",
+      "targetUserId": "usr_regular_trader",
+      "targetUserEmail": "user@stockai.vn",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-19T13:20:30.241Z",
+      "details": {
+        "tier": "ENTERPRISE",
+        "amount": 299000,
+        "actualAmount": 299000,
+        "bankTransactionRef": "BANK_REF_1792416029000",
+        "transactionTime": "2026-10-19T13:20:30.230Z",
+        "reconciliationNotes": "Duyệt kích hoạt đơn STOCKAI-286915",
+        "newValidUntil": "2026-11-18"
+      }
+    },
     {
       "id": "aud_1792327638008_eotq",
       "action": "VERIFY_PAYMENT",
@@ -4561,16 +4621,14 @@
       "email": "user@stockai.vn",
       "name": "Nhà Đầu Tư StockAI",
       "role": "USER",
-      "tier": "PRO",
-      "validUntil": "2026-12-17",
+      "tier": "ENTERPRISE",
+      "validUntil": "2026-11-18",
       "features": [
-        "Toàn bộ tính năng gói FREE",
-        "Bộ quét tín hiệu T+1–T+5 thời gian thực (Realtime Radar)",
-        "Kết nối SSI FastConnect Data API chính thức",
-        "Trợ lý AI StockAI Copilot (GPT-4o) phân tích chuyên sâu",
-        "Kiểm định chiến lược Backtest không giới hạn",
-        "Cảnh báo giá và tín hiệu tự động qua Web/App",
-        "Xuất và sao lưu dữ liệu SQLite cá nhân an toàn"
+        "Toàn bộ tính năng gói PRO",
+        "Streaming dữ liệu WebSocket tick-by-tick tốc độ cao",
+        "Tùy biến công thức chiến lược định lượng T+1–T+5 riêng",
+        "Phân tích dòng tiền khối ngoại và tự doanh chuyên sâu",
+        "Ưu tiên hỗ trợ kỹ thuật và bảo mật chuyên biệt"
       ],
       "isLocked": false
     }

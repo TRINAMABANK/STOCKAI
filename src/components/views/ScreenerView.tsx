@@ -313,24 +313,24 @@ export default function ScreenerView({
       {/* Results Table */}
       <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-[13px]">
+          <table className="w-full text-left text-[11pt]">
             <thead>
-              <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
-                <th className="py-3 px-4 font-medium text-left">Hạng / Mã CP</th>
-                <th className="py-3 px-3 font-medium text-left">Ngành</th>
-                <th className="py-3 px-3 font-medium text-center">Điểm Quant</th>
-                <th className="py-3 px-4 font-medium text-right">Giá khớp</th>
-                <th className="py-3 px-3 font-medium text-right">%</th>
-                <th className="py-3 px-4 font-medium text-right">Khối lượng</th>
-                <th className="py-3 px-3 font-medium text-center">RSI</th>
-                <th className="py-3 px-4 font-medium text-left">Lý do chọn cổ phiếu</th>
-                <th className="py-3 px-4 font-medium text-right">Hành động</th>
+              <tr className="bg-[#F5F8FC] text-[#64748B] text-[11pt] font-semibold border-b border-[#E2E8F0]">
+                <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Hạng / Mã CP</th>
+                <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Ngành</th>
+                <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">Điểm Quant</th>
+                <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Giá khớp</th>
+                <th className="py-3 px-3 font-semibold text-right whitespace-nowrap">%</th>
+                <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Khối lượng</th>
+                <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">RSI</th>
+                <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Lý do chọn cổ phiếu</th>
+                <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Hành động</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9]">
+            <tbody className="divide-y divide-[#F1F5F9] text-[11pt]">
               {displayedQuotes.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="p-12 text-center text-[#64748B]">
+                  <td colSpan={9} className="p-12 text-center text-[#64748B] text-[11pt]">
                     Không có cổ phiếu nào thỏa mãn toàn bộ tiêu chí lọc hiện tại. Hãy nới rộng khoảng lọc RSI hoặc khối lượng.
                   </td>
                 </tr>
@@ -339,7 +339,7 @@ export default function ScreenerView({
                   const isUp = stock.change >= 0;
                   return (
                     <tr key={stock.symbol} className="hover:bg-[#F8FAFC] transition h-[44px]">
-                      <td className="py-2.5 px-4">
+                      <td className="py-2.5 px-4 whitespace-nowrap">
                         <div className="flex items-center gap-2.5">
                           <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
                             idx === 0 
@@ -356,39 +356,39 @@ export default function ScreenerView({
                             className="cursor-pointer hover:underline"
                             onClick={() => onSelectStock(stock.symbol)}
                           >
-                            <span className="font-bold text-[#008FD3] text-sm">{stock.symbol}</span>
-                            <span className="text-[10px] ml-1.5 px-1.5 py-0.2 rounded bg-[#F1F5F9] text-[#64748B] font-semibold border border-[#E2E8F0]">
+                            <span className="font-bold text-[#008FD3] text-[11pt]">{stock.symbol}</span>
+                            <span className="text-[11pt] ml-1.5 px-1.5 py-0.2 rounded bg-[#F1F5F9] text-[#64748B] font-semibold border border-[#E2E8F0]">
                               {stock.exchange}
                             </span>
-                            <span className="block text-[11px] text-[#64748B] font-normal truncate max-w-[150px]">
+                            <span className="block text-[11pt] text-[#64748B] font-normal truncate max-w-[150px]">
                               {stock.companyName}
                             </span>
                           </div>
                         </div>
                       </td>
 
-                      <td className="py-2.5 px-3 text-[#64748B] text-xs font-medium">{stock.industry}</td>
+                      <td className="py-2.5 px-3 text-[#64748B] text-[11pt] font-medium whitespace-nowrap">{stock.industry}</td>
 
-                      <td className="py-2.5 px-3 text-center">
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] font-bold text-xs font-mono tabular-nums">
+                      <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] font-bold text-[11pt] font-mono tabular-nums">
                           {stock.quantScore}/100
                         </span>
                       </td>
 
-                      <td className="py-2.5 px-4 text-right font-bold text-[#172033] font-mono tabular-nums">
+                      <td className="py-2.5 px-4 text-right font-bold text-[#172033] font-mono tabular-nums text-[11pt] whitespace-nowrap">
                         {stock.price.toLocaleString('vi-VN')}
                       </td>
 
-                      <td className={`py-2.5 px-3 text-right font-bold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                      <td className={`py-2.5 px-3 text-right font-bold font-mono tabular-nums text-[11pt] whitespace-nowrap ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
                         {isUp ? '+' : ''}{stock.changePercent.toFixed(2)}%
                       </td>
 
-                      <td className="py-2.5 px-4 text-right font-mono tabular-nums text-[#64748B]">
+                      <td className="py-2.5 px-4 text-right font-mono tabular-nums text-[#64748B] text-[11pt] whitespace-nowrap">
                         {stock.volume.toLocaleString('vi-VN')}
                       </td>
 
-                      <td className="py-2.5 px-3 text-center">
-                        <span className={`px-2 py-0.5 rounded-full font-semibold text-[11px] font-mono tabular-nums border ${
+                      <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                        <span className={`px-2 py-0.5 rounded-full font-semibold text-[11pt] font-mono tabular-nums border ${
                           (stock.rsi || 50) > 70 
                             ? 'bg-[#FFE4E6] text-[#F43F5E] border-[#FECDD3]'
                             : (stock.rsi || 50) < 35 
@@ -399,17 +399,17 @@ export default function ScreenerView({
                         </span>
                       </td>
 
-                      <td className="py-2.5 px-4 text-left">
-                        <span className="text-xs font-medium text-[#172033] line-clamp-1">
+                      <td className="py-2.5 px-4 text-left whitespace-nowrap">
+                        <span className="text-[11pt] font-medium text-[#172033] line-clamp-1">
                           {stock.selectionReason}
                         </span>
                       </td>
 
-                      <td className="py-2.5 px-4 text-right">
+                      <td className="py-2.5 px-4 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => onSelectStock(stock.symbol)}
-                            className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#008FD3] font-semibold text-xs transition shadow-2xs"
+                            className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#008FD3] font-semibold text-[11pt] transition shadow-2xs"
                           >
                             Phân tích
                           </button>
