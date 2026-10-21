@@ -130,7 +130,7 @@ export default function MarketDashboardView({
           return (
             <div
               key={idx.symbol}
-              className="bg-[#FFFFFF] p-4 lg:p-5 rounded-2xl border border-[#E2E8F0] shadow-xs hover:border-[#008FD3]/30 transition group"
+              className="bg-[#FFFFFF] p-4 lg:p-5 rounded-2xl border border-[#E2E8F0] shadow-xs hover:border-[#008FD3]/40 card-hover-smooth group"
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-[#64748B] tracking-wide">{idx.name || idx.symbol}</span>
@@ -285,7 +285,7 @@ export default function MarketDashboardView({
 
             <button
               onClick={onViewScreener}
-              className="text-xs font-semibold text-[#008FD3] hover:underline flex items-center gap-0.5"
+              className="text-xs font-semibold text-[#008FD3] hover:text-[#007bb8] transition-colors duration-200 ease-out flex items-center gap-0.5"
             >
               <span>Xem bộ lọc</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -299,7 +299,7 @@ export default function MarketDashboardView({
                 <div
                   key={stock.symbol}
                   onClick={() => onSelectStock(stock.symbol)}
-                  className="p-3.5 px-4 flex items-center justify-between hover:bg-[#F5F8FC] cursor-pointer transition"
+                  className="p-3.5 px-4 flex items-center justify-between hover:bg-[#F8FAFC] cursor-pointer transition-colors duration-200 ease-out"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] flex items-center justify-center font-bold text-sm text-[#172033]">
@@ -354,7 +354,7 @@ export default function MarketDashboardView({
                   <div
                     key={stock.symbol}
                     onClick={() => onSelectStock(stock.symbol)}
-                    className="p-3 px-4 flex items-center justify-between hover:bg-[#F5F8FC] cursor-pointer transition"
+                    className="p-3 px-4 flex items-center justify-between hover:bg-[#F8FAFC] cursor-pointer transition-colors duration-200 ease-out"
                   >
                     <div>
                       <span className="font-bold text-sm text-[#008FD3] hover:underline">{stock.symbol}</span>

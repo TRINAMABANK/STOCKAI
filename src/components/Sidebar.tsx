@@ -109,7 +109,7 @@ export default function Sidebar({
         const Icon = item.icon;
         const isActive = activeMenu === item.id;
 
-        let btnClass = 'flex items-center gap-3 w-full px-3.5 py-2.2 rounded-xl text-[13px] transition-all text-left ';
+        let btnClass = 'group flex items-center gap-3 w-full px-3.5 py-2.2 rounded-xl text-[13px] text-left transition-colors duration-200 ease-out select-none ';
 
         if (isActive) {
           btnClass += 'bg-[#E0F2FE] text-[#008FD3] font-bold shadow-2xs';
@@ -128,7 +128,7 @@ export default function Sidebar({
                 ? 'text-[#008FD3]' 
                 : (item.isAi ? 'text-[#8B5CF6]' : item.isAdmin ? 'text-[#F43F5E]' : 'text-[#64748B]')
             }`} />
-            <span className="truncate">{item.label}</span>
+            <span className="truncate transition-colors duration-200 ease-out">{item.label}</span>
             {item.isAi && !isActive && (
               <span className="ml-auto text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#EDE9FE] text-[#8B5CF6]">
                 AI

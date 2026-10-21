@@ -283,7 +283,7 @@ export default function Header({
         {/* Google Login Trigger Button (visible if user not Google-logged-in or wants to manage auth) */}
         <button
           onClick={() => setIsAuthModalOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F5F8FC] hover:bg-[#E0F2FE] border border-[#E2E8F0] text-[#172033] text-xs font-semibold transition shadow-2xs"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F5F8FC] hover:bg-[#E0F2FE] hover:border-[#BAE6FD] border border-[#E2E8F0] text-[#172033] text-xs font-semibold transition-colors duration-200 ease-out shadow-2xs"
           title="Đăng nhập hoặc liên kết Google Gmail"
         >
           <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
@@ -310,7 +310,7 @@ export default function Header({
         {/* Notification Bell */}
         <button
           title="Thông báo cảnh báo"
-          className="relative p-2 rounded-xl text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC] transition"
+          className="relative p-2 rounded-xl text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC] transition-colors duration-200 ease-out"
         >
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-[#F43F5E] text-white rounded-full text-[10px] font-bold flex items-center justify-center">
@@ -322,7 +322,7 @@ export default function Header({
         <button
           onClick={onOpenSettings}
           title="Cài đặt hệ thống"
-          className="p-2 rounded-xl text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC] transition"
+          className="p-2 rounded-xl text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC] transition-colors duration-200 ease-out"
         >
           <Settings className="w-5 h-5" />
         </button>
@@ -333,7 +333,7 @@ export default function Header({
           <button
             type="button"
             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-            className="flex items-center gap-2 pl-2 sm:pl-3 border-l border-[#E2E8F0] hover:opacity-90 transition text-left cursor-pointer focus:outline-none select-none group"
+            className="flex items-center gap-2 pl-2 sm:pl-3 border-l border-[#E2E8F0] text-left cursor-pointer focus:outline-none select-none group transition-colors duration-200 ease-out"
             title="Tài khoản cá nhân"
             aria-haspopup="true"
             aria-expanded={isUserMenuOpen}
@@ -357,7 +357,7 @@ export default function Header({
             )}
             <div className="hidden sm:block">
               <div className="flex items-center gap-1.5">
-                <span className="text-xs font-bold text-[#172033] truncate max-w-[130px] group-hover:text-[#008FD3] transition">
+                <span className="text-xs font-bold text-[#172033] truncate max-w-[130px] group-hover:text-[#008FD3] transition-colors duration-200 ease-out">
                   {currentUser?.name || 'Quang Nhựt Trí'}
                 </span>
                 <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${getTierInfo().bgClass}`}>

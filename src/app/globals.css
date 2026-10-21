@@ -7,6 +7,19 @@
   --background: #F5F8FC;
   --font-sans: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif;
   --font-mono: 'Calibri', 'Calibri (Body)', 'Segoe UI', monospace;
+
+  /* STOCKAI Micro-interaction & Transition Tokens (180ms - 260ms, cubic-bezier mềm mại) */
+  --stockai-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --stockai-duration-fast: 180ms;
+  --stockai-duration: 220ms;
+  --stockai-duration-smooth: 260ms;
+
+  --color-brand-primary: #008FD3;
+  --color-brand-hover: #007bb8;
+  --color-brand-subtle: #E0F2FE;
+  --color-text-main: #172033;
+  --color-text-sub: #64748B;
+  --color-border: #E2E8F0;
 }
 
 * {
@@ -36,7 +49,91 @@ table, thead, tbody, tr, th, td {
   font-family: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif !important;
 }
 
-/* Chuẩn hóa toàn bộ bảng dữ liệu tài chính theo font Calibri (Body), 11 đồng đều */
+/* ==========================================================================
+   1. GLOBAL SMOOTH HOVER TRANSITIONS & ANTI-JITTER
+   ========================================================================== */
+
+/* Mọi phần tử tương tác chuyển động mượt mà, không rung giật hay nhảy kích thước */
+a, button, [role="button"], input, select, textarea, summary {
+  transition: color var(--stockai-duration) var(--stockai-ease),
+              background-color var(--stockai-duration) var(--stockai-ease),
+              border-color var(--stockai-duration) var(--stockai-ease),
+              box-shadow var(--stockai-duration) var(--stockai-ease),
+              opacity var(--stockai-duration) var(--stockai-ease),
+              transform var(--stockai-duration) var(--stockai-ease);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Liên kết chữ: chuyển màu êm ái, tuyệt đối không đổi font-size (chống giật layout) */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--stockai-duration) var(--stockai-ease), opacity var(--stockai-duration) var(--stockai-ease);
+}
+
+a:hover {
+  color: var(--color-brand-primary);
+}
+
+/* Tiêu đề & heading: chuyển màu êm dịu khi hover card hoặc link */
+h1, h2, h3, h4, h5, h6 {
+  transition: color var(--stockai-duration) var(--stockai-ease);
+}
+
+/* Chuyển đổi mượt mà cho hiệu ứng gạch chân chữ (chống rung lắc văn bản khi hover) */
+.hover\:underline,
+a.hover\:underline,
+span.hover\:underline,
+button.hover\:underline {
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: transparent;
+  transition: color var(--stockai-duration) var(--stockai-ease),
+              text-decoration-color var(--stockai-duration) var(--stockai-ease),
+              opacity var(--stockai-duration) var(--stockai-ease);
+}
+
+.hover\:underline:hover,
+a.hover\:underline:hover,
+span.hover\:underline:hover,
+button.hover\:underline:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Nút bấm phản hồi click nhẹ nhàng, không đổi toạ độ bất thường */
+button:active:not(:disabled),
+[role="button"]:active:not(:disabled) {
+  transform: translateY(0.5px);
+}
+
+/* Trạng thái disabled: rõ ràng và cố định */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* ==========================================================================
+   2. KEYBOARD ACCESSIBILITY (:focus-visible)
+   ========================================================================== */
+:focus-visible {
+  outline: 2px solid var(--color-brand-primary) !important;
+  outline-offset: 2px !important;
+}
+
+button:focus-visible,
+a:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 143, 211, 0.18) !important;
+}
+
+/* ==========================================================================
+   3. BẢNG DỮ LIỆU TÀI CHÍNH & CON SỐ (TABULAR NUMBERS)
+   ========================================================================== */
 table {
   font-family: 'Calibri', 'Calibri (Body)', 'Carlito', 'Segoe UI', Arial, sans-serif !important;
   font-size: 11pt !important;
@@ -52,7 +149,7 @@ table td {
   font-size: 11pt !important;
 }
 
-/* Tabular digits for strictly aligned financial numbers */
+/* Chuẩn hóa số liệu tài chính: độ rộng đồng đều, không rung lắc số liệu khi hover */
 .tabular-nums,
 table td.font-mono,
 table th.font-mono,
@@ -62,6 +159,42 @@ table th.font-mono,
   font-feature-settings: "tnum" 1;
 }
 
+/* Dòng bảng dữ liệu: chuyển màu nền nhẹ nhàng 180ms, không dịch chuyển vị trí */
+table tbody tr {
+  transition: background-color var(--stockai-duration-fast) var(--stockai-ease);
+}
+
+table tbody tr:hover {
+  background-color: #F8FAFC;
+}
+
+/* ==========================================================================
+   4. THẺ THÔNG TIN & COMPONENT CARDS (SMOOTH ELEVATION)
+   ========================================================================== */
+.card-hover-smooth {
+  transition: border-color var(--stockai-duration) var(--stockai-ease),
+              box-shadow var(--stockai-duration) var(--stockai-ease),
+              transform var(--stockai-duration) var(--stockai-ease);
+}
+
+.card-hover-smooth:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   5. MENU & NAVIGATION ITEM INTERACTION
+   ========================================================================== */
+.nav-item-smooth {
+  transition: color var(--stockai-duration) var(--stockai-ease),
+              background-color var(--stockai-duration) var(--stockai-ease),
+              box-shadow var(--stockai-duration) var(--stockai-ease);
+}
+
+.nav-item-smooth svg {
+  transition: color var(--stockai-duration) var(--stockai-ease);
+}
 
 /* Custom scrollbars - FireAnt clean minimal style */
 ::-webkit-scrollbar {
@@ -76,15 +209,11 @@ table th.font-mono,
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
   border-radius: 4px;
+  transition: background-color var(--stockai-duration) var(--stockai-ease);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;
-}
-
-/* Financial data table row transitions */
-table tbody tr {
-  transition: background-color 0.12s ease;
 }
 
 /* Pulse animation for live data status */
@@ -103,3 +232,15 @@ table tbody tr {
   animation: pulse-profit 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* ==========================================================================
+   6. REDUCED MOTION SUPPORT (Tôn trọng người dùng nhạy cảm chuyển động)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transform: none !important;
+  }
+}

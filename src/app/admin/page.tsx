@@ -659,7 +659,7 @@ export default function AdminPage() {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id as AdminTab)}
-                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-left ${
+                className={`group w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-colors duration-200 ease-out text-left select-none ${
                   isActive
                     ? 'bg-[#008FD3] text-white shadow-xs'
                     : 'text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC]'
@@ -711,25 +711,25 @@ export default function AdminPage() {
 
             {/* 6 Core KPI Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
                 <span className="text-[11px] text-[#64748B] font-medium block">Tổng người dùng</span>
                 <span className="text-xl font-bold text-[#172033] font-mono tabular-nums block">{kpis.totalUsers}</span>
                 <span className="text-[10px] text-[#10B981] font-semibold">+{kpis.newUsersLast7Days} trong 7 ngày</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
                 <span className="text-[11px] text-[#64748B] font-medium block">Thuê bao hoạt động</span>
                 <span className="text-xl font-bold text-[#008FD3] font-mono tabular-nums block">{kpis.activeSubscriptions}</span>
                 <span className="text-[10px] text-[#64748B]">Gói Pro & Enterprise</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
                 <span className="text-[11px] text-[#64748B] font-medium block">Thuê bao hết hạn</span>
                 <span className="text-xl font-bold text-[#F43F5E] font-mono tabular-nums block">{kpis.expiredSubscriptions}</span>
                 <span className="text-[10px] text-[#64748B]">Cần gửi nhắc gia hạn</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
                 <span className="text-[11px] text-[#64748B] font-medium block">Doanh thu xác nhận</span>
                 <span className="text-xl font-bold text-[#10B981] font-mono tabular-nums block truncate" title={kpis.formattedRevenue}>
                   {kpis.formattedRevenue}
@@ -737,13 +737,13 @@ export default function AdminPage() {
                 <span className="text-[10px] text-[#10B981] font-semibold">{kpis.successTransactions} đơn đã khớp</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
                 <span className="text-[11px] text-[#64748B] font-medium block">Chờ đối soát</span>
                 <span className="text-xl font-bold text-[#D97706] font-mono tabular-nums block">{kpis.needsReconciliation}</span>
                 <span className="text-[10px] text-[#D97706] font-semibold">Khách báo đã chuyển</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
                 <span className="text-[11px] text-[#64748B] font-medium block">Đơn chờ thanh toán</span>
                 <span className="text-xl font-bold text-[#64748B] font-mono tabular-nums block">{kpis.pendingOrders}</span>
                 <span className="text-[10px] text-[#64748B]">Trong hạn 15 phút</span>
