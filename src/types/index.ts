@@ -223,6 +223,8 @@ export type AdminActionType =
   | 'UPDATE_PLAN_PRICE'
   | 'UPDATE_PLAN_CONFIG'
   | 'ADMIN_LOGIN'
+  | 'ADMIN_LOGOUT'
+  | 'ADMIN_CHANGE_PASSWORD'
   | 'SYSTEM_CONFIG_UPDATE';
 
 export interface AdminAuditLog {
@@ -353,4 +355,18 @@ export interface StockAlert {
   createdAt: string;
   lastTriggered?: string;
   notes?: string;
+}
+
+export interface AdminAccount {
+  id: string;
+  username: string;
+  email: string;
+  name: string;
+  role: 'ADMIN';
+  passwordHash: string; // scrypt salt:hash
+  mustChangePassword?: boolean;
+  createdAt: string;
+  lastLoginAt?: string;
+  failedLoginAttempts?: number;
+  lockedUntil?: string;
 }

@@ -2742,6 +2742,129 @@
   ],
   "audit_logs": [
     {
+      "id": "aud_1792592344684_pwd",
+      "action": "ADMIN_CHANGE_PASSWORD",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-21T14:19:04.684Z",
+      "details": {
+        "note": "Quản trị viên đã cập nhật mật khẩu mới thành công.",
+        "ipAddress": "::1"
+      },
+      "ipAddress": "::1"
+    },
+    {
+      "id": "aud_1792592344509_login",
+      "action": "ADMIN_LOGIN",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-21T14:19:04.509Z",
+      "details": {
+        "username": "admin",
+        "ipAddress": "::1",
+        "loginMethod": "PASSWORD_HASH_VERIFIED"
+      },
+      "ipAddress": "::1"
+    },
+    {
+      "id": "aud_1792592344314_pwd",
+      "action": "ADMIN_CHANGE_PASSWORD",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-21T14:19:04.314Z",
+      "details": {
+        "note": "Quản trị viên đã cập nhật mật khẩu mới thành công.",
+        "ipAddress": "::1"
+      },
+      "ipAddress": "::1"
+    },
+    {
+      "id": "aud_1792592344041_login",
+      "action": "ADMIN_LOGIN",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-21T14:19:04.041Z",
+      "details": {
+        "username": "admin",
+        "ipAddress": "::1",
+        "loginMethod": "PASSWORD_HASH_VERIFIED"
+      },
+      "ipAddress": "::1"
+    },
+    {
+      "id": "aud_1792592135629_login",
+      "action": "ADMIN_LOGIN",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-21T14:15:35.629Z",
+      "details": {
+        "username": "admin",
+        "ipAddress": "::1",
+        "loginMethod": "PASSWORD_HASH_VERIFIED"
+      },
+      "ipAddress": "::1"
+    },
+    {
+      "id": "aud_1792592135532_pwd",
+      "action": "ADMIN_CHANGE_PASSWORD",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-21T14:15:35.532Z",
+      "details": {
+        "note": "Quản trị viên đã cập nhật mật khẩu mới thành công.",
+        "ipAddress": "::1"
+      },
+      "ipAddress": "::1"
+    },
+    {
+      "id": "aud_1792592135161_login",
+      "action": "ADMIN_LOGIN",
+      "targetUserId": "usr_stockai_lead",
+      "targetUserEmail": "triqnnamabank@gmail.com",
+      "performedBy": {
+        "id": "usr_stockai_lead",
+        "email": "triqnnamabank@gmail.com",
+        "role": "ADMIN"
+      },
+      "timestamp": "2026-10-21T14:15:35.161Z",
+      "details": {
+        "username": "admin",
+        "ipAddress": "::1",
+        "loginMethod": "PASSWORD_HASH_VERIFIED"
+      },
+      "ipAddress": "::1"
+    },
+    {
       "id": "aud_1792421287050_7x3h",
       "action": "VERIFY_PAYMENT",
       "orderId": "ord_1792421177313_zr5y8",
@@ -4872,5 +4995,17 @@
     "lastChecked": "21:47:56 19/10/2026",
     "lastError": "This connection is invalid",
     "lastLatencyMs": 564
+  },
+  "admin_account": {
+    "id": "usr_stockai_lead",
+    "username": "admin",
+    "email": "triqnnamabank@gmail.com",
+    "name": "Quang Nhựt Trí",
+    "role": "ADMIN",
+    "passwordHash": "da1b16ae8714a728357ca543d21db092:4babd498005ead8a8cc65f18adc27f59a86e02a8515e167caa3e15d01de5186f94625ef894d72330a4cca6290cde3db7c88194044146b39679c5bab08822a0f7",
+    "mustChangePassword": false,
+    "createdAt": "2026-10-21T14:17:06.819Z",
+    "failedLoginAttempts": 0,
+    "lastLoginAt": "2026-10-21T14:19:04.509Z"
   }
 }

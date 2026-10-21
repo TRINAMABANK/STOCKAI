@@ -15,7 +15,8 @@ import {
   AdminAuditLog,
   BankConfig,
   UserProfile,
-  SsiConfig
+  SsiConfig,
+  AdminAccount
 } from '@/types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
@@ -57,6 +58,7 @@ export interface DatabaseSchema {
   users?: UserProfile[];
   subscription_plans?: Record<string, any>;
   ssi_config?: SsiConfig;
+  admin_account?: AdminAccount;
   admin_sessions?: Array<{ id: string; userId: string; email: string; loginAt: string; ip?: string; userAgent?: string }>;
 }
 

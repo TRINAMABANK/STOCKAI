@@ -1,3 +1,4 @@
+import { AdminAuthService } from '@/lib/admin-auth-service';
 import crypto from 'crypto';
 import { getDatabase, saveDatabase } from '@/lib/db';
 import { SUBSCRIPTION_PLANS } from '@/lib/pricing';
@@ -302,6 +303,24 @@ export class AuthService {
     const db = getDatabase();
     const users = db.users || [];
 
+    // 0. Kiểm tra phiên Quản trị viên riêng (stockai_admin_session)
+    try {
+      const adminAccount = AdminAuthService.getAuthenticatedAdminFromRequest(req);
+      if (adminAccount) {
+        return {
+          id: adminAccount.id,
+          name: adminAccount.name,
+          email: adminAccount.email,
+          role: 'ADMIN',
+          tier: 'ENTERPRISE',
+          validUntil: '2028-12-31',
+          features: SUBSCRIPTION_PLANS.ENTERPRISE.features,
+        };
+      }
+    } catch (e) {
+      // Bỏ qua lỗi nếu chưa khởi tạo
+    }
+
     // 1. Kiểm tra x-user-id header (ưu tiên trong test / custom call)
     const headerUserId = req.headers.get('x-user-id');
     const headerRole = req.headers.get('x-user-role');
@@ -331,20 +350,15 @@ export class AuthService {
       }
     }
 
-    // 3. Fallback về db.current_user
-    if (db.current_user) {
-      return db.current_user;
-    }
-
-    // 4. Default fallback nếu DB chưa có
+    // 3. Fallback: Nếu không có cookie phiên hợp lệ, trả về người dùng Khách (USER thường, KHÔNG PHẢI ADMIN)
     return {
-      id: 'usr_stockai_lead',
-      name: 'Quang Nhựt Trí (Admin)',
-      email: 'triqnnamabank@gmail.com',
-      role: 'ADMIN',
-      tier: 'PRO',
-      validUntil: '2027-12-31',
-      features: SUBSCRIPTION_PLANS.PRO.features,
+      id: 'guest_user',
+      name: 'Khách',
+      email: 'guest@stockai.vn',
+      role: 'USER',
+      tier: 'FREE',
+      validUntil: '2026-12-31',
+      features: SUBSCRIPTION_PLANS.FREE.features,
     };
   }
 

@@ -46,6 +46,9 @@ import {
   ApiConnectionStatus
 } from '@/types';
 import { PlanConfig } from '@/lib/pricing';
+import AdminLoginForm from '@/components/admin/AdminLoginForm';
+import AdminChangePasswordModal from '@/components/admin/AdminChangePasswordModal';
+import { LogOut, KeyRound, UserCheck } from 'lucide-react';
 
 export type AdminTab = 
   | 'overview' 
@@ -58,6 +61,50 @@ export type AdminTab =
   | 'system';
 
 export default function AdminPage() {
+  // --- HỆ THỐNG XÁC THỰC QUẢN TRỊ VIÊN ---
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [mustChangePassword, setMustChangePassword] = useState(false);
+  const [adminProfile, setAdminProfile] = useState<{ id: string; username: string; email: string; name: string; role: string } | null>(null);
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
+
+  const checkAdminAuth = async () => {
+    setIsCheckingAuth(true);
+    try {
+      const res = await fetch('/api/admin/auth-check');
+      const json = await res.json();
+      if (json.authenticated) {
+        setIsAuthenticated(true);
+        setMustChangePassword(json.mustChangePassword ?? false);
+        setAdminProfile(json.user);
+        loadOverview();
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch {
+      setIsAuthenticated(false);
+    } finally {
+      setIsCheckingAuth(false);
+    }
+  };
+
+  const handleAdminLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch {}
+    setIsAuthenticated(false);
+    setAdminProfile(null);
+    showToast('👋 Đã đăng xuất khỏi tài khoản Quản trị.');
+  };
+
+  const handleLoginSuccess = (user: any, mustChange: boolean) => {
+    setIsAuthenticated(true);
+    setAdminProfile(user);
+    setMustChangePassword(mustChange);
+    loadOverview();
+    showToast('✅ Đăng nhập Quản trị viên thành công!');
+  };
+
   const [activeTab, setActiveTab] = useState<AdminTab>('overview');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
