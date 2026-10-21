@@ -5003,7 +5003,7 @@
     "name": "Quang Nhựt Trí",
     "role": "ADMIN",
     "passwordHash": "da1b16ae8714a728357ca543d21db092:4babd498005ead8a8cc65f18adc27f59a86e02a8515e167caa3e15d01de5186f94625ef894d72330a4cca6290cde3db7c88194044146b39679c5bab08822a0f7",
-    "mustChangePassword": false,
+    "mustChangePassword": true,
     "createdAt": "2026-10-21T14:17:06.819Z",
     "failedLoginAttempts": 0,
     "lastLoginAt": "2026-10-21T14:19:04.509Z"
