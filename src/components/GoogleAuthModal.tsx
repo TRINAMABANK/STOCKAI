@@ -12,7 +12,13 @@ import {
   Copy, 
   Check, 
   Lock,
-  Sparkles
+  Sparkles,
+  KeyRound,
+  Eye,
+  EyeOff,
+  Shield,
+  ArrowRight,
+  UserCheck
 } from 'lucide-react';
 import { UserProfile } from '@/types';
 import Logo from './Logo';
@@ -36,19 +42,27 @@ export default function GoogleAuthModal({
   onLoginSuccess,
   onLogout,
 }: GoogleAuthModalProps) {
-  const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'password' | 'demo' | 'google'>('password');
+  
+  // Password login form
+  const [username, setUsername] = useState('triqn');
+  const [password, setPassword] = useState('Admin@2026');
+  const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [authSuccessMsg, setAuthSuccessMsg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Copy helper
+  const [copiedField, setCopiedField] = useState<string | null>(null);
   const copyToClipboard = (text: string, fieldName: string) => {
     navigator.clipboard.writeText(text);
     setCopiedField(fieldName);
     setTimeout(() => setCopiedField(null), 2000);
   };
 
-  // Khởi tạo Google Identity Services Button khi modal mở
+  // Google button initialization
   useEffect(() => {
-    if (!isOpen || !clientId) return;
+    if (!isOpen || activeTab !== 'google' || !clientId) return;
 
     const renderGoogleButton = () => {
       const win = window as any;
@@ -67,8 +81,12 @@ export default function GoogleAuthModal({
               });
               const data = await res.json();
               if (data.success && data.data?.user) {
+                setAuthSuccessMsg(`Chào mừng ${data.data.user.name}!`);
                 onLoginSuccess(data.data.user);
-                onClose();
+                setTimeout(() => {
+                  onClose();
+                  window.location.reload();
+                }, 600);
               } else {
                 setAuthError(data.message || 'Xác thực Google thất bại');
               }
@@ -107,7 +125,7 @@ export default function GoogleAuthModal({
     }, 400);
 
     return () => clearInterval(interval);
-  }, [isOpen, clientId, onLoginSuccess, onClose]);
+  }, [isOpen, activeTab, clientId, onLoginSuccess, onClose]);
 
   if (!isOpen) return null;
 
@@ -119,16 +137,84 @@ export default function GoogleAuthModal({
     redirectUri
   )}&response_type=code&scope=openid%20email%20profile&access_type=offline&prompt=consent`;
 
+  // Submit Password Login
+  const handlePasswordLogin = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setIsLoading(true);
+    setAuthError(null);
+    setAuthSuccessMsg(null);
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          usernameOrEmail: username,
+          password: password,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success && data.user) {
+        setAuthSuccessMsg(data.message || 'Đăng nhập thành công!');
+        onLoginSuccess(data.user);
+        setTimeout(() => {
+          onClose();
+          window.location.reload();
+        }, 600);
+      } else {
+        setAuthError(data.message || 'Tên đăng nhập hoặc mật khẩu không chính xác.');
+      }
+    } catch (err: any) {
+      setAuthError(err.message || 'Lỗi kết nối tới máy chủ đăng nhập.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Switch demo account
+  const handleSwitchDemoAccount = async (demoUserId: string) => {
+    setIsLoading(true);
+    setAuthError(null);
+    setAuthSuccessMsg(null);
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ demoUserId }),
+      });
+
+      const data = await res.json();
+      if (data.success && data.user) {
+        setAuthSuccessMsg(`Đã kích hoạt tài khoản: ${data.user.name}`);
+        onLoginSuccess(data.user);
+        setTimeout(() => {
+          onClose();
+          window.location.reload();
+        }, 500);
+      } else {
+        setAuthError(data.message || 'Không thể chuyển đổi tài khoản mẫu.');
+      }
+    } catch (err: any) {
+      setAuthError(err.message || 'Lỗi kết nối khi chuyển tài khoản.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const isCurrentGuest = !currentUser || currentUser.name === 'Khách' || currentUser.id === 'guest_user';
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-xl bg-white rounded-2xl border border-[#E2E8F0] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg bg-white rounded-2xl border border-[#E2E8F0] shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#E2E8F0] bg-[#F8FAFC]">
           <div className="flex items-center gap-3">
             <Logo size="sm" variant="default" />
             <div>
-              <h3 className="font-bold text-[#172033] text-base">Đăng nhập Google Gmail</h3>
-              <p className="text-xs text-[#64748B]">Xác thực tài khoản và kích hoạt phiên giao dịch an toàn</p>
+              <h3 className="font-bold text-[#172033] text-base">Đăng nhập Hệ thống StockAI</h3>
+              <p className="text-xs text-[#64748B]">Xác thực tài khoản và quản trị danh mục đầu tư</p>
             </div>
           </div>
           <button
@@ -139,45 +225,89 @@ export default function GoogleAuthModal({
           </button>
         </div>
 
+        {/* Navigation Tabs */}
+        <div className="flex items-center border-b border-[#E2E8F0] bg-white px-6">
+          <button
+            type="button"
+            onClick={() => { setActiveTab('password'); setAuthError(null); }}
+            className={`flex items-center gap-2 py-3 px-3 text-xs font-bold border-b-2 transition ${
+              activeTab === 'password'
+                ? 'border-[#008FD3] text-[#008FD3]'
+                : 'border-transparent text-[#64748B] hover:text-[#172033]'
+            }`}
+          >
+            <KeyRound className="w-3.5 h-3.5" />
+            <span>Mật khẩu & Admin</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => { setActiveTab('demo'); setAuthError(null); }}
+            className={`flex items-center gap-2 py-3 px-3 text-xs font-bold border-b-2 transition ${
+              activeTab === 'demo'
+                ? 'border-[#008FD3] text-[#008FD3]'
+                : 'border-transparent text-[#64748B] hover:text-[#172033]'
+            }`}
+          >
+            <UserCheck className="w-3.5 h-3.5" />
+            <span>Tài khoản Dùng thử</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => { setActiveTab('google'); setAuthError(null); }}
+            className={`flex items-center gap-2 py-3 px-3 text-xs font-bold border-b-2 transition ${
+              activeTab === 'google'
+                ? 'border-[#008FD3] text-[#008FD3]'
+                : 'border-transparent text-[#64748B] hover:text-[#172033]'
+            }`}
+          >
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Google Gmail</span>
+          </button>
+        </div>
+
         {/* Content Body */}
-        <div className="p-6 overflow-y-auto space-y-6 text-xs text-[#172033]">
+        <div className="p-6 overflow-y-auto space-y-5 text-xs text-[#172033]">
           {/* Error Banner */}
           {authError && (
-            <div className="p-3 bg-[#FFF1F2] border border-[#FECDD3] rounded-xl text-[#BE123C] flex items-start gap-2">
+            <div className="p-3 bg-[#FFF1F2] border border-[#FECDD3] rounded-xl text-[#BE123C] flex items-start gap-2 animate-in fade-in">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
               <div>
-                <p className="font-semibold text-xs">Lỗi đăng nhập Google:</p>
+                <p className="font-semibold text-xs">Đăng nhập thất bại:</p>
                 <p className="text-[11px] mt-0.5">{authError}</p>
               </div>
             </div>
           )}
 
-          {/* User Account Info Section (if logged in) */}
-          {currentUser && (
-            <div className="p-4 rounded-xl bg-[#F0FDF4] border border-[#BBF7D0] flex items-center justify-between gap-3">
+          {/* Success Banner */}
+          {authSuccessMsg && (
+            <div className="p-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl text-[#16A34A] flex items-start gap-2 animate-in fade-in">
+              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold text-xs">Thành công:</p>
+                <p className="text-[11px] mt-0.5">{authSuccessMsg}</p>
+              </div>
+            </div>
+          )}
+
+          {/* User Account Info Section (if already logged in and not guest) */}
+          {!isCurrentGuest && currentUser && (
+            <div className="p-3.5 rounded-xl bg-[#F0FDF4] border border-[#BBF7D0] flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                {currentUser.avatarUrl ? (
-                  <img
-                    src={currentUser.avatarUrl}
-                    alt={currentUser.name}
-                    className="w-10 h-10 rounded-full border border-[#86EFAC] object-cover"
-                  />
-                ) : (
-                  <div className="w-10 h-10 rounded-full bg-[#DCFCE7] text-[#16A34A] font-bold flex items-center justify-center text-xs tracking-tight border border-[#86EFAC]">
-                    {(() => {
-                      if (!currentUser.name) return 'TR';
-                      const clean = currentUser.name.replace(/\s*\(Admin\)/i, '').trim();
-                      const words = clean.split(/\s+/);
-                      const lastName = words[words.length - 1];
-                      return lastName.length <= 4 ? lastName.toUpperCase() : (words[0][0] + lastName[0]).toUpperCase();
-                    })()}
-                  </div>
-                )}
+                <div className="w-9 h-9 rounded-full bg-[#DCFCE7] text-[#16A34A] font-bold flex items-center justify-center text-xs tracking-tight border border-[#86EFAC]">
+                  {currentUser.role === 'ADMIN' ? 'TR' : 'US'}
+                </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-[#166534] text-sm">{currentUser.name}</span>
+                    <span className="font-bold text-[#166534] text-xs">{currentUser.name}</span>
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full ${
                         currentUser.role === 'ADMIN'
                           ? 'bg-[#FEE2E2] text-[#B91C1C]'
                           : 'bg-[#E0F2FE] text-[#008FD3]'
@@ -185,156 +315,251 @@ export default function GoogleAuthModal({
                     >
                       {currentUser.role}
                     </span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FEF08A] text-[#854D0E]">
+                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-[#FEF08A] text-[#854D0E]">
                       {currentUser.tier}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#15803D] mt-0.5">{currentUser.email}</p>
+                  <p className="text-[10px] text-[#15803D] mt-0.5">{currentUser.email}</p>
                 </div>
               </div>
               <button
+                type="button"
                 onClick={onLogout}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[#FECDD3] text-[#E11D48] hover:bg-[#FFF1F2] text-xs font-semibold transition"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-[#FECDD3] text-[#E11D48] hover:bg-[#FFF1F2] text-[11px] font-semibold transition"
               >
-                <LogOut className="w-3.5 h-3.5" />
+                <LogOut className="w-3 h-3" />
                 <span>Đăng xuất</span>
               </button>
             </div>
           )}
 
-          {/* Action 1: Google One-Tap & Popup Button */}
-          <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-bold text-sm text-[#172033] flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-[#8B5CF6]" />
-                  <span>Cách 1: Đăng nhập nhanh bằng Google (Khuyên dùng)</span>
-                </p>
-                <p className="text-[11px] text-[#64748B] mt-0.5">
-                  Xác thực trực tiếp bằng Google Identity Services Popup & One-Tap
-                </p>
+          {/* TAB 1: PASSWORD & ADMIN LOGIN */}
+          {activeTab === 'password' && (
+            <div className="space-y-4">
+              {/* Quick 1-Click Admin Button */}
+              <div className="p-3.5 rounded-xl bg-gradient-to-r from-[#F0F9FF] to-[#E0F2FE] border border-[#BAE6FD] flex items-center justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#008FD3]" />
+                    <span className="font-bold text-[#0369A1] text-xs">Tài khoản Quản trị viên (Chủ hệ thống)</span>
+                  </div>
+                  <p className="text-[11px] text-[#0284C7] mt-0.5">
+                    Tên đăng nhập: <strong>triqn</strong> &bull; Mật khẩu: <strong>Admin@2026</strong>
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUsername('triqn');
+                    setPassword('Admin@2026');
+                    setTimeout(() => handlePasswordLogin(), 50);
+                  }}
+                  disabled={isLoading}
+                  className="px-3 py-1.5 rounded-xl bg-[#008FD3] hover:bg-[#007CB8] text-white font-bold text-xs shadow-2xs transition whitespace-nowrap"
+                >
+                  ⚡ Đăng nhập 1-Click
+                </button>
+              </div>
+
+              {/* Form Input Fields */}
+              <form onSubmit={handlePasswordLogin} className="space-y-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-[#475569] mb-1">
+                    Tên đăng nhập / Email
+                  </label>
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="triqn hoặc admin hoặc email"
+                    required
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#CBD5E1] focus:outline-none focus:border-[#008FD3] focus:ring-1 focus:ring-[#008FD3]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-semibold text-[#475569] mb-1">
+                    Mật khẩu
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Mật khẩu khởi tạo (Admin@2026)"
+                      required
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-[#CBD5E1] focus:outline-none focus:border-[#008FD3] focus:ring-1 focus:ring-[#008FD3] pr-9"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#475569]"
+                    >
+                      {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full py-2.5 px-4 rounded-xl bg-[#008FD3] hover:bg-[#007CB8] text-white font-bold text-xs transition shadow-2xs flex items-center justify-center gap-2"
+                >
+                  {isLoading ? (
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <Lock className="w-3.5 h-3.5" />
+                      <span>Xác thực & Đăng nhập</span>
+                    </>
+                  )}
+                </button>
+              </form>
+
+              {/* Direct link to /admin */}
+              <div className="pt-2 border-t border-[#F1F5F9] flex items-center justify-between text-[11px]">
+                <span className="text-[#64748B]">Cần truy cập trực tiếp Trung tâm Quản trị?</span>
+                <a
+                  href="/admin"
+                  className="flex items-center gap-1 font-bold text-[#008FD3] hover:underline"
+                >
+                  <Shield className="w-3.5 h-3.5" />
+                  <span>Vào /admin</span>
+                  <ArrowRight className="w-3 h-3" />
+                </a>
               </div>
             </div>
+          )}
 
-            <div className="flex flex-col items-center justify-center py-2 min-h-[46px]">
-              {isLoading ? (
-                <div className="flex items-center gap-2 text-xs text-[#008FD3] font-semibold">
-                  <div className="w-4 h-4 border-2 border-[#008FD3] border-t-transparent rounded-full animate-spin"></div>
-                  <span>Đang xác minh token với máy chủ Google...</span>
-                </div>
-              ) : (
-                <div id="google-signin-btn-container" className="flex justify-center w-full"></div>
-              )}
-            </div>
-          </div>
-
-          {/* Action 2: OAuth 2.0 Authorization Code Redirect Flow */}
-          <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2.5">
-            <div>
-              <p className="font-bold text-sm text-[#172033]">Cách 2: Luồng Redirect chuẩn (OAuth 2.0 Code Flow)</p>
+          {/* TAB 2: DEMO ACCOUNT SWITCHER */}
+          {activeTab === 'demo' && (
+            <div className="space-y-3">
               <p className="text-[11px] text-[#64748B]">
-                Chuyển hướng toàn trang qua Google Accounts và trả về URL Callback
+                Chọn nhanh một trong các tài khoản mẫu dưới đây để kiểm tra các mức phân quyền và tính năng của nền tảng StockAI:
               </p>
-            </div>
 
-            <a
-              href={redirectAuthUrl}
-              className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#008FD3] text-white hover:bg-[#007CB8] font-semibold text-xs transition shadow-2xs"
-            >
-              <ExternalLink className="w-4 h-4" />
-              <span>Chuyển hướng đăng nhập qua Google OAuth</span>
-            </a>
-          </div>
-
-          {/* Google Cloud Console Setup Verification Box */}
-          <div className="p-4 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] space-y-3">
-            <div className="flex items-start gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#1D4ED8] shrink-0 mt-0.5" />
-              <div>
-                <p className="font-bold text-[#1E40AF] text-xs">Cấu hình Google Cloud Console cần thiết:</p>
-                <p className="text-[11px] text-[#1D4ED8] mt-0.5">
-                  Vui lòng thêm chính xác 2 thông số sau vào OAuth Client ID trên Google Cloud để tránh lỗi <code>origin_mismatch</code> hoặc <code>redirect_uri_mismatch</code>:
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              {/* Authorized JavaScript Origins */}
-              <div className="bg-white p-2.5 rounded-lg border border-[#DBEAFE]">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="font-bold text-[#1E3A8A] text-[11px]">
-                    1. Authorized JavaScript origins (Nguồn gốc JavaScript):
-                  </span>
-                  <button
-                    onClick={() => copyToClipboard(currentOrigin, 'origin')}
-                    className="flex items-center gap-1 text-[10px] text-[#008FD3] hover:underline font-semibold"
-                  >
-                    {copiedField === 'origin' ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedField === 'origin' ? 'Đã sao chép' : 'Sao chép'}</span>
-                  </button>
+              {/* Option 1: Admin */}
+              <div
+                onClick={() => handleSwitchDemoAccount('usr_stockai_lead')}
+                className="p-3.5 rounded-xl border border-[#BAE6FD] bg-[#F0F9FF] hover:bg-[#E0F2FE] cursor-pointer transition flex items-center justify-between group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[#008FD3] text-white font-bold text-xs flex items-center justify-center">
+                    TR
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-bold text-xs text-[#0369A1]">Quang Nhựt Trí (Admin Lead)</span>
+                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#FEE2E2] text-[#B91C1C]">ADMIN</span>
+                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#FEF08A] text-[#854D0E]">ENTERPRISE</span>
+                    </div>
+                    <p className="text-[10px] text-[#0284C7] mt-0.5">Toàn quyền hệ thống & phân tích định lượng không giới hạn</p>
+                  </div>
                 </div>
-                <code className="text-[12px] font-mono text-[#008FD3] font-semibold block select-all">
-                  {currentOrigin}
-                </code>
+                <ArrowRight className="w-4 h-4 text-[#008FD3] group-hover:translate-x-0.5 transition" />
               </div>
 
-              {/* Authorized Redirect URIs */}
-              <div className="bg-white p-2.5 rounded-lg border border-[#DBEAFE]">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="font-bold text-[#1E3A8A] text-[11px]">
-                    2. Authorized redirect URIs (URI chuyển hướng được ủy quyền):
-                  </span>
-                  <button
-                    onClick={() => copyToClipboard(redirectUri, 'redirect')}
-                    className="flex items-center gap-1 text-[10px] text-[#008FD3] hover:underline font-semibold"
-                  >
-                    {copiedField === 'redirect' ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedField === 'redirect' ? 'Đã sao chép' : 'Sao chép'}</span>
-                  </button>
+              {/* Option 2: Enterprise Trader */}
+              <div
+                onClick={() => handleSwitchDemoAccount('usr_regular_trader')}
+                className="p-3.5 rounded-xl border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] cursor-pointer transition flex items-center justify-between group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[#8B5CF6] text-white font-bold text-xs flex items-center justify-center">
+                    AI
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-bold text-xs text-[#172033]">Nhà Đầu Tư StockAI</span>
+                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#EDE9FE] text-[#8B5CF6]">ENTERPRISE</span>
+                    </div>
+                    <p className="text-[10px] text-[#64748B] mt-0.5">Gói cao cấp nhất: WebSocket tick-by-tick, radar T+3 chuyên sâu</p>
+                  </div>
                 </div>
-                <code className="text-[12px] font-mono text-[#008FD3] font-semibold block select-all break-all">
-                  {redirectUri}
-                </code>
+                <ArrowRight className="w-4 h-4 text-[#94A3B8] group-hover:text-[#172033] group-hover:translate-x-0.5 transition" />
               </div>
 
-              {/* Client ID Status */}
-              <div className="bg-white p-2.5 rounded-lg border border-[#DBEAFE]">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="font-bold text-[#1E3A8A] text-[11px]">Google Client ID (Đã cấu hình backend):</span>
-                  <button
-                    onClick={() => copyToClipboard(clientId, 'clientid')}
-                    className="flex items-center gap-1 text-[10px] text-[#008FD3] hover:underline font-semibold"
-                  >
-                    {copiedField === 'clientid' ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedField === 'clientid' ? 'Đã sao chép' : 'Sao chép'}</span>
-                  </button>
+              {/* Option 3: Free User */}
+              <div
+                onClick={() => handleSwitchDemoAccount('usr_trader_demo')}
+                className="p-3.5 rounded-xl border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] cursor-pointer transition flex items-center justify-between group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[#94A3B8] text-white font-bold text-xs flex items-center justify-center">
+                    TV
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-bold text-xs text-[#172033]">Trần Văn Đầu Tư</span>
+                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#F1F5F9] text-[#64748B]">FREE</span>
+                    </div>
+                    <p className="text-[10px] text-[#64748B] mt-0.5">Tài khoản miễn phí: xem bảng giá 3 sàn và bộ lọc cơ bản</p>
+                  </div>
                 </div>
-                <code className="text-[11px] font-mono text-[#64748B] block truncate select-all">
-                  {clientId}
-                </code>
+                <ArrowRight className="w-4 h-4 text-[#94A3B8] group-hover:text-[#172033] group-hover:translate-x-0.5 transition" />
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Security & Data Integrity Assurance */}
-          <div className="p-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[11px] text-[#64748B] space-y-1">
-            <p className="font-semibold text-[#172033] flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" />
-              <span>Chính sách phân quyền & bảo vệ dữ liệu:</span>
-            </p>
-            <ul className="list-disc pl-4 space-y-0.5">
-              <li>Người dùng đăng nhập lần đầu tự động nhận gói <strong>FREE</strong> và quyền <strong>USER</strong> (không cấp ADMIN).</li>
-              <li>Tài khoản cũ đăng nhập lại giữ nguyên gói thuê bao (FREE/PRO/ENTERPRISE) và hạn sử dụng.</li>
-              <li>Toàn bộ danh mục đầu tư mô phỏng, lịch sử giao dịch và tài khoản VietQR OCB được bảo toàn 100%.</li>
-            </ul>
-          </div>
+          {/* TAB 3: GOOGLE AUTH */}
+          {activeTab === 'google' && (
+            <div className="space-y-4">
+              {/* Google One-Tap & Popup Button */}
+              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-3">
+                <div>
+                  <p className="font-bold text-xs text-[#172033] flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#8B5CF6]" />
+                    <span>Đăng nhập nhanh với Google Popup</span>
+                  </p>
+                  <p className="text-[11px] text-[#64748B] mt-0.5">
+                    Xác thực tức thời thông qua tài khoản Gmail cá nhân
+                  </p>
+                </div>
+
+                <div className="flex flex-col items-center justify-center py-2 min-h-[44px]">
+                  {isLoading ? (
+                    <div className="flex items-center gap-2 text-xs text-[#008FD3] font-semibold">
+                      <div className="w-4 h-4 border-2 border-[#008FD3] border-t-transparent rounded-full animate-spin"></div>
+                      <span>Đang kết nối xác thực Google...</span>
+                    </div>
+                  ) : (
+                    <div id="google-signin-btn-container" className="flex justify-center w-full"></div>
+                  )}
+                </div>
+              </div>
+
+              {/* Redirect Button */}
+              <a
+                href={redirectAuthUrl}
+                className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#008FD3] text-white hover:bg-[#007CB8] font-semibold text-xs transition shadow-2xs"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Chuyển hướng trang đăng nhập Google OAuth</span>
+              </a>
+
+              {/* Google Cloud Console Guidance */}
+              <div className="p-3 bg-[#EFF6FF] border border-[#BFDBFE] rounded-xl space-y-2 text-[11px]">
+                <span className="font-bold text-[#1E40AF] block">Thông số tích hợp Google Cloud:</span>
+                <div className="bg-white p-2 rounded border border-[#DBEAFE] space-y-1">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[#64748B]">Origin:</span>
+                    <button onClick={() => copyToClipboard(currentOrigin, 'origin')} className="text-[#008FD3] hover:underline font-semibold">
+                      {copiedField === 'origin' ? 'Đã sao chép' : 'Sao chép'}
+                    </button>
+                  </div>
+                  <code className="text-[#008FD3] block font-mono text-[10px] truncate">{currentOrigin}</code>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3 border-t border-[#E2E8F0] bg-[#F8FAFC] flex justify-end">
+        <div className="p-4 bg-[#F8FAFC] border-t border-[#E2E8F0] flex items-center justify-between text-[11px] text-[#64748B]">
+          <span>StockAI Vietnam &bull; Phiên bản V2</span>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] text-[#172033] hover:bg-[#F1F5F9] font-semibold text-xs transition"
+            className="px-3 py-1.5 rounded-lg border border-[#CBD5E1] bg-white hover:bg-[#F1F5F9] font-medium text-[#475569] transition"
           >
             Đóng
           </button>
