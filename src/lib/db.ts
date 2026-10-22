@@ -10,6 +10,7 @@ import {
   MarketIndex, 
   StockQuote,
   StockAlert,
+  MarketAlertItem,
   BacktestResult,
   SubscriptionOrder,
   AdminAuditLog,
@@ -36,6 +37,7 @@ export interface DatabaseSchema {
   holdings_snapshots: Array<{ date: string; totalAssets: number; stockValue: number; cash: number; pnl: number }>;
   watchlists: Array<{ id: string; name: string; symbols: string[] }>;
   alerts: StockAlert[];
+  market_alerts?: MarketAlertItem[];
   analysis_reports: Array<{ id: string; symbol: string; date: string; score: number; summary: string }>;
   api_providers: ApiProvider[];
   api_sync_logs: Array<{ id: string; timestamp: string; provider: string; action: string; status: 'SUCCESS' | 'ERROR'; message: string; latencyMs?: number }>;
@@ -572,7 +574,342 @@ const DEFAULT_DATABASE: DatabaseSchema = {
   watchlists: [
     { id: 'wl-1', name: 'VN30 Tiềm năng', symbols: ['FPT', 'TCB', 'HPG', 'VNM', 'MWG', 'SSI', 'MBB', 'VPB'] },
     { id: 'wl-2', name: 'Cổ phiếu T+3 theo dõi', symbols: ['HPG', 'TCB', 'FPT', 'DGC', 'GVR'] },
-  ],
+  ],  market_alerts: [
+  {
+    "id": "alt-evt-hpg-01",
+    "symbol": "HPG",
+    "exchange": "HOSE",
+    "eventType": "BREAKOUT_20",
+    "tradingSession": "2026-10-22",
+    "detectedAt": "2026-10-22 10:15:30",
+    "alertPrice": 27200,
+    "currentPrice": 27800,
+    "priceChangeFromAlertPercent": 2.21,
+    "volumeRatio": 2.35,
+    "indicatorValues": {
+      "breakoutPeak20": 27150,
+      "rsi": 63.5,
+      "ma20": 26500,
+      "ma50": 25800,
+      "referenceVolume20": 12100000,
+      "currentVolume": 28500000,
+      "confirmedAtClose": true
+    },
+    "dataSource": "STOCKAI_VERIFIED_DATA",
+    "dataMode": "EOD",
+    "ruleVersion": "v2.0",
+    "status": "CONFIRMED",
+    "riskLevel": "THẤP",
+    "title": "Bứt phá đỉnh 20 phiên xác nhận",
+    "description": "Giá đóng cửa vượt đỉnh 20 phiên (27.15k) với thanh khoản bùng nổ 2,35x TB20.",
+    "statusLogs": [
+      {
+        "status": "NEW",
+        "timestamp": "2026-10-22 10:15:30",
+        "note": "Phát hiện bứt phá trong phiên tại 27.200 đ",
+        "price": 27200
+      },
+      {
+        "status": "CONFIRMED",
+        "timestamp": "2026-10-22 15:00:00",
+        "note": "Xác nhận bứt phá thành công khi đóng phiên tại 27.800 đ",
+        "price": 27800
+      }
+    ],
+    "updatedAt": "2026-10-22 15:00:00"
+  },
+  {
+    "id": "alt-evt-fpt-02",
+    "symbol": "FPT",
+    "exchange": "HOSE",
+    "eventType": "CONSECUTIVE_UP",
+    "tradingSession": "2026-10-22",
+    "detectedAt": "2026-10-22 11:20:00",
+    "alertPrice": 131000,
+    "currentPrice": 135600,
+    "priceChangeFromAlertPercent": 3.51,
+    "volumeRatio": 1.62,
+    "indicatorValues": {
+      "streakDays": 4,
+      "rsi": 68.2,
+      "ma20": 129000,
+      "ma50": 124500
+    },
+    "dataSource": "STOCKAI_VERIFIED_DATA",
+    "dataMode": "EOD",
+    "ruleVersion": "v2.0",
+    "status": "WATCHING",
+    "riskLevel": "TRUNG BÌNH",
+    "title": "Tăng liên tiếp 4 phiên",
+    "description": "Chuỗi tăng 4 phiên liên tiếp với giá đóng cửa liên tục tạo đỉnh mới.",
+    "cautionNote": "CẢNH BÁO RỦI RO MUA ĐUỔI (FOMO): Tín hiệu cảnh báo đà tăng nóng, tiềm ẩn áp lực chốt lời ngắn hạn. Đây không phải khuyến nghị mua đuổi.",
+    "statusLogs": [
+      {
+        "status": "NEW",
+        "timestamp": "2026-10-22 11:20:00",
+        "note": "Phát hiện chuỗi tăng 4 phiên tại 131.000 đ",
+        "price": 131000
+      },
+      {
+        "status": "WATCHING",
+        "timestamp": "2026-10-22 15:00:00",
+        "note": "Duy trì đà tăng cuối ngày, cảnh báo mua đuổi",
+        "price": 135600
+      }
+    ],
+    "updatedAt": "2026-10-22 15:00:00"
+  },
+  {
+    "id": "alt-evt-tcb-03",
+    "symbol": "TCB",
+    "exchange": "HOSE",
+    "eventType": "VOLUME_SURGE",
+    "tradingSession": "2026-10-22",
+    "detectedAt": "2026-10-22 09:45:15",
+    "alertPrice": 32500,
+    "currentPrice": 33100,
+    "priceChangeFromAlertPercent": 1.85,
+    "volumeRatio": 2.45,
+    "indicatorValues": {
+      "referenceVolume20": 5800000,
+      "currentVolume": 14200000,
+      "rsi": 61.4,
+      "ma20": 31800
+    },
+    "dataSource": "STOCKAI_VERIFIED_DATA",
+    "dataMode": "EOD",
+    "ruleVersion": "v2.0",
+    "status": "CONFIRMED",
+    "riskLevel": "THẤP",
+    "title": "Khối lượng đột biến 2,45x TB20",
+    "description": "Khối lượng khớp lệnh đạt 2,45x so với bình quân 20 phiên trước, dòng tiền tổ chức mua ròng mạnh.",
+    "statusLogs": [
+      {
+        "status": "NEW",
+        "timestamp": "2026-10-22 09:45:15",
+        "note": "Phát hiện vol bùng nổ tại 32.500 đ",
+        "price": 32500
+      },
+      {
+        "status": "CONFIRMED",
+        "timestamp": "2026-10-22 15:00:00",
+        "note": "Duy trì khối lượng khủng đến hết phiên",
+        "price": 33100
+      }
+    ],
+    "updatedAt": "2026-10-22 15:00:00"
+  },
+  {
+    "id": "alt-evt-nvl-04",
+    "symbol": "NVL",
+    "exchange": "HOSE",
+    "eventType": "FAILED_BREAKOUT",
+    "tradingSession": "2026-10-22",
+    "detectedAt": "2026-10-22 13:30:00",
+    "alertPrice": 10900,
+    "currentPrice": 10450,
+    "priceChangeFromAlertPercent": -4.13,
+    "volumeRatio": 1.15,
+    "indicatorValues": {
+      "breakoutPeak20": 11200,
+      "rsi": 41.5,
+      "ma20": 10800
+    },
+    "dataSource": "STOCKAI_VERIFIED_DATA",
+    "dataMode": "EOD",
+    "ruleVersion": "v2.0",
+    "status": "FAILED",
+    "riskLevel": "CAO",
+    "title": "Bứt phá thất bại (Bull trap)",
+    "description": "Giá chạm vùng đỉnh 11.2k nhưng quay đầu giảm mạnh -4.13% dưới mốc bứt phá, nến đảo chiều giảm.",
+    "statusLogs": [
+      {
+        "status": "NEW",
+        "timestamp": "2026-10-22 13:30:00",
+        "note": "Cảnh báo bứt phá thất bại tại 10.900 đ",
+        "price": 10900
+      },
+      {
+        "status": "FAILED",
+        "timestamp": "2026-10-22 15:00:00",
+        "note": "Xác nhận thất bại đóng cửa dưới đỉnh",
+        "price": 10450
+      }
+    ],
+    "updatedAt": "2026-10-22 15:00:00"
+  },
+  {
+    "id": "alt-evt-vnm-05",
+    "symbol": "VNM",
+    "exchange": "HOSE",
+    "eventType": "TREND_WEAKENING",
+    "tradingSession": "2026-10-22",
+    "detectedAt": "2026-10-22 10:50:00",
+    "alertPrice": 69200,
+    "currentPrice": 68500,
+    "priceChangeFromAlertPercent": -1.01,
+    "volumeRatio": 0.88,
+    "indicatorValues": {
+      "ma20": 69500,
+      "ma50": 70200,
+      "rsi": 42.1
+    },
+    "dataSource": "STOCKAI_VERIFIED_DATA",
+    "dataMode": "EOD",
+    "ruleVersion": "v2.0",
+    "status": "WATCHING",
+    "riskLevel": "TRUNG BÌNH",
+    "title": "Suy yếu xu hướng kỹ thuật",
+    "description": "Giá thủng đường hỗ trợ MA20 (69.5k), đồng thời RSI giảm về 42.1 báo hiệu động lượng yếu.",
+    "statusLogs": [
+      {
+        "status": "NEW",
+        "timestamp": "2026-10-22 10:50:00",
+        "note": "Phát hiện suy yếu dưới MA20 tại 69.200 đ",
+        "price": 69200
+      }
+    ],
+    "updatedAt": "2026-10-22 15:00:00"
+  },
+  {
+    "id": "alt-evt-dgc-06",
+    "symbol": "DGC",
+    "exchange": "HOSE",
+    "eventType": "TAKE_PROFIT",
+    "tradingSession": "2026-10-22",
+    "detectedAt": "2026-10-22 14:05:00",
+    "alertPrice": 115000,
+    "currentPrice": 118000,
+    "priceChangeFromAlertPercent": 2.61,
+    "volumeRatio": 1.45,
+    "indicatorValues": {
+      "targetPrice": 118000,
+      "rsi": 65.4,
+      "stopLossPrice": 111000
+    },
+    "dataSource": "STOCKAI_VERIFIED_DATA",
+    "dataMode": "EOD",
+    "ruleVersion": "v2.0",
+    "status": "CONFIRMED",
+    "riskLevel": "THẤP",
+    "title": "Chạm ngưỡng mục tiêu chốt lời 1",
+    "description": "Cổ phiếu chạm giá mục tiêu 118.000 đ (+7.2% so với giá vốn). Lưu ý hệ thống không tự động đặt lệnh khớp.",
+    "statusLogs": [
+      {
+        "status": "NEW",
+        "timestamp": "2026-10-22 14:05:00",
+        "note": "Chạm ngưỡng giá mục tiêu 118.000 đ",
+        "price": 118000
+      }
+    ],
+    "updatedAt": "2026-10-22 15:00:00"
+  },
+  {
+    "id": "alt-evt-bsr-07",
+    "symbol": "BSR",
+    "exchange": "UPCOM",
+    "eventType": "STOP_LOSS",
+    "tradingSession": "2026-10-22",
+    "detectedAt": "2026-10-22 14:10:00",
+    "alertPrice": 22800,
+    "currentPrice": 22400,
+    "priceChangeFromAlertPercent": -1.75,
+    "volumeRatio": 1.25,
+    "indicatorValues": {
+      "stopLossPrice": 22800,
+      "rsi": 38.6
+    },
+    "dataSource": "STOCKAI_VERIFIED_DATA",
+    "dataMode": "EOD",
+    "ruleVersion": "v2.0",
+    "status": "CONFIRMED",
+    "riskLevel": "CAO",
+    "title": "Kích hoạt ngưỡng cắt lỗ phòng thủ",
+    "description": "Giá vi phạm ngưỡng cắt lỗ 22.8k trên sàn UPCoM. Khuyến nghị tuân thủ kỷ luật quản trị vốn.",
+    "statusLogs": [
+      {
+        "status": "NEW",
+        "timestamp": "2026-10-22 14:10:00",
+        "note": "Vi phạm ngưỡng cắt lỗ 22.800 đ",
+        "price": 22800
+      }
+    ],
+    "updatedAt": "2026-10-22 15:00:00"
+  },
+  {
+    "id": "alt-evt-shs-08",
+    "symbol": "SHS",
+    "exchange": "HNX",
+    "eventType": "BREAKOUT_20",
+    "tradingSession": "2026-10-22",
+    "detectedAt": "2026-10-22 10:30:00",
+    "alertPrice": 14400,
+    "currentPrice": 14800,
+    "priceChangeFromAlertPercent": 2.78,
+    "volumeRatio": 2.15,
+    "indicatorValues": {
+      "breakoutPeak20": 14300,
+      "rsi": 62,
+      "ma20": 14000
+    },
+    "dataSource": "STOCKAI_VERIFIED_DATA",
+    "dataMode": "EOD",
+    "ruleVersion": "v2.0",
+    "status": "CONFIRMED",
+    "riskLevel": "THẤP",
+    "title": "Bứt phá đỉnh 20 phiên sàn HNX",
+    "description": "Giá vượt đỉnh 20 phiên (14.3k) với khối lượng 2,15x trung bình, đóng nến xanh tích cực.",
+    "statusLogs": [
+      {
+        "status": "NEW",
+        "timestamp": "2026-10-22 10:30:00",
+        "note": "Phát hiện bứt phá tại 14.400 đ",
+        "price": 14400
+      },
+      {
+        "status": "CONFIRMED",
+        "timestamp": "2026-10-22 15:00:00",
+        "note": "Đóng phiên xác nhận bứt phá 14.800 đ",
+        "price": 14800
+      }
+    ],
+    "updatedAt": "2026-10-22 15:00:00"
+  },
+  {
+    "id": "alt-evt-mwg-09",
+    "symbol": "MWG",
+    "exchange": "HOSE",
+    "eventType": "CORPORATE_ACTION",
+    "tradingSession": "2026-10-22",
+    "detectedAt": "2026-10-22 08:30:00",
+    "alertPrice": 62000,
+    "currentPrice": 62300,
+    "priceChangeFromAlertPercent": 0.48,
+    "volumeRatio": 1.1,
+    "indicatorValues": {
+      "event": "Chi trả cổ tức",
+      "ratio": "5% tiền mặt",
+      "exDate": "2026-11-05"
+    },
+    "dataSource": "FIINTRADE_VERIFIED",
+    "dataMode": "EOD",
+    "ruleVersion": "v2.0",
+    "status": "WATCHING",
+    "riskLevel": "THẤP",
+    "title": "Sự kiện quyền: Cổ tức tiền mặt",
+    "description": "Thông báo ngày giao dịch không hưởng quyền nhận cổ tức đợt 1 năm 2026 tỷ lệ 5% tiền mặt.",
+    "statusLogs": [
+      {
+        "status": "NEW",
+        "timestamp": "2026-10-22 08:30:00",
+        "note": "Ghi nhận sự kiện quyền từ nguồn FiinTrade",
+        "price": 62000
+      }
+    ],
+    "updatedAt": "2026-10-22 15:00:00"
+  }
+],
+
   alerts: [
     { id: 'alt-1', symbol: 'HPG', condition: 'PRICE_ABOVE', targetValue: 28000, isActive: true, createdAt: '2025-03-25' },
     { id: 'alt-2', symbol: 'FPT', condition: 'PRICE_ABOVE', targetValue: 140000, isActive: true, createdAt: '2025-03-24' },
@@ -674,6 +1011,7 @@ export function getDatabase(): DatabaseSchema {
       bank_config: bankConfig,
       current_user: parsed.current_user || defaultAdminUser,
       users: parsed.users || [defaultAdminUser, defaultTraderUser],
+      market_alerts: parsed.market_alerts || DEFAULT_DATABASE.market_alerts || [],
     };
   } catch (error) {
     console.error('Lỗi khi đọc file database, dùng dữ liệu mặc định:', error);

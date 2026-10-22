@@ -11,6 +11,20 @@ import { SsiFastConnectProvider } from './ssi-provider';
 import { MockMarketDataProvider } from './mock-provider';
 import { validateAndSanitizeCandles, canGenerateLiveTradingSignal } from './quality-checker';
 import { analyzeT3Opportunity, Candle } from '@/lib/t3-engine';
+import { 
+  MarketAlertItem, 
+  MarketOverviewData 
+} from '@/types';
+import {
+  calculateMarketOverview,
+  detectBreakout20,
+  detectVolumeSurge,
+  detectConsecutiveUpStreak,
+  detectFailedBreakout,
+  detectTrendWeakening,
+  deduplicateAndMergeAlert
+} from '@/lib/market-alerts-engine';
+import { getDatabase, saveDatabase } from '@/lib/db';
 
 /**
  * Lớp điều phối dịch vụ Dữ liệu Thị trường (MarketDataService Singleton)
@@ -223,4 +237,293 @@ export class MarketDataService {
       marketConditionNote,
     };
   }
+
+  /**
+   * Lấy dữ liệu Tổng quan Thị trường (Market Overview) đã kiểm định
+   */
+  public async getMarketAlertsOverview(): Promise<MarketOverviewData> {
+    const indices = await this.getMarketIndices();
+    const quotes = await this.getQuotes();
+    
+    // Thu thập lịch sử nến của các mã
+    const candlesMap: Record<string, Candle[]> = {};
+    const now = new Date();
+    const toDate = now.toISOString().split('T')[0];
+    const fromDateObj = new Date(now);
+    fromDateObj.setDate(fromDateObj.getDate() - 120);
+    const fromDate = fromDateObj.toISOString().split('T')[0];
+
+    for (const q of quotes.slice(0, 20)) {
+      try {
+        const { cleanCandles } = await this.getValidatedCandles(q.symbol, q.market, fromDate, toDate);
+        if (cleanCandles.length >= 20) {
+          candlesMap[q.symbol] = cleanCandles;
+        }
+      } catch (e) {
+        // Bỏ qua lỗi từng mã lẻ
+      }
+    }
+
+    return calculateMarketOverview(indices, quotes, candlesMap);
+  }
+
+  /**
+   * Quét và phát hiện các Cảnh báo Thị trường & Dòng tiền mới
+   */
+  public async scanMarketAlerts(): Promise<{
+    scannedCount: number;
+    newAlertsCount: number;
+    updatedAlertsCount: number;
+    alerts: MarketAlertItem[];
+  }> {
+    const securities = await this.getSecurities();
+    const quotes = await this.getQuotes();
+    const quotesMap = new Map(quotes.map(q => [q.symbol, q]));
+    
+    const db = getDatabase();
+    let existingAlerts: MarketAlertItem[] = db.market_alerts || [];
+    let newAlertsCount = 0;
+    let updatedAlertsCount = 0;
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    const fromDateObj = new Date(now);
+    fromDateObj.setDate(fromDateObj.getDate() - 90);
+    const fromDate = fromDateObj.toISOString().split('T')[0];
+    const toDate = todayStr;
+
+    for (const sec of securities) {
+      const quote = quotesMap.get(sec.symbol);
+      if (!quote) continue;
+
+      try {
+        const { cleanCandles, report } = await this.getValidatedCandles(sec.symbol, sec.market, fromDate, toDate);
+        if (cleanCandles.length < 21) continue;
+
+        // 1. Kiểm tra Breakout 20
+        const breakout = detectBreakout20(sec.symbol, sec.market, cleanCandles, quote);
+        if (breakout && breakout.isBreakout) {
+          const res = deduplicateAndMergeAlert({
+            symbol: sec.symbol,
+            exchange: sec.market,
+            eventType: 'BREAKOUT_20',
+            tradingSession: todayStr,
+            detectedAt: `${todayStr} ${quote.updatedTime || '14:35:00'}`,
+            alertPrice: quote.closePrice,
+            currentPrice: quote.closePrice,
+            priceChangeFromAlertPercent: 0,
+            volumeRatio: breakout.volumeRatio,
+            indicatorValues: {
+              breakoutPeak20: breakout.breakoutPeak,
+              rsi: breakout.rsi,
+              confirmedAtClose: breakout.isConfirmed,
+            },
+            dataSource: quote.source,
+            dataMode: quote.dataMode,
+            ruleVersion: 'v2.0',
+            status: breakout.isConfirmed ? 'CONFIRMED' : 'WATCHING',
+            riskLevel: 'THẤP',
+            title: `Bứt phá đỉnh 20 phiên (${sec.symbol})`,
+            description: breakout.description,
+          }, existingAlerts);
+          existingAlerts = res.updatedAlerts;
+          if (res.isNew) newAlertsCount++; else updatedAlertsCount++;
+        }
+
+        // 2. Kiểm tra Khối lượng đột biến
+        const surge = detectVolumeSurge(sec.symbol, cleanCandles, quote);
+        if (surge && surge.isSurge) {
+          const res = deduplicateAndMergeAlert({
+            symbol: sec.symbol,
+            exchange: sec.market,
+            eventType: 'VOLUME_SURGE',
+            tradingSession: todayStr,
+            detectedAt: `${todayStr} ${quote.updatedTime || '14:35:00'}`,
+            alertPrice: quote.closePrice,
+            currentPrice: quote.closePrice,
+            priceChangeFromAlertPercent: 0,
+            volumeRatio: surge.volumeRatio,
+            indicatorValues: {
+              referenceVolume20: surge.avgVolume20,
+              currentVolume: surge.currentVolume,
+              intradayOnly: surge.isIntraday,
+            },
+            dataSource: quote.source,
+            dataMode: quote.dataMode,
+            ruleVersion: 'v2.0',
+            status: 'CONFIRMED',
+            riskLevel: 'THẤP',
+            title: `Khối lượng đột biến ${surge.volumeRatioFormatted} (${sec.symbol})`,
+            description: surge.description,
+          }, existingAlerts);
+          existingAlerts = res.updatedAlerts;
+          if (res.isNew) newAlertsCount++; else updatedAlertsCount++;
+        }
+
+        // 3. Kiểm tra Tăng liên tiếp nhiều phiên
+        const streak = detectConsecutiveUpStreak(cleanCandles, quote, 3);
+        if (streak && streak.hasStreak) {
+          const res = deduplicateAndMergeAlert({
+            symbol: sec.symbol,
+            exchange: sec.market,
+            eventType: 'CONSECUTIVE_UP',
+            tradingSession: todayStr,
+            detectedAt: `${todayStr} ${quote.updatedTime || '14:35:00'}`,
+            alertPrice: quote.closePrice,
+            currentPrice: quote.closePrice,
+            priceChangeFromAlertPercent: 0,
+            volumeRatio: 1.2,
+            indicatorValues: {
+              streakDays: streak.streakDays,
+            },
+            dataSource: quote.source,
+            dataMode: quote.dataMode,
+            ruleVersion: 'v2.0',
+            status: 'WATCHING',
+            riskLevel: 'TRUNG BÌNH',
+            title: `Tăng liên tiếp ${streak.streakDays} phiên (${sec.symbol})`,
+            description: streak.description,
+            cautionNote: streak.cautionNotice,
+          }, existingAlerts);
+          existingAlerts = res.updatedAlerts;
+          if (res.isNew) newAlertsCount++; else updatedAlertsCount++;
+        }
+
+        // 4. Kiểm tra Bứt phá thất bại (Bull trap)
+        const failed = detectFailedBreakout(cleanCandles, quote);
+        if (failed && failed.isFailed) {
+          const res = deduplicateAndMergeAlert({
+            symbol: sec.symbol,
+            exchange: sec.market,
+            eventType: 'FAILED_BREAKOUT',
+            tradingSession: todayStr,
+            detectedAt: `${todayStr} ${quote.updatedTime || '14:35:00'}`,
+            alertPrice: quote.closePrice,
+            currentPrice: quote.closePrice,
+            priceChangeFromAlertPercent: 0,
+            volumeRatio: 1.1,
+            indicatorValues: {
+              breakoutPeak20: failed.breakoutPeak,
+              dropBelowPercent: failed.dropBelowPercent,
+            },
+            dataSource: quote.source,
+            dataMode: quote.dataMode,
+            ruleVersion: 'v2.0',
+            status: 'FAILED',
+            riskLevel: 'CAO',
+            title: `Bứt phá thất bại (${sec.symbol})`,
+            description: failed.description,
+          }, existingAlerts);
+          existingAlerts = res.updatedAlerts;
+          if (res.isNew) newAlertsCount++; else updatedAlertsCount++;
+        }
+
+        // 5. Kiểm tra Suy yếu xu hướng
+        const weak = detectTrendWeakening(cleanCandles, quote);
+        if (weak && weak.isWeakening) {
+          const res = deduplicateAndMergeAlert({
+            symbol: sec.symbol,
+            exchange: sec.market,
+            eventType: 'TREND_WEAKENING',
+            tradingSession: todayStr,
+            detectedAt: `${todayStr} ${quote.updatedTime || '14:35:00'}`,
+            alertPrice: quote.closePrice,
+            currentPrice: quote.closePrice,
+            priceChangeFromAlertPercent: 0,
+            volumeRatio: 0.9,
+            indicatorValues: {
+              ma20: weak.ma20,
+              ma50: weak.ma50,
+              rsi: weak.rsi,
+            },
+            dataSource: quote.source,
+            dataMode: quote.dataMode,
+            ruleVersion: 'v2.0',
+            status: 'WATCHING',
+            riskLevel: 'TRUNG BÌNH',
+            title: `Suy yếu xu hướng (${sec.symbol})`,
+            description: weak.description,
+          }, existingAlerts);
+          existingAlerts = res.updatedAlerts;
+          if (res.isNew) newAlertsCount++; else updatedAlertsCount++;
+        }
+      } catch (err) {
+        console.error(`Lỗi quét cảnh báo mã ${sec.symbol}:`, err);
+      }
+    }
+
+    // 6. Kiểm tra Danh mục nắm giữ để tạo cảnh báo Cắt lỗ / Chốt lời
+    const holdings = db.holdings || [];
+    for (const h of holdings) {
+      const q = quotesMap.get(h.symbol);
+      if (!q) continue;
+
+      const pnlPct = h.costBasis > 0 ? ((q.closePrice - h.costBasis) / h.costBasis) * 100 : 0;
+      if (pnlPct <= -7) {
+        // Cắt lỗ
+        const res = deduplicateAndMergeAlert({
+          symbol: h.symbol,
+          exchange: q.market,
+          eventType: 'STOP_LOSS',
+          tradingSession: todayStr,
+          detectedAt: `${todayStr} ${q.updatedTime || '14:35:00'}`,
+          alertPrice: q.closePrice,
+          currentPrice: q.closePrice,
+          priceChangeFromAlertPercent: 0,
+          volumeRatio: 1.0,
+          indicatorValues: {
+            costBasis: h.costBasis,
+            pnlPercent: Number(pnlPct.toFixed(2)),
+          },
+          dataSource: q.source,
+          dataMode: q.dataMode,
+          ruleVersion: 'v2.0',
+          status: 'CONFIRMED',
+          riskLevel: 'CAO',
+          title: `Chạm ngưỡng cắt lỗ phòng thủ (${h.symbol})`,
+          description: `Giá hiện tại ${q.closePrice.toLocaleString('vi-VN')} đ vi phạm ngưỡng cắt lỗ -7% so với giá vốn (${h.costBasis.toLocaleString('vi-VN')} đ). Hệ thống không tự động đặt lệnh.`,
+        }, existingAlerts);
+        existingAlerts = res.updatedAlerts;
+        if (res.isNew) newAlertsCount++; else updatedAlertsCount++;
+      } else if (pnlPct >= 10) {
+        // Chốt lời
+        const res = deduplicateAndMergeAlert({
+          symbol: h.symbol,
+          exchange: q.market,
+          eventType: 'TAKE_PROFIT',
+          tradingSession: todayStr,
+          detectedAt: `${todayStr} ${q.updatedTime || '14:35:00'}`,
+          alertPrice: q.closePrice,
+          currentPrice: q.closePrice,
+          priceChangeFromAlertPercent: 0,
+          volumeRatio: 1.0,
+          indicatorValues: {
+            costBasis: h.costBasis,
+            pnlPercent: Number(pnlPct.toFixed(2)),
+          },
+          dataSource: q.source,
+          dataMode: q.dataMode,
+          ruleVersion: 'v2.0',
+          status: 'CONFIRMED',
+          riskLevel: 'THẤP',
+          title: `Đạt mục tiêu chốt lời (${h.symbol})`,
+          description: `Lợi nhuận đạt +${pnlPct.toFixed(1)}% so với giá vốn. Cân nhắc hiện thực hóa lợi nhuận từng phần. Hệ thống không tự động đặt lệnh.`,
+        }, existingAlerts);
+        existingAlerts = res.updatedAlerts;
+        if (res.isNew) newAlertsCount++; else updatedAlertsCount++;
+      }
+    }
+
+    // Lưu danh sách cảnh báo đã gộp vào Database
+    db.market_alerts = existingAlerts;
+    saveDatabase(db);
+
+    return {
+      scannedCount: securities.length,
+      newAlertsCount,
+      updatedAlertsCount,
+      alerts: existingAlerts,
+    };
+  }
+
 }

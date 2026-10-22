@@ -375,7 +375,7 @@ export default function Home() {
               {activeMenu === 'ai' && <AiAssistantView />}
 
               {/* Cảnh báo */}
-              {activeMenu === 'alerts' && <AlertsView />}
+              {activeMenu === 'alerts' && <AlertsView onSelectStock={handleSelectStock} />}
 
               {/* Trung tâm API */}
               {activeMenu === 'api-center' && (

@@ -84,7 +84,7 @@ export default function Sidebar({
     { id: 'transactions', label: 'Sổ giao dịch ghi nhận', icon: ArrowLeftRight },
     { id: 'market', label: 'Bảng giá trực tuyến', icon: TrendingUp },
     { id: 'ai', label: 'Trợ lý AI', icon: Bot, isAi: true },
-    { id: 'alerts', label: 'Cảnh báo', icon: Bell },
+    { id: 'alerts', label: 'Cảnh báo thị trường', icon: Bell },
     { id: 'backtest', label: 'Kiểm định chiến lược', icon: History },
     { id: 'api-center', label: 'Trung tâm API & Dữ liệu', icon: Radio },
     { id: 'settings', label: 'Cài đặt hệ thống', icon: Settings },

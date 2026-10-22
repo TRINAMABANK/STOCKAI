@@ -1,4 +1,5 @@
 export type Exchange = 'HOSE' | 'HNX' | 'UPCOM';
+export type DataMode = 'EOD' | 'INTRADAY_DELAYED' | 'REALTIME' | 'DEMO';
 
 export interface MarketIndex {
   symbol: string;
@@ -344,6 +345,124 @@ export interface BacktestResult {
     holdingDays: number;
     exitReason: 'TARGET' | 'STOP_LOSS' | 'TIME_EXIT';
   }>;
+}
+
+
+/**
+ * ==========================================================
+ * PHÂN HỆ CẢNH BÁO THỊ TRƯỜNG VÀ DÒNG TIỀN (VERSION V2)
+ * ==========================================================
+ */
+export type MarketAlertEventType =
+  | 'BREAKOUT_20'        // 1. Mua / Bứt phá đỉnh 20 phiên
+  | 'FAILED_BREAKOUT'    // 2. Bứt phá thất bại (Bull trap)
+  | 'TREND_WEAKENING'    // 3. Suy yếu xu hướng (MA20/MA50/RSI)
+  | 'STOP_LOSS'          // 4. Cắt lỗ theo kế hoạch
+  | 'TAKE_PROFIT'        // 5. Chốt lời theo mục tiêu
+  | 'CONSECUTIVE_UP'     // 6. Tăng nhiều phiên liên tiếp (3, 5, 6, 8 phiên)
+  | 'VOLUME_SURGE'       // 7. Khối lượng đột biến (KL/TB20 >= 1.5x)
+  | 'CORPORATE_ACTION'   // 8. Sự kiện quyền doanh nghiệp
+  | 'PORTFOLIO_WATCHLIST'; // 9. Cổ phiếu trong danh mục / theo dõi
+
+export type MarketAlertStatus =
+  | 'NEW'          // MỚI
+  | 'WATCHING'     // ĐANG THEO DÕI
+  | 'CONFIRMED'    // ĐÃ XÁC NHẬN
+  | 'FAILED'       // THẤT BẠI
+  | 'CLOSED';      // ĐÃ KẾT THÚC
+
+export type MarketAlertRiskLevel = 'THẤP' | 'TRUNG BÌNH' | 'CAO';
+
+export interface MarketAlertStatusLog {
+  status: MarketAlertStatus;
+  timestamp: string;
+  note?: string;
+  price?: number;
+}
+
+export interface MarketAlertItem {
+  id: string;
+  symbol: string;
+  exchange: Exchange; // 'HOSE' | 'HNX' | 'UPCOM'
+  eventType: MarketAlertEventType;
+  tradingSession: string; // YYYY-MM-DD
+  detectedAt: string; // ISO string hoặc YYYY-MM-DD HH:mm:ss
+  alertPrice: number; // Giá tại thời điểm cảnh báo ban đầu (BẢO LƯU, KHÔNG GHI ĐÈ)
+  currentPrice: number; // Giá hiện tại hoặc giá đóng cửa mới nhất
+  priceChangeFromAlertPercent: number; // % thay đổi từ giá cảnh báo
+  volumeRatio: number; // KL/TB20 (ví dụ: 2.25)
+  indicatorValues: {
+    rsi?: number;
+    ma20?: number;
+    ma50?: number;
+    breakoutPeak20?: number;
+    streakDays?: number;
+    intradayOnly?: boolean;
+    targetPrice?: number;
+    stopLossPrice?: number;
+    confirmedAtClose?: boolean;
+    referenceVolume20?: number;
+    currentVolume?: number;
+    [key: string]: any;
+  };
+  dataSource: string; // 'SSI FastConnect' | 'STOCKAI_DEMO_SIMULATION'
+  dataMode: 'REALTIME' | 'INTRADAY_DELAYED' | 'EOD' | 'DEMO';
+  ruleVersion: string; // 'v2.0'
+  status: MarketAlertStatus;
+  riskLevel: MarketAlertRiskLevel;
+  title: string;
+  description: string;
+  cautionNote?: string;
+  statusLogs: MarketAlertStatusLog[];
+  updatedAt: string;
+  notes?: string;
+}
+
+export interface MarketOverviewData {
+  indexCode: string; // VNINDEX
+  indexName: string; // VN-Index
+  currentValue: number;
+  changeValue: number;
+  changePercent: number;
+  marketStatus: 'TĂNG' | 'GIẢM' | 'ĐI NGANG';
+  indexMa20: number;
+  indexMa50: number;
+  indexAboveMa20: boolean;
+  indexAboveMa50: boolean;
+  ma20AboveMa50: boolean;
+  stocksAboveMa20Percent: number; // % cổ phiếu > MA20
+  stocksAboveMa50Percent: number; // % cổ phiếu > MA50
+  advances: number; // Mã tăng
+  declines: number; // Mã giảm
+  noChanges: number; // Mã đứng giá
+  ceilings: number; // Mã kịch trần
+  floors: number; // Mã kịch sàn
+  breakoutRatioPercent: number; // Tỷ lệ cổ phiếu bứt phá
+  failedBreakoutRatioPercent: number; // Tỷ lệ bứt phá thất bại
+  weakeningRatioPercent: number; // Tỷ lệ cổ phiếu suy yếu
+  marketRiskLevel: MarketAlertRiskLevel; // THẤP | TRUNG BÌNH | CAO
+  portfolioAllocationReference: {
+    stockPercent: number; // % Cổ phiếu tham khảo
+    cashPercent: number; // % Tiền mặt tham khảo
+    recommendationText: string;
+    disclaimer: string;
+  };
+  lastUpdated: string;
+  dataMode: 'REALTIME' | 'INTRADAY_DELAYED' | 'EOD' | 'DEMO';
+  dataSource: string;
+}
+
+export interface MarketAlertFilterCounts {
+  all: number;
+  breakout: number;
+  failed_breakout: number;
+  weakening: number;
+  stop_loss: number;
+  take_profit: number;
+  consecutive_up: number;
+  volume_surge: number;
+  corporate_action: number;
+  watchlist: number;
 }
 
 export interface StockAlert {
