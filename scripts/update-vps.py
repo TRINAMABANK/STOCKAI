@@ -62,9 +62,9 @@ def main():
     # 1. Git pull
     print("\n[STEP 1] Git pull latest code on VPS...")
     cmd_git = """
-    cd /var/www/stockai && git fetch origin && git reset --hard origin/main
+    cd /var/www/stockai && git fetch origin && git reset --hard origin/main && npm install
     """
-    status, out, _ = run_command(client, cmd_git)
+    status, out, _ = run_command(client, cmd_git, timeout=180)
 
     # 2. Build on VPS
     print("\n[STEP 2] Running next build on VPS...")
