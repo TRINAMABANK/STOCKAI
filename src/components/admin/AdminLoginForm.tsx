@@ -8,7 +8,7 @@ interface AdminLoginFormProps {
 }
 
 export default function AdminLoginForm({ onLoginSuccess }: AdminLoginFormProps) {
-  const [username, setUsername] = useState('admin');
+  const [username, setUsername] = useState('triqn');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,7 +93,7 @@ export default function AdminLoginForm({ onLoginSuccess }: AdminLoginFormProps) 
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="admin hoặc email quản trị"
+                  placeholder="triqn hoặc email quản trị"
                   className="w-full pl-10 pr-4 py-2.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-xs font-semibold text-[#172033] focus:bg-white focus:border-[#008FD3] focus:outline-none transition"
                   autoFocus
                 />

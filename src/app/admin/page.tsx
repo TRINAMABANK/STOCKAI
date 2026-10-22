@@ -57,6 +57,7 @@ export type AdminTab =
   | 'subscriptions' 
   | 'plans' 
   | 'api-center'
+  | 'signals-alerts'
   | 'audit-logs' 
   | 'system';
 
@@ -249,6 +250,60 @@ export default function AdminPage() {
     if (activeTab === 'audit-logs') loadAuditLogs();
     if (activeTab === 'system') loadSystem();
   }, [activeTab]);
+
+
+  // 8. DATA STATE: QUẢN TRỊ TÍN HIỆU & CẢNH BÁO THỊ TRƯỜNG
+  const [signalsAlertsData, setSignalsAlertsData] = useState<{
+    signals: any[];
+    alerts: any[];
+    stats: any;
+  } | null>(null);
+  const [isLoadingSignalsAlerts, setIsLoadingSignalsAlerts] = useState(false);
+  const [signalsSubTab, setSignalsSubTab] = useState<'signals' | 'alerts'>('signals');
+  const [signalsSearch, setSignalsSearch] = useState('');
+  const [signalsExchangeFilter, setSignalsExchangeFilter] = useState('ALL');
+
+  const loadSignalsAlerts = async () => {
+    setIsLoadingSignalsAlerts(true);
+    try {
+      const params = new URLSearchParams();
+      if (signalsSearch) params.append('q', signalsSearch);
+      if (signalsExchangeFilter !== 'ALL') params.append('exchange', signalsExchangeFilter);
+      const res = await fetch(`/api/admin/signals-alerts?${params.toString()}`);
+      const json = await res.json();
+      if (json.success) {
+        setSignalsAlertsData(json.data);
+      } else {
+        showToast(`❌ ${json.message}`);
+      }
+    } catch {
+      showToast('❌ Lỗi tải dữ liệu tín hiệu & cảnh báo');
+    } finally {
+      setIsLoadingSignalsAlerts(false);
+    }
+  };
+
+  const handleDismissAlert = async (alertId: string, symbol: string) => {
+    const reason = prompt(`Nhập lý do đóng/hủy cảnh báo cho mã ${symbol}:`, 'Không còn hiệu lực thị trường');
+    if (!reason) return;
+
+    try {
+      const res = await fetch('/api/admin/signals-alerts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'DISMISS_ALERT', id: alertId, reason }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast(`✅ ${json.message}`);
+        loadSignalsAlerts();
+      } else {
+        showToast(`❌ ${json.message}`);
+      }
+    } catch {
+      showToast('❌ Lỗi khi đóng cảnh báo');
+    }
+  };
 
   // 7. DATA STATE: API CENTER (SSI FASTCONNECT & DATA PROVIDERS)
   const [apiCenterData, setApiCenterData] = useState<{
@@ -747,6 +802,35 @@ export default function AdminPage() {
                 <span className="text-[11px] text-[#64748B] font-medium block">Đơn chờ thanh toán</span>
                 <span className="text-xl font-bold text-[#64748B] font-mono tabular-nums block">{kpis.pendingOrders}</span>
                 <span className="text-[10px] text-[#64748B]">Trong hạn 15 phút</span>
+              </div>
+            </div>
+
+
+            {/* Subscription Tier Breakdown & Signal KPIs */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
+                <span className="text-[10px] text-[#64748B] uppercase font-bold">Gói Free (0đ)</span>
+                <div className="text-lg font-bold text-[#172033] font-mono tabular-nums">{kpis.freeUsers || 0} user</div>
+              </div>
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
+                <span className="text-[10px] text-[#008FD3] uppercase font-bold">Gói Pro (199k)</span>
+                <div className="text-lg font-bold text-[#008FD3] font-mono tabular-nums">{kpis.proUsers || 0} user</div>
+              </div>
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
+                <span className="text-[10px] text-[#9333EA] uppercase font-bold">Enterprise (299k)</span>
+                <div className="text-lg font-bold text-[#9333EA] font-mono tabular-nums">{kpis.enterpriseUsers || 0} user</div>
+              </div>
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
+                <span className="text-[10px] text-[#059669] uppercase font-bold">Tín hiệu T+3 sẵn có</span>
+                <div className="text-lg font-bold text-[#059669] font-mono tabular-nums">{kpis.t3SignalsCount || 0} mã</div>
+              </div>
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
+                <span className="text-[10px] text-[#D97706] uppercase font-bold">Cảnh báo thị trường</span>
+                <div className="text-lg font-bold text-[#D97706] font-mono tabular-nums">{kpis.marketAlertsCount || 0} sự kiện</div>
+              </div>
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
+                <span className="text-[10px] text-[#EF4444] uppercase font-bold">Lỗi hệ thống</span>
+                <div className="text-lg font-bold text-[#EF4444] font-mono tabular-nums">{kpis.systemErrorsCount || 0} lỗi</div>
               </div>
             </div>
 
@@ -1792,6 +1876,259 @@ export default function AdminPage() {
                 </table>
               </div>
             </div>
+          </div>
+        )}
+
+        
+        {/* TAB: SIGNALS & ALERTS MANAGEMENT */}
+        {activeTab === 'signals-alerts' && (
+          <div className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Quản trị Tín hiệu T+ & Cảnh báo</h1>
+                <p className="text-xs text-[#64748B] mt-0.5">Giám sát toàn bộ tín hiệu sàng lọc T+1–T+5 và lịch sử cảnh báo dòng tiền bứt phá trên HOSE, HNX, UPCoM</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={loadSignalsAlerts}
+                  disabled={isLoadingSignalsAlerts}
+                  className="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#008FD3] hover:bg-[#E0F2FE] transition flex items-center gap-1.5 shadow-2xs"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${isLoadingSignalsAlerts ? 'animate-spin' : ''}`} />
+                  <span>Làm mới</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 4 KPI Cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+                <span className="text-[11px] text-[#64748B] font-medium block">Tín hiệu T+1–T+5 hiện có</span>
+                <span className="text-2xl font-bold text-[#008FD3] font-mono tabular-nums block">
+                  {signalsAlertsData?.stats?.totalSignals || 0}
+                </span>
+                <span className="text-[10px] text-[#10B981] font-semibold">Tỷ lệ R:R &gt;= 1.5</span>
+              </div>
+
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+                <span className="text-[11px] text-[#64748B] font-medium block">Tổng cảnh báo V2</span>
+                <span className="text-2xl font-bold text-[#172033] font-mono tabular-nums block">
+                  {signalsAlertsData?.stats?.totalAlerts || 0}
+                </span>
+                <span className="text-[10px] text-[#64748B]">Bứt phá, vol surge, chuỗi tăng</span>
+              </div>
+
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+                <span className="text-[11px] text-[#64748B] font-medium block">Cảnh báo đang hoạt động</span>
+                <span className="text-2xl font-bold text-[#059669] font-mono tabular-nums block">
+                  {signalsAlertsData?.stats?.activeAlertsCount || 0}
+                </span>
+                <span className="text-[10px] text-[#059669] font-semibold">Trạng thái NEW &amp; CONFIRMED</span>
+              </div>
+
+              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
+                <span className="text-[11px] text-[#64748B] font-medium block">Kiểm soát trùng lặp</span>
+                <span className="text-2xl font-bold text-[#10B981] font-mono tabular-nums block">
+                  {signalsAlertsData?.stats?.duplicateSignalsCount || 0} trùng
+                </span>
+                <span className="text-[10px] text-[#10B981] font-semibold">Chống trùng lặp tuyệt đối</span>
+              </div>
+            </div>
+
+            {/* Filter Bar & Sub-tabs */}
+            <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2 bg-[#F8FAFC] p-1 rounded-xl border border-[#E2E8F0]">
+                  <button
+                    onClick={() => setSignalsSubTab('signals')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      signalsSubTab === 'signals'
+                        ? 'bg-white text-[#008FD3] shadow-xs font-bold'
+                        : 'text-[#64748B] hover:text-[#172033]'
+                    }`}
+                  >
+                    Tín hiệu T+1–T+5 ({signalsAlertsData?.signals?.length || 0})
+                  </button>
+                  <button
+                    onClick={() => setSignalsSubTab('alerts')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      signalsSubTab === 'alerts'
+                        ? 'bg-white text-[#008FD3] shadow-xs font-bold'
+                        : 'text-[#64748B] hover:text-[#172033]'
+                    }`}
+                  >
+                    Cảnh báo thị trường V2 ({signalsAlertsData?.alerts?.length || 0})
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="flex items-center gap-1 bg-[#F8FAFC] p-1 rounded-xl border border-[#E2E8F0]">
+                    {['ALL', 'HOSE', 'HNX', 'UPCOM'].map((ex) => (
+                      <button
+                        key={ex}
+                        onClick={() => {
+                          setSignalsExchangeFilter(ex);
+                          setTimeout(loadSignalsAlerts, 50);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition ${
+                          signalsExchangeFilter === ex
+                            ? 'bg-white text-[#008FD3] shadow-2xs font-bold'
+                            : 'text-[#64748B] hover:text-[#172033]'
+                        }`}
+                      >
+                        {ex === 'ALL' ? 'Tất cả sàn' : ex}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="relative">
+                    <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
+                    <input
+                      type="text"
+                      value={signalsSearch}
+                      onChange={(e) => setSignalsSearch(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === 'Enter') loadSignalsAlerts(); }}
+                      placeholder="Tìm mã hoặc ngành..."
+                      className="pl-8 pr-3 py-1.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-xs font-semibold uppercase text-[#172033]"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Content Table */}
+            {signalsSubTab === 'signals' ? (
+              <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+                <div className="p-3.5 px-4 border-b border-[#E2E8F0] flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-[#172033] uppercase tracking-wider">
+                    Danh sách Tín hiệu T+1–T+5 đã sàng lọc
+                  </h3>
+                  <span className="text-[11px] text-[#64748B]">Tổng: {signalsAlertsData?.signals?.length || 0} mã</span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-[#F8FAFC] text-[#64748B] text-[11px] font-semibold border-b border-[#E2E8F0]">
+                        <th className="py-2.5 px-3.5">Mã CP</th>
+                        <th className="py-2.5 px-3">Sàn &amp; Ngành</th>
+                        <th className="py-2.5 px-3">Chiến lược</th>
+                        <th className="py-2.5 px-3 text-center">T+ Score</th>
+                        <th className="py-2.5 px-3 text-right">Vùng mua</th>
+                        <th className="py-2.5 px-3 text-right">Mục tiêu</th>
+                        <th className="py-2.5 px-3 text-right">Cắt lỗ</th>
+                        <th className="py-2.5 px-3 text-center">R:R</th>
+                        <th className="py-2.5 px-3">Nắm giữ</th>
+                        <th className="py-2.5 px-3.5 text-center">Rủi ro</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#F1F5F9]">
+                      {signalsAlertsData?.signals?.map((s: any) => (
+                        <tr key={s.id} className="hover:bg-[#F8FAFC] transition">
+                          <td className="py-2.5 px-3.5 font-bold text-[#008FD3] text-[13px]">{s.symbol}</td>
+                          <td className="py-2.5 px-3">
+                            <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-[#E0F2FE] text-[#0284C7] mr-1.5">
+                              {s.exchange}
+                            </span>
+                            <span className="text-[#64748B] text-[11px]">{s.industry || 'Chung'}</span>
+                          </td>
+                          <td className="py-2.5 px-3 font-semibold text-[#172033]">{s.strategy}</td>
+                          <td className="py-2.5 px-3 text-center">
+                            <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#D1FAE5] text-[#059669] font-mono">
+                              {s.t3Score}
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3 text-right font-mono text-[#172033] font-semibold">{s.buyZone}</td>
+                          <td className="py-2.5 px-3 text-right font-mono text-[#10B981] font-bold">{s.targetPrice}</td>
+                          <td className="py-2.5 px-3 text-right font-mono text-[#EF4444] font-medium">{s.stopLoss}</td>
+                          <td className="py-2.5 px-3 text-center font-mono font-bold text-[#008FD3]">{s.rewardRiskRatio}</td>
+                          <td className="py-2.5 px-3 text-[#64748B] text-[11px]">{s.holdingDays}</td>
+                          <td className="py-2.5 px-3.5 text-center">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                              s.riskLevel === 'Thấp' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-[#FEF3C7] text-[#D97706]'
+                            }`}>
+                              {s.riskLevel}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+                <div className="p-3.5 px-4 border-b border-[#E2E8F0] flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-[#172033] uppercase tracking-wider">
+                    Lịch sử Cảnh báo Thị trường &amp; Dòng tiền
+                  </h3>
+                  <span className="text-[11px] text-[#64748B]">Tổng: {signalsAlertsData?.alerts?.length || 0} cảnh báo</span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-[#F8FAFC] text-[#64748B] text-[11px] font-semibold border-b border-[#E2E8F0]">
+                        <th className="py-2.5 px-3.5">Thời gian</th>
+                        <th className="py-2.5 px-3">Mã CP</th>
+                        <th className="py-2.5 px-3">Sự kiện</th>
+                        <th className="py-2.5 px-3">Mô tả điều kiện</th>
+                        <th className="py-2.5 px-3 text-right">Giá cảnh báo</th>
+                        <th className="py-2.5 px-3 text-right">Giá hiện tại</th>
+                        <th className="py-2.5 px-3 text-right">KL/TB20</th>
+                        <th className="py-2.5 px-3 text-center">Trạng thái</th>
+                        <th className="py-2.5 px-3.5 text-center">Thao tác Admin</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#F1F5F9]">
+                      {signalsAlertsData?.alerts?.map((a: any) => (
+                        <tr key={a.id} className="hover:bg-[#F8FAFC] transition">
+                          <td className="py-2.5 px-3.5 text-[#64748B] text-[11px] font-mono">{a.detectedAt.slice(0, 19)}</td>
+                          <td className="py-2.5 px-3 font-bold text-[#008FD3]">
+                            {a.symbol} <span className="text-[10px] text-[#64748B] font-normal">({a.exchange})</span>
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#E0F2FE] text-[#0284C7]">
+                              {a.eventType}
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3 text-[11px] text-[#172033] max-w-xs truncate" title={a.description}>
+                            {a.description}
+                          </td>
+                          <td className="py-2.5 px-3 text-right font-mono font-medium text-[#64748B]">
+                            {a.alertPrice.toLocaleString('vi-VN')} đ
+                          </td>
+                          <td className="py-2.5 px-3 text-right font-mono font-bold text-[#172033]">
+                            {a.currentPrice.toLocaleString('vi-VN')} đ
+                          </td>
+                          <td className="py-2.5 px-3 text-right font-mono font-bold text-[#9333EA]">
+                            {a.volumeRatio.toFixed(2).replace('.', ',')}x
+                          </td>
+                          <td className="py-2.5 px-3 text-center">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                              a.status === 'CONFIRMED' ? 'bg-[#D1FAE5] text-[#059669]' :
+                              a.status === 'FAILED' ? 'bg-[#FEE2E2] text-[#DC2626]' :
+                              a.status === 'CLOSED' ? 'bg-[#F1F5F9] text-[#64748B]' : 'bg-[#FEF3C7] text-[#D97706]'
+                            }`}>
+                              {a.status}
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3.5 text-center">
+                            {a.status !== 'CLOSED' && (
+                              <button
+                                onClick={() => handleDismissAlert(a.id, a.symbol)}
+                                className="px-2 py-0.5 rounded bg-[#FEE2E2] hover:bg-[#FECACA] text-[#DC2626] text-[10px] font-semibold transition"
+                                title="Đóng cảnh báo có lưu Audit Log"
+                              >
+                                Đóng cảnh báo
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

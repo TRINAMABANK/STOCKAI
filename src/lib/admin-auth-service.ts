@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
 import { getDatabase, saveDatabase } from '@/lib/db';
 import { AdminAccount, AdminAuditLog } from '@/types';
 
@@ -18,51 +19,70 @@ export interface AdminSessionPayload {
 
 export class AdminAuthService {
   /**
-   * Băm mật khẩu an toàn với Scrypt + Salt ngẫu nhiên 16 bytes
+   * Băm mật khẩu an toàn với bcrypt (Salt rounds = 12)
    */
   static hashPassword(password: string): string {
-    const salt = crypto.randomBytes(16).toString('hex');
-    const hash = crypto.scryptSync(password, salt, 64).toString('hex');
-    return `${salt}:${hash}`;
+    return bcrypt.hashSync(password, 12);
   }
 
   /**
-   * So khớp mật khẩu với hàm kiểm tra an toàn timingSafeEqual chống tấn công kênh phụ (timing attacks)
+   * So khớp mật khẩu với bcrypt (kèm hỗ trợ tự động nâng cấp nếu còn dùng chuẩn cũ)
    */
   static verifyPassword(password: string, storedHash: string): boolean {
-    if (!storedHash || !storedHash.includes(':')) return false;
-    try {
-      const [salt, expectedHash] = storedHash.split(':');
-      const calculatedHash = crypto.scryptSync(password, salt, 64).toString('hex');
-      const bufA = Buffer.from(expectedHash, 'hex');
-      const bufB = Buffer.from(calculatedHash, 'hex');
-      if (bufA.length !== bufB.length) return false;
-      return crypto.timingSafeEqual(bufA, bufB);
-    } catch {
-      return false;
+    if (!storedHash) return false;
+
+    // 1. Định dạng chuẩn Bcrypt ($2a$, $2b$, $2y$)
+    if (storedHash.startsWith('$2a$') || storedHash.startsWith('$2b$') || storedHash.startsWith('$2y$')) {
+      try {
+        return bcrypt.compareSync(password, storedHash);
+      } catch {
+        return false;
+      }
     }
+
+    // 2. Tương thích ngược an toàn với định dạng Scrypt cũ (salt:hash)
+    if (storedHash.includes(':')) {
+      try {
+        const [salt, expectedHash] = storedHash.split(':');
+        const calculatedHash = crypto.scryptSync(password, salt, 64).toString('hex');
+        const bufA = Buffer.from(expectedHash, 'hex');
+        const bufB = Buffer.from(calculatedHash, 'hex');
+        if (bufA.length !== bufB.length) return false;
+        return crypto.timingSafeEqual(bufA, bufB);
+      } catch {
+        return false;
+      }
+    }
+
+    return false;
   }
 
   /**
    * Lấy hoặc khởi tạo tài khoản quản trị viên duy nhất trong hệ thống
-   * Mật khẩu khởi tạo được lấy từ biến môi trường hoặc mật khẩu được cấp, lưu dạng HASH, không lưu dạng văn bản rõ.
+   * Mật khẩu khởi tạo được băm bằng bcrypt, không bao giờ lưu văn bản rõ.
+   * Tên đăng nhập chuẩn: triqn (chấp nhận cả admin và triqnnamabank@gmail.com khi đăng nhập)
    */
   static getOrInitAdminAccount(): AdminAccount {
     const db = getDatabase();
 
     if (db.admin_account) {
+      // Đảm bảo username chuẩn hoá về triqn
+      if (db.admin_account.username !== 'triqn') {
+        db.admin_account.username = 'triqn';
+        saveDatabase(db);
+      }
       return db.admin_account;
     }
 
-    // Khởi tạo tài khoản Admin mặc định an toàn
+    // Khởi tạo tài khoản Admin mặc định an toàn bằng bcrypt
     const initialPlainPassword = process.env.INITIAL_ADMIN_PASSWORD || 'Admin@2026';
     const passwordHash = this.hashPassword(initialPlainPassword);
 
     const defaultAdmin: AdminAccount = {
       id: 'usr_stockai_lead',
-      username: 'admin',
+      username: 'triqn',
       email: 'triqnnamabank@gmail.com',
-      name: 'Quang Nhựt Trí',
+      name: 'Quang Nhựt Trí (Admin)',
       role: 'ADMIN',
       passwordHash,
       mustChangePassword: true, // Yêu cầu đổi mật khẩu sau lần đăng nhập đầu tiên
@@ -96,8 +116,13 @@ export class AdminAuthService {
     const admin = db.admin_account;
 
     const normalizedInput = (usernameOrEmail || '').trim().toLowerCase();
-    const isUsernameMatch = admin.username.toLowerCase() === normalizedInput;
-    const isEmailMatch = admin.email.toLowerCase() === normalizedInput;
+    const isUsernameMatch = 
+      normalizedInput === 'triqn' || 
+      normalizedInput === 'admin' || 
+      admin.username.toLowerCase() === normalizedInput;
+    const isEmailMatch = 
+      admin.email.toLowerCase() === normalizedInput || 
+      normalizedInput === 'triqnnamabank@gmail.com';
 
     if (!isUsernameMatch && !isEmailMatch) {
       return {
@@ -137,12 +162,20 @@ export class AdminAuthService {
       };
     }
 
+    // Nếu mật khẩu cũ là scrypt, tự động nâng cấp hash sang bcrypt
+    if (admin.passwordHash.includes(':')) {
+      admin.passwordHash = this.hashPassword(password);
+    }
+    if (admin.username !== 'triqn') {
+      admin.username = 'triqn';
+    }
+
     // Đăng nhập thành công -> Reset số lần thất bại, ghi nhận thời gian
     admin.failedLoginAttempts = 0;
     admin.lockedUntil = undefined;
     admin.lastLoginAt = new Date().toISOString();
 
-    // Ghi nhận Audit Log
+    // Ghi nhận Audit Log (TUYỆT ĐỐI KHÔNG ĐƯA MẬT KHẨU VÀO LOG)
     const auditLog: AdminAuditLog = {
       id: `aud_${Date.now()}_login`,
       action: 'ADMIN_LOGIN',
@@ -153,7 +186,7 @@ export class AdminAuthService {
       details: {
         username: admin.username,
         ipAddress: ipAddress || 'Unknown',
-        loginMethod: 'PASSWORD_HASH_VERIFIED',
+        loginMethod: 'BCRYPT_HASH_VERIFIED',
       },
       ipAddress,
     };
@@ -200,7 +233,7 @@ export class AdminAuthService {
       return { success: false, message: 'Mật khẩu mới không được trùng với mật khẩu hiện tại.' };
     }
 
-    // 3. Băm và lưu mật khẩu mới
+    // 3. Băm bằng bcrypt và lưu mật khẩu mới
     admin.passwordHash = this.hashPassword(newPassword);
     admin.mustChangePassword = false; // Đã đổi xong mật khẩu lần đầu
     admin.failedLoginAttempts = 0;
@@ -214,7 +247,7 @@ export class AdminAuthService {
       performedBy: { id: admin.id, email: admin.email, role: 'ADMIN' },
       timestamp: new Date().toISOString(),
       details: {
-        note: 'Quản trị viên đã cập nhật mật khẩu mới thành công.',
+        note: 'Quản trị viên đã cập nhật mật khẩu mới bằng Bcrypt thành công.',
         ipAddress: ipAddress || 'Unknown',
       },
       ipAddress,
