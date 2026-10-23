@@ -51,6 +51,7 @@ export default function Home() {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isRightPanelCollapsed, setIsRightPanelCollapsed] = useState(false);
+  const [isRefreshingNews, setIsRefreshingNews] = useState(false);
 
   useEffect(() => {
     try {
@@ -178,18 +179,28 @@ export default function Home() {
     }
   };
 
+  const loadNews = async () => {
+    setIsRefreshingNews(true);
+    try {
+      const res = await fetch('/api/news');
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        setNews(json.data);
+      }
+    } catch (err) {
+      console.error('Lỗi tải tin tức RSS:', err);
+    } finally {
+      setIsRefreshingNews(false);
+    }
+  };
+
   useEffect(() => {
     loadCurrentUser();
     loadPortfolioData();
     loadMarketData();
     loadT3Signals();
     loadApiProviders();
-
-    setNews([
-      { id: '1', title: 'VN-Index tăng gần 13 điểm, dòng tiền quay lại nhóm ngân hàng', source: 'Cafef', timeAgo: '2 giờ trước' },
-      { id: '2', title: 'FPT công bố kết quả kinh doanh Quý 1/2025 với mức tăng trưởng ấn tượng', source: 'VnExpress', timeAgo: '3 giờ trước' },
-      { id: '3', title: 'Giá dầu giảm mạnh, tác động đến nhóm cổ phiếu dầu khí', source: 'Vietstock', timeAgo: '5 giờ trước' },
-    ]);
+    loadNews();
   }, []);
 
   // Handlers
@@ -463,6 +474,8 @@ export default function Home() {
                   onOpenAiAssistant={() => setActiveMenu('ai')}
                   testingProvider={testingProvider}
                   onCollapse={() => toggleRightPanel(true)}
+                  onRefreshNews={loadNews}
+                  isRefreshingNews={isRefreshingNews}
                 />
               </div>
             )}

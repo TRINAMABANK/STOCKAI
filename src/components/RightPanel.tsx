@@ -13,6 +13,8 @@ interface RightPanelProps {
   onOpenAiAssistant: () => void;
   testingProvider?: string | null;
   onCollapse?: () => void;
+  onRefreshNews?: () => void;
+  isRefreshingNews?: boolean;
 }
 
 export default function RightPanel({
@@ -23,6 +25,8 @@ export default function RightPanel({
   onOpenAiAssistant,
   testingProvider,
   onCollapse,
+  onRefreshNews,
+  isRefreshingNews,
 }: RightPanelProps) {
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'ai'; text: string; time: string; model?: string }>>([]);
@@ -189,30 +193,65 @@ export default function RightPanel({
         </div>
       </div>
 
-      {/* 2. Tin tức nổi bật */}
+      {/* 2. Tin tức nổi bật (CafeF & VnExpress RSS) */}
       <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs">
         <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#F1F5F9]">
-          <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Tin tức nổi bật</h4>
-          <span className="text-[12px] font-medium text-[#008FD3] hover:text-[#007bb8] cursor-pointer transition">
-            Xem tất cả
-          </span>
+          <div className="flex items-center gap-2">
+            <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Tin tức nổi bật</h4>
+            <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" title="Cập nhật trực tiếp RSS" />
+          </div>
+          <div className="flex items-center gap-2">
+            {onRefreshNews && (
+              <button
+                onClick={onRefreshNews}
+                disabled={isRefreshingNews}
+                className="p-1 rounded-lg text-[#64748B] hover:text-[#008FD3] hover:bg-[#F0F9FF] transition"
+                title="Làm mới tin tức"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isRefreshingNews ? 'animate-spin text-[#008FD3]' : ''}`} />
+              </button>
+            )}
+            <a
+              href="https://cafef.vn/thi-truong-chung-khoan.chn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[12px] font-medium text-[#008FD3] hover:text-[#007bb8] transition flex items-center gap-1"
+            >
+              <span>Xem tất cả</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {news.map((item) => (
-            <div key={item.id} className="flex gap-3 items-start group cursor-pointer">
-              <div className="w-12 h-10 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] flex items-center justify-center text-[#64748B] shrink-0 font-semibold text-[10px] px-1 text-center leading-tight">
+            <a
+              key={item.id}
+              href={item.url || (item as any).link || 'https://cafef.vn'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex gap-3 items-start group cursor-pointer p-2 -mx-2 rounded-xl hover:bg-[#F8FAFC] transition duration-150 block"
+              title="Bấm để đọc bài viết gốc"
+            >
+              <div className={`w-14 h-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-[10px] px-1 text-center leading-tight transition-colors border ${
+                item.source.toLowerCase().includes('cafef')
+                  ? 'bg-[#EFF6FF] border-[#BFDBFE] text-[#1D4ED8] group-hover:bg-[#DBEAFE]'
+                  : 'bg-[#FDF2F8] border-[#FBCFE8] text-[#BE185D] group-hover:bg-[#FCE7F3]'
+              }`}>
                 {item.source}
               </div>
               <div className="flex-1 min-w-0">
                 <h5 className="text-[13px] font-semibold text-[#172033] group-hover:text-[#008FD3] transition line-clamp-2 leading-snug">
                   {item.title}
                 </h5>
-                <p className="text-[11px] text-[#64748B] mt-1 font-medium">
-                  {item.source} • {item.timeAgo}
-                </p>
+                <div className="flex items-center gap-1.5 text-[11px] text-[#64748B] mt-1 font-medium">
+                  <span>{item.source}</span>
+                  <span>•</span>
+                  <span>{item.timeAgo}</span>
+                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 text-[#008FD3] transition-opacity shrink-0 ml-auto" />
+                </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>
