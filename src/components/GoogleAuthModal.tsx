@@ -15,10 +15,7 @@ import {
   Sparkles,
   KeyRound,
   Eye,
-  EyeOff,
-  Shield,
-  ArrowRight,
-  UserCheck
+  EyeOff
 } from 'lucide-react';
 import { UserProfile } from '@/types';
 import Logo from './Logo';
@@ -42,7 +39,7 @@ export default function GoogleAuthModal({
   onLoginSuccess,
   onLogout,
 }: GoogleAuthModalProps) {
-  const [activeTab, setActiveTab] = useState<'password' | 'demo' | 'google'>('password');
+  const [activeTab, setActiveTab] = useState<'password' | 'google'>('password');
   
   // Password login form
   const [username, setUsername] = useState('triqn');
@@ -172,37 +169,6 @@ export default function GoogleAuthModal({
     }
   };
 
-  // Switch demo account
-  const handleSwitchDemoAccount = async (demoUserId: string) => {
-    setIsLoading(true);
-    setAuthError(null);
-    setAuthSuccessMsg(null);
-
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ demoUserId }),
-      });
-
-      const data = await res.json();
-      if (data.success && data.user) {
-        setAuthSuccessMsg(`Đã kích hoạt tài khoản: ${data.user.name}`);
-        onLoginSuccess(data.user);
-        setTimeout(() => {
-          onClose();
-          window.location.reload();
-        }, 500);
-      } else {
-        setAuthError(data.message || 'Không thể chuyển đổi tài khoản mẫu.');
-      }
-    } catch (err: any) {
-      setAuthError(err.message || 'Lỗi kết nối khi chuyển tài khoản.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const isCurrentGuest = !currentUser || currentUser.name === 'Khách' || currentUser.id === 'guest_user';
 
   return (
@@ -225,7 +191,7 @@ export default function GoogleAuthModal({
           </button>
         </div>
 
-        {/* Navigation Tabs */}
+        {/* Navigation Tabs (Chỉ giữ Tài khoản & Mật khẩu và Google) */}
         <div className="flex items-center border-b border-[#E2E8F0] bg-white px-6">
           <button
             type="button"
@@ -237,20 +203,7 @@ export default function GoogleAuthModal({
             }`}
           >
             <KeyRound className="w-3.5 h-3.5" />
-            <span>Mật khẩu & Admin</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => { setActiveTab('demo'); setAuthError(null); }}
-            className={`flex items-center gap-2 py-3 px-3 text-xs font-bold border-b-2 transition ${
-              activeTab === 'demo'
-                ? 'border-[#008FD3] text-[#008FD3]'
-                : 'border-transparent text-[#64748B] hover:text-[#172033]'
-            }`}
-          >
-            <UserCheck className="w-3.5 h-3.5" />
-            <span>Tài khoản Dùng thử</span>
+            <span>Tài khoản & Mật khẩu</span>
           </button>
 
           <button
@@ -333,7 +286,7 @@ export default function GoogleAuthModal({
             </div>
           )}
 
-          {/* TAB 1: PASSWORD & ADMIN LOGIN */}
+          {/* TAB 1: PASSWORD LOGIN */}
           {activeTab === 'password' && (
             <div className="space-y-4">
               {/* Quick 1-Click Admin Button */}
@@ -341,7 +294,7 @@ export default function GoogleAuthModal({
                 <div>
                   <div className="flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-[#008FD3]" />
-                    <span className="font-bold text-[#0369A1] text-xs">Tài khoản Quản trị viên (Chủ hệ thống)</span>
+                    <span className="font-bold text-[#0369A1] text-xs">Tài khoản Quản trị viên</span>
                   </div>
                   <p className="text-[11px] text-[#0284C7] mt-0.5">
                     Tên đăng nhập: <strong>triqn</strong> &bull; Mật khẩu: <strong>Admin@2026</strong>
@@ -371,7 +324,7 @@ export default function GoogleAuthModal({
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="triqn hoặc admin hoặc email"
+                    placeholder="triqn hoặc email"
                     required
                     className="w-full px-3 py-2 text-xs rounded-xl border border-[#CBD5E1] focus:outline-none focus:border-[#008FD3] focus:ring-1 focus:ring-[#008FD3]"
                   />
@@ -386,7 +339,7 @@ export default function GoogleAuthModal({
                       type={showPassword ? 'text' : 'password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Mật khẩu khởi tạo (Admin@2026)"
+                      placeholder="Mật khẩu tài khoản"
                       required
                       className="w-full px-3 py-2 text-xs rounded-xl border border-[#CBD5E1] focus:outline-none focus:border-[#008FD3] focus:ring-1 focus:ring-[#008FD3] pr-9"
                     />
@@ -415,93 +368,10 @@ export default function GoogleAuthModal({
                   )}
                 </button>
               </form>
-
-              {/* Direct link to /admin */}
-              <div className="pt-2 border-t border-[#F1F5F9] flex items-center justify-between text-[11px]">
-                <span className="text-[#64748B]">Cần truy cập trực tiếp Trung tâm Quản trị?</span>
-                <a
-                  href="/admin"
-                  className="flex items-center gap-1 font-bold text-[#008FD3] hover:underline"
-                >
-                  <Shield className="w-3.5 h-3.5" />
-                  <span>Vào /admin</span>
-                  <ArrowRight className="w-3 h-3" />
-                </a>
-              </div>
             </div>
           )}
 
-          {/* TAB 2: DEMO ACCOUNT SWITCHER */}
-          {activeTab === 'demo' && (
-            <div className="space-y-3">
-              <p className="text-[11px] text-[#64748B]">
-                Chọn nhanh một trong các tài khoản mẫu dưới đây để kiểm tra các mức phân quyền và tính năng của nền tảng StockAI:
-              </p>
-
-              {/* Option 1: Admin */}
-              <div
-                onClick={() => handleSwitchDemoAccount('usr_stockai_lead')}
-                className="p-3.5 rounded-xl border border-[#BAE6FD] bg-[#F0F9FF] hover:bg-[#E0F2FE] cursor-pointer transition flex items-center justify-between group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[#008FD3] text-white font-bold text-xs flex items-center justify-center">
-                    TR
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-bold text-xs text-[#0369A1]">Quang Nhựt Trí (Admin Lead)</span>
-                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#FEE2E2] text-[#B91C1C]">ADMIN</span>
-                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#FEF08A] text-[#854D0E]">ENTERPRISE</span>
-                    </div>
-                    <p className="text-[10px] text-[#0284C7] mt-0.5">Toàn quyền hệ thống & phân tích định lượng không giới hạn</p>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-[#008FD3] group-hover:translate-x-0.5 transition" />
-              </div>
-
-              {/* Option 2: Enterprise Trader */}
-              <div
-                onClick={() => handleSwitchDemoAccount('usr_regular_trader')}
-                className="p-3.5 rounded-xl border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] cursor-pointer transition flex items-center justify-between group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[#8B5CF6] text-white font-bold text-xs flex items-center justify-center">
-                    AI
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-bold text-xs text-[#172033]">Nhà Đầu Tư StockAI</span>
-                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#EDE9FE] text-[#8B5CF6]">ENTERPRISE</span>
-                    </div>
-                    <p className="text-[10px] text-[#64748B] mt-0.5">Gói cao cấp nhất: WebSocket tick-by-tick, radar T+3 chuyên sâu</p>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-[#94A3B8] group-hover:text-[#172033] group-hover:translate-x-0.5 transition" />
-              </div>
-
-              {/* Option 3: Free User */}
-              <div
-                onClick={() => handleSwitchDemoAccount('usr_trader_demo')}
-                className="p-3.5 rounded-xl border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] cursor-pointer transition flex items-center justify-between group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[#94A3B8] text-white font-bold text-xs flex items-center justify-center">
-                    TV
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-bold text-xs text-[#172033]">Trần Văn Đầu Tư</span>
-                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#F1F5F9] text-[#64748B]">FREE</span>
-                    </div>
-                    <p className="text-[10px] text-[#64748B] mt-0.5">Tài khoản miễn phí: xem bảng giá 3 sàn và bộ lọc cơ bản</p>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-[#94A3B8] group-hover:text-[#172033] group-hover:translate-x-0.5 transition" />
-              </div>
-            </div>
-          )}
-
-          {/* TAB 3: GOOGLE AUTH */}
+          {/* TAB 2: GOOGLE AUTH */}
           {activeTab === 'google' && (
             <div className="space-y-4">
               {/* Google One-Tap & Popup Button */}
