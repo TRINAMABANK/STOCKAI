@@ -302,15 +302,7 @@ export default function Header({
               <span>Đăng nhập</span>
             </button>
 
-            {/* Quick Link to /admin */}
-            <a
-              href="/admin"
-              className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[#F8FAFC] hover:bg-[#F0F9FF] border border-[#E2E8F0] hover:border-[#BAE6FD] text-[#475569] hover:text-[#008FD3] text-xs font-semibold transition shadow-2xs"
-              title="Cổng quản trị viên hệ thống (/admin)"
-            >
-              <Shield className="w-3.5 h-3.5 text-[#008FD3]" />
-              <span>Admin</span>
-            </a>
+
           </div>
         )}
 
