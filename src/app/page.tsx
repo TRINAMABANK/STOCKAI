@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { ChevronLeft, Bot } from 'lucide-react';
 import Sidebar, { ActiveMenu } from '@/components/Sidebar';
 import Header from '@/components/Header';
 import RightPanel from '@/components/RightPanel';
@@ -49,6 +50,27 @@ export default function Home() {
   const [timeFilter, setTimeFilter] = useState<'1D' | '1W' | '1M' | '3M' | '6M' | '1Y' | 'ALL'>('1M');
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isRightPanelCollapsed, setIsRightPanelCollapsed] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('stockai_right_panel_collapsed');
+      if (saved !== null) {
+        setIsRightPanelCollapsed(saved === 'true');
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const toggleRightPanel = (collapsed: boolean) => {
+    setIsRightPanelCollapsed(collapsed);
+    try {
+      localStorage.setItem('stockai_right_panel_collapsed', String(collapsed));
+    } catch {
+      // ignore
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -407,17 +429,43 @@ export default function Home() {
               )}
             </div>
 
-            {/* Right Sidebar Panel */}
-            <div className="w-full xl:w-80 xl:shrink-0">
-              <RightPanel
-                news={news}
-                apiProviders={apiProviders}
-                onTestApi={handleTestApi}
-                onOpenApiCenter={() => setActiveMenu('api-center')}
-                onOpenAiAssistant={() => setActiveMenu('ai')}
-                testingProvider={testingProvider}
-              />
-            </div>
+            {/* Right Sidebar Panel (Cột 3) */}
+            {isRightPanelCollapsed ? (
+              <div className="hidden xl:flex shrink-0 animate-in fade-in duration-200">
+                <button
+                  onClick={() => toggleRightPanel(false)}
+                  className="sticky top-4 h-[calc(100vh-140px)] w-10 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs hover:border-[#BAE6FD] hover:bg-[#F0F9FF] text-[#64748B] hover:text-[#008FD3] flex flex-col items-center justify-between py-5 transition-all duration-200 group"
+                  title="Mở rộng Trợ lý AI & Tin tức (Cột 3)"
+                >
+                  <div className="w-6 h-6 rounded-lg bg-[#F0F9FF] border border-[#BAE6FD] text-[#008FD3] flex items-center justify-center group-hover:bg-[#008FD3] group-hover:text-white transition-colors">
+                    <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                  </div>
+
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-7 h-7 rounded-xl bg-[#EDE9FE] text-[#8B5CF6] flex items-center justify-center shadow-2xs">
+                      <Bot className="w-4 h-4" />
+                    </div>
+                    <span className="text-[11px] font-bold [writing-mode:vertical-lr] rotate-180 tracking-widest text-[#475569] group-hover:text-[#008FD3] uppercase select-none">
+                      Trợ lý AI & Tin tức
+                    </span>
+                  </div>
+
+                  <div className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" title="AI đang sẵn sàng" />
+                </button>
+              </div>
+            ) : (
+              <div className="w-full xl:w-80 xl:shrink-0 transition-all duration-300 animate-in fade-in duration-200">
+                <RightPanel
+                  news={news}
+                  apiProviders={apiProviders}
+                  onTestApi={handleTestApi}
+                  onOpenApiCenter={() => setActiveMenu('api-center')}
+                  onOpenAiAssistant={() => setActiveMenu('ai')}
+                  testingProvider={testingProvider}
+                  onCollapse={() => toggleRightPanel(true)}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

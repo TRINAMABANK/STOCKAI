@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Send, Sparkles, Bot, ExternalLink, RefreshCw, CheckCircle, AlertCircle, ShieldAlert } from 'lucide-react';
+import { Send, Sparkles, Bot, ExternalLink, RefreshCw, CheckCircle, AlertCircle, ShieldAlert, ChevronRight, PanelRightClose } from 'lucide-react';
 import { NewsItem, ApiProvider } from '@/types';
 import Logo from './Logo';
 
@@ -12,6 +12,7 @@ interface RightPanelProps {
   onOpenApiCenter: () => void;
   onOpenAiAssistant: () => void;
   testingProvider?: string | null;
+  onCollapse?: () => void;
 }
 
 export default function RightPanel({
@@ -21,6 +22,7 @@ export default function RightPanel({
   onOpenApiCenter,
   onOpenAiAssistant,
   testingProvider,
+  onCollapse,
 }: RightPanelProps) {
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'ai'; text: string; time: string; model?: string }>>([]);
@@ -103,6 +105,18 @@ export default function RightPanel({
               <p className="text-[11px] text-[#64748B]">Hỏi đáp, phân tích và tìm cơ hội đầu tư</p>
             </div>
           </div>
+
+          {/* Nút thu nhỏ Cột 3 về bên phải */}
+          {onCollapse && (
+            <button
+              onClick={onCollapse}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[#64748B] hover:text-[#008FD3] hover:bg-[#F0F9FF] border border-[#E2E8F0] hover:border-[#BAE6FD] text-[11px] font-semibold transition-all duration-200 shadow-2xs group"
+              title="Thu nhỏ cột 3 về bên phải"
+            >
+              <span className="text-[10px] text-[#64748B] group-hover:text-[#008FD3]">Thu gọn</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#008FD3] group-hover:translate-x-0.5 transition-transform" />
+            </button>
+          )}
         </div>
 
         {/* Prompt Suggestions */}
