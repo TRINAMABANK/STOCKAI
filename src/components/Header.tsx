@@ -415,7 +415,7 @@ export default function Header({
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-bold text-[#008FD3] bg-[#E0F2FE]/60 hover:bg-[#E0F2FE] transition group"
                   >
                     <Shield className="w-4 h-4 text-[#008FD3] shrink-0" />
-                    <span className="flex-1 font-bold">Vào Trang Quản Trị (/admin)</span>
+                    <span className="flex-1 font-bold">Vào Trang Quản Trị</span>
                   </a>
                 ) : (
                   <>
@@ -431,13 +431,7 @@ export default function Header({
                       <span className="flex-1">Đăng nhập / Đổi tài khoản</span>
                     </button>
 
-                    <a
-                      href="/admin"
-                      className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left text-xs font-semibold text-[#475569] hover:text-[#008FD3] hover:bg-[#F8FAFC] transition group"
-                    >
-                      <Shield className="w-4 h-4 text-[#64748B] group-hover:text-[#008FD3] shrink-0 transition" />
-                      <span className="flex-1">Cổng Quản trị viên (/admin)</span>
-                    </a>
+
                   </>
                 )}
 
