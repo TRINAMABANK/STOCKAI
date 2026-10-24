@@ -125,13 +125,20 @@ export default function MarketDashboardView({
 
       {/* 2. 4 Major Market Indices Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {indices.map((idx) => {
+        {indices.map((idx, index) => {
           const isUp = idx.change >= 0;
+          const gradientClass = [
+            'from-[#38BDF8] to-[#6366F1]',
+            'from-[#E879F9] to-[#EC4899]',
+            'from-[#FB7185] to-[#F97316]',
+            'from-[#34D399] to-[#14B8A6]',
+          ][index % 4];
           return (
             <div
               key={idx.symbol}
-              className="bg-[#FFFFFF] p-4 lg:p-5 rounded-2xl border border-[#E2E8F0] shadow-xs hover:border-[#008FD3]/40 card-hover-smooth group"
+              className="bg-[#FFFFFF] p-4 lg:p-5 pl-5 lg:pl-6 rounded-2xl border border-[#E2E8F0] shadow-xs hover:border-[#008FD3]/40 card-hover-smooth group relative overflow-hidden"
             >
+              <div className={`absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b ${gradientClass}`} />
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-[#64748B] tracking-wide">{idx.name || idx.symbol}</span>
                 <span
@@ -168,9 +175,11 @@ export default function MarketDashboardView({
       {/* 3. Market Breadth & Total Liquidity Row */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Market Breadth Card (Col 7) */}
-        <div className="lg:col-span-7 bg-[#FFFFFF] p-5 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4">
+        <div className="lg:col-span-7 bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4 relative overflow-hidden">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#38BDF8] to-[#6366F1]" />
           <div className="flex items-center justify-between pb-2 border-b border-[#E2E8F0]">
             <div className="flex items-center gap-2">
+              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#38BDF8] to-[#6366F1] shrink-0" />
               <BarChart3 className="w-4 h-4 text-[#008FD3]" />
               <h3 className="text-sm font-bold text-[#172033]">Độ rộng thị trường (Market Breadth)</h3>
             </div>
@@ -218,11 +227,13 @@ export default function MarketDashboardView({
         </div>
 
         {/* Total Liquidity & Turnover Card (Col 5) */}
-        <div className="lg:col-span-5 bg-[#FFFFFF] p-5 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4 flex flex-col justify-between">
+        <div className="lg:col-span-5 bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#E879F9] to-[#EC4899]" />
           <div>
             <div className="flex items-center justify-between pb-2 border-b border-[#E2E8F0]">
               <div className="flex items-center gap-2">
-                <Activity className="w-4 h-4 text-[#10B981]" />
+                <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#E879F9] to-[#EC4899] shrink-0" />
+                <Activity className="w-4 h-4 text-[#A855F7]" />
                 <h3 className="text-sm font-bold text-[#172033]">Thanh khoản toàn thị trường</h3>
               </div>
               <span className="text-[11px] font-semibold text-[#10B981] bg-[#D1FAE5] px-2 py-0.5 rounded-full">
@@ -256,9 +267,12 @@ export default function MarketDashboardView({
       {/* 4. Top Movers & Quick Watchlist Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Top Movers (Col 7) */}
-        <div className="lg:col-span-7 bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
-          <div className="p-4 border-b border-[#E2E8F0] flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
+        <div className="lg:col-span-7 bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden relative">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#FB7185] to-[#F97316] z-10" />
+          <div className="p-4 pl-6 border-b border-[#E2E8F0] flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#FB7185] to-[#F97316] shrink-0" />
+              <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setMoversTab('gainers')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
@@ -281,6 +295,7 @@ export default function MarketDashboardView({
                 <TrendingDown className="w-3.5 h-3.5" />
                 <span>Top Giảm sâu</span>
               </button>
+            </div>
             </div>
 
             <button
@@ -331,11 +346,13 @@ export default function MarketDashboardView({
         </div>
 
         {/* Right: Quick Watchlist preview (Col 5) */}
-        <div className="lg:col-span-5 bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden flex flex-col justify-between">
+        <div className="lg:col-span-5 bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden flex flex-col justify-between relative">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#34D399] to-[#14B8A6] z-10" />
           <div>
-            <div className="p-4 border-b border-[#E2E8F0] flex items-center justify-between">
+            <div className="p-4 pl-6 border-b border-[#E2E8F0] flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Bookmark className="w-4 h-4 text-[#008FD3]" />
+                <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#34D399] to-[#14B8A6] shrink-0" />
+                <Bookmark className="w-4 h-4 text-[#10B981]" />
                 <h3 className="text-sm font-bold text-[#172033]">Theo dõi nhanh (Watchlist)</h3>
               </div>
               <button
@@ -388,9 +405,11 @@ export default function MarketDashboardView({
 
       {/* 5. Short-term Opportunities Preview (T+3 Radar highlight) */}
       {t3Signals.length > 0 && (
-        <div className="bg-[#FFFFFF] p-5 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4">
+        <div className="bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4 relative overflow-hidden">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#38BDF8] to-[#6366F1]" />
           <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
             <div className="flex items-center gap-2">
+              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#38BDF8] to-[#6366F1] shrink-0" />
               <Zap className="w-4 h-4 text-[#008FD3]" />
               <h3 className="text-sm font-bold text-[#172033]">
                 Cơ hội ngắn hạn định lượng (T+1 đến T+5)

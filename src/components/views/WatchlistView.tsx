@@ -234,18 +234,24 @@ export default function WatchlistView({
       {/* Category Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E2E8F0] pb-2">
         <div className="flex flex-wrap items-center gap-2">
-          {watchlists.map((w) => {
+          {watchlists.map((w, index) => {
             const isActive = (activeListId || watchlists[0]?.id) === w.id;
             return (
               <button
                 key={w.id}
                 onClick={() => setActiveListId(w.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-2 ${
                   isActive
                     ? 'bg-[#008FD3] text-white shadow-2xs'
                     : 'bg-[#FFFFFF] text-[#64748B] hover:text-[#172033] border border-[#E2E8F0]'
                 }`}
               >
+                <span className={`w-1 h-3 rounded-full ${
+                  index % 4 === 0 ? 'bg-gradient-to-b from-[#38BDF8] to-[#6366F1]' :
+                  index % 4 === 1 ? 'bg-gradient-to-b from-[#E879F9] to-[#EC4899]' :
+                  index % 4 === 2 ? 'bg-gradient-to-b from-[#FB7185] to-[#F97316]' :
+                  'bg-gradient-to-b from-[#34D399] to-[#14B8A6]'
+                } shrink-0`} />
                 <Bookmark className="w-3.5 h-3.5" />
                 <span>{w.name}</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${isActive ? 'bg-white/20 text-white' : 'bg-[#F1F5F9] text-[#64748B]'}`}>
