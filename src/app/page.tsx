@@ -274,7 +274,7 @@ export default function Home() {
         <Header
           indices={indices}
           onSelectStock={handleSelectStock}
-          onOpenSettings={() => setActiveMenu('settings')}
+          onOpenSettings={() => {}}
           quotes={quotes}
           currentUser={currentUser}
           onOpenProfile={() => setActiveMenu('profile')}
@@ -410,21 +410,35 @@ export default function Home() {
               {/* Cảnh báo */}
               {activeMenu === 'alerts' && <AlertsView onSelectStock={handleSelectStock} />}
 
-              {/* Trung tâm API */}
+              {/* Trung tâm API: Chỉ Quản trị viên mới được truy cập */}
               {activeMenu === 'api-center' && (
-                <ApiCenterView
-                  providers={apiProviders}
-                  onTestApi={handleTestApi}
-                  testingProvider={testingProvider}
-                />
+                currentUser?.role === 'ADMIN' ? (
+                  <ApiCenterView
+                    providers={apiProviders}
+                    onTestApi={handleTestApi}
+                    testingProvider={testingProvider}
+                  />
+                ) : (
+                  <div className="p-8 text-center bg-white rounded-2xl border border-[#FECDD3] space-y-2">
+                    <p className="text-sm font-bold text-[#F43F5E]">Khu vực dành riêng cho Quản trị viên (Admin)</p>
+                    <p className="text-xs text-[#64748B]">Tài khoản người dùng không có quyền truy cập dữ liệu Trung tâm API quản trị.</p>
+                  </div>
+                )
               )}
 
               {/* Kiểm định chiến lược */}
               {activeMenu === 'backtest' && <BacktestView />}
 
-              {/* Cài đặt hệ thống */}
+              {/* Cài đặt hệ thống: Chỉ Quản trị viên mới được truy cập */}
               {activeMenu === 'settings' && (
-                <SettingsView onRefreshAll={loadPortfolioData} />
+                currentUser?.role === 'ADMIN' ? (
+                  <SettingsView onRefreshAll={loadPortfolioData} />
+                ) : (
+                  <div className="p-8 text-center bg-white rounded-2xl border border-[#FECDD3] space-y-2">
+                    <p className="text-sm font-bold text-[#F43F5E]">Khu vực dành riêng cho Quản trị viên (Admin)</p>
+                    <p className="text-xs text-[#64748B]">Tài khoản người dùng không có quyền truy cập Cài đặt hệ thống & Quản trị dữ liệu.</p>
+                  </div>
+                )
               )}
 
               {/* Khu vực Quản trị Admin: Bảo vệ nghiêm ngặt */}
@@ -470,7 +484,6 @@ export default function Home() {
                   news={news}
                   apiProviders={apiProviders}
                   onTestApi={handleTestApi}
-                  onOpenApiCenter={() => setActiveMenu('api-center')}
                   onOpenAiAssistant={() => setActiveMenu('ai')}
                   testingProvider={testingProvider}
                   onCollapse={() => toggleRightPanel(true)}

@@ -13,9 +13,7 @@ import {
   Bot, 
   Bookmark, 
   Bell, 
-  Radio, 
   History, 
-  Settings,
   RefreshCw,
   Activity,
   ShieldCheck,
@@ -86,8 +84,6 @@ export default function Sidebar({
     { id: 'ai', label: 'Trợ lý AI', icon: Bot, isAi: true },
     { id: 'alerts', label: 'Cảnh báo thị trường', icon: Bell },
     { id: 'backtest', label: 'Kiểm định chiến lược', icon: History },
-    { id: 'api-center', label: 'Trung tâm API & Dữ liệu', icon: Radio },
-    { id: 'settings', label: 'Cài đặt hệ thống', icon: Settings },
   ];
 
   // 3. Nhóm Admin: CHỈ hiển thị khi người dùng có quyền ADMIN

@@ -9,7 +9,7 @@ interface RightPanelProps {
   news: NewsItem[];
   apiProviders: ApiProvider[];
   onTestApi: (providerCode: string) => void;
-  onOpenApiCenter: () => void;
+  onOpenApiCenter?: () => void;
   onOpenAiAssistant: () => void;
   testingProvider?: string | null;
   onCollapse?: () => void;
@@ -259,13 +259,7 @@ export default function RightPanel({
       {/* 3. Kết nối API */}
       <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs">
         <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#F1F5F9]">
-          <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Kết nối API</h4>
-          <button 
-            onClick={onOpenApiCenter}
-            className="text-[12px] font-medium text-[#008FD3] hover:text-[#007bb8] transition"
-          >
-            Quản lý
-          </button>
+          <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Trạng thái Nguồn dữ liệu</h4>
         </div>
 
         <div className="space-y-2.5">

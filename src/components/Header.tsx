@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Bell, Settings, User, TrendingUp, LogOut, Shield, Menu, ChevronDown, Upload, ShieldCheck } from 'lucide-react';
+import { Search, Bell, User, TrendingUp, LogOut, Shield, Menu, ChevronDown, Upload, ShieldCheck } from 'lucide-react';
 import { MarketIndex, StockQuote, UserProfile } from '@/types';
 import GoogleAuthModal from './GoogleAuthModal';
 
@@ -10,7 +10,7 @@ import Logo from './Logo';
 interface HeaderProps {
   indices: MarketIndex[];
   onSelectStock: (symbol: string) => void;
-  onOpenSettings: () => void;
+  onOpenSettings?: () => void;
   quotes?: StockQuote[];
   currentUser?: UserProfile | null;
   onOpenProfile?: () => void;
@@ -317,14 +317,7 @@ export default function Header({
           </span>
         </button>
 
-        {/* Settings Gear */}
-        <button
-          onClick={onOpenSettings}
-          title="Cài đặt hệ thống"
-          className="p-2 rounded-xl text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC] transition-colors duration-200 ease-out"
-        >
-          <Settings className="w-5 h-5" />
-        </button>
+
 
         {/* User Profile Dropdown Button */}
         <div ref={userMenuRef} className="relative">
@@ -466,20 +459,7 @@ export default function Header({
                   <span className="flex-1 font-medium">Hồ sơ cá nhân</span>
                 </button>
 
-                {/* Thiết lập tài khoản */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsUserMenuOpen(false);
-                    if (onOpenSettings) onOpenSettings();
-                  }}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-semibold text-[#172033] hover:bg-[#F8FAFC] hover:text-[#008FD3] transition group"
-                >
-                  <Settings className="w-4 h-4 text-[#64748B] group-hover:text-[#008FD3] shrink-0 transition" />
-                  <span className="flex-1 font-medium">Thiết lập tài khoản</span>
-                </button>
 
-                <div className="border-t border-[#F1F5F9] my-1" />
 
                 {/* Đăng xuất */}
                 <button
