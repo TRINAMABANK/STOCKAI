@@ -5,12 +5,9 @@ import {
   X, 
   ShieldCheck, 
   LogOut, 
-  ExternalLink, 
   CheckCircle2, 
   AlertCircle, 
   User, 
-  Copy, 
-  Check, 
   Lock,
   Sparkles,
   KeyRound,
@@ -42,20 +39,12 @@ export default function GoogleAuthModal({
   const [activeTab, setActiveTab] = useState<'password' | 'google'>('password');
   
   // Password login form
-  const [username, setUsername] = useState('triqn');
-  const [password, setPassword] = useState('Admin@2026');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authSuccessMsg, setAuthSuccessMsg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Copy helper
-  const [copiedField, setCopiedField] = useState<string | null>(null);
-  const copyToClipboard = (text: string, fieldName: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedField(fieldName);
-    setTimeout(() => setCopiedField(null), 2000);
-  };
 
   // Google button initialization
   useEffect(() => {
@@ -126,13 +115,6 @@ export default function GoogleAuthModal({
 
   if (!isOpen) return null;
 
-  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
-  const redirectUri = `${currentOrigin}/api/auth/callback/google`;
-  const redirectAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(
-    clientId
-  )}&redirect_uri=${encodeURIComponent(
-    redirectUri
-  )}&response_type=code&scope=openid%20email%20profile&access_type=offline&prompt=consent`;
 
   // Submit Password Login
   const handlePasswordLogin = async (e?: React.FormEvent) => {
@@ -289,31 +271,6 @@ export default function GoogleAuthModal({
           {/* TAB 1: PASSWORD LOGIN */}
           {activeTab === 'password' && (
             <div className="space-y-4">
-              {/* Quick 1-Click Admin Button */}
-              <div className="p-3.5 rounded-xl bg-gradient-to-r from-[#F0F9FF] to-[#E0F2FE] border border-[#BAE6FD] flex items-center justify-between gap-3">
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-[#008FD3]" />
-                    <span className="font-bold text-[#0369A1] text-xs">Tài khoản Quản trị viên</span>
-                  </div>
-                  <p className="text-[11px] text-[#0284C7] mt-0.5">
-                    Tên đăng nhập: <strong>triqn</strong> &bull; Mật khẩu: <strong>Admin@2026</strong>
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setUsername('triqn');
-                    setPassword('Admin@2026');
-                    setTimeout(() => handlePasswordLogin(), 50);
-                  }}
-                  disabled={isLoading}
-                  className="px-3 py-1.5 rounded-xl bg-[#008FD3] hover:bg-[#007CB8] text-white font-bold text-xs shadow-2xs transition whitespace-nowrap"
-                >
-                  ⚡ Đăng nhập 1-Click
-                </button>
-              </div>
-
               {/* Form Input Fields */}
               <form onSubmit={handlePasswordLogin} className="space-y-3">
                 <div>
@@ -324,7 +281,7 @@ export default function GoogleAuthModal({
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="triqn hoặc email"
+                    placeholder="Nhập tên đăng nhập hoặc email"
                     required
                     className="w-full px-3 py-2 text-xs rounded-xl border border-[#CBD5E1] focus:outline-none focus:border-[#008FD3] focus:ring-1 focus:ring-[#008FD3]"
                   />
@@ -398,28 +355,6 @@ export default function GoogleAuthModal({
                 </div>
               </div>
 
-              {/* Redirect Button */}
-              <a
-                href={redirectAuthUrl}
-                className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#008FD3] text-white hover:bg-[#007CB8] font-semibold text-xs transition shadow-2xs"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span>Chuyển hướng trang đăng nhập Google OAuth</span>
-              </a>
-
-              {/* Google Cloud Console Guidance */}
-              <div className="p-3 bg-[#EFF6FF] border border-[#BFDBFE] rounded-xl space-y-2 text-[11px]">
-                <span className="font-bold text-[#1E40AF] block">Thông số tích hợp Google Cloud:</span>
-                <div className="bg-white p-2 rounded border border-[#DBEAFE] space-y-1">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[#64748B]">Origin:</span>
-                    <button onClick={() => copyToClipboard(currentOrigin, 'origin')} className="text-[#008FD3] hover:underline font-semibold">
-                      {copiedField === 'origin' ? 'Đã sao chép' : 'Sao chép'}
-                    </button>
-                  </div>
-                  <code className="text-[#008FD3] block font-mono text-[10px] truncate">{currentOrigin}</code>
-                </div>
-              </div>
             </div>
           )}
         </div>
