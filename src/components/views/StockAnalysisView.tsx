@@ -375,11 +375,11 @@ export default function StockAnalysisView({
           onClick={() => setActiveTab('chart_plan')}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
             activeTab === 'chart_plan'
-              ? 'bg-[#EBF3FF] text-[#087CFF] border border-[#DCE5FF]'
+              ? 'bg-gradient-to-r from-[#EBF3FF] to-white text-[#087CFF] border border-[#087CFF]/30 shadow-2xs'
               : 'text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF]'
           }`}
         >
-          <span className="w-1 h-3.5 rounded-full bg-gradient-to-b from-[#7C3CFF] to-[#087CFF] shrink-0" />
+          <span className="w-3.5 h-1.5 rounded-full bg-gradient-to-r from-[#7C3CFF] to-[#087CFF] opacity-80 shrink-0" />
           <BarChart3 className="w-3.5 h-3.5" />
           <span>Đồ thị & Kế hoạch vào lệnh</span>
         </button>
@@ -388,11 +388,11 @@ export default function StockAnalysisView({
           onClick={() => setActiveTab('score')}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
             activeTab === 'score'
-              ? 'bg-[#EBF3FF] text-[#087CFF] border border-[#DCE5FF]'
+              ? 'bg-gradient-to-r from-[#EBF3FF] to-white text-[#087CFF] border border-[#087CFF]/30 shadow-2xs'
               : 'text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF]'
           }`}
         >
-          <span className="w-1 h-3.5 rounded-full bg-gradient-to-b from-[#8B36FF] to-[#EF4CBF] shrink-0" />
+          <span className="w-3.5 h-1.5 rounded-full bg-gradient-to-r from-[#8B36FF] to-[#EF4CBF] opacity-80 shrink-0" />
           <Target className="w-3.5 h-3.5" />
           <span>Bảng điểm định lượng ({signal.score.totalScore}/100)</span>
         </button>
@@ -401,11 +401,11 @@ export default function StockAnalysisView({
           onClick={() => setActiveTab('risk_calc')}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
             activeTab === 'risk_calc'
-              ? 'bg-[#EBF3FF] text-[#087CFF] border border-[#DCE5FF]'
+              ? 'bg-gradient-to-r from-[#EBF3FF] to-white text-[#087CFF] border border-[#087CFF]/30 shadow-2xs'
               : 'text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF]'
           }`}
         >
-          <span className="w-1 h-3.5 rounded-full bg-gradient-to-b from-[#13C9D5] to-[#087CFF] shrink-0" />
+          <span className="w-3.5 h-1.5 rounded-full bg-gradient-to-r from-[#13C9D5] to-[#087CFF] opacity-80 shrink-0" />
           <Calculator className="w-3.5 h-3.5" />
           <span>Quản trị rủi ro & Tính khối lượng mua (2% NAV)</span>
         </button>
@@ -415,11 +415,11 @@ export default function StockAnalysisView({
             onClick={() => setActiveTab('ai')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
               activeTab === 'ai'
-                ? 'bg-[#F3E8FF] text-[#8B36FF] border border-[#E9D5FF]'
+                ? 'bg-gradient-to-r from-[#F3E8FF] to-white text-[#8B36FF] border border-[#8B36FF]/30 shadow-2xs'
                 : 'text-[#647293] hover:text-[#8B36FF] hover:bg-[#F3E8FF]/50'
             }`}
           >
-            <span className="w-1 h-3.5 rounded-full bg-gradient-to-b from-[#8B36FF] to-[#EF4CBF] shrink-0" />
+            <span className="w-3.5 h-1.5 rounded-full bg-gradient-to-r from-[#8B36FF] to-[#EF4CBF] opacity-80 shrink-0" />
             <Sparkles className="w-3.5 h-3.5 text-[#8B36FF]" />
             <span>Báo cáo AI Copilot</span>
           </button>

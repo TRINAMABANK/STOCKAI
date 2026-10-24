@@ -246,11 +246,11 @@ export default function WatchlistView({
                     : 'bg-[#FFFFFF] text-[#647293] hover:text-[#172554] border border-[#DCE5FF]'
                 }`}
               >
-                <span className={`w-1 h-3 rounded-full ${
-                  index % 4 === 0 ? 'bg-gradient-to-b from-[#38BDF8] to-[#6366F1]' :
-                  index % 4 === 1 ? 'bg-gradient-to-b from-[#E879F9] to-[#EC4899]' :
-                  index % 4 === 2 ? 'bg-gradient-to-b from-[#FB7185] to-[#F97316]' :
-                  'bg-gradient-to-b from-[#34D399] to-[#14B8A6]'
+                <span className={`w-3.5 h-1.5 rounded-full opacity-80 ${
+                  index % 4 === 0 ? 'bg-gradient-to-r from-[#7C3CFF] to-[#087CFF]' :
+                  index % 4 === 1 ? 'bg-gradient-to-r from-[#8B36FF] to-[#EF4CBF]' :
+                  index % 4 === 2 ? 'bg-gradient-to-r from-[#F59E0B] to-[#EF4444]' :
+                  'bg-gradient-to-r from-[#00A991] to-[#13C9D5]'
                 } shrink-0`} />
                 <Bookmark className="w-3.5 h-3.5" />
                 <span>{w.name}</span>

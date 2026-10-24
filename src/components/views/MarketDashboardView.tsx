@@ -133,12 +133,21 @@ export default function MarketDashboardView({
             'from-[#F59E0B] to-[#EF4444]',
             'from-[#13C9D5] to-[#087CFF]',
           ][index % 4];
+          const washClass = [
+            'from-[#7C3CFF]/8 via-[#087CFF]/2',
+            'from-[#8B36FF]/8 via-[#EF4CBF]/2',
+            'from-[#F59E0B]/8 via-[#EF4444]/2',
+            'from-[#13C9D5]/8 via-[#087CFF]/2',
+          ][index % 4];
           return (
             <div
               key={idx.symbol}
               className="bg-[#FFFFFF] p-4 lg:p-5 pl-5 lg:pl-6 rounded-2xl border border-[#DCE5FF] shadow-xs hover:border-[#087CFF]/40 card-hover-smooth group relative overflow-hidden"
             >
-              <div className={`absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b ${gradientClass}`} />
+              {/* Soft horizontal gradient wash from left to right */}
+              <div className={`absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r ${washClass} to-transparent pointer-events-none rounded-l-2xl`} />
+              {/* Soft left accent line */}
+              <div className={`absolute left-0 top-3.5 bottom-3.5 w-1 rounded-r-full bg-gradient-to-r ${gradientClass} opacity-75`} />
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-[#647293] tracking-wide">{idx.name || idx.symbol}</span>
                 <span
@@ -176,10 +185,13 @@ export default function MarketDashboardView({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Market Breadth Card (Col 7) */}
         <div className="lg:col-span-7 bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-4 relative overflow-hidden">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#7C3CFF] to-[#087CFF]" />
-          <div className="flex items-center justify-between pb-2 border-b border-[#DCE5FF]">
+          {/* Soft horizontal gradient wash from left to right */}
+          <div className="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#7C3CFF]/8 via-[#087CFF]/2 to-transparent pointer-events-none rounded-l-2xl" />
+          {/* Soft left accent line */}
+          <div className="absolute left-0 top-3.5 bottom-3.5 w-1 rounded-r-full bg-gradient-to-r from-[#7C3CFF] to-[#087CFF] opacity-75" />
+          <div className="flex items-center justify-between pb-2 border-b border-[#DCE5FF] relative">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#7C3CFF] to-[#087CFF] shrink-0" />
+              <span className="w-4 h-1.5 rounded-full bg-gradient-to-r from-[#7C3CFF] to-[#087CFF] opacity-80 shrink-0" />
               <BarChart3 className="w-4 h-4 text-[#087CFF]" />
               <h3 className="text-sm font-bold text-[#172554]">Độ rộng thị trường (Market Breadth)</h3>
             </div>
@@ -228,12 +240,15 @@ export default function MarketDashboardView({
 
         {/* Total Liquidity & Turnover Card (Col 5) */}
         <div className="lg:col-span-5 bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#13C9D5] to-[#087CFF]" />
+          {/* Soft horizontal gradient wash from left to right */}
+          <div className="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#13C9D5]/8 via-[#087CFF]/2 to-transparent pointer-events-none rounded-l-2xl" />
+          {/* Soft left accent line */}
+          <div className="absolute left-0 top-3.5 bottom-3.5 w-1 rounded-r-full bg-gradient-to-r from-[#13C9D5] to-[#087CFF] opacity-75" />
           <div>
-            <div className="flex items-center justify-between pb-2 border-b border-[#DCE5FF]">
+            <div className="flex items-center justify-between pb-2 border-b border-[#DCE5FF] relative">
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#13C9D5] to-[#087CFF] shrink-0" />
-                <Activity className="w-4 h-4 text-[#A855F7]" />
+                <span className="w-4 h-1.5 rounded-full bg-gradient-to-r from-[#13C9D5] to-[#087CFF] opacity-80 shrink-0" />
+                <Activity className="w-4 h-4 text-[#8B36FF]" />
                 <h3 className="text-sm font-bold text-[#172554]">Thanh khoản toàn thị trường</h3>
               </div>
               <span className="text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] px-2 py-0.5 rounded-full">
@@ -268,16 +283,19 @@ export default function MarketDashboardView({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Top Movers (Col 7) */}
         <div className="lg:col-span-7 bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden relative">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#F59E0B] to-[#EF4444] z-10" />
-          <div className="p-4 pl-6 border-b border-[#DCE5FF] flex items-center justify-between">
+          {/* Soft horizontal gradient wash from left to right */}
+          <div className="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#F59E0B]/8 via-[#EF4444]/2 to-transparent pointer-events-none rounded-l-2xl" />
+          {/* Soft left accent line */}
+          <div className="absolute left-0 top-3.5 bottom-3.5 w-1 rounded-r-full bg-gradient-to-r from-[#F59E0B] to-[#EF4444] opacity-75 z-10" />
+          <div className="p-4 pl-6 border-b border-[#DCE5FF] flex items-center justify-between relative">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#F59E0B] to-[#EF4444] shrink-0" />
+              <span className="w-4 h-1.5 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#EF4444] opacity-80 shrink-0" />
               <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setMoversTab('gainers')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
                   moversTab === 'gainers'
-                    ? 'bg-[#DCFCE7] text-[#16A34A] shadow-2xs'
+                    ? 'bg-gradient-to-r from-[#DCFCE7] to-[#ECFDF5] text-[#16A34A] border border-[#16A34A]/20 shadow-2xs'
                     : 'text-[#647293] hover:text-[#172554]'
                 }`}
               >
@@ -288,7 +306,7 @@ export default function MarketDashboardView({
                 onClick={() => setMoversTab('losers')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
                   moversTab === 'losers'
-                    ? 'bg-[#FEE2E2] text-[#EF4444] shadow-2xs'
+                    ? 'bg-gradient-to-r from-[#FEE2E2] to-[#FEF2F2] text-[#EF4444] border border-[#EF4444]/20 shadow-2xs'
                     : 'text-[#647293] hover:text-[#172554]'
                 }`}
               >
@@ -347,11 +365,14 @@ export default function MarketDashboardView({
 
         {/* Right: Quick Watchlist preview (Col 5) */}
         <div className="lg:col-span-5 bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden flex flex-col justify-between relative">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#00A991] to-[#13C9D5] z-10" />
+          {/* Soft horizontal gradient wash from left to right */}
+          <div className="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#00A991]/8 via-[#13C9D5]/2 to-transparent pointer-events-none rounded-l-2xl" />
+          {/* Soft left accent line */}
+          <div className="absolute left-0 top-3.5 bottom-3.5 w-1 rounded-r-full bg-gradient-to-r from-[#00A991] to-[#13C9D5] opacity-75 z-10" />
           <div>
-            <div className="p-4 pl-6 border-b border-[#DCE5FF] flex items-center justify-between">
+            <div className="p-4 pl-6 border-b border-[#DCE5FF] flex items-center justify-between relative">
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#00A991] to-[#13C9D5] shrink-0" />
+                <span className="w-4 h-1.5 rounded-full bg-gradient-to-r from-[#00A991] to-[#13C9D5] opacity-80 shrink-0" />
                 <Bookmark className="w-4 h-4 text-[#16A34A]" />
                 <h3 className="text-sm font-bold text-[#172554]">Theo dõi nhanh (Watchlist)</h3>
               </div>
@@ -406,10 +427,13 @@ export default function MarketDashboardView({
       {/* 5. Short-term Opportunities Preview (T+3 Radar highlight) */}
       {t3Signals.length > 0 && (
         <div className="bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-4 relative overflow-hidden">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#7C3CFF] to-[#087CFF]" />
-          <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF]">
+          {/* Soft horizontal gradient wash from left to right */}
+          <div className="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#7C3CFF]/8 via-[#087CFF]/2 to-transparent pointer-events-none rounded-l-2xl" />
+          {/* Soft left accent line */}
+          <div className="absolute left-0 top-3.5 bottom-3.5 w-1 rounded-r-full bg-gradient-to-r from-[#7C3CFF] to-[#087CFF] opacity-75" />
+          <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF] relative">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#7C3CFF] to-[#087CFF] shrink-0" />
+              <span className="w-4 h-1.5 rounded-full bg-gradient-to-r from-[#7C3CFF] to-[#087CFF] opacity-80 shrink-0" />
               <Zap className="w-4 h-4 text-[#087CFF]" />
               <h3 className="text-sm font-bold text-[#172554]">
                 Cơ hội ngắn hạn định lượng (T+1 đến T+5)
