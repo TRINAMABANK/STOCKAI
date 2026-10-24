@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
-import { getDatabase } from '@/lib/db';
 import { MarketDataService } from '@/lib/market-data/service';
 import { analyzeShortTermOpportunity } from '@/lib/stockai-engine';
 import { normalizeSymbol } from '@/lib/market-data/normalizer';
+import { AiConfigService } from '@/lib/ai-config-service';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
@@ -13,9 +15,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, message: 'Nội dung câu hỏi không được để trống' }, { status: 400 });
     }
 
-    const db = getDatabase();
-    const apiKey = process.env.OPENAI_API_KEY;
-    const model = process.env.OPENAI_MODEL || 'gpt-4o';
+    // Lấy cấu hình AI an toàn từ máy chủ (đã được giải mã từ DB hoặc môi trường)
+    const { apiKey, model, timeoutMs, maxTokens, temperature, systemPromptExtra } = AiConfigService.getInternalConfig();
     const marketService = MarketDataService.getInstance();
     const activeProvider = marketService.getActiveProvider();
 
@@ -74,10 +75,10 @@ export async function POST(req: Request) {
     if (!apiKey || apiKey.trim().length < 10) {
       let reply = '';
       if (stockQuantitativeData) {
-        const { signal, quote, dataReport } = stockQuantitativeData;
+        const { signal, dataReport } = stockQuantitativeData;
         reply = `### [BÁO CÁO PHÂN TÍCH ĐỊNH LƯỢNG — MÃ ${signal.symbol}]
 > **Nguồn dữ liệu**: ${activeProvider.name} (${dataReport?.dataMode || 'EOD'}) | **Chất lượng**: ${dataReport?.qualityScore || 100}/100đ ${dataReport?.isDemo ? '— ⚠️ DỮ LIỆU DEMO MÔ PHỎNG' : ''}
-> *Ghi chú: Chưa cấu hình \`OPENAI_API_KEY\` trong \`.env.local\`. Toàn bộ số liệu và kết luận dưới đây được tính toán trực tiếp từ thuật toán định lượng toán học của StockAI Engine.*
+> *Ghi chú: Chưa cấu hình \`OPENAI_API_KEY\` trong mục "Cấu hình AI & API" trang Quản trị Admin. Toàn bộ số liệu và kết luận dưới đây được tính toán trực tiếp từ thuật toán định lượng toán học của StockAI Engine.*
 
 #### 1. KẾT LUẬN & TRẠNG THÁI GIAO DỊCH (KHUNG 5–10 PHIÊN)
 - **Trạng thái**: **${signal.statusLabel.toUpperCase()}** ${signal.status === 'BUY_CONFIRMED' ? '🟢' : signal.status === 'WATCHLIST' ? '🟡' : '🔴'}
@@ -110,7 +111,7 @@ ${signal.riskFactors.map((r: string) => `- ${r}`).join('\n')}
         reply = `### [TRỢ LÝ PHÂN TÍCH CHỨNG KHOÁN STOCKAI]
 Bạn vừa hỏi: *"${prompt}"*
 
-- **Trạng thái AI**: Chưa cấu hình \`OPENAI_API_KEY\` trong file \`.env.local\`.
+- **Trạng thái AI**: Chưa cấu hình \`OPENAI_API_KEY\` trong trang Quản trị Admin.
 - **Hướng dẫn**: Để phân tích chi tiết một cổ phiếu, bạn có thể gõ câu hỏi kèm mã (ví dụ: *"Phân tích FPT"*, *"Đánh giá HPG trong 5-10 phiên"*, *"Tìm cơ hội T+1 đến T+5"*).
 - Hệ thống sẽ tự động chạy thuật toán định lượng 100 điểm trên dữ liệu thực tế sàn HOSE, HNX và UPCoM.`;
       }
@@ -126,7 +127,7 @@ Bạn vừa hỏi: *"${prompt}"*
       });
     }
 
-    // 4. Nếu có OPENAI_API_KEY -> Gửi kèm số liệu định lượng thật vào GPT-4o để phân tích ngữ nghĩa
+    // 4. Nếu có OPENAI_API_KEY -> Gửi kèm số liệu định lượng thật vào OpenAI để phân tích ngữ nghĩa
     const systemPrompt = `Bạn là Trợ lý Phân tích Định lượng Cấp cao của nền tảng StockAI (chuyên phân tích chứng khoán Việt Nam trên 3 sàn HOSE, HNX, UPCoM).
 Nguyên tắc bất biến:
 1. TUYỆT ĐỐI KHÔNG BỊA ĐẶT GIÁ, số liệu tài chính hoặc kết quả kiểm thử.
@@ -135,46 +136,122 @@ Nguyên tắc bất biến:
 ${stockQuantitativeData ? JSON.stringify(stockQuantitativeData, null, 2) : 'Chưa có mã cụ thể, hãy hướng dẫn người dùng nhập mã HOSE/HNX/UPCoM.'}
 4. Kết luận phải thuộc 1 trong 3 trạng thái: "Cơ hội mua cần xác nhận", "Chờ theo dõi", hoặc "Không phù hợp".
 5. Luôn làm rõ: Vùng mua tham khảo, Mục tiêu 1 & 2, Mức cắt lỗ, Tỷ lệ R:R (tối thiểu 1.5:1), Thời gian nắm giữ 5-10 phiên, và Điều kiện vô hiệu hóa.
-6. Luôn nhấn mạnh StockAI không đặt lệnh thay và không cam kết chắc chắn có lời.`;
+6. Luôn nhấn mạnh StockAI không đặt lệnh thay và không cam kết chắc chắn có lời.
+${systemPromptExtra ? `Chỉ dẫn bổ sung từ Quản trị viên: ${systemPromptExtra}` : ''}`;
 
-    const openAiRes = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: prompt },
-        ],
-        temperature: 0.3, // Nhiệt độ thấp để đảm bảo tính khách quan và chính xác toán học
-      }),
-    });
+    const start = Date.now();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-    const openAiData = await openAiRes.json();
-    if (!openAiRes.ok || !openAiData?.choices?.[0]?.message?.content) {
-      return NextResponse.json({
-        success: false,
-        message: openAiData?.error?.message || 'Lỗi xử lý từ OpenAI API.',
-      }, { status: 502 });
-    }
+    try {
+      const openAiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: prompt },
+          ],
+          max_tokens: maxTokens,
+          temperature,
+        }),
+        signal: controller.signal,
+      });
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        reply: openAiData.choices[0].message.content,
+      clearTimeout(timeoutId);
+      const latencyMs = Date.now() - start;
+      const openAiData = await openAiRes.json().catch(() => ({}));
+
+      if (!openAiRes.ok || !openAiData?.choices?.[0]?.message?.content) {
+        const errorMsg = openAiData?.error?.message || 'Lỗi xử lý từ OpenAI API.';
+        AiConfigService.recordUsageLog({
+          model,
+          promptTokens: 0,
+          completionTokens: 0,
+          totalTokens: 0,
+          estimatedCostUsd: 0,
+          latencyMs,
+          status: 'ERROR',
+          errorMessage: errorMsg,
+          caller: 'USER_QUERY',
+          queryPreview: prompt.slice(0, 100),
+        });
+
+        return NextResponse.json(
+          {
+            success: false,
+            message: errorMsg,
+          },
+          { status: 502 }
+        );
+      }
+
+      const usage = openAiData.usage || {};
+      const promptTokens = usage.prompt_tokens || 0;
+      const completionTokens = usage.completion_tokens || 0;
+      const totalTokens = usage.total_tokens || 0;
+      const estimatedCostUsd = AiConfigService.calculateCost(model, promptTokens, completionTokens);
+
+      // Ghi nhận chỉ số đo lường thực tế vào bộ thống kê của Admin
+      AiConfigService.recordUsageLog({
         model: openAiData.model || model,
-        isRealtime: true,
-        dataMode: activeProvider.code === 'MOCK_DEMO' ? 'DEMO' : 'EOD',
-      },
-    });
+        promptTokens,
+        completionTokens,
+        totalTokens,
+        estimatedCostUsd,
+        latencyMs,
+        status: 'SUCCESS',
+        caller: 'USER_QUERY',
+        queryPreview: prompt.slice(0, 100),
+      });
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          reply: openAiData.choices[0].message.content,
+          model: openAiData.model || model,
+          isRealtime: true,
+          dataMode: activeProvider.code === 'MOCK_DEMO' ? 'DEMO' : 'EOD',
+        },
+      });
+    } catch (err: any) {
+      clearTimeout(timeoutId);
+      const latencyMs = Date.now() - start;
+
+      AiConfigService.recordUsageLog({
+        model,
+        promptTokens: 0,
+        completionTokens: 0,
+        totalTokens: 0,
+        estimatedCostUsd: 0,
+        latencyMs,
+        status: 'ERROR',
+        errorMessage: err.message || String(err),
+        caller: 'USER_QUERY',
+        queryPreview: prompt.slice(0, 100),
+      });
+
+      return NextResponse.json(
+        {
+          success: false,
+          message: err.name === 'AbortError' ? `Quá thời gian chờ phản hồi AI (${timeoutMs}ms)` : 'Lỗi kết nối OpenAI API',
+          error: String(err),
+        },
+        { status: 500 }
+      );
+    }
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      message: 'Lỗi trong quá trình suy luận AI',
-      error: String(error),
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Lỗi trong quá trình xử lý yêu cầu AI',
+        error: String(error),
+      },
+      { status: 500 }
+    );
   }
 }

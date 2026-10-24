@@ -17,7 +17,9 @@ import {
   BankConfig,
   UserProfile,
   SsiConfig,
-  AdminAccount
+  AdminAccount,
+  AiConfig,
+  AiUsageLog
 } from '@/types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
@@ -62,6 +64,8 @@ export interface DatabaseSchema {
   ssi_config?: SsiConfig;
   admin_account?: AdminAccount;
   admin_sessions?: Array<{ id: string; userId: string; email: string; loginAt: string; ip?: string; userAgent?: string }>;
+  ai_config?: AiConfig;
+  ai_usage_logs?: AiUsageLog[];
 }
 
 // Dữ liệu hạt giống (Seed Data) chuẩn xác theo hình ảnh thiết kế GIAO DIEN.png

@@ -219,6 +219,10 @@ export type AdminActionType =
   | 'UPDATE_SSI_CONFIG'
   | 'TEST_SSI_CONNECTION'
   | 'SYNC_SSI_DATA'
+  | 'UPDATE_AI_CONFIG'
+  | 'TEST_AI_CONNECTION'
+  | 'TEST_AI_SAMPLE'
+  | 'CLEAR_AI_LOGS'
   | 'LOCK_USER'
   | 'UNLOCK_USER'
   | 'UPDATE_PLAN_PRICE'
@@ -488,4 +492,46 @@ export interface AdminAccount {
   lastLoginAt?: string;
   failedLoginAttempts?: number;
   lockedUntil?: string;
+}
+
+export interface AiConfig {
+  provider: 'OPENAI';
+  model: string;
+  isConfigured: boolean;
+  maskedApiKey?: string;
+  encryptedApiKey?: string;
+  encryptionIv?: string;
+  encryptionTag?: string;
+  timeoutMs: number;
+  maxTokens: number;
+  temperature: number;
+  systemPromptExtra?: string;
+  updatedAt: string;
+  updatedBy?: string;
+}
+
+export interface AiUsageLog {
+  id: string;
+  timestamp: string;
+  model: string;
+  promptTokens: number;
+  completionTokens: number;
+  totalTokens: number;
+  estimatedCostUsd: number;
+  latencyMs: number;
+  status: 'SUCCESS' | 'ERROR';
+  errorMessage?: string;
+  caller: 'ADMIN_TEST' | 'USER_QUERY';
+  queryPreview?: string;
+}
+
+export interface AiUsageStats {
+  totalCalls: number;
+  totalErrors: number;
+  avgLatencyMs: number;
+  totalPromptTokens: number;
+  totalCompletionTokens: number;
+  totalTokens: number;
+  estimatedCostUsd: number;
+  estimatedCostVnd: number;
 }

@@ -33,7 +33,8 @@ import {
   Eye,
   EyeOff,
   Trash2,
-  Zap
+  Zap,
+  Sparkles
 } from 'lucide-react';
 import { 
   SubscriptionOrder, 
@@ -48,6 +49,7 @@ import {
 import { PlanConfig } from '@/lib/pricing';
 import AdminLoginForm from '@/components/admin/AdminLoginForm';
 import AdminChangePasswordModal from '@/components/admin/AdminChangePasswordModal';
+import AdminAiConfigView from '@/components/admin/AdminAiConfigView';
 import { LogOut, KeyRound, UserCheck } from 'lucide-react';
 
 export type AdminTab = 
@@ -56,6 +58,7 @@ export type AdminTab =
   | 'orders' 
   | 'subscriptions' 
   | 'plans' 
+  | 'ai-config'
   | 'api-center'
   | 'signals-alerts'
   | 'audit-logs' 
@@ -674,6 +677,7 @@ export default function AdminPage() {
     { id: 'orders', label: 'Đơn hàng & Pay2S', icon: ShoppingBag },
     { id: 'subscriptions', label: 'Quản lý Thuê bao', icon: Crown },
     { id: 'plans', label: 'Gói dịch vụ SaaS', icon: Layers },
+    { id: 'ai-config', label: 'Cấu hình AI & API', icon: Sparkles },
     { id: 'api-center', label: 'Trung tâm API (SSI)', icon: Radio },
     { id: 'audit-logs', label: 'Nhật ký Kiểm toán', icon: FileText },
     { id: 'system', label: 'Cấu hình & Tích hợp', icon: Settings },
@@ -1505,6 +1509,10 @@ export default function AdminPage() {
         )}
 
         {/* TAB: API CENTER (SSI FASTCONNECT DATA & MARKET FEEDS) */}
+        {activeTab === 'ai-config' && (
+          <AdminAiConfigView onShowToast={showToast} />
+        )}
+
         {activeTab === 'api-center' && (
           <div className="space-y-6">
             {/* Header */}
