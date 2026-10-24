@@ -358,7 +358,7 @@ export function calculateMACD(
   histogram.push({
     time: firstSignalTime,
     value: Math.round(diffFirst * 10) / 10,
-    color: diffFirst >= 0 ? '#10B981' : '#F43F5E',
+    color: diffFirst >= 0 ? '#16A34A' : '#EF4444',
   });
 
   for (let i = signalPeriod; i < macdRaw.length; i++) {
@@ -373,7 +373,7 @@ export function calculateMACD(
     histogram.push({
       time,
       value: Math.round(hist * 10) / 10,
-      color: hist >= 0 ? '#10B981' : '#F43F5E',
+      color: hist >= 0 ? '#16A34A' : '#EF4444',
     });
   }
 
@@ -875,7 +875,7 @@ export function generateBuySellSignals(
           action: 'BUY',
           subType: buySubType,
           position: 'belowBar', // Mũi tên xanh BÊN DƯỚI cây nến
-          color: '#10B981',
+          color: '#16A34A',
           shape: 'arrowUp',     // Mũi tên màu xanh lá hướng lên ↑
           text: 'MUA ↑',
           size: 2,
@@ -947,7 +947,7 @@ export function generateBuySellSignals(
           action: 'SELL',
           subType: sellSubType,
           position: 'aboveBar', // Mũi tên đỏ PHÍA TRÊN cây nến
-          color: '#F43F5E',
+          color: '#EF4444',
           shape: 'arrowDown',   // Mũi tên màu đỏ hướng xuống ↓
           text: sellText,
           size: 2,

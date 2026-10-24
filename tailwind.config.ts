@@ -9,32 +9,58 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // FireAnt-inspired precise color palette
+        // STOCKAI OFFICIAL DESIGN TOKENS
+        stockai: {
+          navy: "#101B4B",
+          primary: "#087CFF",
+          primaryHover: "#0066D6",
+          ai: "#8B36FF",
+          aiLight: "#F3E8FF",
+          cyan: "#13C9D5",
+          success: "#16A34A",
+          successLight: "#DCFCE7",
+          danger: "#EF4444",
+          dangerLight: "#FEE2E2",
+          warning: "#F59E0B",
+          warningLight: "#FEF3C7",
+          realtime: "#00A991",
+          realtimeLight: "#CCFBF1",
+          pageBg: "#F4F7FF",
+          surface: "#FFFFFF",
+          text: "#172554",
+          muted: "#647293",
+          border: "#DCE5FF",
+        },
+        // Alias legacy fireant to new official design tokens for 100% compatibility
         fireant: {
-          bg: "#F5F8FC",           // Nền tổng thể
-          card: "#FFFFFF",         // Thẻ nội dung
-          primary: "#008FD3",      // Màu chủ đạo
-          primaryHover: "#007bb8",
-          menuActive: "#E0F2FE",   // Màu nền khi chọn menu
-          textMain: "#172033",     // Tiêu đề và nội dung chính
-          textSub: "#64748B",      // Chữ phụ
-          border: "#E2E8F0",       // Đường viền
-          ai: "#8B5CF6",           // Tính năng AI
-          aiLight: "#EDE9FE",
-          profit: "#10B981",       // Lợi nhuận
-          profitLight: "#D1FAE5",
-          loss: "#F43F5E",         // Thua lỗ và cảnh báo
-          lossLight: "#FFE4E6",
+          bg: "#F4F7FF",
+          card: "#FFFFFF",
+          primary: "#087CFF",
+          primaryHover: "#0066D6",
+          menuActive: "#EBF3FF",
+          textMain: "#172554",
+          textSub: "#647293",
+          border: "#DCE5FF",
+          ai: "#8B36FF",
+          aiLight: "#F3E8FF",
+          profit: "#16A34A",
+          profitLight: "#DCFCE7",
+          loss: "#EF4444",
+          lossLight: "#FEE2E2",
         },
       },
       borderRadius: {
-        'card': '14px',
+        'card': '16px',
       },
       fontFamily: {
-        sans: ["'Calibri'", "'Calibri (Body)'", "'Carlito'", "'Segoe UI'", "Arial", "sans-serif"],
-        mono: ["'Calibri'", "'Calibri (Body)'", "'Segoe UI'", "monospace"],
+        sans: ["'Inter'", "'Be Vietnam Pro'", "-apple-system", "BlinkMacSystemFont", "'Segoe UI'", "Roboto", "sans-serif"],
+        mono: ["'Inter'", "'Be Vietnam Pro'", "monospace"],
       },
-
+      backgroundImage: {
+        'gradient-main': 'linear-gradient(100deg, #7C3CFF 0%, #087CFF 100%)',
+        'gradient-ai': 'linear-gradient(100deg, #8B36FF 0%, #EF4CBF 100%)',
+        'gradient-data': 'linear-gradient(100deg, #13C9D5 0%, #087CFF 100%)',
+      },
     },
   },
   plugins: [],

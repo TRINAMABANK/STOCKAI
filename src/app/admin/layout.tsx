@@ -54,10 +54,10 @@ export default function AdminLayout({
   // 1. Loading State
   if (isLoadingAuth) {
     return (
-      <div className="min-h-screen bg-[#F5F8FC] flex flex-col items-center justify-center space-y-4">
+      <div className="min-h-screen bg-[#F4F7FF] flex flex-col items-center justify-center space-y-4">
         <Logo size="md" variant="default" />
-        <div className="flex items-center gap-2 text-xs font-semibold text-[#64748B]">
-          <RefreshCw className="w-4 h-4 animate-spin text-[#008FD3]" />
+        <div className="flex items-center gap-2 text-xs font-semibold text-[#647293]">
+          <RefreshCw className="w-4 h-4 animate-spin text-[#087CFF]" />
           <span>Đang xác minh quyền Quản trị viên StockAI...</span>
         </div>
       </div>
@@ -67,14 +67,14 @@ export default function AdminLayout({
   // 2. Access Denied Guard (Nếu không phải ADMIN)
   if (!currentUser || currentUser.role !== 'ADMIN') {
     return (
-      <div className="min-h-screen bg-[#F5F8FC] flex flex-col items-center justify-center p-6 text-center">
-        <div className="max-w-md w-full bg-white rounded-3xl p-8 border border-[#FECDD3] shadow-xl space-y-5">
-          <div className="w-16 h-16 rounded-2xl bg-[#FFE4E6] text-[#F43F5E] flex items-center justify-center mx-auto">
+      <div className="min-h-screen bg-[#F4F7FF] flex flex-col items-center justify-center p-6 text-center">
+        <div className="max-w-md w-full bg-white rounded-3xl p-8 border border-[#FEE2E2] shadow-xl space-y-5">
+          <div className="w-16 h-16 rounded-2xl bg-[#FEE2E2] text-[#EF4444] flex items-center justify-center mx-auto">
             <Lock className="w-8 h-8" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-[#172033]">Từ chối truy cập (403 Forbidden)</h2>
-            <p className="text-xs text-[#64748B] mt-2 leading-relaxed">
+            <h2 className="text-xl font-bold text-[#172554]">Từ chối truy cập (403 Forbidden)</h2>
+            <p className="text-xs text-[#647293] mt-2 leading-relaxed">
               Khu vực này dành riêng cho Ban Quản trị Hệ thống StockAI. Tài khoản hiện tại của bạn (<strong>{currentUser?.email || 'Chưa đăng nhập'}</strong>) không có quyền Quản trị viên (ADMIN).
             </p>
           </div>
@@ -82,13 +82,13 @@ export default function AdminLayout({
           <div className="pt-2 flex flex-col gap-2">
             <Link
               href="/"
-              className="w-full py-2.5 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-2xs"
+              className="w-full py-2.5 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-2xs"
             >
               <span>Về Trang Dành Cho Nhà Đầu Tư</span>
             </Link>
             <a
               href="/api/auth/logout"
-              className="text-xs text-[#64748B] hover:text-[#172033] py-1 font-semibold"
+              className="text-xs text-[#647293] hover:text-[#172554] py-1 font-semibold"
             >
               Đăng nhập bằng tài khoản Quản trị khác
             </a>
@@ -99,13 +99,13 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F8FC] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F4F7FF] flex flex-col font-sans">
       {/* Top Header */}
-      <header className="h-16 bg-[#FFFFFF] border-b border-[#E2E8F0] px-4 lg:px-6 flex items-center justify-between sticky top-0 z-30 shadow-2xs">
+      <header className="h-16 bg-[#FFFFFF] border-b border-[#DCE5FF] px-4 lg:px-6 flex items-center justify-between sticky top-0 z-30 shadow-2xs">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsMobileMenuOpen(prev => !prev)}
-            className="lg:hidden p-2 rounded-xl text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC]"
+            className="lg:hidden p-2 rounded-xl text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF]"
             title="Menu Quản trị"
           >
             <Menu className="w-5 h-5" />
@@ -113,7 +113,7 @@ export default function AdminLayout({
           
           <Logo size="sm" variant="default" />
           
-          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFE4E6] text-[#F43F5E] border border-[#FECDD3] text-[10px] font-bold tracking-wider">
+          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FEE2E2] text-[#EF4444] border border-[#FEE2E2] text-[10px] font-bold tracking-wider">
             <ShieldCheck className="w-3 h-3" />
             ADMIN PORTAL
           </span>
@@ -123,7 +123,7 @@ export default function AdminLayout({
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F5F8FC] hover:bg-[#E0F2FE] border border-[#E2E8F0] text-xs font-semibold text-[#008FD3] transition shadow-2xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F4F7FF] hover:bg-[#EBF3FF] border border-[#DCE5FF] text-xs font-semibold text-[#087CFF] transition shadow-2xs"
             title="Quay lại giao diện dành cho người dùng"
           >
             <span>Trang Người Dùng</span>
@@ -131,15 +131,15 @@ export default function AdminLayout({
           </Link>
 
           {/* Admin Avatar Pill */}
-          <div className="flex items-center gap-2 pl-3 border-l border-[#E2E8F0]">
-            <div className="w-8 h-8 rounded-full bg-[#FFE4E6] text-[#F43F5E] border border-[#FECDD3] flex items-center justify-center font-bold text-xs shadow-2xs">
+          <div className="flex items-center gap-2 pl-3 border-l border-[#DCE5FF]">
+            <div className="w-8 h-8 rounded-full bg-[#FEE2E2] text-[#EF4444] border border-[#FEE2E2] flex items-center justify-center font-bold text-xs shadow-2xs">
               {currentUser.name ? currentUser.name.slice(0, 2).toUpperCase() : 'AD'}
             </div>
             <div className="hidden md:block text-left">
-              <span className="text-xs font-bold text-[#172033] block truncate max-w-[140px]">
+              <span className="text-xs font-bold text-[#172554] block truncate max-w-[140px]">
                 {currentUser.name}
               </span>
-              <span className="text-[10px] text-[#F43F5E] font-semibold block">
+              <span className="text-[10px] text-[#EF4444] font-semibold block">
                 Super Admin
               </span>
             </div>

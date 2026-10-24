@@ -173,14 +173,14 @@ export default function WatchlistView({
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">
+            <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172554] tracking-tight">
               Danh sách theo dõi (Watchlist)
             </h2>
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD]">
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#EBF3FF] text-[#087CFF] border border-[#DCE5FF]">
               Tài khoản độc lập
             </span>
           </div>
-          <p className="text-[13px] text-[#64748B] mt-0.5">
+          <p className="text-[13px] text-[#647293] mt-0.5">
             Dữ liệu cá nhân hóa cho từng nhà đầu tư • Giám sát biến động giá, khối lượng và tín hiệu kỹ thuật
           </p>
         </div>
@@ -188,8 +188,8 @@ export default function WatchlistView({
         {/* Quota & Add Symbol Input */}
         <div className="flex flex-wrap items-center gap-3">
           <div className="text-right hidden sm:block">
-            <span className="text-xs text-[#64748B] font-medium block">Hạn mức theo dõi</span>
-            <span className={`text-xs font-bold font-mono ${isAtLimit ? 'text-[#F43F5E]' : 'text-[#10B981]'}`}>
+            <span className="text-xs text-[#647293] font-medium block">Hạn mức theo dõi</span>
+            <span className={`text-xs font-bold font-mono ${isAtLimit ? 'text-[#EF4444]' : 'text-[#16A34A]'}`}>
               {totalUsedSymbols}/{userTier === 'FREE' ? '5 mã (Gói Miễn Phí)' : 'Không giới hạn (Pro)'}
             </span>
           </div>
@@ -202,12 +202,12 @@ export default function WatchlistView({
               onKeyDown={(e) => e.key === 'Enter' && handleAddSymbol()}
               placeholder="Nhập mã (VD: VCB)..."
               disabled={isSubmitting}
-              className="w-36 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl px-3 py-1.5 text-xs text-[#172033] uppercase font-bold focus:outline-none focus:ring-2 focus:ring-[#008FD3]/20 focus:border-[#008FD3] shadow-2xs"
+              className="w-36 bg-[#FFFFFF] border border-[#DCE5FF] rounded-xl px-3 py-1.5 text-xs text-[#172554] uppercase font-bold focus:outline-none focus:ring-2 focus:ring-[#087CFF]/20 focus:border-[#087CFF] shadow-2xs"
             />
             <button
               onClick={handleAddSymbol}
               disabled={isSubmitting || !newSymbol.trim()}
-              className="px-3.5 py-1.5 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-semibold text-xs transition flex items-center gap-1 shadow-2xs disabled:opacity-50"
+              className="px-3.5 py-1.5 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white font-semibold text-xs transition flex items-center gap-1 shadow-2xs disabled:opacity-50"
             >
               {isSubmitting ? (
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -222,7 +222,7 @@ export default function WatchlistView({
 
       {/* Error / Alert notice */}
       {errorMsg && (
-        <div className="p-3 bg-[#FFE4E6] border border-[#FECDD3] text-[#F43F5E] text-xs font-medium rounded-xl flex items-center justify-between">
+        <div className="p-3 bg-[#FEE2E2] border border-[#FEE2E2] text-[#EF4444] text-xs font-medium rounded-xl flex items-center justify-between">
           <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMsg}</span>
@@ -232,7 +232,7 @@ export default function WatchlistView({
       )}
 
       {/* Category Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E2E8F0] pb-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#DCE5FF] pb-2">
         <div className="flex flex-wrap items-center gap-2">
           {watchlists.map((w, index) => {
             const isActive = (activeListId || watchlists[0]?.id) === w.id;
@@ -242,8 +242,8 @@ export default function WatchlistView({
                 onClick={() => setActiveListId(w.id)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-2 ${
                   isActive
-                    ? 'bg-[#008FD3] text-white shadow-2xs'
-                    : 'bg-[#FFFFFF] text-[#64748B] hover:text-[#172033] border border-[#E2E8F0]'
+                    ? 'bg-[#087CFF] text-white shadow-2xs'
+                    : 'bg-[#FFFFFF] text-[#647293] hover:text-[#172554] border border-[#DCE5FF]'
                 }`}
               >
                 <span className={`w-1 h-3 rounded-full ${
@@ -254,7 +254,7 @@ export default function WatchlistView({
                 } shrink-0`} />
                 <Bookmark className="w-3.5 h-3.5" />
                 <span>{w.name}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${isActive ? 'bg-white/20 text-white' : 'bg-[#F1F5F9] text-[#64748B]'}`}>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${isActive ? 'bg-white/20 text-white' : 'bg-[#F4F7FF] text-[#647293]'}`}>
                   {w.symbols.length}
                 </span>
               </button>
@@ -265,7 +265,7 @@ export default function WatchlistView({
           {userTier === 'FREE' ? (
             <button
               onClick={() => setShowUpgradeModal(true)}
-              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#F5F8FC] border border-dashed border-[#CBD5E1] text-[#64748B] hover:text-[#008FD3] flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#F4F7FF] border border-dashed border-[#CBD5E1] text-[#647293] hover:text-[#087CFF] flex items-center gap-1.5"
               title="Nâng cấp Pro để tạo nhiều danh mục tùy chỉnh"
             >
               <Lock className="w-3 h-3 text-[#F59E0B]" />
@@ -279,17 +279,17 @@ export default function WatchlistView({
                   value={newCategoryName}
                   onChange={(e) => setNewCategoryName(e.target.value)}
                   placeholder="Tên nhóm mới..."
-                  className="w-32 bg-white border border-[#008FD3] rounded-xl px-2.5 py-1 text-xs text-[#172033] focus:outline-none"
+                  className="w-32 bg-white border border-[#087CFF] rounded-xl px-2.5 py-1 text-xs text-[#172554] focus:outline-none"
                 />
                 <button
                   onClick={handleCreateCategory}
-                  className="px-2 py-1 bg-[#008FD3] text-white rounded-lg text-xs font-semibold"
+                  className="px-2 py-1 bg-[#087CFF] text-white rounded-lg text-xs font-semibold"
                 >
                   Lưu
                 </button>
                 <button
                   onClick={() => setIsCreatingCategory(false)}
-                  className="px-2 py-1 bg-[#F1F5F9] text-[#64748B] rounded-lg text-xs"
+                  className="px-2 py-1 bg-[#F4F7FF] text-[#647293] rounded-lg text-xs"
                 >
                   Hủy
                 </button>
@@ -297,7 +297,7 @@ export default function WatchlistView({
             ) : (
               <button
                 onClick={() => setIsCreatingCategory(true)}
-                className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#FFFFFF] border border-[#E2E8F0] text-[#008FD3] hover:bg-[#E0F2FE] flex items-center gap-1.5 shadow-2xs"
+                className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#FFFFFF] border border-[#DCE5FF] text-[#087CFF] hover:bg-[#EBF3FF] flex items-center gap-1.5 shadow-2xs"
               >
                 <FolderPlus className="w-3.5 h-3.5" />
                 <span>Tạo nhóm mới</span>
@@ -309,28 +309,28 @@ export default function WatchlistView({
         <button
           onClick={loadWatchlist}
           disabled={isLoading}
-          className="text-xs text-[#64748B] hover:text-[#008FD3] flex items-center gap-1 transition"
+          className="text-xs text-[#647293] hover:text-[#087CFF] flex items-center gap-1 transition"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-[#008FD3]' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-[#087CFF]' : ''}`} />
           <span>Cập nhật giá</span>
         </button>
       </div>
 
       {/* Main Table or Empty State */}
-      <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+      <div className="bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
         {isLoading ? (
-          <div className="p-12 text-center text-[#64748B] space-y-3">
-            <RefreshCw className="w-8 h-8 animate-spin mx-auto text-[#008FD3]" />
+          <div className="p-12 text-center text-[#647293] space-y-3">
+            <RefreshCw className="w-8 h-8 animate-spin mx-auto text-[#087CFF]" />
             <p className="text-sm font-semibold">Đang tải danh sách theo dõi của bạn...</p>
           </div>
         ) : currentDisplayedQuotes.length === 0 ? (
-          <div className="p-12 text-center text-[#64748B] space-y-4">
-            <div className="w-16 h-16 rounded-2xl bg-[#E0F2FE] text-[#008FD3] flex items-center justify-center mx-auto">
+          <div className="p-12 text-center text-[#647293] space-y-4">
+            <div className="w-16 h-16 rounded-2xl bg-[#EBF3FF] text-[#087CFF] flex items-center justify-center mx-auto">
               <Bookmark className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#172033]">Chưa có mã nào trong danh sách này</h3>
-              <p className="text-xs text-[#64748B] max-w-md mx-auto mt-1">
+              <h3 className="text-base font-bold text-[#172554]">Chưa có mã nào trong danh sách này</h3>
+              <p className="text-xs text-[#647293] max-w-md mx-auto mt-1">
                 Nhập mã cổ phiếu vào ô &quot;Nhập mã (VD: VCB)&quot; phía trên và bấm <strong>Thêm</strong> để bắt đầu theo dõi.
               </p>
             </div>
@@ -341,7 +341,7 @@ export default function WatchlistView({
                   onClick={() => {
                     setNewSymbol(s);
                   }}
-                  className="px-2.5 py-1 rounded-lg bg-[#F5F8FC] hover:bg-[#E0F2FE] text-[#008FD3] font-bold text-xs border border-[#E2E8F0] transition"
+                  className="px-2.5 py-1 rounded-lg bg-[#F4F7FF] hover:bg-[#EBF3FF] text-[#087CFF] font-bold text-xs border border-[#DCE5FF] transition"
                 >
                   +{s}
                 </button>
@@ -352,7 +352,7 @@ export default function WatchlistView({
           <div className="overflow-x-auto">
             <table className="w-full text-left text-[11pt]">
               <thead>
-                <tr className="bg-[#F5F8FC] text-[#64748B] text-[11pt] font-semibold border-b border-[#E2E8F0]">
+                <tr className="bg-[#F4F7FF] text-[#647293] text-[11pt] font-semibold border-b border-[#DCE5FF]">
                   <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Mã CP</th>
                   <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Sàn</th>
                   <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Ngành</th>
@@ -364,49 +364,49 @@ export default function WatchlistView({
                   <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Hành động</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F1F5F9] text-[11pt]">
+              <tbody className="divide-y divide-[#F4F7FF] text-[11pt]">
                 {currentDisplayedQuotes.map(stock => {
                   const isUp = stock.change >= 0;
                   return (
                     <tr key={stock.symbol} className="hover:bg-[#F8FAFC] transition h-[44px]">
                       <td 
-                        className="py-2.5 px-4 font-semibold text-[#008FD3] cursor-pointer hover:underline whitespace-nowrap"
+                        className="py-2.5 px-4 font-semibold text-[#087CFF] cursor-pointer hover:underline whitespace-nowrap"
                         onClick={() => onSelectStock(stock.symbol)}
                       >
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-[#172033]">{stock.symbol}</span>
-                          <span className="text-[11pt] px-1.5 py-0.2 rounded bg-[#F1F5F9] text-[#64748B] font-semibold border border-[#E2E8F0]">
+                          <span className="font-bold text-[#172554]">{stock.symbol}</span>
+                          <span className="text-[11pt] px-1.5 py-0.2 rounded bg-[#F4F7FF] text-[#647293] font-semibold border border-[#DCE5FF]">
                             {stock.exchange}
                           </span>
                         </div>
-                        <span className="block text-[11pt] text-[#64748B] font-normal truncate max-w-[180px]">
+                        <span className="block text-[11pt] text-[#647293] font-normal truncate max-w-[180px]">
                           {stock.companyName}
                         </span>
                       </td>
-                      <td className="py-2.5 px-3 text-[#64748B] text-[11pt] font-medium whitespace-nowrap">{stock.exchange}</td>
-                      <td className="py-2.5 px-3 text-[#64748B] text-[11pt] whitespace-nowrap">{stock.industry || 'Chung'}</td>
-                      <td className="py-2.5 px-4 text-right font-bold text-[#172033] font-mono tabular-nums text-[11pt] whitespace-nowrap">
+                      <td className="py-2.5 px-3 text-[#647293] text-[11pt] font-medium whitespace-nowrap">{stock.exchange}</td>
+                      <td className="py-2.5 px-3 text-[#647293] text-[11pt] whitespace-nowrap">{stock.industry || 'Chung'}</td>
+                      <td className="py-2.5 px-4 text-right font-bold text-[#172554] font-mono tabular-nums text-[11pt] whitespace-nowrap">
                         {stock.price.toLocaleString('vi-VN')}
                       </td>
-                      <td className={`py-2.5 px-3 text-right font-semibold font-mono tabular-nums text-[11pt] whitespace-nowrap ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                      <td className={`py-2.5 px-3 text-right font-semibold font-mono tabular-nums text-[11pt] whitespace-nowrap ${isUp ? 'text-[#16A34A]' : 'text-[#EF4444]'}`}>
                         {isUp ? '+' : ''}{stock.change.toLocaleString('vi-VN')}
                       </td>
-                      <td className={`py-2.5 px-3 text-right font-bold font-mono tabular-nums text-[11pt] whitespace-nowrap ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                      <td className={`py-2.5 px-3 text-right font-bold font-mono tabular-nums text-[11pt] whitespace-nowrap ${isUp ? 'text-[#16A34A]' : 'text-[#EF4444]'}`}>
                         <div className="flex items-center justify-end gap-1">
-                          {isUp ? <ArrowUpRight className="w-3.5 h-3.5 text-[#10B981]" /> : <ArrowDownRight className="w-3.5 h-3.5 text-[#F43F5E]" />}
+                          {isUp ? <ArrowUpRight className="w-3.5 h-3.5 text-[#16A34A]" /> : <ArrowDownRight className="w-3.5 h-3.5 text-[#EF4444]" />}
                           <span>{isUp ? '+' : ''}{stock.changePercent.toFixed(2)}%</span>
                         </div>
                       </td>
-                      <td className="py-2.5 px-4 text-right font-mono tabular-nums text-[#64748B] text-[11pt] whitespace-nowrap">
+                      <td className="py-2.5 px-4 text-right font-mono tabular-nums text-[#647293] text-[11pt] whitespace-nowrap">
                         {stock.volume.toLocaleString('vi-VN')}
                       </td>
                       <td className="py-2.5 px-3 text-center whitespace-nowrap">
                         <span className={`px-2 py-0.5 rounded-full font-semibold text-[11pt] font-mono tabular-nums border ${
                           (stock.rsi || 50) > 70 
-                            ? 'bg-[#FFE4E6] text-[#F43F5E] border-[#FECDD3]'
+                            ? 'bg-[#FEE2E2] text-[#EF4444] border-[#FEE2E2]'
                             : (stock.rsi || 50) < 30
                             ? 'bg-[#FEF3C7] text-[#D97706] border-[#FDE68A]'
-                            : 'bg-[#F5F8FC] text-[#172033] border-[#E2E8F0]'
+                            : 'bg-[#F4F7FF] text-[#172554] border-[#DCE5FF]'
                         }`}>
                           {stock.rsi || 50}
                         </span>
@@ -415,13 +415,13 @@ export default function WatchlistView({
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => onSelectStock(stock.symbol)}
-                            className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#008FD3] font-semibold text-[11pt] transition shadow-2xs"
+                            className="px-2.5 py-1 rounded-lg bg-[#EBF3FF] hover:bg-[#DCE5FF] text-[#087CFF] font-semibold text-[11pt] transition shadow-2xs"
                           >
                             Phân tích
                           </button>
                           <button
                             onClick={() => handleRemoveSymbol(stock.symbol)}
-                            className="p-1 text-[#CBD5E1] hover:text-[#F43F5E] transition rounded-lg hover:bg-[#FFE4E6]"
+                            className="p-1 text-[#CBD5E1] hover:text-[#EF4444] transition rounded-lg hover:bg-[#FEE2E2]"
                             title="Xóa khỏi danh sách"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -440,7 +440,7 @@ export default function WatchlistView({
       {/* Feature Gate Upgrade Notice when limit reached */}
       {showUpgradeModal && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-[#E2E8F0] space-y-4">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-[#DCE5FF] space-y-4">
             <FeatureGate
               featureKey="WATCHLIST_UNLIMITED"
               userTier={userTier}
@@ -455,7 +455,7 @@ export default function WatchlistView({
             <div className="text-center pt-2">
               <button
                 onClick={() => setShowUpgradeModal(false)}
-                className="text-xs text-[#64748B] hover:text-[#172033] font-semibold"
+                className="text-xs text-[#647293] hover:text-[#172554] font-semibold"
               >
                 Đóng thông báo
               </button>

@@ -24,7 +24,7 @@ export const SUBSCRIPTION_PLANS: Record<SubscriptionTier, PlanConfig> = {
     formattedPrice: '0 đ/tháng',
     durationDays: 3650,
     desc: 'Dành cho nhà đầu tư mới làm quen thị trường',
-    color: '#64748B',
+    color: '#647293',
     features: [
       'Bảng giá 3 sàn HOSE, HNX, UPCoM',
       'Bộ lọc cổ phiếu cơ bản (P/E, ROE, Vốn hóa)',
@@ -40,7 +40,7 @@ export const SUBSCRIPTION_PLANS: Record<SubscriptionTier, PlanConfig> = {
     formattedPrice: '199.000 đ/tháng',
     durationDays: 30,
     desc: 'Dành cho nhà giao dịch chủ động T+1 đến T+5',
-    color: '#008FD3',
+    color: '#087CFF',
     popular: true,
     features: [
       'Toàn bộ tính năng gói FREE',
@@ -59,7 +59,7 @@ export const SUBSCRIPTION_PLANS: Record<SubscriptionTier, PlanConfig> = {
     formattedPrice: '299.000 đ/tháng',
     durationDays: 30,
     desc: 'Dành cho nhà đầu tư chuyên nghiệp & quản lý danh mục lớn',
-    color: '#8B5CF6',
+    color: '#8B36FF',
     features: [
       'Toàn bộ tính năng gói PRO',
       'Streaming dữ liệu WebSocket tick-by-tick tốc độ cao',

@@ -155,33 +155,33 @@ export default function GoogleAuthModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-white rounded-2xl border border-[#E2E8F0] shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      <div className="relative w-full max-w-lg bg-white rounded-2xl border border-[#DCE5FF] shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E2E8F0] bg-[#F8FAFC]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#DCE5FF] bg-[#F8FAFC]">
           <div className="flex items-center gap-3">
             <Logo size="sm" variant="default" />
             <div>
-              <h3 className="font-bold text-[#172033] text-base">Đăng nhập Hệ thống StockAI</h3>
-              <p className="text-xs text-[#64748B]">Xác thực tài khoản và quản trị danh mục đầu tư</p>
+              <h3 className="font-bold text-[#172554] text-base">Đăng nhập Hệ thống StockAI</h3>
+              <p className="text-xs text-[#647293]">Xác thực tài khoản và quản trị danh mục đầu tư</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#64748B] hover:text-[#172033] hover:bg-[#E2E8F0] transition"
+            className="p-1.5 rounded-lg text-[#647293] hover:text-[#172554] hover:bg-[#DCE5FF] transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Navigation Tabs (Chỉ giữ Tài khoản & Mật khẩu và Google) */}
-        <div className="flex items-center border-b border-[#E2E8F0] bg-white px-6">
+        <div className="flex items-center border-b border-[#DCE5FF] bg-white px-6">
           <button
             type="button"
             onClick={() => { setActiveTab('password'); setAuthError(null); }}
             className={`flex items-center gap-2 py-3 px-3 text-xs font-bold border-b-2 transition ${
               activeTab === 'password'
-                ? 'border-[#008FD3] text-[#008FD3]'
-                : 'border-transparent text-[#64748B] hover:text-[#172033]'
+                ? 'border-[#087CFF] text-[#087CFF]'
+                : 'border-transparent text-[#647293] hover:text-[#172554]'
             }`}
           >
             <KeyRound className="w-3.5 h-3.5" />
@@ -193,8 +193,8 @@ export default function GoogleAuthModal({
             onClick={() => { setActiveTab('google'); setAuthError(null); }}
             className={`flex items-center gap-2 py-3 px-3 text-xs font-bold border-b-2 transition ${
               activeTab === 'google'
-                ? 'border-[#008FD3] text-[#008FD3]'
-                : 'border-transparent text-[#64748B] hover:text-[#172033]'
+                ? 'border-[#087CFF] text-[#087CFF]'
+                : 'border-transparent text-[#647293] hover:text-[#172554]'
             }`}
           >
             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
@@ -208,10 +208,10 @@ export default function GoogleAuthModal({
         </div>
 
         {/* Content Body */}
-        <div className="p-6 overflow-y-auto space-y-5 text-xs text-[#172033]">
+        <div className="p-6 overflow-y-auto space-y-5 text-xs text-[#172554]">
           {/* Error Banner */}
           {authError && (
-            <div className="p-3 bg-[#FFF1F2] border border-[#FECDD3] rounded-xl text-[#BE123C] flex items-start gap-2 animate-in fade-in">
+            <div className="p-3 bg-[#FFF1F2] border border-[#FEE2E2] rounded-xl text-[#BE123C] flex items-start gap-2 animate-in fade-in">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
               <div>
                 <p className="font-semibold text-xs">Đăng nhập thất bại:</p>
@@ -245,7 +245,7 @@ export default function GoogleAuthModal({
                       className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full ${
                         currentUser.role === 'ADMIN'
                           ? 'bg-[#FEE2E2] text-[#B91C1C]'
-                          : 'bg-[#E0F2FE] text-[#008FD3]'
+                          : 'bg-[#EBF3FF] text-[#087CFF]'
                       }`}
                     >
                       {currentUser.role}
@@ -260,7 +260,7 @@ export default function GoogleAuthModal({
               <button
                 type="button"
                 onClick={onLogout}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-[#FECDD3] text-[#E11D48] hover:bg-[#FFF1F2] text-[11px] font-semibold transition"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-[#FEE2E2] text-[#DC2626] hover:bg-[#FFF1F2] text-[11px] font-semibold transition"
               >
                 <LogOut className="w-3 h-3" />
                 <span>Đăng xuất</span>
@@ -283,7 +283,7 @@ export default function GoogleAuthModal({
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Nhập tên đăng nhập hoặc email"
                     required
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#CBD5E1] focus:outline-none focus:border-[#008FD3] focus:ring-1 focus:ring-[#008FD3]"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#CBD5E1] focus:outline-none focus:border-[#087CFF] focus:ring-1 focus:ring-[#087CFF]"
                   />
                 </div>
 
@@ -298,7 +298,7 @@ export default function GoogleAuthModal({
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Mật khẩu tài khoản"
                       required
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-[#CBD5E1] focus:outline-none focus:border-[#008FD3] focus:ring-1 focus:ring-[#008FD3] pr-9"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-[#CBD5E1] focus:outline-none focus:border-[#087CFF] focus:ring-1 focus:ring-[#087CFF] pr-9"
                     />
                     <button
                       type="button"
@@ -313,7 +313,7 @@ export default function GoogleAuthModal({
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-2.5 px-4 rounded-xl bg-[#008FD3] hover:bg-[#007CB8] text-white font-bold text-xs transition shadow-2xs flex items-center justify-center gap-2"
+                  className="w-full py-2.5 px-4 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white font-bold text-xs transition shadow-2xs flex items-center justify-center gap-2"
                 >
                   {isLoading ? (
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -332,21 +332,21 @@ export default function GoogleAuthModal({
           {activeTab === 'google' && (
             <div className="space-y-4">
               {/* Google One-Tap & Popup Button */}
-              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-3">
+              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#DCE5FF] space-y-3">
                 <div>
-                  <p className="font-bold text-xs text-[#172033] flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-[#8B5CF6]" />
+                  <p className="font-bold text-xs text-[#172554] flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#8B36FF]" />
                     <span>Đăng nhập nhanh với Google Popup</span>
                   </p>
-                  <p className="text-[11px] text-[#64748B] mt-0.5">
+                  <p className="text-[11px] text-[#647293] mt-0.5">
                     Xác thực tức thời thông qua tài khoản Gmail cá nhân
                   </p>
                 </div>
 
                 <div className="flex flex-col items-center justify-center py-2 min-h-[44px]">
                   {isLoading ? (
-                    <div className="flex items-center gap-2 text-xs text-[#008FD3] font-semibold">
-                      <div className="w-4 h-4 border-2 border-[#008FD3] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="flex items-center gap-2 text-xs text-[#087CFF] font-semibold">
+                      <div className="w-4 h-4 border-2 border-[#087CFF] border-t-transparent rounded-full animate-spin"></div>
                       <span>Đang kết nối xác thực Google...</span>
                     </div>
                   ) : (
@@ -360,11 +360,11 @@ export default function GoogleAuthModal({
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-[#F8FAFC] border-t border-[#E2E8F0] flex items-center justify-between text-[11px] text-[#64748B]">
+        <div className="p-4 bg-[#F8FAFC] border-t border-[#DCE5FF] flex items-center justify-between text-[11px] text-[#647293]">
           <span>StockAI Vietnam &bull; Phiên bản V2</span>
           <button
             onClick={onClose}
-            className="px-3 py-1.5 rounded-lg border border-[#CBD5E1] bg-white hover:bg-[#F1F5F9] font-medium text-[#475569] transition"
+            className="px-3 py-1.5 rounded-lg border border-[#CBD5E1] bg-white hover:bg-[#F4F7FF] font-medium text-[#475569] transition"
           >
             Đóng
           </button>

@@ -696,13 +696,13 @@ export default function AdminPage() {
     <div className="flex-1 flex w-full">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-20 right-6 z-50 bg-[#172033] text-white px-4 py-2.5 rounded-xl shadow-xl border border-[#E2E8F0] text-xs font-semibold animate-in fade-in">
+        <div className="fixed top-20 right-6 z-50 bg-[#172554] text-white px-4 py-2.5 rounded-xl shadow-xl border border-[#DCE5FF] text-xs font-semibold animate-in fade-in">
           {toastMessage}
         </div>
       )}
 
       {/* Admin Sidebar Navigation */}
-      <aside className="w-64 bg-white border-r border-[#E2E8F0] p-4 flex flex-col justify-between shrink-0 hidden lg:flex select-none">
+      <aside className="w-64 bg-white border-r border-[#DCE5FF] p-4 flex flex-col justify-between shrink-0 hidden lg:flex select-none">
         <div className="space-y-1">
           <div className="px-3 pb-2 text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider">
             Menu Quản Trị Hệ Thống
@@ -716,14 +716,14 @@ export default function AdminPage() {
                 onClick={() => setActiveTab(item.id as AdminTab)}
                 className={`group w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-colors duration-200 ease-out text-left select-none ${
                   isActive
-                    ? 'bg-[#008FD3] text-white shadow-xs'
-                    : 'text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC]'
+                    ? 'bg-[#087CFF] text-white shadow-xs'
+                    : 'text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF]'
                 }`}
               >
                 <Icon className="w-4 h-4 shrink-0" />
                 <span>{item.label}</span>
                 {item.id === 'orders' && kpis.needsReconciliation > 0 && (
-                  <span className={`ml-auto text-[10px] font-bold px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white text-[#008FD3]' : 'bg-[#FFE4E6] text-[#F43F5E]'}`}>
+                  <span className={`ml-auto text-[10px] font-bold px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white text-[#087CFF]' : 'bg-[#FEE2E2] text-[#EF4444]'}`}>
                     {kpis.needsReconciliation}
                   </span>
                 )}
@@ -733,12 +733,12 @@ export default function AdminPage() {
         </div>
 
         {/* Server & Security Status Box */}
-        <div className="p-3.5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] text-xs space-y-2">
+        <div className="p-3.5 rounded-2xl bg-[#F4F7FF] border border-[#DCE5FF] text-xs space-y-2">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
-            <span className="font-bold text-[#172033] text-[12px]">Hệ thống An toàn</span>
+            <span className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse"></span>
+            <span className="font-bold text-[#172554] text-[12px]">Hệ thống An toàn</span>
           </div>
-          <p className="text-[11px] text-[#64748B] leading-relaxed">
+          <p className="text-[11px] text-[#647293] leading-relaxed">
             Phân quyền RBAC Backend • Xác thực HMAC Session • Lưu vết toàn bộ Audit Logs
           </p>
         </div>
@@ -751,13 +751,13 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Tổng quan Quản trị StockAI</h1>
-                <p className="text-xs text-[#64748B] mt-0.5">Số liệu thực tế trích xuất trực tiếp từ cơ sở dữ liệu hệ thống</p>
+                <h1 className="text-2xl font-bold text-[#172554] tracking-tight">Tổng quan Quản trị StockAI</h1>
+                <p className="text-xs text-[#647293] mt-0.5">Số liệu thực tế trích xuất trực tiếp từ cơ sở dữ liệu hệ thống</p>
               </div>
               <button
                 onClick={loadOverview}
                 disabled={isLoadingOverview}
-                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#008FD3] hover:bg-[#E0F2FE] transition flex items-center gap-1.5 shadow-2xs"
+                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#DCE5FF] text-xs font-semibold text-[#087CFF] hover:bg-[#EBF3FF] transition flex items-center gap-1.5 shadow-2xs"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isLoadingOverview ? 'animate-spin' : ''}`} />
                 <span>Làm mới dữ liệu</span>
@@ -766,69 +766,69 @@ export default function AdminPage() {
 
             {/* 6 Core KPI Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
-                <span className="text-[11px] text-[#64748B] font-medium block">Tổng người dùng</span>
-                <span className="text-xl font-bold text-[#172033] font-mono tabular-nums block">{kpis.totalUsers}</span>
-                <span className="text-[10px] text-[#10B981] font-semibold">+{kpis.newUsersLast7Days} trong 7 ngày</span>
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1 card-hover-smooth">
+                <span className="text-[11px] text-[#647293] font-medium block">Tổng người dùng</span>
+                <span className="text-xl font-bold text-[#172554] font-mono tabular-nums block">{kpis.totalUsers}</span>
+                <span className="text-[10px] text-[#16A34A] font-semibold">+{kpis.newUsersLast7Days} trong 7 ngày</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
-                <span className="text-[11px] text-[#64748B] font-medium block">Thuê bao hoạt động</span>
-                <span className="text-xl font-bold text-[#008FD3] font-mono tabular-nums block">{kpis.activeSubscriptions}</span>
-                <span className="text-[10px] text-[#64748B]">Gói Pro & Enterprise</span>
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1 card-hover-smooth">
+                <span className="text-[11px] text-[#647293] font-medium block">Thuê bao hoạt động</span>
+                <span className="text-xl font-bold text-[#087CFF] font-mono tabular-nums block">{kpis.activeSubscriptions}</span>
+                <span className="text-[10px] text-[#647293]">Gói Pro & Enterprise</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
-                <span className="text-[11px] text-[#64748B] font-medium block">Thuê bao hết hạn</span>
-                <span className="text-xl font-bold text-[#F43F5E] font-mono tabular-nums block">{kpis.expiredSubscriptions}</span>
-                <span className="text-[10px] text-[#64748B]">Cần gửi nhắc gia hạn</span>
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1 card-hover-smooth">
+                <span className="text-[11px] text-[#647293] font-medium block">Thuê bao hết hạn</span>
+                <span className="text-xl font-bold text-[#EF4444] font-mono tabular-nums block">{kpis.expiredSubscriptions}</span>
+                <span className="text-[10px] text-[#647293]">Cần gửi nhắc gia hạn</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
-                <span className="text-[11px] text-[#64748B] font-medium block">Doanh thu xác nhận</span>
-                <span className="text-xl font-bold text-[#10B981] font-mono tabular-nums block truncate" title={kpis.formattedRevenue}>
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1 card-hover-smooth">
+                <span className="text-[11px] text-[#647293] font-medium block">Doanh thu xác nhận</span>
+                <span className="text-xl font-bold text-[#16A34A] font-mono tabular-nums block truncate" title={kpis.formattedRevenue}>
                   {kpis.formattedRevenue}
                 </span>
-                <span className="text-[10px] text-[#10B981] font-semibold">{kpis.successTransactions} đơn đã khớp</span>
+                <span className="text-[10px] text-[#16A34A] font-semibold">{kpis.successTransactions} đơn đã khớp</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
-                <span className="text-[11px] text-[#64748B] font-medium block">Chờ đối soát</span>
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1 card-hover-smooth">
+                <span className="text-[11px] text-[#647293] font-medium block">Chờ đối soát</span>
                 <span className="text-xl font-bold text-[#D97706] font-mono tabular-nums block">{kpis.needsReconciliation}</span>
                 <span className="text-[10px] text-[#D97706] font-semibold">Khách báo đã chuyển</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1 card-hover-smooth">
-                <span className="text-[11px] text-[#64748B] font-medium block">Đơn chờ thanh toán</span>
-                <span className="text-xl font-bold text-[#64748B] font-mono tabular-nums block">{kpis.pendingOrders}</span>
-                <span className="text-[10px] text-[#64748B]">Trong hạn 15 phút</span>
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1 card-hover-smooth">
+                <span className="text-[11px] text-[#647293] font-medium block">Đơn chờ thanh toán</span>
+                <span className="text-xl font-bold text-[#647293] font-mono tabular-nums block">{kpis.pendingOrders}</span>
+                <span className="text-[10px] text-[#647293]">Trong hạn 15 phút</span>
               </div>
             </div>
 
 
             {/* Subscription Tier Breakdown & Signal KPIs */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
-                <span className="text-[10px] text-[#64748B] uppercase font-bold">Gói Free (0đ)</span>
-                <div className="text-lg font-bold text-[#172033] font-mono tabular-nums">{kpis.freeUsers || 0} user</div>
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#DCE5FF] space-y-0.5">
+                <span className="text-[10px] text-[#647293] uppercase font-bold">Gói Free (0đ)</span>
+                <div className="text-lg font-bold text-[#172554] font-mono tabular-nums">{kpis.freeUsers || 0} user</div>
               </div>
-              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
-                <span className="text-[10px] text-[#008FD3] uppercase font-bold">Gói Pro (199k)</span>
-                <div className="text-lg font-bold text-[#008FD3] font-mono tabular-nums">{kpis.proUsers || 0} user</div>
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#DCE5FF] space-y-0.5">
+                <span className="text-[10px] text-[#087CFF] uppercase font-bold">Gói Pro (199k)</span>
+                <div className="text-lg font-bold text-[#087CFF] font-mono tabular-nums">{kpis.proUsers || 0} user</div>
               </div>
-              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#DCE5FF] space-y-0.5">
                 <span className="text-[10px] text-[#9333EA] uppercase font-bold">Enterprise (299k)</span>
                 <div className="text-lg font-bold text-[#9333EA] font-mono tabular-nums">{kpis.enterpriseUsers || 0} user</div>
               </div>
-              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
-                <span className="text-[10px] text-[#059669] uppercase font-bold">Tín hiệu T+3 sẵn có</span>
-                <div className="text-lg font-bold text-[#059669] font-mono tabular-nums">{kpis.t3SignalsCount || 0} mã</div>
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#DCE5FF] space-y-0.5">
+                <span className="text-[10px] text-[#15803D] uppercase font-bold">Tín hiệu T+3 sẵn có</span>
+                <div className="text-lg font-bold text-[#15803D] font-mono tabular-nums">{kpis.t3SignalsCount || 0} mã</div>
               </div>
-              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#DCE5FF] space-y-0.5">
                 <span className="text-[10px] text-[#D97706] uppercase font-bold">Cảnh báo thị trường</span>
                 <div className="text-lg font-bold text-[#D97706] font-mono tabular-nums">{kpis.marketAlertsCount || 0} sự kiện</div>
               </div>
-              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-0.5">
+              <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#DCE5FF] space-y-0.5">
                 <span className="text-[10px] text-[#EF4444] uppercase font-bold">Lỗi hệ thống</span>
                 <div className="text-lg font-bold text-[#EF4444] font-mono tabular-nums">{kpis.systemErrorsCount || 0} lỗi</div>
               </div>
@@ -837,44 +837,44 @@ export default function AdminPage() {
             {/* Middle Grid: Recent Orders & System Status */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               {/* Left: Recent Orders Queue */}
-              <div className="lg:col-span-7 bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
-                <div className="p-4 border-b border-[#E2E8F0] flex items-center justify-between">
+              <div className="lg:col-span-7 bg-white rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
+                <div className="p-4 border-b border-[#DCE5FF] flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <ShoppingBag className="w-4 h-4 text-[#008FD3]" />
-                    <h3 className="text-sm font-bold text-[#172033]">Giao dịch đơn hàng gần đây</h3>
+                    <ShoppingBag className="w-4 h-4 text-[#087CFF]" />
+                    <h3 className="text-sm font-bold text-[#172554]">Giao dịch đơn hàng gần đây</h3>
                   </div>
                   <button
                     onClick={() => setActiveTab('orders')}
-                    className="text-xs font-semibold text-[#008FD3] hover:underline"
+                    className="text-xs font-semibold text-[#087CFF] hover:underline"
                   >
                     Xem tất cả &rarr;
                   </button>
                 </div>
 
                 {overviewData?.recentOrders?.length === 0 ? (
-                  <div className="p-8 text-center text-xs text-[#64748B]">Chưa có đơn hàng nào phát sinh</div>
+                  <div className="p-8 text-center text-xs text-[#647293]">Chưa có đơn hàng nào phát sinh</div>
                 ) : (
-                  <div className="divide-y divide-[#F1F5F9]">
+                  <div className="divide-y divide-[#F4F7FF]">
                     {overviewData?.recentOrders?.map((ord: SubscriptionOrder) => (
                       <div key={ord.id} className="p-3.5 px-4 flex items-center justify-between hover:bg-[#F8FAFC] transition text-xs">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-[#172033] font-mono">{ord.orderCode}</span>
-                            <span className="text-[10px] px-1.5 py-0.2 rounded font-semibold bg-[#E0F2FE] text-[#008FD3]">
+                            <span className="font-bold text-[#172554] font-mono">{ord.orderCode}</span>
+                            <span className="text-[10px] px-1.5 py-0.2 rounded font-semibold bg-[#EBF3FF] text-[#087CFF]">
                               {ord.tier}
                             </span>
                           </div>
-                          <span className="text-[11px] text-[#64748B] block mt-0.5">{ord.userEmail}</span>
+                          <span className="text-[11px] text-[#647293] block mt-0.5">{ord.userEmail}</span>
                         </div>
 
                         <div className="text-right">
-                          <span className="font-bold text-[#172033] font-mono block">{ord.formattedAmount}</span>
+                          <span className="font-bold text-[#172554] font-mono block">{ord.formattedAmount}</span>
                           <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full inline-block mt-0.5 ${
                             ord.status === 'PAID' 
-                              ? 'bg-[#D1FAE5] text-[#10B981]' 
+                              ? 'bg-[#DCFCE7] text-[#16A34A]' 
                               : ord.status === 'PENDING_CONFIRMATION' 
                               ? 'bg-[#FEF3C7] text-[#D97706]' 
-                              : 'bg-[#F1F5F9] text-[#64748B]'
+                              : 'bg-[#F4F7FF] text-[#647293]'
                           }`}>
                             {ord.status === 'PAID' ? 'ĐÃ DUYỆT' : ord.status === 'PENDING_CONFIRMATION' ? 'CHỜ DUYỆT' : ord.status}
                           </span>
@@ -887,47 +887,47 @@ export default function AdminPage() {
 
               {/* Right: Integration & System Health */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="bg-white p-5 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+                <div className="bg-white p-5 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF]">
                     <div className="flex items-center gap-2">
-                      <Radio className="w-4 h-4 text-[#008FD3]" />
-                      <h3 className="text-sm font-bold text-[#172033]">Trạng thái kết nối dịch vụ</h3>
+                      <Radio className="w-4 h-4 text-[#087CFF]" />
+                      <h3 className="text-sm font-bold text-[#172554]">Trạng thái kết nối dịch vụ</h3>
                     </div>
                     <button
                       onClick={() => setActiveTab('system')}
-                      className="text-xs font-semibold text-[#008FD3] hover:underline"
+                      className="text-xs font-semibold text-[#087CFF] hover:underline"
                     >
                       Cấu hình
                     </button>
                   </div>
 
                   <div className="space-y-3 text-xs">
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0]">
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#F4F7FF] border border-[#DCE5FF]">
                       <div>
-                        <span className="font-bold text-[#172033] block">SSI FastConnect API</span>
-                        <span className="text-[11px] text-[#64748B]">Chứng khoán SSI • Độ trễ: {overviewData?.systemHealth?.ssi?.responseTimeMs || 24}ms</span>
+                        <span className="font-bold text-[#172554] block">SSI FastConnect API</span>
+                        <span className="text-[11px] text-[#647293]">Chứng khoán SSI • Độ trễ: {overviewData?.systemHealth?.ssi?.responseTimeMs || 24}ms</span>
                       </div>
-                      <span className="px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] font-bold text-[10px]">
+                      <span className="px-2 py-0.5 rounded-full bg-[#DCFCE7] text-[#16A34A] font-bold text-[10px]">
                         HOẠT ĐỘNG
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0]">
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#F4F7FF] border border-[#DCE5FF]">
                       <div>
-                        <span className="font-bold text-[#172033] block">Cổng thanh toán Pay2S</span>
-                        <span className="text-[11px] text-[#64748B]">Webhook IPN: {overviewData?.systemHealth?.pay2s?.webhookStatus || 'ACTIVE'}</span>
+                        <span className="font-bold text-[#172554] block">Cổng thanh toán Pay2S</span>
+                        <span className="text-[11px] text-[#647293]">Webhook IPN: {overviewData?.systemHealth?.pay2s?.webhookStatus || 'ACTIVE'}</span>
                       </div>
-                      <span className="px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] font-bold text-[10px]">
+                      <span className="px-2 py-0.5 rounded-full bg-[#DCFCE7] text-[#16A34A] font-bold text-[10px]">
                         SẴN SÀNG
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0]">
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#F4F7FF] border border-[#DCE5FF]">
                       <div>
-                        <span className="font-bold text-[#172033] block">VietQR Ngân hàng ({overviewData?.systemHealth?.bankConfig?.bankName})</span>
-                        <span className="text-[11px] text-[#64748B]">Số tài khoản: {overviewData?.systemHealth?.bankConfig?.accountNumber}</span>
+                        <span className="font-bold text-[#172554] block">VietQR Ngân hàng ({overviewData?.systemHealth?.bankConfig?.bankName})</span>
+                        <span className="text-[11px] text-[#647293]">Số tài khoản: {overviewData?.systemHealth?.bankConfig?.accountNumber}</span>
                       </div>
-                      <span className="px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] font-bold text-[10px]">
+                      <span className="px-2 py-0.5 rounded-full bg-[#DCFCE7] text-[#16A34A] font-bold text-[10px]">
                         CHÍNH THỨC
                       </span>
                     </div>
@@ -935,14 +935,14 @@ export default function AdminPage() {
                 </div>
 
                 {/* Audit quick link */}
-                <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs flex items-center justify-between text-xs">
+                <div className="p-4 rounded-2xl bg-white border border-[#DCE5FF] shadow-xs flex items-center justify-between text-xs">
                   <div>
-                    <span className="font-bold text-[#172033] block">Nhật ký kiểm toán hệ thống</span>
-                    <span className="text-[#64748B] text-[11px]">Ghi nhận toàn bộ thao tác duyệt tiền và điều chỉnh gói</span>
+                    <span className="font-bold text-[#172554] block">Nhật ký kiểm toán hệ thống</span>
+                    <span className="text-[#647293] text-[11px]">Ghi nhận toàn bộ thao tác duyệt tiền và điều chỉnh gói</span>
                   </div>
                   <button
                     onClick={() => setActiveTab('audit-logs')}
-                    className="px-3 py-1.5 rounded-xl bg-[#E0F2FE] text-[#008FD3] font-bold hover:bg-[#BAE6FD] transition"
+                    className="px-3 py-1.5 rounded-xl bg-[#EBF3FF] text-[#087CFF] font-bold hover:bg-[#DCE5FF] transition"
                   >
                     Xem Log
                   </button>
@@ -957,14 +957,14 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Quản lý Người dùng & Khách hàng</h1>
-                <p className="text-xs text-[#64748B] mt-0.5">Tra cứu danh tính, lịch sử thuê bao, trạng thái tài khoản và phân quyền</p>
+                <h1 className="text-2xl font-bold text-[#172554] tracking-tight">Quản lý Người dùng & Khách hàng</h1>
+                <p className="text-xs text-[#647293] mt-0.5">Tra cứu danh tính, lịch sử thuê bao, trạng thái tài khoản và phân quyền</p>
               </div>
 
               <button
                 onClick={loadUsers}
                 disabled={isLoadingUsers}
-                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#008FD3] hover:bg-[#E0F2FE] transition flex items-center gap-1.5 shadow-2xs"
+                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#DCE5FF] text-xs font-semibold text-[#087CFF] hover:bg-[#EBF3FF] transition flex items-center gap-1.5 shadow-2xs"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isLoadingUsers ? 'animate-spin' : ''}`} />
                 <span>Làm mới</span>
@@ -972,16 +972,16 @@ export default function AdminPage() {
             </div>
 
             {/* Filter Bar */}
-            <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-xs flex flex-wrap items-center justify-between gap-4">
+            <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-xs flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-3 flex-1 min-w-[280px] max-w-md">
                 <div className="relative w-full">
-                  <Search className="w-4 h-4 text-[#64748B] absolute left-3 top-2.5 pointer-events-none" />
+                  <Search className="w-4 h-4 text-[#647293] absolute left-3 top-2.5 pointer-events-none" />
                   <input
                     type="text"
                     value={userSearch}
                     onChange={(e) => setUserSearch(e.target.value)}
                     placeholder="Tìm theo tên, email, ID..."
-                    className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#172033] focus:outline-none focus:ring-1 focus:ring-[#008FD3]"
+                    className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#172554] focus:outline-none focus:ring-1 focus:ring-[#087CFF]"
                   />
                 </div>
               </div>
@@ -990,7 +990,7 @@ export default function AdminPage() {
                 <select
                   value={userTierFilter}
                   onChange={(e) => setUserTierFilter(e.target.value)}
-                  className="bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-semibold text-[#172033]"
+                  className="bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2 font-semibold text-[#172554]"
                 >
                   <option value="ALL">Tất cả gói</option>
                   <option value="FREE">Gói Miễn Phí (Free)</option>
@@ -1001,7 +1001,7 @@ export default function AdminPage() {
                 <select
                   value={userStatusFilter}
                   onChange={(e) => setUserStatusFilter(e.target.value)}
-                  className="bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-semibold text-[#172033]"
+                  className="bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2 font-semibold text-[#172554]"
                 >
                   <option value="ALL">Tất cả trạng thái</option>
                   <option value="ACTIVE">Đang hoạt động</option>
@@ -1011,11 +1011,11 @@ export default function AdminPage() {
             </div>
 
             {/* Users Table */}
-            <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+            <div className="bg-white rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-[13px]">
                   <thead>
-                    <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                    <tr className="bg-[#F4F7FF] text-[#647293] text-[12px] font-medium border-b border-[#DCE5FF]">
                       <th className="py-3 px-4 font-medium text-left">Họ tên / Email</th>
                       <th className="py-3 px-3 font-medium text-left">Vai trò</th>
                       <th className="py-3 px-3 font-medium text-left">Gói hiện tại</th>
@@ -1025,10 +1025,10 @@ export default function AdminPage() {
                       <th className="py-3 px-4 font-medium text-right">Thao tác</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#F1F5F9]">
+                  <tbody className="divide-y divide-[#F4F7FF]">
                     {usersList.length === 0 ? (
                       <tr>
-                        <td colSpan={7} className="p-8 text-center text-xs text-[#64748B]">
+                        <td colSpan={7} className="p-8 text-center text-xs text-[#647293]">
                           Không tìm thấy người dùng nào phù hợp với bộ lọc
                         </td>
                       </tr>
@@ -1036,32 +1036,32 @@ export default function AdminPage() {
                       usersList.map((u) => (
                         <tr key={u.id} className="hover:bg-[#F8FAFC] transition h-[44px]">
                           <td className="py-2.5 px-4">
-                            <span className="font-bold text-[#172033] block">{u.name}</span>
-                            <span className="text-xs text-[#64748B] font-mono">{u.email}</span>
+                            <span className="font-bold text-[#172554] block">{u.name}</span>
+                            <span className="text-xs text-[#647293] font-mono">{u.email}</span>
                           </td>
                           <td className="py-2.5 px-3">
                             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                              u.role === 'ADMIN' ? 'bg-[#FFE4E6] text-[#F43F5E]' : 'bg-[#F1F5F9] text-[#64748B]'
+                              u.role === 'ADMIN' ? 'bg-[#FEE2E2] text-[#EF4444]' : 'bg-[#F4F7FF] text-[#647293]'
                             }`}>
                               {u.role}
                             </span>
                           </td>
                           <td className="py-2.5 px-3">
-                            <span className="font-semibold text-xs text-[#008FD3]">{u.tier}</span>
+                            <span className="font-semibold text-xs text-[#087CFF]">{u.tier}</span>
                           </td>
-                          <td className="py-2.5 px-3 font-mono text-xs text-[#172033]">
+                          <td className="py-2.5 px-3 font-mono text-xs text-[#172554]">
                             {u.validUntil || 'Vô hạn'}
                           </td>
-                          <td className="py-2.5 px-3 text-right font-mono font-bold text-xs text-[#172033]">
+                          <td className="py-2.5 px-3 text-right font-mono font-bold text-xs text-[#172554]">
                             {u.formattedSpent}
                           </td>
                           <td className="py-2.5 px-3 text-center">
                             {u.isLocked ? (
-                              <span className="px-2 py-0.5 rounded-full bg-[#FFE4E6] text-[#F43F5E] font-bold text-[10px]" title={u.lockedReason}>
+                              <span className="px-2 py-0.5 rounded-full bg-[#FEE2E2] text-[#EF4444] font-bold text-[10px]" title={u.lockedReason}>
                                 ĐÃ KHÓA
                               </span>
                             ) : (
-                              <span className="px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] font-bold text-[10px]">
+                              <span className="px-2 py-0.5 rounded-full bg-[#DCFCE7] text-[#16A34A] font-bold text-[10px]">
                                 HOẠT ĐỘNG
                               </span>
                             )}
@@ -1074,7 +1074,7 @@ export default function AdminPage() {
                                   setSelectedUserForTierAdjust(u);
                                   setAdjustTier(u.tier || 'PRO');
                                 }}
-                                className="px-2.5 py-1 rounded-lg bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#008FD3] text-xs font-semibold transition"
+                                className="px-2.5 py-1 rounded-lg bg-[#EBF3FF] hover:bg-[#DCE5FF] text-[#087CFF] text-xs font-semibold transition"
                                 title="Cấp hoặc gia hạn gói"
                               >
                                 Cấp gói
@@ -1084,7 +1084,7 @@ export default function AdminPage() {
                               {u.isLocked ? (
                                 <button
                                   onClick={() => handleUnlockUser(u.id)}
-                                  className="px-2.5 py-1 rounded-lg bg-[#D1FAE5] hover:bg-[#A7F3D0] text-[#10B981] text-xs font-semibold transition"
+                                  className="px-2.5 py-1 rounded-lg bg-[#DCFCE7] hover:bg-[#BBF7D0] text-[#16A34A] text-xs font-semibold transition"
                                 >
                                   Mở khóa
                                 </button>
@@ -1094,7 +1094,7 @@ export default function AdminPage() {
                                     setSelectedUserForAction(u);
                                     setLockModalReason('');
                                   }}
-                                  className="px-2.5 py-1 rounded-lg bg-[#FFE4E6] hover:bg-[#FECDD3] text-[#F43F5E] text-xs font-semibold transition"
+                                  className="px-2.5 py-1 rounded-lg bg-[#FEE2E2] hover:bg-[#FEE2E2] text-[#EF4444] text-xs font-semibold transition"
                                 >
                                   Khóa
                                 </button>
@@ -1116,14 +1116,14 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Quản lý Đơn hàng & Đối soát Pay2S</h1>
-                <p className="text-xs text-[#64748B] mt-0.5">Tra cứu đơn hàng, xác minh mã giao dịch ngân hàng/Pay2S và xử lý ngoại lệ</p>
+                <h1 className="text-2xl font-bold text-[#172554] tracking-tight">Quản lý Đơn hàng & Đối soát Pay2S</h1>
+                <p className="text-xs text-[#647293] mt-0.5">Tra cứu đơn hàng, xác minh mã giao dịch ngân hàng/Pay2S và xử lý ngoại lệ</p>
               </div>
 
               <button
                 onClick={loadOrders}
                 disabled={isLoadingOrders}
-                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#008FD3] hover:bg-[#E0F2FE] transition flex items-center gap-1.5 shadow-2xs"
+                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#DCE5FF] text-xs font-semibold text-[#087CFF] hover:bg-[#EBF3FF] transition flex items-center gap-1.5 shadow-2xs"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isLoadingOrders ? 'animate-spin' : ''}`} />
                 <span>Làm mới</span>
@@ -1131,15 +1131,15 @@ export default function AdminPage() {
             </div>
 
             {/* Filter Bar */}
-            <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-xs flex flex-wrap items-center justify-between gap-4">
+            <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-xs flex flex-wrap items-center justify-between gap-4">
               <div className="relative flex-1 min-w-[280px] max-w-md">
-                <Search className="w-4 h-4 text-[#64748B] absolute left-3 top-2.5 pointer-events-none" />
+                <Search className="w-4 h-4 text-[#647293] absolute left-3 top-2.5 pointer-events-none" />
                 <input
                   type="text"
                   value={orderSearch}
                   onChange={(e) => setOrderSearch(e.target.value)}
                   placeholder="Tra cứu mã đơn (VD: STOCKAI-...), email, mã GD Pay2S..."
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#172033] focus:outline-none focus:ring-1 focus:ring-[#008FD3]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#172554] focus:outline-none focus:ring-1 focus:ring-[#087CFF]"
                 />
               </div>
 
@@ -1147,7 +1147,7 @@ export default function AdminPage() {
                 <select
                   value={orderStatusFilter}
                   onChange={(e) => setOrderStatusFilter(e.target.value)}
-                  className="bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-semibold text-[#172033]"
+                  className="bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2 font-semibold text-[#172554]"
                 >
                   <option value="ALL">Tất cả trạng thái</option>
                   <option value="PENDING_CONFIRMATION">Chờ đối soát (Khách báo đã chuyển)</option>
@@ -1159,11 +1159,11 @@ export default function AdminPage() {
             </div>
 
             {/* Orders Table */}
-            <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+            <div className="bg-white rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-[13px]">
                   <thead>
-                    <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                    <tr className="bg-[#F4F7FF] text-[#647293] text-[12px] font-medium border-b border-[#DCE5FF]">
                       <th className="py-3 px-4 font-medium text-left">Mã đơn hàng</th>
                       <th className="py-3 px-3 font-medium text-left">Khách hàng</th>
                       <th className="py-3 px-3 font-medium text-left">Gói</th>
@@ -1173,10 +1173,10 @@ export default function AdminPage() {
                       <th className="py-3 px-4 font-medium text-right">Hành động</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#F1F5F9]">
+                  <tbody className="divide-y divide-[#F4F7FF]">
                     {ordersList.length === 0 ? (
                       <tr>
-                        <td colSpan={7} className="p-8 text-center text-xs text-[#64748B]">
+                        <td colSpan={7} className="p-8 text-center text-xs text-[#647293]">
                           Không có đơn hàng nào khớp điều kiện tra cứu
                         </td>
                       </tr>
@@ -1186,44 +1186,44 @@ export default function AdminPage() {
                         const isPaid = ord.status === 'PAID';
                         return (
                           <tr key={ord.id} className="hover:bg-[#F8FAFC] transition h-[44px]">
-                            <td className="py-2.5 px-4 font-bold text-[#172033] font-mono text-xs">
+                            <td className="py-2.5 px-4 font-bold text-[#172554] font-mono text-xs">
                               {ord.orderCode}
                               <span className="block text-[10px] text-[#94A3B8] font-normal">
                                 {new Date(ord.createdAt).toLocaleString('vi-VN')}
                               </span>
                             </td>
                             <td className="py-2.5 px-3">
-                              <span className="font-semibold text-xs text-[#172033] block">{ord.userName}</span>
-                              <span className="text-[11px] text-[#64748B] block truncate max-w-[180px]">{ord.userEmail}</span>
+                              <span className="font-semibold text-xs text-[#172554] block">{ord.userName}</span>
+                              <span className="text-[11px] text-[#647293] block truncate max-w-[180px]">{ord.userEmail}</span>
                             </td>
                             <td className="py-2.5 px-3">
-                              <span className="font-semibold text-xs text-[#008FD3]">{ord.tier}</span>
+                              <span className="font-semibold text-xs text-[#087CFF]">{ord.tier}</span>
                             </td>
-                            <td className="py-2.5 px-3 text-right font-bold text-xs font-mono text-[#172033]">
+                            <td className="py-2.5 px-3 text-right font-bold text-xs font-mono text-[#172554]">
                               {ord.formattedAmount}
                             </td>
                             <td className="py-2.5 px-3 text-xs">
-                              <span className="text-[11px] font-semibold text-[#172033] block">
+                              <span className="text-[11px] font-semibold text-[#172554] block">
                                 {ord.paymentGateway || 'VietQR'}
                               </span>
-                              <span className="text-[10px] text-[#64748B] font-mono truncate max-w-[130px] block">
+                              <span className="text-[10px] text-[#647293] font-mono truncate max-w-[130px] block">
                                 {ord.pay2sTransactionId || ord.bankTransactionRef || '-'}
                               </span>
                             </td>
                             <td className="py-2.5 px-3 text-center">
                               <span className={`px-2 py-0.5 rounded-full font-bold text-[10px] ${
                                 isPaid 
-                                  ? 'bg-[#D1FAE5] text-[#10B981]' 
+                                  ? 'bg-[#DCFCE7] text-[#16A34A]' 
                                   : isPendingConfirm 
                                   ? 'bg-[#FEF3C7] text-[#D97706]' 
-                                  : 'bg-[#F1F5F9] text-[#64748B]'
+                                  : 'bg-[#F4F7FF] text-[#647293]'
                               }`}>
                                 {isPaid ? 'ĐÃ DUYỆT' : isPendingConfirm ? 'CHỜ ĐỐI SOÁT' : ord.status}
                               </span>
                             </td>
                             <td className="py-2.5 px-4 text-right">
                               {isPaid ? (
-                                <span className="text-xs text-[#10B981] font-semibold flex items-center justify-end gap-1">
+                                <span className="text-xs text-[#16A34A] font-semibold flex items-center justify-end gap-1">
                                   <CheckCircle2 className="w-3.5 h-3.5" />
                                   <span>Đã kích hoạt</span>
                                 </span>
@@ -1236,7 +1236,7 @@ export default function AdminPage() {
                                       setVerifyRef(ord.bankTransactionRef || ord.pay2sTransactionId || `BANK_REF_${Date.now()}`);
                                       setVerifyNotes(`Duyệt kích hoạt đơn ${ord.orderCode}`);
                                     }}
-                                    className="px-2.5 py-1 rounded-lg bg-[#008FD3] hover:bg-[#007bb8] text-white text-xs font-semibold transition shadow-2xs"
+                                    className="px-2.5 py-1 rounded-lg bg-[#087CFF] hover:bg-[#0066D6] text-white text-xs font-semibold transition shadow-2xs"
                                   >
                                     Đối soát & Duyệt
                                   </button>
@@ -1245,7 +1245,7 @@ export default function AdminPage() {
                                       setSelectedOrderForReject(ord);
                                       setRejectReason('');
                                     }}
-                                    className="px-2 py-1 rounded-lg bg-[#FFE4E6] hover:bg-[#FECDD3] text-[#F43F5E] text-xs font-semibold transition"
+                                    className="px-2 py-1 rounded-lg bg-[#FEE2E2] hover:bg-[#FEE2E2] text-[#EF4444] text-xs font-semibold transition"
                                   >
                                     Từ chối
                                   </button>
@@ -1268,48 +1268,48 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Quản lý Thuê bao Đang Hoạt động</h1>
-                <p className="text-xs text-[#64748B] mt-0.5">Giám sát chu kỳ thuê bao, gia hạn thủ công và xử lý ngoại lệ</p>
+                <h1 className="text-2xl font-bold text-[#172554] tracking-tight">Quản lý Thuê bao Đang Hoạt động</h1>
+                <p className="text-xs text-[#647293] mt-0.5">Giám sát chu kỳ thuê bao, gia hạn thủ công và xử lý ngoại lệ</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white p-5 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-1">
-                <span className="text-xs text-[#64748B]">Thuê bao đang hiệu lực</span>
-                <span className="text-2xl font-bold text-[#10B981] font-mono block">{kpis.activeSubscriptions}</span>
+              <div className="bg-white p-5 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-1">
+                <span className="text-xs text-[#647293]">Thuê bao đang hiệu lực</span>
+                <span className="text-2xl font-bold text-[#16A34A] font-mono block">{kpis.activeSubscriptions}</span>
               </div>
-              <div className="bg-white p-5 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-1">
-                <span className="text-xs text-[#64748B]">Thuê bao đã hết hạn</span>
-                <span className="text-2xl font-bold text-[#F43F5E] font-mono block">{kpis.expiredSubscriptions}</span>
+              <div className="bg-white p-5 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-1">
+                <span className="text-xs text-[#647293]">Thuê bao đã hết hạn</span>
+                <span className="text-2xl font-bold text-[#EF4444] font-mono block">{kpis.expiredSubscriptions}</span>
               </div>
-              <div className="bg-white p-5 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-1">
-                <span className="text-xs text-[#64748B]">Kích hoạt tự động qua IPN</span>
-                <span className="text-2xl font-bold text-[#008FD3] font-mono block">100% Realtime</span>
+              <div className="bg-white p-5 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-1">
+                <span className="text-xs text-[#647293]">Kích hoạt tự động qua IPN</span>
+                <span className="text-2xl font-bold text-[#087CFF] font-mono block">100% Realtime</span>
               </div>
             </div>
 
             {/* List */}
-            <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
-              <div className="p-4 border-b border-[#E2E8F0] font-bold text-sm text-[#172033]">
+            <div className="bg-white rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
+              <div className="p-4 border-b border-[#DCE5FF] font-bold text-sm text-[#172554]">
                 Danh sách hội viên có thuê bao
               </div>
-              <div className="divide-y divide-[#F1F5F9]">
+              <div className="divide-y divide-[#F4F7FF]">
                 {usersList.filter(u => u.tier !== 'FREE').map((u) => (
                   <div key={u.id} className="p-4 flex items-center justify-between hover:bg-[#F8FAFC] transition text-xs">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-sm text-[#172033]">{u.name}</span>
-                        <span className="px-2 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] font-bold text-[10px]">
+                        <span className="font-bold text-sm text-[#172554]">{u.name}</span>
+                        <span className="px-2 py-0.5 rounded-full bg-[#EBF3FF] text-[#087CFF] font-bold text-[10px]">
                           {u.tier}
                         </span>
                       </div>
-                      <span className="text-xs text-[#64748B]">{u.email}</span>
+                      <span className="text-xs text-[#647293]">{u.email}</span>
                     </div>
 
                     <div className="flex items-center gap-6">
                       <div className="text-right">
-                        <span className="text-[11px] text-[#64748B] block">Hạn sử dụng</span>
-                        <span className="font-mono font-bold text-xs text-[#172033]">{u.validUntil}</span>
+                        <span className="text-[11px] text-[#647293] block">Hạn sử dụng</span>
+                        <span className="font-mono font-bold text-xs text-[#172554]">{u.validUntil}</span>
                       </div>
 
                       <button
@@ -1317,7 +1317,7 @@ export default function AdminPage() {
                           setSelectedUserForTierAdjust(u);
                           setAdjustTier(u.tier);
                         }}
-                        className="px-3 py-1.5 rounded-xl bg-[#008FD3] text-white font-semibold text-xs hover:bg-[#007bb8] transition shadow-2xs"
+                        className="px-3 py-1.5 rounded-xl bg-[#087CFF] text-white font-semibold text-xs hover:bg-[#0066D6] transition shadow-2xs"
                       >
                         Gia hạn / Đổi gói
                       </button>
@@ -1334,8 +1334,8 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Quản lý Gói dịch vụ SaaS</h1>
-                <p className="text-xs text-[#64748B] mt-0.5">
+                <h1 className="text-2xl font-bold text-[#172554] tracking-tight">Quản lý Gói dịch vụ SaaS</h1>
+                <p className="text-xs text-[#647293] mt-0.5">
                   Thiết lập giá và quyền năng gói Free, Pro, Enterprise (Lưu vết thay đổi giá và không hồi tố đơn cũ)
                 </p>
               </div>
@@ -1343,7 +1343,7 @@ export default function AdminPage() {
               <button
                 onClick={loadPlans}
                 disabled={isLoadingPlans}
-                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#008FD3] hover:bg-[#E0F2FE] transition flex items-center gap-1.5 shadow-2xs"
+                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#DCE5FF] text-xs font-semibold text-[#087CFF] hover:bg-[#EBF3FF] transition flex items-center gap-1.5 shadow-2xs"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isLoadingPlans ? 'animate-spin' : ''}`} />
                 <span>Làm mới</span>
@@ -1352,10 +1352,10 @@ export default function AdminPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {plansList.map((plan) => (
-                <div key={plan.tier} className="bg-white rounded-3xl p-6 border border-[#E2E8F0] shadow-xs flex flex-col justify-between space-y-4">
+                <div key={plan.tier} className="bg-white rounded-3xl p-6 border border-[#DCE5FF] shadow-xs flex flex-col justify-between space-y-4">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD]">
+                      <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#EBF3FF] text-[#087CFF] border border-[#DCE5FF]">
                         {plan.tier}
                       </span>
                       {plan.popular && (
@@ -1366,22 +1366,22 @@ export default function AdminPage() {
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-bold text-[#172033]">{plan.name}</h3>
-                      <p className="text-xs text-[#64748B] mt-1">{plan.desc}</p>
+                      <h3 className="text-lg font-bold text-[#172554]">{plan.name}</h3>
+                      <p className="text-xs text-[#647293] mt-1">{plan.desc}</p>
                     </div>
 
-                    <div className="p-3 bg-[#F5F8FC] rounded-2xl border border-[#E2E8F0]">
-                      <span className="text-[11px] text-[#64748B] block">Giá niêm yết Backend</span>
-                      <span className="text-xl font-bold text-[#008FD3] font-mono tabular-nums block mt-0.5">
+                    <div className="p-3 bg-[#F4F7FF] rounded-2xl border border-[#DCE5FF]">
+                      <span className="text-[11px] text-[#647293] block">Giá niêm yết Backend</span>
+                      <span className="text-xl font-bold text-[#087CFF] font-mono tabular-nums block mt-0.5">
                         {plan.formattedPrice}
                       </span>
                     </div>
 
-                    <div className="space-y-1.5 pt-2 border-t border-[#E2E8F0] text-xs">
-                      <span className="font-semibold text-[#172033] text-[11px] block">Tính năng chính:</span>
+                    <div className="space-y-1.5 pt-2 border-t border-[#DCE5FF] text-xs">
+                      <span className="font-semibold text-[#172554] text-[11px] block">Tính năng chính:</span>
                       {plan.features.slice(0, 4).map((f, i) => (
-                        <div key={i} className="flex items-center gap-2 text-[#64748B]">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981] shrink-0" />
+                        <div key={i} className="flex items-center gap-2 text-[#647293]">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] shrink-0" />
                           <span className="line-clamp-1">{f}</span>
                         </div>
                       ))}
@@ -1396,7 +1396,7 @@ export default function AdminPage() {
                       setPlanDesc(plan.desc);
                       setPlanReason('');
                     }}
-                    className="w-full py-2.5 bg-white border border-[#008FD3] text-[#008FD3] hover:bg-[#E0F2FE] rounded-xl text-xs font-bold transition shadow-2xs"
+                    className="w-full py-2.5 bg-white border border-[#087CFF] text-[#087CFF] hover:bg-[#EBF3FF] rounded-xl text-xs font-bold transition shadow-2xs"
                   >
                     Chỉnh sửa giá & Cấu hình
                   </button>
@@ -1411,14 +1411,14 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Nhật ký Kiểm toán & Thao tác Quản trị</h1>
-                <p className="text-xs text-[#64748B] mt-0.5">Lưu vết minh bạch mọi hành động duyệt tiền, khóa tài khoản và thay đổi cấu hình</p>
+                <h1 className="text-2xl font-bold text-[#172554] tracking-tight">Nhật ký Kiểm toán & Thao tác Quản trị</h1>
+                <p className="text-xs text-[#647293] mt-0.5">Lưu vết minh bạch mọi hành động duyệt tiền, khóa tài khoản và thay đổi cấu hình</p>
               </div>
 
               <button
                 onClick={loadAuditLogs}
                 disabled={isLoadingLogs}
-                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#008FD3] hover:bg-[#E0F2FE] transition flex items-center gap-1.5 shadow-2xs"
+                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#DCE5FF] text-xs font-semibold text-[#087CFF] hover:bg-[#EBF3FF] transition flex items-center gap-1.5 shadow-2xs"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isLoadingLogs ? 'animate-spin' : ''}`} />
                 <span>Làm mới</span>
@@ -1426,22 +1426,22 @@ export default function AdminPage() {
             </div>
 
             {/* Filter Bar */}
-            <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-xs flex flex-wrap items-center justify-between gap-4">
+            <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-xs flex flex-wrap items-center justify-between gap-4">
               <div className="relative flex-1 min-w-[280px] max-w-md">
-                <Search className="w-4 h-4 text-[#64748B] absolute left-3 top-2.5 pointer-events-none" />
+                <Search className="w-4 h-4 text-[#647293] absolute left-3 top-2.5 pointer-events-none" />
                 <input
                   type="text"
                   value={logSearch}
                   onChange={(e) => setLogSearch(e.target.value)}
                   placeholder="Tìm theo email admin, user, mã đơn, hành động..."
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#172033] focus:outline-none focus:ring-1 focus:ring-[#008FD3]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#172554] focus:outline-none focus:ring-1 focus:ring-[#087CFF]"
                 />
               </div>
 
               <select
                 value={logActionFilter}
                 onChange={(e) => setLogActionFilter(e.target.value)}
-                className="bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2 font-semibold text-xs text-[#172033]"
+                className="bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2 font-semibold text-xs text-[#172554]"
               >
                 <option value="ALL">Tất cả hành động</option>
                 <option value="VERIFY_PAYMENT">Duyệt thanh toán</option>
@@ -1454,11 +1454,11 @@ export default function AdminPage() {
             </div>
 
             {/* Audit Logs Table */}
-            <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+            <div className="bg-white rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-[13px]">
                   <thead>
-                    <tr className="bg-[#F5F8FC] text-[#64748B] text-[12px] font-medium border-b border-[#E2E8F0]">
+                    <tr className="bg-[#F4F7FF] text-[#647293] text-[12px] font-medium border-b border-[#DCE5FF]">
                       <th className="py-3 px-4 font-medium text-left">Thời gian</th>
                       <th className="py-3 px-3 font-medium text-left">Người thực hiện</th>
                       <th className="py-3 px-3 font-medium text-left">Hành động</th>
@@ -1466,32 +1466,32 @@ export default function AdminPage() {
                       <th className="py-3 px-4 font-medium text-left">Chi tiết & Lý do</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#F1F5F9]">
+                  <tbody className="divide-y divide-[#F4F7FF]">
                     {auditLogs.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="p-8 text-center text-xs text-[#64748B]">
+                        <td colSpan={5} className="p-8 text-center text-xs text-[#647293]">
                           Chưa có nhật ký kiểm toán nào được ghi nhận
                         </td>
                       </tr>
                     ) : (
                       auditLogs.map((log) => (
                         <tr key={log.id} className="hover:bg-[#F8FAFC] transition text-xs">
-                          <td className="py-3 px-4 font-mono text-[11px] text-[#64748B]">
+                          <td className="py-3 px-4 font-mono text-[11px] text-[#647293]">
                             {new Date(log.timestamp).toLocaleString('vi-VN')}
                           </td>
                           <td className="py-3 px-3">
-                            <span className="font-bold text-[#172033] block">{log.performedBy?.email || 'System'}</span>
-                            <span className="text-[10px] text-[#008FD3]">{log.performedBy?.role || 'SYSTEM'}</span>
+                            <span className="font-bold text-[#172554] block">{log.performedBy?.email || 'System'}</span>
+                            <span className="text-[10px] text-[#087CFF]">{log.performedBy?.role || 'SYSTEM'}</span>
                           </td>
                           <td className="py-3 px-3">
-                            <span className="px-2 py-0.5 rounded-full font-bold text-[10px] bg-[#E0F2FE] text-[#008FD3]">
+                            <span className="px-2 py-0.5 rounded-full font-bold text-[10px] bg-[#EBF3FF] text-[#087CFF]">
                               {log.action}
                             </span>
                           </td>
-                          <td className="py-3 px-3 text-[#172033]">
+                          <td className="py-3 px-3 text-[#172554]">
                             {log.targetUserEmail || log.targetUserId || '-'}
                           </td>
-                          <td className="py-3 px-4 text-[#64748B]">
+                          <td className="py-3 px-4 text-[#647293]">
                             <p className="line-clamp-2">{JSON.stringify(log.details)}</p>
                           </td>
                         </tr>
@@ -1510,15 +1510,15 @@ export default function AdminPage() {
             {/* Header */}
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Trung tâm Quản trị API & SSI FastConnect Data</h1>
-                <p className="text-xs text-[#64748B] mt-0.5">Kết nối dữ liệu chứng khoán HOSE, HNX, UPCoM chính thống; quản lý key, kiểm tra độ trễ và đồng bộ dữ liệu</p>
+                <h1 className="text-2xl font-bold text-[#172554] tracking-tight">Trung tâm Quản trị API & SSI FastConnect Data</h1>
+                <p className="text-xs text-[#647293] mt-0.5">Kết nối dữ liệu chứng khoán HOSE, HNX, UPCoM chính thống; quản lý key, kiểm tra độ trễ và đồng bộ dữ liệu</p>
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   onClick={handleSyncSsi}
                   disabled={isSyncingSsi || isTestingSsi}
-                  className="px-4 py-2 rounded-xl bg-[#8B5CF6] hover:bg-[#7c3aed] text-white font-bold text-xs transition flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                  className="px-4 py-2 rounded-xl bg-[#8B36FF] hover:bg-[#7c3aed] text-white font-bold text-xs transition flex items-center gap-1.5 shadow-xs disabled:opacity-50"
                   title="Đồng bộ chỉ số và bảng giá cổ phiếu toàn sàn từ SSI"
                 >
                   <Zap className={`w-3.5 h-3.5 ${isSyncingSsi ? 'animate-spin' : ''}`} />
@@ -1528,7 +1528,7 @@ export default function AdminPage() {
                 <button
                   onClick={handleTestSsi}
                   disabled={isTestingSsi || isSyncingSsi}
-                  className="px-4 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-bold text-xs transition flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                  className="px-4 py-2 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white font-bold text-xs transition flex items-center gap-1.5 shadow-xs disabled:opacity-50"
                   title="Kiểm tra kết nối thực tế tới máy chủ SSI FastConnect"
                 >
                   <Radio className={`w-3.5 h-3.5 ${isTestingSsi ? 'animate-pulse' : ''}`} />
@@ -1537,19 +1537,19 @@ export default function AdminPage() {
 
                 <button
                   onClick={() => setIsConfigModalOpen(true)}
-                  className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] hover:bg-[#F5F8FC] text-[#172033] font-bold text-xs transition flex items-center gap-1.5 shadow-2xs"
+                  className="px-4 py-2 rounded-xl bg-white border border-[#DCE5FF] hover:bg-[#F4F7FF] text-[#172554] font-bold text-xs transition flex items-center gap-1.5 shadow-2xs"
                 >
-                  <Key className="w-3.5 h-3.5 text-[#008FD3]" />
+                  <Key className="w-3.5 h-3.5 text-[#087CFF]" />
                   <span>Cấu hình SSI FastConnect</span>
                 </button>
 
                 <button
                   onClick={loadApiCenter}
                   disabled={isLoadingApiCenter}
-                  className="p-2 rounded-xl bg-white border border-[#E2E8F0] hover:bg-[#F5F8FC] text-[#64748B] transition shadow-2xs"
+                  className="p-2 rounded-xl bg-white border border-[#DCE5FF] hover:bg-[#F4F7FF] text-[#647293] transition shadow-2xs"
                   title="Tải lại trạng thái"
                 >
-                  <RefreshCw className={`w-4 h-4 ${isLoadingApiCenter ? 'animate-spin text-[#008FD3]' : ''}`} />
+                  <RefreshCw className={`w-4 h-4 ${isLoadingApiCenter ? 'animate-spin text-[#087CFF]' : ''}`} />
                 </button>
               </div>
             </div>
@@ -1566,56 +1566,56 @@ export default function AdminPage() {
               const status: ApiConnectionStatus = ssi.status || (ssi.isConfigured ? 'CONFIGURED' : 'NOT_CONFIGURED');
 
               return (
-                <div className="bg-white rounded-3xl p-6 border border-[#E2E8F0] shadow-xs space-y-6">
+                <div className="bg-white rounded-3xl p-6 border border-[#DCE5FF] shadow-xs space-y-6">
                   {/* Card Header */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
+                  <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#DCE5FF]">
                     <div className="flex items-center gap-3.5">
-                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#008FD3]/20 to-[#8B5CF6]/20 border border-[#BAE6FD] flex items-center justify-center shrink-0">
-                        <Radio className="w-6 h-6 text-[#008FD3]" />
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#087CFF]/20 to-[#8B36FF]/20 border border-[#DCE5FF] flex items-center justify-center shrink-0">
+                        <Radio className="w-6 h-6 text-[#087CFF]" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-lg text-[#172033]">SSI FastConnect Data API v2.0</h3>
-                          <span className="text-[11px] px-2 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] font-mono font-bold">PROD</span>
+                          <h3 className="font-bold text-lg text-[#172554]">SSI FastConnect Data API v2.0</h3>
+                          <span className="text-[11px] px-2 py-0.5 rounded-full bg-[#EBF3FF] text-[#087CFF] font-mono font-bold">PROD</span>
                         </div>
-                        <p className="text-xs text-[#64748B] mt-0.5">Dữ liệu thị trường HOSE, HNX, UPCoM chính thống từ Công ty Cổ phần Chứng khoán SSI</p>
+                        <p className="text-xs text-[#647293] mt-0.5">Dữ liệu thị trường HOSE, HNX, UPCoM chính thống từ Công ty Cổ phần Chứng khoán SSI</p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-2">
                       {status === 'NOT_CONFIGURED' && (
-                        <span className="px-3.5 py-1 rounded-full bg-[#F1F5F9] border border-[#CBD5E1] text-[#64748B] text-xs font-bold inline-flex items-center gap-1.5">
+                        <span className="px-3.5 py-1 rounded-full bg-[#F4F7FF] border border-[#CBD5E1] text-[#647293] text-xs font-bold inline-flex items-center gap-1.5">
                           <span className="w-2 h-2 rounded-full bg-[#94A3B8]"></span>
                           CHƯA CẤU HÌNH
                         </span>
                       )}
                       {status === 'CONFIGURED' && (
-                        <span className="px-3.5 py-1 rounded-full bg-[#E0F2FE] border border-[#BAE6FD] text-[#008FD3] text-xs font-bold inline-flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#008FD3]"></span>
+                        <span className="px-3.5 py-1 rounded-full bg-[#EBF3FF] border border-[#DCE5FF] text-[#087CFF] text-xs font-bold inline-flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#087CFF]"></span>
                           ĐÃ CẤU HÌNH
                         </span>
                       )}
                       {status === 'TESTING' && (
-                        <span className="px-3.5 py-1 rounded-full bg-[#E0F2FE] border border-[#008FD3] text-[#008FD3] text-xs font-bold inline-flex items-center gap-1.5">
-                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#008FD3]" />
+                        <span className="px-3.5 py-1 rounded-full bg-[#EBF3FF] border border-[#087CFF] text-[#087CFF] text-xs font-bold inline-flex items-center gap-1.5">
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#087CFF]" />
                           ĐANG KIỂM TRA...
                         </span>
                       )}
                       {status === 'CONNECTED' && (
-                        <span className="px-3.5 py-1 rounded-full bg-[#D1FAE5] border border-[#6EE7B7] text-[#047857] text-xs font-bold inline-flex items-center gap-1.5 shadow-2xs">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-ping"></span>
+                        <span className="px-3.5 py-1 rounded-full bg-[#DCFCE7] border border-[#6EE7B7] text-[#047857] text-xs font-bold inline-flex items-center gap-1.5 shadow-2xs">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#16A34A] animate-ping"></span>
                           KẾT NỐI THÀNH CÔNG
                         </span>
                       )}
                       {(status === 'CONNECTION_FAILED' || status === 'ERROR') && (
-                        <span className="px-3.5 py-1 rounded-full bg-[#FFE4E6] border border-[#FECDD3] text-[#F43F5E] text-xs font-bold inline-flex items-center gap-1.5">
-                          <AlertCircle className="w-3.5 h-3.5 text-[#F43F5E]" />
+                        <span className="px-3.5 py-1 rounded-full bg-[#FEE2E2] border border-[#FEE2E2] text-[#EF4444] text-xs font-bold inline-flex items-center gap-1.5">
+                          <AlertCircle className="w-3.5 h-3.5 text-[#EF4444]" />
                           KẾT NỐI THẤT BẠI
                         </span>
                       )}
                       {status === 'SYNCING' && (
-                        <span className="px-3.5 py-1 rounded-full bg-[#EDE9FE] border border-[#DDD6FE] text-[#8B5CF6] text-xs font-bold inline-flex items-center gap-1.5">
-                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#8B5CF6]" />
+                        <span className="px-3.5 py-1 rounded-full bg-[#F3E8FF] border border-[#E9D5FF] text-[#8B36FF] text-xs font-bold inline-flex items-center gap-1.5">
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#8B36FF]" />
                           ĐANG ĐỒNG BỘ DỮ LIỆU...
                         </span>
                       )}
@@ -1630,7 +1630,7 @@ export default function AdminPage() {
 
                   {/* Warning / Error banner if any */}
                   {ssi.lastError && (
-                    <div className="p-3.5 rounded-2xl bg-[#FFE4E6] border border-[#FECDD3] text-[#F43F5E] text-xs flex items-start gap-2.5">
+                    <div className="p-3.5 rounded-2xl bg-[#FEE2E2] border border-[#FEE2E2] text-[#EF4444] text-xs flex items-start gap-2.5">
                       <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                       <div>
                         <strong className="block font-semibold">Thông báo từ hệ thống kiểm tra SSI:</strong>
@@ -1641,58 +1641,58 @@ export default function AdminPage() {
 
                   {/* Config & Metrics Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-                    <div className="p-3.5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-1">
-                      <span className="text-[#64748B] block">Consumer ID</span>
-                      <strong className="font-mono text-[#172033] block truncate font-bold">
+                    <div className="p-3.5 rounded-2xl bg-[#F4F7FF] border border-[#DCE5FF] space-y-1">
+                      <span className="text-[#647293] block">Consumer ID</span>
+                      <strong className="font-mono text-[#172554] block truncate font-bold">
                         {ssi.consumerId ? ssi.consumerId : <span className="text-[#94A3B8] font-normal">Chưa cấu hình</span>}
                       </strong>
                     </div>
 
-                    <div className="p-3.5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-1">
-                      <span className="text-[#64748B] block">Consumer Secret</span>
-                      <strong className="font-mono text-[#64748B] block">
+                    <div className="p-3.5 rounded-2xl bg-[#F4F7FF] border border-[#DCE5FF] space-y-1">
+                      <span className="text-[#647293] block">Consumer Secret</span>
+                      <strong className="font-mono text-[#647293] block">
                         {ssi.maskedSecret ? ssi.maskedSecret : <span className="text-[#94A3B8] font-normal">Chưa cấu hình</span>}
                       </strong>
                     </div>
 
-                    <div className="p-3.5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-1">
-                      <span className="text-[#64748B] block">Độ trễ phản hồi (Latency)</span>
-                      <strong className="font-mono text-base font-bold text-[#172033] block">
+                    <div className="p-3.5 rounded-2xl bg-[#F4F7FF] border border-[#DCE5FF] space-y-1">
+                      <span className="text-[#647293] block">Độ trễ phản hồi (Latency)</span>
+                      <strong className="font-mono text-base font-bold text-[#172554] block">
                         {ssi.lastLatencyMs ? `${ssi.lastLatencyMs} ms` : <span className="text-[#94A3B8] font-normal text-xs">Chưa đo</span>}
                       </strong>
                     </div>
 
-                    <div className="p-3.5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-1">
-                      <span className="text-[#64748B] block">Đồng bộ gần nhất</span>
-                      <strong className="font-mono text-[#172033] block">
+                    <div className="p-3.5 rounded-2xl bg-[#F4F7FF] border border-[#DCE5FF] space-y-1">
+                      <span className="text-[#647293] block">Đồng bộ gần nhất</span>
+                      <strong className="font-mono text-[#172554] block">
                         {ssi.lastSyncTime || <span className="text-[#94A3B8] font-normal">Chưa đồng bộ</span>}
                       </strong>
                     </div>
                   </div>
 
                   {/* Advanced Spec Rows */}
-                  <div className="bg-[#F8FAFC] rounded-2xl p-4 border border-[#E2E8F0] text-xs space-y-2">
+                  <div className="bg-[#F8FAFC] rounded-2xl p-4 border border-[#DCE5FF] text-xs space-y-2">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                       <div>
-                        <span className="text-[#64748B]">API Endpoint:</span>
-                        <code className="block font-mono text-[#008FD3] mt-0.5 truncate">{ssi.apiUrl}</code>
+                        <span className="text-[#647293]">API Endpoint:</span>
+                        <code className="block font-mono text-[#087CFF] mt-0.5 truncate">{ssi.apiUrl}</code>
                       </div>
                       <div>
-                        <span className="text-[#64748B]">Streaming Hub Endpoint:</span>
-                        <code className="block font-mono text-[#8B5CF6] mt-0.5 truncate">{ssi.streamingUrl}</code>
+                        <span className="text-[#647293]">Streaming Hub Endpoint:</span>
+                        <code className="block font-mono text-[#8B36FF] mt-0.5 truncate">{ssi.streamingUrl}</code>
                       </div>
                       <div>
-                        <span className="text-[#64748B]">Khóa ký RSA Private Key:</span>
-                        <strong className="block text-[#172033] mt-0.5">
+                        <span className="text-[#647293]">Khóa ký RSA Private Key:</span>
+                        <strong className="block text-[#172554] mt-0.5">
                           {ssi.hasPrivateKey ? '✅ Đã nạp RSA Key' : '⚪ Chưa thiết lập (Tùy chọn)'}
                         </strong>
                       </div>
                     </div>
 
                     {ssi.recordsSynced && (
-                      <div className="pt-2 border-t border-[#E2E8F0] flex flex-wrap items-center justify-between text-[#64748B]">
+                      <div className="pt-2 border-t border-[#DCE5FF] flex flex-wrap items-center justify-between text-[#647293]">
                         <span>Dữ liệu lưu trữ CSDL gần nhất ({ssi.recordsSynced.lastBatchTime}):</span>
-                        <div className="flex gap-4 font-mono font-bold text-[#172033]">
+                        <div className="flex gap-4 font-mono font-bold text-[#172554]">
                           <span>📈 {ssi.recordsSynced.indices} chỉ số thị trường</span>
                           <span>🏢 {ssi.recordsSynced.quotes} báo giá cổ phiếu</span>
                           <span>📜 {ssi.recordsSynced.securities} mã niêm yết</span>
@@ -1703,24 +1703,24 @@ export default function AdminPage() {
 
                   {/* Action Bar */}
                   <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-                    <div className="text-xs text-[#64748B] flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-[#10B981]" />
+                    <div className="text-xs text-[#647293] flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-[#16A34A]" />
                       <span>Xác thực 2 chiều OAuth 2.0 / Access Token tự động gia hạn an toàn</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setIsConfigModalOpen(true)}
-                        className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] hover:bg-[#F5F8FC] text-[#172033] text-xs font-bold transition flex items-center gap-1.5"
+                        className="px-4 py-2 rounded-xl bg-white border border-[#DCE5FF] hover:bg-[#F4F7FF] text-[#172554] text-xs font-bold transition flex items-center gap-1.5"
                       >
-                        <Settings className="w-3.5 h-3.5 text-[#64748B]" />
+                        <Settings className="w-3.5 h-3.5 text-[#647293]" />
                         <span>Chỉnh sửa cấu hình</span>
                       </button>
 
                       <button
                         onClick={handleTestSsi}
                         disabled={isTestingSsi}
-                        className="px-4 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white text-xs font-bold transition flex items-center gap-1.5 disabled:opacity-50"
+                        className="px-4 py-2 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white text-xs font-bold transition flex items-center gap-1.5 disabled:opacity-50"
                       >
                         <RefreshCw className={`w-3.5 h-3.5 ${isTestingSsi ? 'animate-spin' : ''}`} />
                         <span>Kiểm tra kết nối thực tế</span>
@@ -1729,7 +1729,7 @@ export default function AdminPage() {
                       <button
                         onClick={handleSyncSsi}
                         disabled={isSyncingSsi}
-                        className="px-4 py-2 rounded-xl bg-[#8B5CF6] hover:bg-[#7c3aed] text-white text-xs font-bold transition flex items-center gap-1.5 disabled:opacity-50"
+                        className="px-4 py-2 rounded-xl bg-[#8B36FF] hover:bg-[#7c3aed] text-white text-xs font-bold transition flex items-center gap-1.5 disabled:opacity-50"
                       >
                         <Zap className={`w-3.5 h-3.5 ${isSyncingSsi ? 'animate-spin' : ''}`} />
                         <span>Đồng bộ toàn sàn</span>
@@ -1742,25 +1742,25 @@ export default function AdminPage() {
 
             {/* Other Providers Grid */}
             <div>
-              <h3 className="font-bold text-base text-[#172033] mb-3">Các nhà cung cấp dữ liệu phụ trợ</h3>
+              <h3 className="font-bold text-base text-[#172554] mb-3">Các nhà cung cấp dữ liệu phụ trợ</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {(apiCenterData?.providers || []).filter(p => p.code !== 'SSI').map(p => (
-                  <div key={p.id} className="bg-white rounded-2xl p-4 border border-[#E2E8F0] shadow-xs flex flex-col justify-between space-y-3">
+                  <div key={p.id} className="bg-white rounded-2xl p-4 border border-[#DCE5FF] shadow-xs flex flex-col justify-between space-y-3">
                     <div>
                       <div className="flex items-center justify-between">
-                        <h4 className="font-bold text-sm text-[#172033]">{p.name}</h4>
+                        <h4 className="font-bold text-sm text-[#172554]">{p.name}</h4>
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                          p.status === 'CONNECTED' ? 'bg-[#D1FAE5] text-[#10B981]' : 
-                          p.status === 'NOT_CONFIGURED' ? 'bg-[#F1F5F9] text-[#64748B]' : 'bg-[#FFE4E6] text-[#F43F5E]'
+                          p.status === 'CONNECTED' ? 'bg-[#DCFCE7] text-[#16A34A]' : 
+                          p.status === 'NOT_CONFIGURED' ? 'bg-[#F4F7FF] text-[#647293]' : 'bg-[#FEE2E2] text-[#EF4444]'
                         }`}>
                           {p.status === 'CONNECTED' ? 'HOẠT ĐỘNG' : p.status === 'NOT_CONFIGURED' ? 'CHƯA CẤU HÌNH' : 'LỖI'}
                         </span>
                       </div>
-                      <p className="text-xs text-[#64748B] mt-1 line-clamp-2">{p.description}</p>
+                      <p className="text-xs text-[#647293] mt-1 line-clamp-2">{p.description}</p>
                     </div>
 
-                    <div className="pt-2 border-t border-[#F1F5F9] flex items-center justify-between text-xs">
-                      <span className="text-[#64748B] font-mono">{p.responseTimeMs ? `${p.responseTimeMs} ms` : 'N/A'}</span>
+                    <div className="pt-2 border-t border-[#F4F7FF] flex items-center justify-between text-xs">
+                      <span className="text-[#647293] font-mono">{p.responseTimeMs ? `${p.responseTimeMs} ms` : 'N/A'}</span>
                       <button
                         onClick={async () => {
                           const res = await fetch('/api/api-center', {
@@ -1772,7 +1772,7 @@ export default function AdminPage() {
                           showToast(json.success ? `✅ ${json.data.message}` : `❌ ${json.data?.message || json.message}`);
                           loadApiCenter();
                         }}
-                        className="text-[#008FD3] hover:underline font-bold text-[11px]"
+                        className="text-[#087CFF] hover:underline font-bold text-[11px]"
                       >
                         Kiểm tra
                       </button>
@@ -1783,22 +1783,22 @@ export default function AdminPage() {
             </div>
 
             {/* Sync Logs Table */}
-            <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-xs overflow-hidden">
-              <div className="p-5 border-b border-[#E2E8F0] flex flex-wrap items-center justify-between gap-4">
+            <div className="bg-white rounded-3xl border border-[#DCE5FF] shadow-xs overflow-hidden">
+              <div className="p-5 border-b border-[#DCE5FF] flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-[#008FD3]" />
-                  <h3 className="font-bold text-base text-[#172033]">Nhật ký đồng bộ & Kiểm tra kết nối API (API Sync Logs)</h3>
+                  <Clock className="w-5 h-5 text-[#087CFF]" />
+                  <h3 className="font-bold text-base text-[#172554]">Nhật ký đồng bộ & Kiểm tra kết nối API (API Sync Logs)</h3>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
+                  <div className="flex items-center gap-1.5 text-xs text-[#647293]">
                     <span>Lọc:</span>
                     {['ALL', 'SUCCESS', 'ERROR'].map(f => (
                       <button
                         key={f}
                         onClick={() => setApiLogFilter(f)}
                         className={`px-2.5 py-1 rounded-lg font-semibold transition ${
-                          apiLogFilter === f ? 'bg-[#008FD3] text-white' : 'bg-[#F1F5F9] text-[#64748B] hover:bg-[#E2E8F0]'
+                          apiLogFilter === f ? 'bg-[#087CFF] text-white' : 'bg-[#F4F7FF] text-[#647293] hover:bg-[#DCE5FF]'
                         }`}
                       >
                         {f === 'ALL' ? 'Tất cả' : f === 'SUCCESS' ? 'Thành công' : 'Lỗi'}
@@ -1808,7 +1808,7 @@ export default function AdminPage() {
 
                   <button
                     onClick={handleClearLogs}
-                    className="p-1.5 text-[#94A3B8] hover:text-[#F43F5E] hover:bg-[#FFE4E6] rounded-xl transition"
+                    className="p-1.5 text-[#94A3B8] hover:text-[#EF4444] hover:bg-[#FEE2E2] rounded-xl transition"
                     title="Xóa lịch sử nhật ký"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -1819,7 +1819,7 @@ export default function AdminPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-[11pt]">
                   <thead>
-                    <tr className="bg-[#F5F8FC] text-[#64748B] text-[11pt] font-semibold border-b border-[#E2E8F0]">
+                    <tr className="bg-[#F4F7FF] text-[#647293] text-[11pt] font-semibold border-b border-[#DCE5FF]">
                       <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Thời gian</th>
                       <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Nhà cung cấp</th>
                       <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Tác vụ</th>
@@ -1828,7 +1828,7 @@ export default function AdminPage() {
                       <th className="py-3 px-4 font-semibold text-left">Thông điệp chi tiết / Số bản ghi</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#F1F5F9] text-[11pt]">
+                  <tbody className="divide-y divide-[#F4F7FF] text-[11pt]">
                     {(() => {
                       const logs = (apiCenterData?.logs || []).filter(l => {
                         if (apiLogFilter === 'ALL') return true;
@@ -1838,7 +1838,7 @@ export default function AdminPage() {
                       if (logs.length === 0) {
                         return (
                           <tr>
-                            <td colSpan={6} className="py-8 text-center text-[#64748B] text-[11pt]">
+                            <td colSpan={6} className="py-8 text-center text-[#647293] text-[11pt]">
                               Chưa có nhật ký đồng bộ nào được ghi nhận.
                             </td>
                           </tr>
@@ -1847,26 +1847,26 @@ export default function AdminPage() {
 
                       return logs.map((log, idx) => (
                         <tr key={log.id || idx} className="hover:bg-[#F8FAFC] transition h-[44px]">
-                          <td className="py-2.5 px-4 font-mono text-[#64748B] text-[11pt] whitespace-nowrap tabular-nums">
+                          <td className="py-2.5 px-4 font-mono text-[#647293] text-[11pt] whitespace-nowrap tabular-nums">
                             {log.timestamp}
                           </td>
-                          <td className="py-2.5 px-3 font-semibold text-[#008FD3] text-[11pt] whitespace-nowrap">
+                          <td className="py-2.5 px-3 font-semibold text-[#087CFF] text-[11pt] whitespace-nowrap">
                             {log.provider}
                           </td>
-                          <td className="py-2.5 px-3 text-[#172033] font-mono text-[11pt] whitespace-nowrap">
+                          <td className="py-2.5 px-3 text-[#172554] font-mono text-[11pt] whitespace-nowrap">
                             {log.action}
                           </td>
                           <td className="py-2.5 px-3 text-center whitespace-nowrap">
                             <span className={`px-2.5 py-0.5 rounded-full text-[11pt] font-bold ${
-                              log.status === 'SUCCESS' ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#FFE4E6] text-[#F43F5E]'
+                              log.status === 'SUCCESS' ? 'bg-[#DCFCE7] text-[#16A34A]' : 'bg-[#FEE2E2] text-[#EF4444]'
                             }`}>
                               {log.status === 'SUCCESS' ? 'THÀNH CÔNG' : 'LỖI'}
                             </span>
                           </td>
-                          <td className="py-2.5 px-3 text-right font-mono text-[#172033] tabular-nums text-[11pt] whitespace-nowrap">
+                          <td className="py-2.5 px-3 text-right font-mono text-[#172554] tabular-nums text-[11pt] whitespace-nowrap">
                             {log.latencyMs ? `${log.latencyMs} ms` : '-'}
                           </td>
-                          <td className="py-2.5 px-4 text-[#172033] text-[11pt]">
+                          <td className="py-2.5 px-4 text-[#172554] text-[11pt]">
                             {log.message}
                           </td>
                         </tr>
@@ -1885,14 +1885,14 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Quản trị Tín hiệu T+ & Cảnh báo</h1>
-                <p className="text-xs text-[#64748B] mt-0.5">Giám sát toàn bộ tín hiệu sàng lọc T+1–T+5 và lịch sử cảnh báo dòng tiền bứt phá trên HOSE, HNX, UPCoM</p>
+                <h1 className="text-2xl font-bold text-[#172554] tracking-tight">Quản trị Tín hiệu T+ & Cảnh báo</h1>
+                <p className="text-xs text-[#647293] mt-0.5">Giám sát toàn bộ tín hiệu sàng lọc T+1–T+5 và lịch sử cảnh báo dòng tiền bứt phá trên HOSE, HNX, UPCoM</p>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={loadSignalsAlerts}
                   disabled={isLoadingSignalsAlerts}
-                  className="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#008FD3] hover:bg-[#E0F2FE] transition flex items-center gap-1.5 shadow-2xs"
+                  className="px-3.5 py-1.5 rounded-xl bg-white border border-[#DCE5FF] text-xs font-semibold text-[#087CFF] hover:bg-[#EBF3FF] transition flex items-center gap-1.5 shadow-2xs"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isLoadingSignalsAlerts ? 'animate-spin' : ''}`} />
                   <span>Làm mới</span>
@@ -1902,49 +1902,49 @@ export default function AdminPage() {
 
             {/* 4 KPI Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
-                <span className="text-[11px] text-[#64748B] font-medium block">Tín hiệu T+1–T+5 hiện có</span>
-                <span className="text-2xl font-bold text-[#008FD3] font-mono tabular-nums block">
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1">
+                <span className="text-[11px] text-[#647293] font-medium block">Tín hiệu T+1–T+5 hiện có</span>
+                <span className="text-2xl font-bold text-[#087CFF] font-mono tabular-nums block">
                   {signalsAlertsData?.stats?.totalSignals || 0}
                 </span>
-                <span className="text-[10px] text-[#10B981] font-semibold">Tỷ lệ R:R &gt;= 1.5</span>
+                <span className="text-[10px] text-[#16A34A] font-semibold">Tỷ lệ R:R &gt;= 1.5</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
-                <span className="text-[11px] text-[#64748B] font-medium block">Tổng cảnh báo V2</span>
-                <span className="text-2xl font-bold text-[#172033] font-mono tabular-nums block">
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1">
+                <span className="text-[11px] text-[#647293] font-medium block">Tổng cảnh báo V2</span>
+                <span className="text-2xl font-bold text-[#172554] font-mono tabular-nums block">
                   {signalsAlertsData?.stats?.totalAlerts || 0}
                 </span>
-                <span className="text-[10px] text-[#64748B]">Bứt phá, vol surge, chuỗi tăng</span>
+                <span className="text-[10px] text-[#647293]">Bứt phá, vol surge, chuỗi tăng</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
-                <span className="text-[11px] text-[#64748B] font-medium block">Cảnh báo đang hoạt động</span>
-                <span className="text-2xl font-bold text-[#059669] font-mono tabular-nums block">
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1">
+                <span className="text-[11px] text-[#647293] font-medium block">Cảnh báo đang hoạt động</span>
+                <span className="text-2xl font-bold text-[#15803D] font-mono tabular-nums block">
                   {signalsAlertsData?.stats?.activeAlertsCount || 0}
                 </span>
-                <span className="text-[10px] text-[#059669] font-semibold">Trạng thái NEW &amp; CONFIRMED</span>
+                <span className="text-[10px] text-[#15803D] font-semibold">Trạng thái NEW &amp; CONFIRMED</span>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs space-y-1">
-                <span className="text-[11px] text-[#64748B] font-medium block">Kiểm soát trùng lặp</span>
-                <span className="text-2xl font-bold text-[#10B981] font-mono tabular-nums block">
+              <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-2xs space-y-1">
+                <span className="text-[11px] text-[#647293] font-medium block">Kiểm soát trùng lặp</span>
+                <span className="text-2xl font-bold text-[#16A34A] font-mono tabular-nums block">
                   {signalsAlertsData?.stats?.duplicateSignalsCount || 0} trùng
                 </span>
-                <span className="text-[10px] text-[#10B981] font-semibold">Chống trùng lặp tuyệt đối</span>
+                <span className="text-[10px] text-[#16A34A] font-semibold">Chống trùng lặp tuyệt đối</span>
               </div>
             </div>
 
             {/* Filter Bar & Sub-tabs */}
-            <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-3">
+            <div className="bg-white p-4 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2 bg-[#F8FAFC] p-1 rounded-xl border border-[#E2E8F0]">
+                <div className="flex items-center gap-2 bg-[#F8FAFC] p-1 rounded-xl border border-[#DCE5FF]">
                   <button
                     onClick={() => setSignalsSubTab('signals')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                       signalsSubTab === 'signals'
-                        ? 'bg-white text-[#008FD3] shadow-xs font-bold'
-                        : 'text-[#64748B] hover:text-[#172033]'
+                        ? 'bg-white text-[#087CFF] shadow-xs font-bold'
+                        : 'text-[#647293] hover:text-[#172554]'
                     }`}
                   >
                     Tín hiệu T+1–T+5 ({signalsAlertsData?.signals?.length || 0})
@@ -1953,8 +1953,8 @@ export default function AdminPage() {
                     onClick={() => setSignalsSubTab('alerts')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                       signalsSubTab === 'alerts'
-                        ? 'bg-white text-[#008FD3] shadow-xs font-bold'
-                        : 'text-[#64748B] hover:text-[#172033]'
+                        ? 'bg-white text-[#087CFF] shadow-xs font-bold'
+                        : 'text-[#647293] hover:text-[#172554]'
                     }`}
                   >
                     Cảnh báo thị trường V2 ({signalsAlertsData?.alerts?.length || 0})
@@ -1962,7 +1962,7 @@ export default function AdminPage() {
                 </div>
 
                 <div className="flex items-center gap-2 text-xs">
-                  <div className="flex items-center gap-1 bg-[#F8FAFC] p-1 rounded-xl border border-[#E2E8F0]">
+                  <div className="flex items-center gap-1 bg-[#F8FAFC] p-1 rounded-xl border border-[#DCE5FF]">
                     {['ALL', 'HOSE', 'HNX', 'UPCOM'].map((ex) => (
                       <button
                         key={ex}
@@ -1972,8 +1972,8 @@ export default function AdminPage() {
                         }}
                         className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition ${
                           signalsExchangeFilter === ex
-                            ? 'bg-white text-[#008FD3] shadow-2xs font-bold'
-                            : 'text-[#64748B] hover:text-[#172033]'
+                            ? 'bg-white text-[#087CFF] shadow-2xs font-bold'
+                            : 'text-[#647293] hover:text-[#172554]'
                         }`}
                       >
                         {ex === 'ALL' ? 'Tất cả sàn' : ex}
@@ -1989,7 +1989,7 @@ export default function AdminPage() {
                       onChange={(e) => setSignalsSearch(e.target.value)}
                       onKeyDown={(e) => { if (e.key === 'Enter') loadSignalsAlerts(); }}
                       placeholder="Tìm mã hoặc ngành..."
-                      className="pl-8 pr-3 py-1.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-xs font-semibold uppercase text-[#172033]"
+                      className="pl-8 pr-3 py-1.5 bg-[#F8FAFC] border border-[#DCE5FF] rounded-xl text-xs font-semibold uppercase text-[#172554]"
                     />
                   </div>
                 </div>
@@ -1998,17 +1998,17 @@ export default function AdminPage() {
 
             {/* Content Table */}
             {signalsSubTab === 'signals' ? (
-              <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
-                <div className="p-3.5 px-4 border-b border-[#E2E8F0] flex items-center justify-between">
-                  <h3 className="text-xs font-bold text-[#172033] uppercase tracking-wider">
+              <div className="bg-white rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
+                <div className="p-3.5 px-4 border-b border-[#DCE5FF] flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-[#172554] uppercase tracking-wider">
                     Danh sách Tín hiệu T+1–T+5 đã sàng lọc
                   </h3>
-                  <span className="text-[11px] text-[#64748B]">Tổng: {signalsAlertsData?.signals?.length || 0} mã</span>
+                  <span className="text-[11px] text-[#647293]">Tổng: {signalsAlertsData?.signals?.length || 0} mã</span>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="bg-[#F8FAFC] text-[#64748B] text-[11px] font-semibold border-b border-[#E2E8F0]">
+                      <tr className="bg-[#F8FAFC] text-[#647293] text-[11px] font-semibold border-b border-[#DCE5FF]">
                         <th className="py-2.5 px-3.5">Mã CP</th>
                         <th className="py-2.5 px-3">Sàn &amp; Ngành</th>
                         <th className="py-2.5 px-3">Chiến lược</th>
@@ -2021,30 +2021,30 @@ export default function AdminPage() {
                         <th className="py-2.5 px-3.5 text-center">Rủi ro</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#F1F5F9]">
+                    <tbody className="divide-y divide-[#F4F7FF]">
                       {signalsAlertsData?.signals?.map((s: any) => (
                         <tr key={s.id} className="hover:bg-[#F8FAFC] transition">
-                          <td className="py-2.5 px-3.5 font-bold text-[#008FD3] text-[13px]">{s.symbol}</td>
+                          <td className="py-2.5 px-3.5 font-bold text-[#087CFF] text-[13px]">{s.symbol}</td>
                           <td className="py-2.5 px-3">
-                            <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-[#E0F2FE] text-[#0284C7] mr-1.5">
+                            <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-[#EBF3FF] text-[#087CFF] mr-1.5">
                               {s.exchange}
                             </span>
-                            <span className="text-[#64748B] text-[11px]">{s.industry || 'Chung'}</span>
+                            <span className="text-[#647293] text-[11px]">{s.industry || 'Chung'}</span>
                           </td>
-                          <td className="py-2.5 px-3 font-semibold text-[#172033]">{s.strategy}</td>
+                          <td className="py-2.5 px-3 font-semibold text-[#172554]">{s.strategy}</td>
                           <td className="py-2.5 px-3 text-center">
-                            <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#D1FAE5] text-[#059669] font-mono">
+                            <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#DCFCE7] text-[#15803D] font-mono">
                               {s.t3Score}
                             </span>
                           </td>
-                          <td className="py-2.5 px-3 text-right font-mono text-[#172033] font-semibold">{s.buyZone}</td>
-                          <td className="py-2.5 px-3 text-right font-mono text-[#10B981] font-bold">{s.targetPrice}</td>
+                          <td className="py-2.5 px-3 text-right font-mono text-[#172554] font-semibold">{s.buyZone}</td>
+                          <td className="py-2.5 px-3 text-right font-mono text-[#16A34A] font-bold">{s.targetPrice}</td>
                           <td className="py-2.5 px-3 text-right font-mono text-[#EF4444] font-medium">{s.stopLoss}</td>
-                          <td className="py-2.5 px-3 text-center font-mono font-bold text-[#008FD3]">{s.rewardRiskRatio}</td>
-                          <td className="py-2.5 px-3 text-[#64748B] text-[11px]">{s.holdingDays}</td>
+                          <td className="py-2.5 px-3 text-center font-mono font-bold text-[#087CFF]">{s.rewardRiskRatio}</td>
+                          <td className="py-2.5 px-3 text-[#647293] text-[11px]">{s.holdingDays}</td>
                           <td className="py-2.5 px-3.5 text-center">
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                              s.riskLevel === 'Thấp' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-[#FEF3C7] text-[#D97706]'
+                              s.riskLevel === 'Thấp' ? 'bg-[#DCFCE7] text-[#15803D]' : 'bg-[#FEF3C7] text-[#D97706]'
                             }`}>
                               {s.riskLevel}
                             </span>
@@ -2056,17 +2056,17 @@ export default function AdminPage() {
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
-                <div className="p-3.5 px-4 border-b border-[#E2E8F0] flex items-center justify-between">
-                  <h3 className="text-xs font-bold text-[#172033] uppercase tracking-wider">
+              <div className="bg-white rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
+                <div className="p-3.5 px-4 border-b border-[#DCE5FF] flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-[#172554] uppercase tracking-wider">
                     Lịch sử Cảnh báo Thị trường &amp; Dòng tiền
                   </h3>
-                  <span className="text-[11px] text-[#64748B]">Tổng: {signalsAlertsData?.alerts?.length || 0} cảnh báo</span>
+                  <span className="text-[11px] text-[#647293]">Tổng: {signalsAlertsData?.alerts?.length || 0} cảnh báo</span>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="bg-[#F8FAFC] text-[#64748B] text-[11px] font-semibold border-b border-[#E2E8F0]">
+                      <tr className="bg-[#F8FAFC] text-[#647293] text-[11px] font-semibold border-b border-[#DCE5FF]">
                         <th className="py-2.5 px-3.5">Thời gian</th>
                         <th className="py-2.5 px-3">Mã CP</th>
                         <th className="py-2.5 px-3">Sự kiện</th>
@@ -2078,25 +2078,25 @@ export default function AdminPage() {
                         <th className="py-2.5 px-3.5 text-center">Thao tác Admin</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#F1F5F9]">
+                    <tbody className="divide-y divide-[#F4F7FF]">
                       {signalsAlertsData?.alerts?.map((a: any) => (
                         <tr key={a.id} className="hover:bg-[#F8FAFC] transition">
-                          <td className="py-2.5 px-3.5 text-[#64748B] text-[11px] font-mono">{a.detectedAt.slice(0, 19)}</td>
-                          <td className="py-2.5 px-3 font-bold text-[#008FD3]">
-                            {a.symbol} <span className="text-[10px] text-[#64748B] font-normal">({a.exchange})</span>
+                          <td className="py-2.5 px-3.5 text-[#647293] text-[11px] font-mono">{a.detectedAt.slice(0, 19)}</td>
+                          <td className="py-2.5 px-3 font-bold text-[#087CFF]">
+                            {a.symbol} <span className="text-[10px] text-[#647293] font-normal">({a.exchange})</span>
                           </td>
                           <td className="py-2.5 px-3">
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#E0F2FE] text-[#0284C7]">
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#EBF3FF] text-[#087CFF]">
                               {a.eventType}
                             </span>
                           </td>
-                          <td className="py-2.5 px-3 text-[11px] text-[#172033] max-w-xs truncate" title={a.description}>
+                          <td className="py-2.5 px-3 text-[11px] text-[#172554] max-w-xs truncate" title={a.description}>
                             {a.description}
                           </td>
-                          <td className="py-2.5 px-3 text-right font-mono font-medium text-[#64748B]">
+                          <td className="py-2.5 px-3 text-right font-mono font-medium text-[#647293]">
                             {a.alertPrice.toLocaleString('vi-VN')} đ
                           </td>
-                          <td className="py-2.5 px-3 text-right font-mono font-bold text-[#172033]">
+                          <td className="py-2.5 px-3 text-right font-mono font-bold text-[#172554]">
                             {a.currentPrice.toLocaleString('vi-VN')} đ
                           </td>
                           <td className="py-2.5 px-3 text-right font-mono font-bold text-[#9333EA]">
@@ -2104,9 +2104,9 @@ export default function AdminPage() {
                           </td>
                           <td className="py-2.5 px-3 text-center">
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                              a.status === 'CONFIRMED' ? 'bg-[#D1FAE5] text-[#059669]' :
+                              a.status === 'CONFIRMED' ? 'bg-[#DCFCE7] text-[#15803D]' :
                               a.status === 'FAILED' ? 'bg-[#FEE2E2] text-[#DC2626]' :
-                              a.status === 'CLOSED' ? 'bg-[#F1F5F9] text-[#64748B]' : 'bg-[#FEF3C7] text-[#D97706]'
+                              a.status === 'CLOSED' ? 'bg-[#F4F7FF] text-[#647293]' : 'bg-[#FEF3C7] text-[#D97706]'
                             }`}>
                               {a.status}
                             </span>
@@ -2137,14 +2137,14 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-[#172033] tracking-tight">Cấu hình Hệ thống & Dữ liệu</h1>
-                <p className="text-xs text-[#64748B] mt-0.5">Giám sát đường truyền dữ liệu SSI, tích hợp Pay2S và tài khoản VietQR</p>
+                <h1 className="text-2xl font-bold text-[#172554] tracking-tight">Cấu hình Hệ thống & Dữ liệu</h1>
+                <p className="text-xs text-[#647293] mt-0.5">Giám sát đường truyền dữ liệu SSI, tích hợp Pay2S và tài khoản VietQR</p>
               </div>
 
               <button
                 onClick={loadSystem}
                 disabled={isLoadingSystem}
-                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#008FD3] hover:bg-[#E0F2FE] transition flex items-center gap-1.5 shadow-2xs"
+                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#DCE5FF] text-xs font-semibold text-[#087CFF] hover:bg-[#EBF3FF] transition flex items-center gap-1.5 shadow-2xs"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isLoadingSystem ? 'animate-spin' : ''}`} />
                 <span>Làm mới</span>
@@ -2153,17 +2153,17 @@ export default function AdminPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* SSI FastConnect Card */}
-              <div className="bg-white p-6 rounded-3xl border border-[#E2E8F0] shadow-xs space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+              <div className="bg-white p-6 rounded-3xl border border-[#DCE5FF] shadow-xs space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF]">
                   <div className="flex items-center gap-2">
-                    <Radio className="w-5 h-5 text-[#008FD3]" />
-                    <h3 className="font-bold text-base text-[#172033]">SSI FastConnect Securities API</h3>
+                    <Radio className="w-5 h-5 text-[#087CFF]" />
+                    <h3 className="font-bold text-base text-[#172554]">SSI FastConnect Securities API</h3>
                   </div>
                   <span className={`px-2.5 py-0.5 rounded-full font-bold text-xs ${
-                    systemData?.ssi?.status === 'CONNECTED' ? 'bg-[#D1FAE5] text-[#10B981]' :
-                    systemData?.ssi?.status === 'CONFIGURED' ? 'bg-[#E0F2FE] text-[#008FD3]' :
-                    systemData?.ssi?.status === 'CONNECTION_FAILED' ? 'bg-[#FFE4E6] text-[#F43F5E]' :
-                    'bg-[#F1F5F9] text-[#64748B]'
+                    systemData?.ssi?.status === 'CONNECTED' ? 'bg-[#DCFCE7] text-[#16A34A]' :
+                    systemData?.ssi?.status === 'CONFIGURED' ? 'bg-[#EBF3FF] text-[#087CFF]' :
+                    systemData?.ssi?.status === 'CONNECTION_FAILED' ? 'bg-[#FEE2E2] text-[#EF4444]' :
+                    'bg-[#F4F7FF] text-[#647293]'
                   }`}>
                     {systemData?.ssi?.status === 'CONNECTED' ? 'KẾT NỐI THÀNH CÔNG' :
                      systemData?.ssi?.status === 'CONFIGURED' ? 'ĐÃ CẤU HÌNH' :
@@ -2172,28 +2172,28 @@ export default function AdminPage() {
                 </div>
 
                 <div className="space-y-2 text-xs">
-                  <div className="flex justify-between py-1 border-b border-[#F1F5F9]">
-                    <span className="text-[#64748B]">Consumer ID:</span>
-                    <strong className="font-mono text-[#172033]">{systemData?.ssi?.consumerId || 'Chưa thiết lập'}</strong>
+                  <div className="flex justify-between py-1 border-b border-[#F4F7FF]">
+                    <span className="text-[#647293]">Consumer ID:</span>
+                    <strong className="font-mono text-[#172554]">{systemData?.ssi?.consumerId || 'Chưa thiết lập'}</strong>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-[#F1F5F9]">
-                    <span className="text-[#64748B]">Độ trễ phản hồi:</span>
-                    <strong className="font-mono text-[#172033]">{systemData?.ssi?.responseTimeMs ? `${systemData.ssi.responseTimeMs}ms` : 'Chưa đo'}</strong>
+                  <div className="flex justify-between py-1 border-b border-[#F4F7FF]">
+                    <span className="text-[#647293]">Độ trễ phản hồi:</span>
+                    <strong className="font-mono text-[#172554]">{systemData?.ssi?.responseTimeMs ? `${systemData.ssi.responseTimeMs}ms` : 'Chưa đo'}</strong>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-[#F1F5F9]">
-                    <span className="text-[#64748B]">Cập nhật phiên gần nhất:</span>
-                    <strong className="font-mono text-[#172033]">{systemData?.ssi?.lastSyncTime || 'Chưa đồng bộ'}</strong>
+                  <div className="flex justify-between py-1 border-b border-[#F4F7FF]">
+                    <span className="text-[#647293]">Cập nhật phiên gần nhất:</span>
+                    <strong className="font-mono text-[#172554]">{systemData?.ssi?.lastSyncTime || 'Chưa đồng bộ'}</strong>
                   </div>
                   <div className="flex justify-between py-1">
-                    <span className="text-[#64748B]">Chất lượng dữ liệu:</span>
-                    <strong className="text-[#10B981]">{systemData?.ssi?.dataQuality || 'Chưa xác thực'}</strong>
+                    <span className="text-[#647293]">Chất lượng dữ liệu:</span>
+                    <strong className="text-[#16A34A]">{systemData?.ssi?.dataQuality || 'Chưa xác thực'}</strong>
                   </div>
                 </div>
 
                 <div className="flex gap-2">
                   <button
                     onClick={() => setActiveTab('api-center')}
-                    className="flex-1 py-2.5 rounded-xl bg-[#F5F8FC] hover:bg-[#E0F2FE] border border-[#E2E8F0] text-[#008FD3] font-bold text-xs transition"
+                    className="flex-1 py-2.5 rounded-xl bg-[#F4F7FF] hover:bg-[#EBF3FF] border border-[#DCE5FF] text-[#087CFF] font-bold text-xs transition"
                   >
                     Mở Trung tâm API
                   </button>
@@ -2208,7 +2208,7 @@ export default function AdminPage() {
                       showToast(json.success ? `✅ ${json.message}` : `❌ ${json.message}`);
                       loadSystem();
                     }}
-                    className="py-2.5 px-4 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-bold text-xs transition"
+                    className="py-2.5 px-4 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white font-bold text-xs transition"
                   >
                     Ping
                   </button>
@@ -2216,37 +2216,37 @@ export default function AdminPage() {
               </div>
 
               {/* Pay2S Payment Gateway Card */}
-              <div className="bg-white p-6 rounded-3xl border border-[#E2E8F0] shadow-xs space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+              <div className="bg-white p-6 rounded-3xl border border-[#DCE5FF] shadow-xs space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF]">
                   <div className="flex items-center gap-2">
-                    <CreditCard className="w-5 h-5 text-[#008FD3]" />
-                    <h3 className="font-bold text-base text-[#172033]">Cổng thanh toán Pay2S</h3>
+                    <CreditCard className="w-5 h-5 text-[#087CFF]" />
+                    <h3 className="font-bold text-base text-[#172554]">Cổng thanh toán Pay2S</h3>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] font-bold text-xs">
+                  <span className="px-2 py-0.5 rounded-full bg-[#DCFCE7] text-[#16A34A] font-bold text-xs">
                     SẴN SÀNG
                   </span>
                 </div>
 
                 <div className="space-y-2 text-xs">
-                  <div className="flex justify-between py-1 border-b border-[#F1F5F9]">
-                    <span className="text-[#64748B]">Merchant ID:</span>
-                    <strong className="font-mono text-[#172033]">P2S_STOCKAI_LIVE</strong>
+                  <div className="flex justify-between py-1 border-b border-[#F4F7FF]">
+                    <span className="text-[#647293]">Merchant ID:</span>
+                    <strong className="font-mono text-[#172554]">P2S_STOCKAI_LIVE</strong>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-[#F1F5F9]">
-                    <span className="text-[#64748B]">Secret Key:</span>
-                    <strong className="font-mono text-[#64748B]">••••••••••••••••••••••••</strong>
+                  <div className="flex justify-between py-1 border-b border-[#F4F7FF]">
+                    <span className="text-[#647293]">Secret Key:</span>
+                    <strong className="font-mono text-[#647293]">••••••••••••••••••••••••</strong>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-[#F1F5F9]">
-                    <span className="text-[#64748B]">Webhook IPN Endpoint:</span>
-                    <strong className="font-mono text-[#008FD3] text-[11px]">/api/payments/webhook</strong>
+                  <div className="flex justify-between py-1 border-b border-[#F4F7FF]">
+                    <span className="text-[#647293]">Webhook IPN Endpoint:</span>
+                    <strong className="font-mono text-[#087CFF] text-[11px]">/api/payments/webhook</strong>
                   </div>
                   <div className="flex justify-between py-1">
-                    <span className="text-[#64748B]">Cơ chế Idempotency:</span>
-                    <strong className="text-[#10B981]">Bật (Chống ghi nhận trùng)</strong>
+                    <span className="text-[#647293]">Cơ chế Idempotency:</span>
+                    <strong className="text-[#16A34A]">Bật (Chống ghi nhận trùng)</strong>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-[11px] text-[#64748B]">
+                <div className="p-3 rounded-xl bg-[#F4F7FF] border border-[#DCE5FF] text-[11px] text-[#647293]">
                   🛡️ Theo quy định bảo mật, khóa bí mật API Secret không được hiển thị nguyên văn trên giao diện người dùng.
                 </div>
               </div>
@@ -2258,40 +2258,40 @@ export default function AdminPage() {
       {/* MODAL 1: KHÓA TÀI KHOẢN */}
       {selectedUserForAction && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#E2E8F0] space-y-4">
-            <div className="flex items-center gap-3 text-[#F43F5E]">
-              <div className="w-10 h-10 rounded-2xl bg-[#FFE4E6] flex items-center justify-center shrink-0">
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#DCE5FF] space-y-4">
+            <div className="flex items-center gap-3 text-[#EF4444]">
+              <div className="w-10 h-10 rounded-2xl bg-[#FEE2E2] flex items-center justify-center shrink-0">
                 <Lock className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-base text-[#172033]">Khóa tài khoản người dùng</h3>
-                <p className="text-xs text-[#64748B]">{selectedUserForAction.email}</p>
+                <h3 className="font-bold text-base text-[#172554]">Khóa tài khoản người dùng</h3>
+                <p className="text-xs text-[#647293]">{selectedUserForAction.email}</p>
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-[#172033] block mb-1">
+              <label className="text-xs font-semibold text-[#172554] block mb-1">
                 Lý do khóa tài khoản (bắt buộc):
               </label>
               <textarea
                 value={lockModalReason}
                 onChange={(e) => setLockModalReason(e.target.value)}
                 placeholder="Nhập nguyên nhân vi phạm hoặc lý do nghiệp vụ..."
-                className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-3 text-xs text-[#172033] h-24 focus:outline-none focus:ring-1 focus:ring-[#F43F5E]"
+                className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-3 text-xs text-[#172554] h-24 focus:outline-none focus:ring-1 focus:ring-[#EF4444]"
               />
             </div>
 
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setSelectedUserForAction(null)}
-                className="px-4 py-2 rounded-xl bg-[#F1F5F9] text-xs font-semibold text-[#64748B]"
+                className="px-4 py-2 rounded-xl bg-[#F4F7FF] text-xs font-semibold text-[#647293]"
               >
                 Hủy
               </button>
               <button
                 onClick={handleLockUser}
                 disabled={isLocking || lockModalReason.trim().length < 5}
-                className="px-4 py-2 rounded-xl bg-[#F43F5E] text-white text-xs font-bold hover:bg-[#e11d48] disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-[#EF4444] text-white text-xs font-bold hover:bg-[#e11d48] disabled:opacity-50"
               >
                 {isLocking ? 'Đang khóa...' : 'Xác nhận Khóa tài khoản'}
               </button>
@@ -2303,47 +2303,47 @@ export default function AdminPage() {
       {/* MODAL 2: ĐỐI SOÁT & DUYỆT ĐƠN HÀNG */}
       {selectedOrderForVerify && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#E2E8F0] space-y-4">
-            <div className="flex items-center gap-3 text-[#008FD3]">
-              <div className="w-10 h-10 rounded-2xl bg-[#E0F2FE] flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-5 h-5 text-[#008FD3]" />
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#DCE5FF] space-y-4">
+            <div className="flex items-center gap-3 text-[#087CFF]">
+              <div className="w-10 h-10 rounded-2xl bg-[#EBF3FF] flex items-center justify-center shrink-0">
+                <CheckCircle2 className="w-5 h-5 text-[#087CFF]" />
               </div>
               <div>
-                <h3 className="font-bold text-base text-[#172033]">Đối soát & Kích hoạt gói</h3>
-                <p className="text-xs text-[#64748B]">Mã đơn: <strong className="font-mono text-[#172033]">{selectedOrderForVerify.orderCode}</strong></p>
+                <h3 className="font-bold text-base text-[#172554]">Đối soát & Kích hoạt gói</h3>
+                <p className="text-xs text-[#647293]">Mã đơn: <strong className="font-mono text-[#172554]">{selectedOrderForVerify.orderCode}</strong></p>
               </div>
             </div>
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Số tiền thực nhận (VNĐ):</label>
+                <label className="font-semibold text-[#172554] block mb-1">Số tiền thực nhận (VNĐ):</label>
                 <input
                   type="number"
                   value={verifyAmount}
                   onChange={(e) => setVerifyAmount(Number(e.target.value))}
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono font-bold text-sm text-[#008FD3]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono font-bold text-sm text-[#087CFF]"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Mã giao dịch ngân hàng / Pay2S (bắt buộc):</label>
+                <label className="font-semibold text-[#172554] block mb-1">Mã giao dịch ngân hàng / Pay2S (bắt buộc):</label>
                 <input
                   type="text"
                   value={verifyRef}
                   onChange={(e) => setVerifyRef(e.target.value)}
                   placeholder="VD: MB_TX_8923182 hoặc P2S_99210"
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono text-xs text-[#172554]"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Ghi chú đối soát:</label>
+                <label className="font-semibold text-[#172554] block mb-1">Ghi chú đối soát:</label>
                 <input
                   type="text"
                   value={verifyNotes}
                   onChange={(e) => setVerifyNotes(e.target.value)}
                   placeholder="Ghi chú xác minh..."
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 text-xs text-[#172033]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 text-xs text-[#172554]"
                 />
               </div>
             </div>
@@ -2351,14 +2351,14 @@ export default function AdminPage() {
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setSelectedOrderForVerify(null)}
-                className="px-4 py-2 rounded-xl bg-[#F1F5F9] text-xs font-semibold text-[#64748B]"
+                className="px-4 py-2 rounded-xl bg-[#F4F7FF] text-xs font-semibold text-[#647293]"
               >
                 Hủy
               </button>
               <button
                 onClick={handleVerifyOrder}
                 disabled={isVerifying || !verifyRef.trim() || verifyAmount <= 0}
-                className="px-4 py-2 rounded-xl bg-[#008FD3] text-white text-xs font-bold hover:bg-[#007bb8] disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-[#087CFF] text-white text-xs font-bold hover:bg-[#0066D6] disabled:opacity-50"
               >
                 {isVerifying ? 'Đang duyệt...' : 'Xác nhận đối soát & Kích hoạt'}
               </button>
@@ -2370,28 +2370,28 @@ export default function AdminPage() {
       {/* MODAL 3: TỪ CHỐI ĐƠN HÀNG */}
       {selectedOrderForReject && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#E2E8F0] space-y-4">
-            <h3 className="font-bold text-base text-[#172033]">Từ chối đơn hàng {selectedOrderForReject.orderCode}</h3>
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#DCE5FF] space-y-4">
+            <h3 className="font-bold text-base text-[#172554]">Từ chối đơn hàng {selectedOrderForReject.orderCode}</h3>
             <div>
-              <label className="text-xs font-semibold text-[#172033] block mb-1">Lý do từ chối (bắt buộc):</label>
+              <label className="text-xs font-semibold text-[#172554] block mb-1">Lý do từ chối (bắt buộc):</label>
               <textarea
                 value={rejectReason}
                 onChange={(e) => setRejectReason(e.target.value)}
                 placeholder="VD: Số tiền chuyển thiếu, không thấy sao kê ngân hàng..."
-                className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-3 text-xs text-[#172033] h-24 focus:outline-none"
+                className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-3 text-xs text-[#172554] h-24 focus:outline-none"
               />
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setSelectedOrderForReject(null)}
-                className="px-4 py-2 rounded-xl bg-[#F1F5F9] text-xs font-semibold text-[#64748B]"
+                className="px-4 py-2 rounded-xl bg-[#F4F7FF] text-xs font-semibold text-[#647293]"
               >
                 Hủy
               </button>
               <button
                 onClick={handleRejectOrder}
                 disabled={isRejecting || rejectReason.trim().length < 5}
-                className="px-4 py-2 rounded-xl bg-[#F43F5E] text-white text-xs font-bold hover:bg-[#e11d48] disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-[#EF4444] text-white text-xs font-bold hover:bg-[#e11d48] disabled:opacity-50"
               >
                 {isRejecting ? 'Đang xử lý...' : 'Xác nhận Từ chối'}
               </button>
@@ -2403,47 +2403,47 @@ export default function AdminPage() {
       {/* MODAL 4: ĐIỀU CHỈNH GÓI DỊCH VỤ / GIÁ */}
       {selectedPlanForEdit && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#E2E8F0] space-y-4">
-            <h3 className="font-bold text-base text-[#172033]">Điều chỉnh cấu hình gói {selectedPlanForEdit.name}</h3>
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#DCE5FF] space-y-4">
+            <h3 className="font-bold text-base text-[#172554]">Điều chỉnh cấu hình gói {selectedPlanForEdit.name}</h3>
             
             <div className="space-y-3 text-xs">
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Giá gói (VNĐ):</label>
+                <label className="font-semibold text-[#172554] block mb-1">Giá gói (VNĐ):</label>
                 <input
                   type="number"
                   value={planPrice}
                   onChange={(e) => setPlanPrice(Number(e.target.value))}
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono font-bold text-sm text-[#008FD3]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono font-bold text-sm text-[#087CFF]"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Thời hạn (ngày):</label>
+                <label className="font-semibold text-[#172554] block mb-1">Thời hạn (ngày):</label>
                 <input
                   type="number"
                   value={planDuration}
                   onChange={(e) => setPlanDuration(Number(e.target.value))}
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono text-xs text-[#172554]"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Mô tả gói:</label>
+                <label className="font-semibold text-[#172554] block mb-1">Mô tả gói:</label>
                 <input
                   type="text"
                   value={planDesc}
                   onChange={(e) => setPlanDesc(e.target.value)}
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 text-xs text-[#172033]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 text-xs text-[#172554]"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Lý do điều chỉnh (bắt buộc lưu audit log):</label>
+                <label className="font-semibold text-[#172554] block mb-1">Lý do điều chỉnh (bắt buộc lưu audit log):</label>
                 <textarea
                   value={planReason}
                   onChange={(e) => setPlanReason(e.target.value)}
                   placeholder="Nhập lý do thay đổi giá hoặc thông số gói..."
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 text-xs text-[#172033] h-20"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 text-xs text-[#172554] h-20"
                 />
               </div>
             </div>
@@ -2451,14 +2451,14 @@ export default function AdminPage() {
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setSelectedPlanForEdit(null)}
-                className="px-4 py-2 rounded-xl bg-[#F1F5F9] text-xs font-semibold text-[#64748B]"
+                className="px-4 py-2 rounded-xl bg-[#F4F7FF] text-xs font-semibold text-[#647293]"
               >
                 Hủy
               </button>
               <button
                 onClick={handleUpdatePlan}
                 disabled={isUpdatingPlan || planReason.trim().length < 5}
-                className="px-4 py-2 rounded-xl bg-[#008FD3] text-white text-xs font-bold hover:bg-[#007bb8] disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-[#087CFF] text-white text-xs font-bold hover:bg-[#0066D6] disabled:opacity-50"
               >
                 {isUpdatingPlan ? 'Đang lưu...' : 'Lưu cấu hình gói'}
               </button>
@@ -2470,16 +2470,16 @@ export default function AdminPage() {
       {/* MODAL 5: CẤP / GIA HẠN GÓI THỦ CÔNG CHO USER */}
       {selectedUserForTierAdjust && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#E2E8F0] space-y-4">
-            <h3 className="font-bold text-base text-[#172033]">Cấp / Gia hạn gói cho {selectedUserForTierAdjust.email}</h3>
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#DCE5FF] space-y-4">
+            <h3 className="font-bold text-base text-[#172554]">Cấp / Gia hạn gói cho {selectedUserForTierAdjust.email}</h3>
             
             <div className="space-y-3 text-xs">
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Chọn gói cấp:</label>
+                <label className="font-semibold text-[#172554] block mb-1">Chọn gói cấp:</label>
                 <select
                   value={adjustTier}
                   onChange={(e) => setAdjustTier(e.target.value as SubscriptionTier)}
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-bold text-xs text-[#172033]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-bold text-xs text-[#172554]"
                 >
                   <option value="FREE">Gói Miễn Phí (Free)</option>
                   <option value="PRO">Gói Chuyên Nghiệp (Pro - 199k)</option>
@@ -2488,23 +2488,23 @@ export default function AdminPage() {
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Số ngày cộng thêm:</label>
+                <label className="font-semibold text-[#172554] block mb-1">Số ngày cộng thêm:</label>
                 <input
                   type="number"
                   value={adjustDays}
                   onChange={(e) => setAdjustDays(Number(e.target.value))}
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono font-bold text-xs text-[#172033]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono font-bold text-xs text-[#172554]"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Lý do cấp quyền (lưu audit log):</label>
+                <label className="font-semibold text-[#172554] block mb-1">Lý do cấp quyền (lưu audit log):</label>
                 <input
                   type="text"
                   value={adjustReason}
                   onChange={(e) => setAdjustReason(e.target.value)}
                   placeholder="VD: Tặng gói trải nghiệm, xử lý khiếu nại..."
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 text-xs text-[#172033]"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 text-xs text-[#172554]"
                 />
               </div>
             </div>
@@ -2512,14 +2512,14 @@ export default function AdminPage() {
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setSelectedUserForTierAdjust(null)}
-                className="px-4 py-2 rounded-xl bg-[#F1F5F9] text-xs font-semibold text-[#64748B]"
+                className="px-4 py-2 rounded-xl bg-[#F4F7FF] text-xs font-semibold text-[#647293]"
               >
                 Hủy
               </button>
               <button
                 onClick={handleAdjustTier}
                 disabled={isAdjustingTier}
-                className="px-4 py-2 rounded-xl bg-[#008FD3] text-white text-xs font-bold hover:bg-[#007bb8] disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-[#087CFF] text-white text-xs font-bold hover:bg-[#0066D6] disabled:opacity-50"
               >
                 {isAdjustingTier ? 'Đang cấp...' : 'Xác nhận cấp gói'}
               </button>
@@ -2531,20 +2531,20 @@ export default function AdminPage() {
       {/* MODAL 6: CẤU HÌNH KẾT NỐI SSI FASTCONNECT DATA */}
       {isConfigModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-[#E2E8F0] space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+          <div className="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-[#DCE5FF] space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF]">
               <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-xl bg-[#008FD3]/10 text-[#008FD3] flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-[#087CFF]/10 text-[#087CFF] flex items-center justify-center">
                   <Key className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-[#172033]">Cấu hình SSI FastConnect Data</h3>
-                  <p className="text-xs text-[#64748B]">Kết nối trực tiếp hạ tầng dữ liệu thị trường SSI</p>
+                  <h3 className="font-bold text-base text-[#172554]">Cấu hình SSI FastConnect Data</h3>
+                  <p className="text-xs text-[#647293]">Kết nối trực tiếp hạ tầng dữ liệu thị trường SSI</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsConfigModalOpen(false)}
-                className="w-8 h-8 rounded-lg hover:bg-[#F1F5F9] text-[#64748B] flex items-center justify-center font-bold"
+                className="w-8 h-8 rounded-lg hover:bg-[#F4F7FF] text-[#647293] flex items-center justify-center font-bold"
               >
                 ✕
               </button>
@@ -2552,27 +2552,27 @@ export default function AdminPage() {
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">
-                  Consumer ID (Client ID) <span className="text-[#F43F5E]">*</span>:
+                <label className="font-semibold text-[#172554] block mb-1">
+                  Consumer ID (Client ID) <span className="text-[#EF4444]">*</span>:
                 </label>
                 <input
                   type="text"
                   value={formConsumerId}
                   onChange={(e) => setFormConsumerId(e.target.value)}
                   placeholder="Ví dụ: a1b2c3d4e5f6..."
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono text-xs text-[#172554] focus:border-[#087CFF] focus:outline-none"
                 />
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="font-semibold text-[#172033]">
-                    Consumer Secret <span className="text-[#F43F5E]">*</span>:
+                  <label className="font-semibold text-[#172554]">
+                    Consumer Secret <span className="text-[#EF4444]">*</span>:
                   </label>
                   <button
                     type="button"
                     onClick={() => setShowSecret(!showSecret)}
-                    className="text-[11px] text-[#008FD3] flex items-center gap-1 hover:underline"
+                    className="text-[11px] text-[#087CFF] flex items-center gap-1 hover:underline"
                   >
                     {showSecret ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     {showSecret ? 'Ẩn' : 'Hiện'}
@@ -2583,15 +2583,15 @@ export default function AdminPage() {
                   value={formConsumerSecret}
                   onChange={(e) => setFormConsumerSecret(e.target.value)}
                   placeholder={apiCenterData?.ssi_config?.hasCredentials ? '•••••••••••• (Để trống nếu không đổi)' : 'Nhập mã bí mật do SSI cung cấp'}
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono text-xs text-[#172554] focus:border-[#087CFF] focus:outline-none"
                 />
-                <p className="text-[10px] text-[#64748B] mt-0.5">
+                <p className="text-[10px] text-[#647293] mt-0.5">
                   Mã bí mật được mã hóa và bảo mật tại server, không hiển thị nguyên văn.
                 </p>
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">
+                <label className="font-semibold text-[#172554] block mb-1">
                   Private Key RSA (Tùy chọn theo phương thức ký của SSI):
                 </label>
                 <textarea
@@ -2599,41 +2599,41 @@ export default function AdminPage() {
                   value={formPrivateKey}
                   onChange={(e) => setFormPrivateKey(e.target.value)}
                   placeholder="-----BEGIN RSA PRIVATE KEY-----&#10;...&#10;-----END RSA PRIVATE KEY-----"
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-[11px] text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono text-[11px] text-[#172554] focus:border-[#087CFF] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">API Endpoint URL:</label>
+                <label className="font-semibold text-[#172554] block mb-1">API Endpoint URL:</label>
                 <input
                   type="text"
                   value={formApiUrl}
                   onChange={(e) => setFormApiUrl(e.target.value)}
                   placeholder="https://fc-data.ssi.com.vn/api/v2"
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono text-xs text-[#172554] focus:border-[#087CFF] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-[#172033] block mb-1">Streaming Endpoint (SignalR/WebSocket):</label>
+                <label className="font-semibold text-[#172554] block mb-1">Streaming Endpoint (SignalR/WebSocket):</label>
                 <input
                   type="text"
                   value={formStreamingUrl}
                   onChange={(e) => setFormStreamingUrl(e.target.value)}
                   placeholder="wss://fc-data.ssi.com.vn/v2.0/signalr"
-                  className="w-full bg-[#F5F8FC] border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-xs text-[#172033] focus:border-[#008FD3] focus:outline-none"
+                  className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2.5 font-mono text-xs text-[#172554] focus:border-[#087CFF] focus:outline-none"
                 />
               </div>
 
-              <div className="flex items-center gap-2 p-3 bg-[#F5F8FC] rounded-xl border border-[#E2E8F0]">
+              <div className="flex items-center gap-2 p-3 bg-[#F4F7FF] rounded-xl border border-[#DCE5FF]">
                 <input
                   type="checkbox"
                   id="autoSyncCheck"
                   checked={formAutoSync}
                   onChange={(e) => setFormAutoSync(e.target.checked)}
-                  className="w-4 h-4 text-[#008FD3] rounded focus:ring-0 cursor-pointer"
+                  className="w-4 h-4 text-[#087CFF] rounded focus:ring-0 cursor-pointer"
                 />
-                <label htmlFor="autoSyncCheck" className="text-xs text-[#172033] font-medium cursor-pointer">
+                <label htmlFor="autoSyncCheck" className="text-xs text-[#172554] font-medium cursor-pointer">
                   Tự động đồng bộ định kỳ theo phiên giao dịch (9:00 - 15:00)
                 </label>
               </div>
@@ -2649,11 +2649,11 @@ export default function AdminPage() {
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-[#E2E8F0]">
+            <div className="flex justify-end gap-2 pt-2 border-t border-[#DCE5FF]">
               <button
                 type="button"
                 onClick={() => setIsConfigModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-[#F1F5F9] text-xs font-semibold text-[#64748B] hover:bg-[#E2E8F0]"
+                className="px-4 py-2 rounded-xl bg-[#F4F7FF] text-xs font-semibold text-[#647293] hover:bg-[#DCE5FF]"
               >
                 Hủy
               </button>
@@ -2661,7 +2661,7 @@ export default function AdminPage() {
                 type="button"
                 onClick={handleSaveSsiConfig}
                 disabled={isSavingConfig}
-                className="px-4 py-2 rounded-xl bg-[#008FD3] text-white text-xs font-bold hover:bg-[#007bb8] disabled:opacity-50 flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-[#087CFF] text-white text-xs font-bold hover:bg-[#0066D6] disabled:opacity-50 flex items-center gap-1.5"
               >
                 {isSavingConfig ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : null}
                 {isSavingConfig ? 'Đang lưu...' : 'Lưu cấu hình'}

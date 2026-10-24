@@ -66,11 +66,11 @@ export async function GET(req: Request) {
   <meta charset="utf-8">
   <title>StockAI - Google OAuth Callback</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F5F8FC; color: #172033; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-    .card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 32px; max-width: 520px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    h2 { color: #008FD3; margin-top: 0; }
-    code { background: #E0F2FE; color: #008FD3; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
-    .btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #008FD3; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 14px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F4F7FF; color: #172554; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+    .card { background: #FFFFFF; border: 1px solid #DCE5FF; border-radius: 16px; padding: 32px; max-width: 520px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    h2 { color: #087CFF; margin-top: 0; }
+    code { background: #EBF3FF; color: #087CFF; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+    .btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #087CFF; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 14px; }
     .note { background: #FEF3C7; border: 1px solid #FDE68A; padding: 12px; border-radius: 8px; font-size: 13px; color: #92400E; margin-top: 16px; }
   </style>
 </head>

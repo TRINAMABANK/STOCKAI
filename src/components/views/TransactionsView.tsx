@@ -23,8 +23,8 @@ export default function TransactionsView({
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">Sổ lệnh & Nhật ký giao dịch</h2>
-          <p className="text-[11pt] text-[#64748B] mt-0.5">Lưu trữ toàn bộ lịch sử mua, bán, phí môi giới và thuế TNCN</p>
+          <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172554] tracking-tight">Sổ lệnh & Nhật ký giao dịch</h2>
+          <p className="text-[11pt] text-[#647293] mt-0.5">Lưu trữ toàn bộ lịch sử mua, bán, phí môi giới và thuế TNCN</p>
         </div>
         <div className="flex items-center gap-2">
           {['ALL', 'BUY', 'SELL'].map((type) => (
@@ -33,8 +33,8 @@ export default function TransactionsView({
               onClick={() => setFilterType(type)}
               className={`px-3.5 py-1.5 rounded-xl text-[11pt] font-semibold transition ${
                 filterType === type 
-                  ? 'bg-[#008FD3] text-white shadow-xs' 
-                  : 'bg-white text-[#64748B] border border-[#E2E8F0] hover:bg-[#F5F8FC]'
+                  ? 'bg-[#087CFF] text-white shadow-xs' 
+                  : 'bg-white text-[#647293] border border-[#DCE5FF] hover:bg-[#F4F7FF]'
               }`}
             >
               {type === 'ALL' ? 'Tất cả lệnh' : type === 'BUY' ? 'Lệnh Mua' : 'Lệnh Bán'}
@@ -43,11 +43,11 @@ export default function TransactionsView({
         </div>
       </div>
 
-      <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+      <div className="bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-[11pt]">
             <thead>
-              <tr className="bg-[#F5F8FC] text-[#64748B] text-[11pt] font-semibold border-b border-[#E2E8F0]">
+              <tr className="bg-[#F4F7FF] text-[#647293] text-[11pt] font-semibold border-b border-[#DCE5FF]">
                 <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Mã lệnh</th>
                 <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Ngày khớp</th>
                 <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">Loại</th>
@@ -61,37 +61,37 @@ export default function TransactionsView({
                 <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Ghi chú</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9] text-[11pt]">
+            <tbody className="divide-y divide-[#F4F7FF] text-[11pt]">
               {filtered.length > 0 ? (
                 filtered.map((tx) => {
                   const isBuy = tx.type === 'BUY';
                   return (
                     <tr key={tx.id} className="hover:bg-[#F8FAFC] transition h-[44px]">
-                      <td className="py-2.5 px-4 font-mono text-[#64748B] text-[11pt] tabular-nums whitespace-nowrap">{tx.id}</td>
-                      <td className="py-2.5 px-3 text-[#172033] font-medium text-[11pt] whitespace-nowrap">{tx.date}</td>
+                      <td className="py-2.5 px-4 font-mono text-[#647293] text-[11pt] tabular-nums whitespace-nowrap">{tx.id}</td>
+                      <td className="py-2.5 px-3 text-[#172554] font-medium text-[11pt] whitespace-nowrap">{tx.date}</td>
                       <td className="py-2.5 px-3 text-center whitespace-nowrap">
                         <span className={`px-2.5 py-0.5 rounded-full text-[11pt] font-bold ${
-                          isBuy ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#FFE4E6] text-[#F43F5E]'
+                          isBuy ? 'bg-[#DCFCE7] text-[#16A34A]' : 'bg-[#FEE2E2] text-[#EF4444]'
                         }`}>
                           {isBuy ? 'MUA' : 'BÁN'}
                         </span>
                       </td>
-                      <td className="py-2.5 px-3 font-semibold text-[#008FD3] text-[11pt] whitespace-nowrap">{tx.symbol || '-'}</td>
-                      <td className="py-2.5 px-3 text-right font-medium text-[#172033] font-mono tabular-nums text-[11pt] whitespace-nowrap">{tx.shares?.toLocaleString() || '-'}</td>
-                      <td className="py-2.5 px-3 text-right font-mono tabular-nums text-[#172033] text-[11pt] whitespace-nowrap">{tx.price?.toLocaleString('vi-VN') || '-'}</td>
-                      <td className="py-2.5 px-3 text-right font-medium text-[#172033] font-mono tabular-nums text-[11pt] whitespace-nowrap">{tx.grossAmount.toLocaleString('vi-VN')}</td>
-                      <td className="py-2.5 px-3 text-right text-[#64748B] font-mono tabular-nums text-[11pt] whitespace-nowrap">{tx.fee.toLocaleString('vi-VN')}</td>
-                      <td className="py-2.5 px-3 text-right text-[#64748B] font-mono tabular-nums text-[11pt] whitespace-nowrap">{tx.tax.toLocaleString('vi-VN')}</td>
-                      <td className="py-2.5 px-4 text-right font-semibold text-[#172033] font-mono tabular-nums text-[11pt] whitespace-nowrap">
+                      <td className="py-2.5 px-3 font-semibold text-[#087CFF] text-[11pt] whitespace-nowrap">{tx.symbol || '-'}</td>
+                      <td className="py-2.5 px-3 text-right font-medium text-[#172554] font-mono tabular-nums text-[11pt] whitespace-nowrap">{tx.shares?.toLocaleString() || '-'}</td>
+                      <td className="py-2.5 px-3 text-right font-mono tabular-nums text-[#172554] text-[11pt] whitespace-nowrap">{tx.price?.toLocaleString('vi-VN') || '-'}</td>
+                      <td className="py-2.5 px-3 text-right font-medium text-[#172554] font-mono tabular-nums text-[11pt] whitespace-nowrap">{tx.grossAmount.toLocaleString('vi-VN')}</td>
+                      <td className="py-2.5 px-3 text-right text-[#647293] font-mono tabular-nums text-[11pt] whitespace-nowrap">{tx.fee.toLocaleString('vi-VN')}</td>
+                      <td className="py-2.5 px-3 text-right text-[#647293] font-mono tabular-nums text-[11pt] whitespace-nowrap">{tx.tax.toLocaleString('vi-VN')}</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#172554] font-mono tabular-nums text-[11pt] whitespace-nowrap">
                         {isBuy ? '-' : '+'}{tx.netAmount.toLocaleString('vi-VN')} đ
                       </td>
-                      <td className="py-2.5 px-4 text-[#64748B] text-[11pt] max-w-[200px] truncate whitespace-nowrap">{tx.notes || '-'}</td>
+                      <td className="py-2.5 px-4 text-[#647293] text-[11pt] max-w-[200px] truncate whitespace-nowrap">{tx.notes || '-'}</td>
                     </tr>
                   );
                 })
               ) : (
                 <tr>
-                  <td colSpan={11} className="py-8 text-center text-[#64748B] text-[11pt]">
+                  <td colSpan={11} className="py-8 text-center text-[#647293] text-[11pt]">
                     Không có giao dịch nào thỏa điều kiện lọc
                   </td>
                 </tr>

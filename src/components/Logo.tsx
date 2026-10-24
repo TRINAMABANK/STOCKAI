@@ -50,12 +50,12 @@ export default function Logo({
   }
 
   // Variant 'default' hoặc 'badge': bọc trong thẻ nền dark navy công nghệ cao bo tròn
-  // giúp hiển thị sắc nét, đồng bộ và sang trọng trên cả nền sáng (FireAnt #F5F8FC / #FFFFFF) và nền tối
+  // giúp hiển thị sắc nét, đồng bộ và sang trọng trên cả nền sáng (FireAnt #F4F7FF / #FFFFFF) và nền tối
   return (
     <div
       onClick={onClick}
-      className={`inline-flex items-center justify-center bg-[#0B111E] border border-[#1E293B]/80 rounded-xl px-2.5 py-1 shadow-2xs shrink-0 select-none ${
-        onClick ? 'cursor-pointer hover:border-[#008FD3]/60 transition' : ''
+      className={`inline-flex items-center justify-center bg-[#101B4B] border border-[#1E293B]/80 rounded-xl px-2.5 py-1 shadow-2xs shrink-0 select-none ${
+        onClick ? 'cursor-pointer hover:border-[#087CFF]/60 transition' : ''
       } ${className}`}
       title="StockAI — Artificial Smart Trading"
     >

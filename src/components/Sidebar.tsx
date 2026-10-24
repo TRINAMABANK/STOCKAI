@@ -98,19 +98,19 @@ export default function Sidebar({
 
   const renderNavGroup = (title: string, items: any[]) => (
     <div className="space-y-1">
-      <div className="px-3.5 pt-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]">
+      <div className="px-3.5 pt-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-[#8FA0CA]">
         {title}
       </div>
       {items.map((item) => {
         const Icon = item.icon;
         const isActive = activeMenu === item.id;
 
-        let btnClass = 'group flex items-center gap-3 w-full px-3.5 py-2.2 rounded-xl text-[13px] text-left transition-colors duration-200 ease-out select-none ';
+        let btnClass = 'group flex items-center gap-3 w-full px-3.5 py-2.2 rounded-xl text-[13px] text-left transition-all duration-200 ease-out select-none ';
 
         if (isActive) {
-          btnClass += 'bg-[#E0F2FE] text-[#008FD3] font-bold shadow-2xs';
+          btnClass += 'bg-gradient-to-r from-[#7C3CFF] to-[#087CFF] text-white font-bold shadow-md shadow-[#087CFF]/30';
         } else {
-          btnClass += 'text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC] font-medium';
+          btnClass += 'text-[#8FA0CA] hover:text-white hover:bg-white/[0.08] font-medium';
         }
 
         return (
@@ -121,17 +121,17 @@ export default function Sidebar({
           >
             <Icon className={`w-[18px] h-[18px] shrink-0 transition ${
               isActive 
-                ? 'text-[#008FD3]' 
-                : (item.isAi ? 'text-[#8B5CF6]' : item.isAdmin ? 'text-[#F43F5E]' : 'text-[#64748B]')
+                ? 'text-white' 
+                : (item.isAi ? 'text-[#C084FC] group-hover:text-white' : item.isAdmin ? 'text-[#EF4444]' : 'text-[#8FA0CA] group-hover:text-white')
             }`} />
-            <span className="truncate transition-colors duration-200 ease-out">{item.label}</span>
+            <span className="truncate">{item.label}</span>
             {item.isAi && !isActive && (
-              <span className="ml-auto text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#EDE9FE] text-[#8B5CF6]">
+              <span className="ml-auto text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#8B36FF]/30 text-[#E9D5FF] border border-[#8B36FF]/40">
                 AI
               </span>
             )}
             {item.isAdmin && (
-              <span className={`ml-auto text-[10px] font-bold px-1.5 py-0.2 rounded ${isActive ? 'bg-[#008FD3] text-white' : 'bg-[#FFE4E6] text-[#F43F5E]'}`}>
+              <span className={`ml-auto text-[10px] font-bold px-1.5 py-0.2 rounded ${isActive ? 'bg-white/20 text-white' : 'bg-[#EF4444]/20 text-[#EF4444] border border-[#EF4444]/30'}`}>
                 ADMIN
               </span>
             )}
@@ -142,22 +142,22 @@ export default function Sidebar({
   );
 
   const sidebarContent = (
-    <div className="w-64 bg-[#FFFFFF] text-[#172033] flex flex-col h-full select-none border-r border-[#E2E8F0] shadow-xs">
+    <div className="w-64 bg-[#101B4B] text-white flex flex-col h-full select-none border-r border-[#1E2B6B] shadow-xl">
       {/* Brand Header with Official StockAI Logo */}
-      <div className="h-16 px-4 flex items-center justify-between border-b border-[#E2E8F0] shrink-0">
-        <Logo size="md" variant="default" onClick={() => handleSelect('dashboard')} />
+      <div className="h-16 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
+        <Logo size="md" variant="plain" onClick={() => handleSelect('dashboard')} />
         <div className="flex items-center gap-1.5">
           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
             isAdmin 
-              ? 'bg-[#FFE4E6] text-[#F43F5E] border-[#FECDD3]' 
-              : 'bg-[#E0F2FE] text-[#008FD3] border-[#BAE6FD]'
+              ? 'bg-[#EF4444]/20 text-[#EF4444] border-[#EF4444]/40' 
+              : 'bg-[#087CFF]/20 text-[#38BDF8] border-[#087CFF]/40'
           }`}>
             {isAdmin ? 'Admin' : (currentUser?.tier || 'Pro')}
           </span>
           {onCloseMobile && (
             <button
               onClick={onCloseMobile}
-              className="md:hidden p-1 rounded-lg text-[#64748B] hover:text-[#172033] hover:bg-[#F5F8FC]"
+              className="md:hidden p-1 rounded-lg text-white/70 hover:text-white hover:bg-white/10"
             >
               <X className="w-5 h-5" />
             </button>
@@ -173,21 +173,24 @@ export default function Sidebar({
       </nav>
 
       {/* Market Data Status Box at Sidebar Bottom */}
-      <div className="p-3 m-3 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-xs shrink-0">
+      <div className="p-3 m-3 rounded-xl bg-white/[0.05] border border-white/10 text-xs shrink-0 text-white">
         <div className="flex items-center gap-2 mb-1">
-          <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse-profit"></span>
-          <span className="font-semibold text-[#172033] text-[12px]">Dữ liệu thị trường</span>
+          <span className="w-2 h-2 rounded-full bg-[#00A991] animate-pulse"></span>
+          <span className="font-semibold text-white text-[12px]">Dữ liệu thị trường</span>
+          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#00A991]/20 text-[#00A991] border border-[#00A991]/30 ml-auto">
+            REALTIME
+          </span>
         </div>
-        <p className="text-[#64748B] text-[11px] mb-2 flex items-center gap-1">
-          <Activity className="w-3 h-3 text-[#10B981]" />
+        <p className="text-[#8FA0CA] text-[11px] mb-2 flex items-center gap-1">
+          <Activity className="w-3 h-3 text-[#00A991]" />
           <span>Thời gian thực • 14:35:22</span>
         </p>
         <button
           onClick={onCheckConnection}
           disabled={isCheckingConn}
-          className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-white border border-[#E2E8F0] hover:bg-[#E0F2FE] text-[#008FD3] text-[11px] font-semibold transition shadow-2xs"
+          className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold transition border border-white/15"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${isCheckingConn ? 'animate-spin text-[#008FD3]' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${isCheckingConn ? 'animate-spin text-[#13C9D5]' : 'text-[#13C9D5]'}`} />
           <span>{isCheckingConn ? 'Đang kiểm tra...' : 'Kiểm tra kết nối'}</span>
         </button>
       </div>

@@ -196,7 +196,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
   const getEventTypeMeta = (type: MarketAlertEventType) => {
     switch (type) {
       case 'BREAKOUT_20':
-        return { label: 'Bứt phá đỉnh 20P', color: 'bg-[#D1FAE5] text-[#059669] border-[#A7F3D0]', icon: ArrowUpRight };
+        return { label: 'Bứt phá đỉnh 20P', color: 'bg-[#DCFCE7] text-[#15803D] border-[#BBF7D0]', icon: ArrowUpRight };
       case 'FAILED_BREAKOUT':
         return { label: 'Bứt phá thất bại', color: 'bg-[#FEE2E2] text-[#DC2626] border-[#FECACA]', icon: AlertCircle };
       case 'TREND_WEAKENING':
@@ -210,11 +210,11 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
       case 'VOLUME_SURGE':
         return { label: 'Khối lượng đột biến', color: 'bg-[#F3E8FF] text-[#9333EA] border-[#E9D5FF]', icon: Activity };
       case 'CORPORATE_ACTION':
-        return { label: 'Sự kiện quyền', color: 'bg-[#F1F5F9] text-[#475569] border-[#CBD5E1]', icon: Calendar };
+        return { label: 'Sự kiện quyền', color: 'bg-[#F4F7FF] text-[#475569] border-[#CBD5E1]', icon: Calendar };
       case 'PORTFOLIO_WATCHLIST':
-        return { label: 'Danh mục/Theo dõi', color: 'bg-[#E0F2FE] text-[#0284C7] border-[#BAE6FD]', icon: Eye };
+        return { label: 'Danh mục/Theo dõi', color: 'bg-[#EBF3FF] text-[#087CFF] border-[#DCE5FF]', icon: Eye };
       default:
-        return { label: type, color: 'bg-[#F1F5F9] text-[#64748B] border-[#E2E8F0]', icon: Info };
+        return { label: type, color: 'bg-[#F4F7FF] text-[#647293] border-[#DCE5FF]', icon: Info };
     }
   };
 
@@ -222,15 +222,15 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
   const getStatusBadge = (status: MarketAlertStatus) => {
     switch (status) {
       case 'NEW':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#E0F2FE] text-[#0284C7] border border-[#BAE6FD]">MỚI</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#EBF3FF] text-[#087CFF] border border-[#DCE5FF]">MỚI</span>;
       case 'WATCHING':
         return <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A]">ĐANG THEO DÕI</span>;
       case 'CONFIRMED':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#D1FAE5] text-[#059669] border border-[#A7F3D0]">ĐÃ XÁC NHẬN</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#DCFCE7] text-[#15803D] border border-[#BBF7D0]">ĐÃ XÁC NHẬN</span>;
       case 'FAILED':
         return <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#FEE2E2] text-[#DC2626] border border-[#FECACA]">THẤT BẠI</span>;
       case 'CLOSED':
-        return <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#F1F5F9] text-[#64748B] border border-[#E2E8F0]">ĐÃ KẾT THÚC</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#F4F7FF] text-[#647293] border border-[#DCE5FF]">ĐÃ KẾT THÚC</span>;
     }
   };
 
@@ -238,7 +238,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
   const getRiskBadge = (risk: MarketAlertRiskLevel) => {
     switch (risk) {
       case 'THẤP':
-        return <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#10B981]"><span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />Thấp</span>;
+        return <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#16A34A]"><span className="w-1.5 h-1.5 rounded-full bg-[#16A34A]" />Thấp</span>;
       case 'TRUNG BÌNH':
         return <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#F59E0B]"><span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />Trung bình</span>;
       case 'CAO':
@@ -264,7 +264,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
     <div className="space-y-5 pb-10">
       {/* Toast thông báo */}
       {toastMsg && (
-        <div className="fixed top-4 right-4 z-50 bg-[#172033] text-white px-4 py-2.5 rounded-xl shadow-xl border border-[#E2E8F0] text-xs font-semibold animate-in fade-in slide-in-from-top-2">
+        <div className="fixed top-4 right-4 z-50 bg-[#172554] text-white px-4 py-2.5 rounded-xl shadow-xl border border-[#DCE5FF] text-xs font-semibold animate-in fade-in slide-in-from-top-2">
           {toastMsg}
         </div>
       )}
@@ -273,16 +273,16 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2.5">
-            <h2 className="text-[22px] lg:text-[24px] font-bold text-[#172033] tracking-tight">
+            <h2 className="text-[22px] lg:text-[24px] font-bold text-[#172554] tracking-tight">
               Cảnh báo Thị trường & Dòng tiền
             </h2>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD]">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#EBF3FF] text-[#087CFF] border border-[#DCE5FF]">
               Version 2.0
             </span>
             {overview && (
               <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                 overview.dataMode === 'REALTIME' 
-                  ? 'bg-[#D1FAE5] text-[#059669]' 
+                  ? 'bg-[#DCFCE7] text-[#15803D]' 
                   : overview.dataMode === 'EOD' 
                   ? 'bg-[#E0E7FF] text-[#4338CA]' 
                   : 'bg-[#FEF3C7] text-[#D97706]'
@@ -291,7 +291,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
               </span>
             )}
           </div>
-          <p className="text-[12px] text-[#64748B] mt-0.5">
+          <p className="text-[12px] text-[#647293] mt-0.5">
             Giám sát bứt phá 20 phiên, khối lượng đột biến KL/TB20, chuỗi tăng nóng, bẫy bull trap và quản trị rủi ro kỷ luật
           </p>
         </div>
@@ -300,7 +300,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
           <button
             onClick={handleScanNow}
             disabled={scanning}
-            className="px-3.5 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-2xs disabled:opacity-50"
+            className="px-3.5 py-2 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-2xs disabled:opacity-50"
             title="Quét toàn bộ cổ phiếu trên 3 sàn HOSE, HNX, UPCoM"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${scanning ? 'animate-spin' : ''}`} />
@@ -311,15 +311,15 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
 
       {/* 1. KHU VỰC TỔNG QUAN THỊ TRƯỜNG (MARKET OVERVIEW SECTION) */}
       {overview ? (
-        <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs p-4 lg:p-5 space-y-4">
+        <div className="bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs p-4 lg:p-5 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Card 1: VN-Index & Trạng thái */}
-            <div className="bg-[#F8FAFC] rounded-xl p-3.5 border border-[#E2E8F0] space-y-2">
+            <div className="bg-[#F8FAFC] rounded-xl p-3.5 border border-[#DCE5FF] space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[12px] font-semibold text-[#64748B]">Chỉ số VN-Index</span>
+                <span className="text-[12px] font-semibold text-[#647293]">Chỉ số VN-Index</span>
                 <span className={`px-2 py-0.5 rounded-md text-[11px] font-bold ${
                   overview.marketStatus === 'TĂNG' 
-                    ? 'bg-[#D1FAE5] text-[#059669]' 
+                    ? 'bg-[#DCFCE7] text-[#15803D]' 
                     : overview.marketStatus === 'GIẢM' 
                     ? 'bg-[#FEE2E2] text-[#DC2626]' 
                     : 'bg-[#FEF3C7] text-[#D97706]'
@@ -328,89 +328,89 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                 </span>
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-[22px] font-extrabold text-[#172033] font-mono tabular-nums">
+                <span className="text-[22px] font-extrabold text-[#172554] font-mono tabular-nums">
                   {overview.currentValue.toLocaleString('vi-VN', { minimumFractionDigits: 2 })}
                 </span>
                 <span className={`text-[13px] font-bold font-mono tabular-nums flex items-center ${
-                  overview.changeValue >= 0 ? 'text-[#10B981]' : 'text-[#EF4444]'
+                  overview.changeValue >= 0 ? 'text-[#16A34A]' : 'text-[#EF4444]'
                 }`}>
                   {overview.changeValue >= 0 ? '+' : ''}{overview.changeValue.toFixed(2)} ({overview.changeValue >= 0 ? '+' : ''}{overview.changePercent.toFixed(2)}%)
                 </span>
               </div>
-              <div className="text-[11px] text-[#64748B] flex items-center justify-between border-t border-[#E2E8F0]/70 pt-1.5">
-                <span>MA20: <b className="font-mono text-[#172033]">{overview.indexMa20.toFixed(1)}</b></span>
-                <span>MA50: <b className="font-mono text-[#172033]">{overview.indexMa50.toFixed(1)}</b></span>
+              <div className="text-[11px] text-[#647293] flex items-center justify-between border-t border-[#DCE5FF]/70 pt-1.5">
+                <span>MA20: <b className="font-mono text-[#172554]">{overview.indexMa20.toFixed(1)}</b></span>
+                <span>MA50: <b className="font-mono text-[#172554]">{overview.indexMa50.toFixed(1)}</b></span>
               </div>
             </div>
 
             {/* Card 2: Độ rộng & Tỷ lệ cổ phiếu > MA20 / MA50 */}
-            <div className="bg-[#F8FAFC] rounded-xl p-3.5 border border-[#E2E8F0] space-y-2">
-              <div className="flex items-center justify-between text-[12px] font-semibold text-[#64748B]">
+            <div className="bg-[#F8FAFC] rounded-xl p-3.5 border border-[#DCE5FF] space-y-2">
+              <div className="flex items-center justify-between text-[12px] font-semibold text-[#647293]">
                 <span>Độ rộng cổ phiếu trên MA</span>
                 <span className="text-[11px] font-normal text-[#94A3B8]">Toàn thị trường</span>
               </div>
               <div className="grid grid-cols-2 gap-2 pt-0.5">
-                <div className="bg-white p-2 rounded-lg border border-[#E2E8F0]/80 text-center">
-                  <div className="text-[10px] text-[#64748B] uppercase font-medium">&gt; MA20</div>
-                  <div className="text-[16px] font-bold text-[#008FD3] font-mono tabular-nums">
+                <div className="bg-white p-2 rounded-lg border border-[#DCE5FF]/80 text-center">
+                  <div className="text-[10px] text-[#647293] uppercase font-medium">&gt; MA20</div>
+                  <div className="text-[16px] font-bold text-[#087CFF] font-mono tabular-nums">
                     {overview.stocksAboveMa20Percent}%
                   </div>
                 </div>
-                <div className="bg-white p-2 rounded-lg border border-[#E2E8F0]/80 text-center">
-                  <div className="text-[10px] text-[#64748B] uppercase font-medium">&gt; MA50</div>
+                <div className="bg-white p-2 rounded-lg border border-[#DCE5FF]/80 text-center">
+                  <div className="text-[10px] text-[#647293] uppercase font-medium">&gt; MA50</div>
                   <div className="text-[16px] font-bold text-[#4F46E5] font-mono tabular-nums">
                     {overview.stocksAboveMa50Percent}%
                   </div>
                 </div>
               </div>
-              <div className="text-[11px] text-[#64748B] flex items-center justify-between border-t border-[#E2E8F0]/70 pt-1.5">
-                <span className="flex items-center gap-1 text-[#10B981]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />Tăng: <b>{overview.advances}</b>
+              <div className="text-[11px] text-[#647293] flex items-center justify-between border-t border-[#DCE5FF]/70 pt-1.5">
+                <span className="flex items-center gap-1 text-[#16A34A]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A]" />Tăng: <b>{overview.advances}</b>
                   {overview.ceilings > 0 && <span className="text-[10px] text-[#9333EA]">({overview.ceilings} trần)</span>}
                 </span>
                 <span className="flex items-center gap-1 text-[#EF4444]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />Giảm: <b>{overview.declines}</b>
-                  {overview.floors > 0 && <span className="text-[10px] text-[#0284C7]">({overview.floors} sàn)</span>}
+                  {overview.floors > 0 && <span className="text-[10px] text-[#087CFF]">({overview.floors} sàn)</span>}
                 </span>
               </div>
             </div>
 
             {/* Card 3: Tỷ lệ Bứt phá vs Suy yếu */}
-            <div className="bg-[#F8FAFC] rounded-xl p-3.5 border border-[#E2E8F0] space-y-2">
-              <div className="flex items-center justify-between text-[12px] font-semibold text-[#64748B]">
+            <div className="bg-[#F8FAFC] rounded-xl p-3.5 border border-[#DCE5FF] space-y-2">
+              <div className="flex items-center justify-between text-[12px] font-semibold text-[#647293]">
                 <span>Xung lực & Tỷ lệ dòng tiền</span>
                 <span className="text-[11px] text-[#94A3B8]">Mẫu định lượng</span>
               </div>
               <div className="space-y-1.5 pt-0.5 text-xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-[#059669] font-medium flex items-center gap-1">
+                  <span className="text-[#15803D] font-medium flex items-center gap-1">
                     <ArrowUpRight className="w-3.5 h-3.5" /> Bứt phá đỉnh:
                   </span>
-                  <span className="font-bold text-[#172033] font-mono tabular-nums">{overview.breakoutRatioPercent}%</span>
+                  <span className="font-bold text-[#172554] font-mono tabular-nums">{overview.breakoutRatioPercent}%</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#DC2626] font-medium flex items-center gap-1">
                     <AlertCircle className="w-3.5 h-3.5" /> Bứt phá thất bại:
                   </span>
-                  <span className="font-bold text-[#172033] font-mono tabular-nums">{overview.failedBreakoutRatioPercent}%</span>
+                  <span className="font-bold text-[#172554] font-mono tabular-nums">{overview.failedBreakoutRatioPercent}%</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#D97706] font-medium flex items-center gap-1">
                     <TrendingDown className="w-3.5 h-3.5" /> Suy yếu xu hướng:
                   </span>
-                  <span className="font-bold text-[#172033] font-mono tabular-nums">{overview.weakeningRatioPercent}%</span>
+                  <span className="font-bold text-[#172554] font-mono tabular-nums">{overview.weakeningRatioPercent}%</span>
                 </div>
               </div>
             </div>
 
             {/* Card 4: Mức rủi ro & Tỷ trọng danh mục tham khảo */}
-            <div className="bg-[#F8FAFC] rounded-xl p-3.5 border border-[#E2E8F0] flex flex-col justify-between">
+            <div className="bg-[#F8FAFC] rounded-xl p-3.5 border border-[#DCE5FF] flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[12px] font-semibold text-[#64748B]">Mức rủi ro thị trường</span>
+                  <span className="text-[12px] font-semibold text-[#647293]">Mức rủi ro thị trường</span>
                   <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
                     overview.marketRiskLevel === 'THẤP' 
-                      ? 'bg-[#D1FAE5] text-[#059669]' 
+                      ? 'bg-[#DCFCE7] text-[#15803D]' 
                       : overview.marketRiskLevel === 'CAO' 
                       ? 'bg-[#FEE2E2] text-[#DC2626]' 
                       : 'bg-[#FEF3C7] text-[#D97706]'
@@ -418,28 +418,28 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                     {overview.marketRiskLevel}
                   </span>
                 </div>
-                <div className="mt-2 text-xs font-semibold text-[#172033] flex items-center gap-2">
-                  <PieChart className="w-4 h-4 text-[#008FD3]" />
+                <div className="mt-2 text-xs font-semibold text-[#172554] flex items-center gap-2">
+                  <PieChart className="w-4 h-4 text-[#087CFF]" />
                   <span>Tham khảo: {overview.portfolioAllocationReference.stockPercent}% CP / {overview.portfolioAllocationReference.cashPercent}% Tiền</span>
                 </div>
-                <p className="text-[11px] text-[#64748B] mt-1 line-clamp-2">
+                <p className="text-[11px] text-[#647293] mt-1 line-clamp-2">
                   {overview.portfolioAllocationReference.recommendationText}
                 </p>
               </div>
-              <div className="text-[10px] text-[#94A3B8] italic mt-2 border-t border-[#E2E8F0]/70 pt-1">
+              <div className="text-[10px] text-[#94A3B8] italic mt-2 border-t border-[#DCE5FF]/70 pt-1">
                 * Tham khảo định lượng, không cam kết hiệu quả
               </div>
             </div>
           </div>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6 text-center text-[#64748B] animate-pulse">
+        <div className="bg-white rounded-2xl border border-[#DCE5FF] p-6 text-center text-[#647293] animate-pulse">
           Đang tính toán tổng quan thị trường từ dữ liệu kiểm định...
         </div>
       )}
 
       {/* 2. THANH BỘ LỌC CHIP / TABS VÀ TÌM KIẾM */}
-      <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs p-3.5 lg:p-4 space-y-3">
+      <div className="bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs p-3.5 lg:p-4 space-y-3">
         {/* Hàng 1: 10 Chip lọc dạng Tab có số đếm thực tế */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
           {filterTabs.map((tab) => {
@@ -450,13 +450,13 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                 onClick={() => setActiveTab(tab.id as FilterTab)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition flex items-center gap-1.5 border ${
                   isActive
-                    ? 'bg-[#008FD3] text-white border-[#008FD3] shadow-xs'
-                    : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0] hover:bg-[#F1F5F9] hover:text-[#172033]'
+                    ? 'bg-[#087CFF] text-white border-[#087CFF] shadow-xs'
+                    : 'bg-[#F8FAFC] text-[#647293] border-[#DCE5FF] hover:bg-[#F4F7FF] hover:text-[#172554]'
                 }`}
               >
                 <span>{tab.label}</span>
                 <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono tabular-nums ${
-                  isActive ? 'bg-white/20 text-white' : 'bg-[#E2E8F0] text-[#475569]'
+                  isActive ? 'bg-white/20 text-white' : 'bg-[#DCE5FF] text-[#475569]'
                 }`}>
                   {tab.count}
                 </span>
@@ -466,19 +466,19 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
         </div>
 
         {/* Hàng 2: Bộ lọc phụ (Sàn, Rủi ro, Trạng thái, Tìm mã) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1 border-t border-[#F1F5F9] text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1 border-t border-[#F4F7FF] text-xs">
           {/* Lọc theo sàn */}
           <div className="flex items-center gap-2">
-            <span className="text-[#64748B] font-medium whitespace-nowrap">Sàn:</span>
-            <div className="flex items-center gap-1 bg-[#F8FAFC] p-1 rounded-xl border border-[#E2E8F0] w-full">
+            <span className="text-[#647293] font-medium whitespace-nowrap">Sàn:</span>
+            <div className="flex items-center gap-1 bg-[#F8FAFC] p-1 rounded-xl border border-[#DCE5FF] w-full">
               {['ALL', 'HOSE', 'HNX', 'UPCOM'].map((ex) => (
                 <button
                   key={ex}
                   onClick={() => setSelectedExchange(ex)}
                   className={`flex-1 py-1 rounded-lg text-[11px] font-semibold transition ${
                     selectedExchange === ex 
-                      ? 'bg-white text-[#008FD3] shadow-2xs font-bold' 
-                      : 'text-[#64748B] hover:text-[#172033]'
+                      ? 'bg-white text-[#087CFF] shadow-2xs font-bold' 
+                      : 'text-[#647293] hover:text-[#172554]'
                   }`}
                 >
                   {ex === 'ALL' ? 'Tất cả' : ex}
@@ -489,11 +489,11 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
 
           {/* Lọc theo mức rủi ro */}
           <div className="flex items-center gap-2">
-            <span className="text-[#64748B] font-medium whitespace-nowrap">Rủi ro:</span>
+            <span className="text-[#647293] font-medium whitespace-nowrap">Rủi ro:</span>
             <select
               value={selectedRisk}
               onChange={(e) => setSelectedRisk(e.target.value)}
-              className="flex-1 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-2.5 py-1.5 font-semibold text-[#172033]"
+              className="flex-1 bg-[#F8FAFC] border border-[#DCE5FF] rounded-xl px-2.5 py-1.5 font-semibold text-[#172554]"
             >
               <option value="ALL">Tất cả mức độ</option>
               <option value="THẤP">Thấp (Đạt chuẩn)</option>
@@ -504,11 +504,11 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
 
           {/* Lọc theo trạng thái */}
           <div className="flex items-center gap-2">
-            <span className="text-[#64748B] font-medium whitespace-nowrap">Trạng thái:</span>
+            <span className="text-[#647293] font-medium whitespace-nowrap">Trạng thái:</span>
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="flex-1 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-2.5 py-1.5 font-semibold text-[#172033]"
+              className="flex-1 bg-[#F8FAFC] border border-[#DCE5FF] rounded-xl px-2.5 py-1.5 font-semibold text-[#172554]"
             >
               <option value="ALL">Tất cả trạng thái</option>
               <option value="NEW">MỚI</option>
@@ -527,17 +527,17 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm mã cổ phiếu (VD: HPG)..."
-              className="w-full pl-8 pr-3 py-1.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-xs font-semibold uppercase text-[#172033] placeholder:normal-case placeholder:text-[#94A3B8]"
+              className="w-full pl-8 pr-3 py-1.5 bg-[#F8FAFC] border border-[#DCE5FF] rounded-xl text-xs font-semibold uppercase text-[#172554] placeholder:normal-case placeholder:text-[#94A3B8]"
             />
           </div>
         </div>
       </div>
 
       {/* 3. BẢNG DỮ LIỆU CẢNH BÁO (ALERTS DATA TABLE) */}
-      <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+      <div className="bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-[#64748B] space-y-2">
-            <RefreshCw className="w-6 h-6 animate-spin mx-auto text-[#008FD3]" />
+          <div className="p-8 text-center text-[#647293] space-y-2">
+            <RefreshCw className="w-6 h-6 animate-spin mx-auto text-[#087CFF]" />
             <p className="text-xs">Đang tải danh sách cảnh báo thị trường...</p>
           </div>
         ) : error ? (
@@ -552,9 +552,9 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
             </button>
           </div>
         ) : alerts.length === 0 ? (
-          <div className="p-12 text-center text-[#64748B] space-y-2">
+          <div className="p-12 text-center text-[#647293] space-y-2">
             <Bell className="w-8 h-8 mx-auto text-[#CBD5E1]" />
-            <p className="text-sm font-semibold text-[#172033]">Không tìm thấy cảnh báo nào phù hợp</p>
+            <p className="text-sm font-semibold text-[#172554]">Không tìm thấy cảnh báo nào phù hợp</p>
             <p className="text-xs text-[#94A3B8]">
               Không có cổ phiếu thỏa mãn tiêu chí lọc hiện tại. Nhấn &quot;Quét thị trường&quot; để cập nhật thêm dữ liệu mới.
             </p>
@@ -563,7 +563,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-[12px] border-collapse">
               <thead>
-                <tr className="bg-[#F8FAFC] text-[#64748B] text-[11px] font-semibold border-b border-[#E2E8F0]">
+                <tr className="bg-[#F8FAFC] text-[#647293] text-[11px] font-semibold border-b border-[#DCE5FF]">
                   <th className="py-3 px-3.5 text-left whitespace-nowrap">Thời gian</th>
                   <th className="py-3 px-3 text-left whitespace-nowrap">Mã CP & Sàn</th>
                   <th className="py-3 px-3 text-left whitespace-nowrap">Loại cảnh báo</th>
@@ -577,7 +577,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                   <th className="py-3 px-3.5 text-center whitespace-nowrap">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F1F5F9]">
+              <tbody className="divide-y divide-[#F4F7FF]">
                 {alerts.map((item) => {
                   const meta = getEventTypeMeta(item.eventType);
                   const Icon = meta.icon;
@@ -590,7 +590,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                       className="hover:bg-[#F8FAFC] transition duration-150 group"
                     >
                       {/* Thời gian */}
-                      <td className="py-2.5 px-3.5 text-[#64748B] text-[11px] whitespace-nowrap font-mono">
+                      <td className="py-2.5 px-3.5 text-[#647293] text-[11px] whitespace-nowrap font-mono">
                         {item.detectedAt.includes('T') ? item.detectedAt.replace('T', ' ').slice(0, 19) : item.detectedAt}
                       </td>
 
@@ -599,17 +599,17 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                         <div className="flex items-center gap-1.5">
                           <span 
                             onClick={() => onSelectStock && onSelectStock(item.symbol)}
-                            className="font-bold text-[#008FD3] text-[13px] hover:underline cursor-pointer"
+                            className="font-bold text-[#087CFF] text-[13px] hover:underline cursor-pointer"
                             title="Mở phân tích kỹ thuật"
                           >
                             {item.symbol}
                           </span>
                           <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${
                             item.exchange === 'HOSE' 
-                              ? 'bg-[#E0F2FE] text-[#0284C7]' 
+                              ? 'bg-[#EBF3FF] text-[#087CFF]' 
                               : item.exchange === 'HNX' 
                               ? 'bg-[#FEF3C7] text-[#D97706]' 
-                              : 'bg-[#F1F5F9] text-[#64748B]'
+                              : 'bg-[#F4F7FF] text-[#647293]'
                           }`}>
                             {item.exchange}
                           </span>
@@ -625,7 +625,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                       </td>
 
                       {/* Mô tả điều kiện */}
-                      <td className="py-2.5 px-3 text-[#172033] text-[11px]">
+                      <td className="py-2.5 px-3 text-[#172554] text-[11px]">
                         <div>{item.description}</div>
                         {item.cautionNote && (
                           <div className="text-[10px] text-[#D97706] font-medium mt-0.5 flex items-center gap-1">
@@ -636,7 +636,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                       </td>
 
                       {/* Giá tại thời điểm cảnh báo ban đầu (BẢO LƯU) */}
-                      <td className="py-2.5 px-3 text-right font-mono font-medium text-[#64748B] tabular-nums whitespace-nowrap">
+                      <td className="py-2.5 px-3 text-right font-mono font-medium text-[#647293] tabular-nums whitespace-nowrap">
                         {item.alertPrice.toLocaleString('vi-VN')}
                       </td>
 
@@ -646,22 +646,22 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                           item.volumeRatio >= 2.0 
                             ? 'text-[#9333EA]' 
                             : item.volumeRatio >= 1.5 
-                            ? 'text-[#059669]' 
-                            : 'text-[#64748B]'
+                            ? 'text-[#15803D]' 
+                            : 'text-[#647293]'
                         }`}>
                           {item.volumeRatio.toFixed(2).replace('.', ',')}x
                         </span>
                       </td>
 
                       {/* Giá hiện tại */}
-                      <td className="py-2.5 px-3 text-right font-mono font-bold text-[#172033] tabular-nums whitespace-nowrap">
+                      <td className="py-2.5 px-3 text-right font-mono font-bold text-[#172554] tabular-nums whitespace-nowrap">
                         {item.currentPrice.toLocaleString('vi-VN')}
                       </td>
 
                       {/* % Thay đổi từ giá cảnh báo */}
                       <td className="py-2.5 px-3 text-right font-mono font-bold tabular-nums whitespace-nowrap">
                         <span className={`inline-flex items-center ${
-                          isPositive ? 'text-[#10B981]' : isNegative ? 'text-[#EF4444]' : 'text-[#64748B]'
+                          isPositive ? 'text-[#16A34A]' : isNegative ? 'text-[#EF4444]' : 'text-[#647293]'
                         }`}>
                           {isPositive ? '+' : ''}{item.priceChangeFromAlertPercent.toFixed(2)}%
                         </span>
@@ -682,7 +682,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                         <div className="flex items-center justify-center gap-1">
                           <button
                             onClick={() => onSelectStock && onSelectStock(item.symbol)}
-                            className="px-2 py-1 rounded-lg bg-[#F0F9FF] hover:bg-[#E0F2FE] text-[#008FD3] text-[11px] font-semibold transition flex items-center gap-0.5"
+                            className="px-2 py-1 rounded-lg bg-[#F0F9FF] hover:bg-[#EBF3FF] text-[#087CFF] text-[11px] font-semibold transition flex items-center gap-0.5"
                             title="Phân tích mã này"
                           >
                             <span>Phân tích</span>
@@ -690,7 +690,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                           </button>
                           <button
                             onClick={() => setSelectedAlert(item)}
-                            className="p-1 rounded-lg hover:bg-[#F1F5F9] text-[#94A3B8] hover:text-[#172033] transition"
+                            className="p-1 rounded-lg hover:bg-[#F4F7FF] text-[#94A3B8] hover:text-[#172554] transition"
                             title="Xem chi tiết & Lịch sử trạng thái"
                           >
                             <Info className="w-3.5 h-3.5" />
@@ -709,20 +709,20 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
       {/* 4. MODAL CHI TIẾT CẢNH BÁO (ALERT DETAIL MODAL) */}
       {selectedAlert && (
         <div className="fixed inset-0 z-50 bg-[#0F172A]/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-5 shadow-2xl border border-[#E2E8F0] space-y-4 animate-in fade-in zoom-in-95">
-            <div className="flex items-start justify-between border-b border-[#F1F5F9] pb-3">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-5 shadow-2xl border border-[#DCE5FF] space-y-4 animate-in fade-in zoom-in-95">
+            <div className="flex items-start justify-between border-b border-[#F4F7FF] pb-3">
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-bold text-[#172033]">{selectedAlert.title}</h3>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#E0F2FE] text-[#008FD3]">
+                  <h3 className="text-lg font-bold text-[#172554]">{selectedAlert.title}</h3>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#EBF3FF] text-[#087CFF]">
                     {selectedAlert.symbol} ({selectedAlert.exchange})
                   </span>
                 </div>
-                <p className="text-xs text-[#64748B] mt-0.5">Phát hiện lúc: {selectedAlert.detectedAt}</p>
+                <p className="text-xs text-[#647293] mt-0.5">Phát hiện lúc: {selectedAlert.detectedAt}</p>
               </div>
               <button
                 onClick={() => setSelectedAlert(null)}
-                className="text-[#94A3B8] hover:text-[#172033] p-1 text-sm font-bold"
+                className="text-[#94A3B8] hover:text-[#172554] p-1 text-sm font-bold"
               >
                 ✕
               </button>
@@ -730,28 +730,28 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
 
             {/* Chi tiết chỉ báo & Thông số */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
-              <div className="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#E2E8F0]">
-                <div className="text-[10px] text-[#64748B]">Giá ban đầu</div>
-                <div className="font-mono font-bold text-[#172033] text-[13px] mt-0.5">
+              <div className="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#DCE5FF]">
+                <div className="text-[10px] text-[#647293]">Giá ban đầu</div>
+                <div className="font-mono font-bold text-[#172554] text-[13px] mt-0.5">
                   {selectedAlert.alertPrice.toLocaleString('vi-VN')} đ
                 </div>
               </div>
-              <div className="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#E2E8F0]">
-                <div className="text-[10px] text-[#64748B]">Giá hiện tại</div>
-                <div className="font-mono font-bold text-[#172033] text-[13px] mt-0.5">
+              <div className="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#DCE5FF]">
+                <div className="text-[10px] text-[#647293]">Giá hiện tại</div>
+                <div className="font-mono font-bold text-[#172554] text-[13px] mt-0.5">
                   {selectedAlert.currentPrice.toLocaleString('vi-VN')} đ
                 </div>
               </div>
-              <div className="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#E2E8F0]">
-                <div className="text-[10px] text-[#64748B]">Tỷ lệ KL/TB20</div>
+              <div className="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#DCE5FF]">
+                <div className="text-[10px] text-[#647293]">Tỷ lệ KL/TB20</div>
                 <div className="font-mono font-bold text-[#9333EA] text-[13px] mt-0.5">
                   {selectedAlert.volumeRatio.toFixed(2).replace('.', ',')}x
                 </div>
               </div>
-              <div className="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#E2E8F0]">
-                <div className="text-[10px] text-[#64748B]">% Biến động</div>
+              <div className="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#DCE5FF]">
+                <div className="text-[10px] text-[#647293]">% Biến động</div>
                 <div className={`font-mono font-bold text-[13px] mt-0.5 ${
-                  selectedAlert.priceChangeFromAlertPercent >= 0 ? 'text-[#10B981]' : 'text-[#EF4444]'
+                  selectedAlert.priceChangeFromAlertPercent >= 0 ? 'text-[#16A34A]' : 'text-[#EF4444]'
                 }`}>
                   {selectedAlert.priceChangeFromAlertPercent >= 0 ? '+' : ''}{selectedAlert.priceChangeFromAlertPercent.toFixed(2)}%
                 </div>
@@ -759,8 +759,8 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
             </div>
 
             {/* Mô tả chi tiết & Cảnh báo */}
-            <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] space-y-1.5 text-xs">
-              <div className="font-semibold text-[#172033]">Diễn giải điều kiện kỹ thuật:</div>
+            <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#DCE5FF] space-y-1.5 text-xs">
+              <div className="font-semibold text-[#172554]">Diễn giải điều kiện kỹ thuật:</div>
               <p className="text-[#475569] leading-relaxed">{selectedAlert.description}</p>
               {selectedAlert.cautionNote && (
                 <div className="bg-[#FFFBEB] p-2 rounded-lg border border-[#FDE68A] text-[#B45309] text-[11px] font-medium flex items-center gap-1.5 mt-2">
@@ -772,16 +772,16 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
 
             {/* Nhật ký chuyển tiếp trạng thái (Audit Trail) */}
             <div className="space-y-1.5">
-              <div className="text-xs font-semibold text-[#172033] flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-[#64748B]" />
+              <div className="text-xs font-semibold text-[#172554] flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-[#647293]" />
                 <span>Nhật ký chuyển tiếp trạng thái (Audit Log):</span>
               </div>
-              <div className="bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] p-2.5 max-h-36 overflow-y-auto space-y-2 text-[11px]">
+              <div className="bg-[#F8FAFC] rounded-xl border border-[#DCE5FF] p-2.5 max-h-36 overflow-y-auto space-y-2 text-[11px]">
                 {selectedAlert.statusLogs && selectedAlert.statusLogs.length > 0 ? (
                   selectedAlert.statusLogs.map((log, idx) => (
-                    <div key={idx} className="flex items-start justify-between border-b border-[#F1F5F9] pb-1.5 last:border-0 last:pb-0">
+                    <div key={idx} className="flex items-start justify-between border-b border-[#F4F7FF] pb-1.5 last:border-0 last:pb-0">
                       <div>
-                        <span className="font-bold text-[#008FD3]">[{log.status}]</span> {log.note || 'Cập nhật hệ thống'}
+                        <span className="font-bold text-[#087CFF]">[{log.status}]</span> {log.note || 'Cập nhật hệ thống'}
                       </div>
                       <span className="text-[#94A3B8] font-mono whitespace-nowrap ml-2">
                         {log.timestamp.slice(11, 19) || log.timestamp}
@@ -795,15 +795,15 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
             </div>
 
             {/* Chuyển trạng thái thủ công */}
-            <div className="flex items-center justify-between border-t border-[#F1F5F9] pt-3 text-xs">
+            <div className="flex items-center justify-between border-t border-[#F4F7FF] pt-3 text-xs">
               <div className="flex items-center gap-1.5">
-                <span className="text-[#64748B]">Đổi trạng thái:</span>
+                <span className="text-[#647293]">Đổi trạng thái:</span>
                 {(['WATCHING', 'CONFIRMED', 'CLOSED'] as MarketAlertStatus[]).map(st => (
                   <button
                     key={st}
                     onClick={() => handleUpdateStatus(selectedAlert.id, st)}
                     disabled={selectedAlert.status === st}
-                    className="px-2 py-1 rounded bg-[#F1F5F9] hover:bg-[#E2E8F0] disabled:opacity-40 font-semibold text-[10px]"
+                    className="px-2 py-1 rounded bg-[#F4F7FF] hover:bg-[#DCE5FF] disabled:opacity-40 font-semibold text-[10px]"
                   >
                     {st}
                   </button>
@@ -816,7 +816,7 @@ export default function AlertsView({ onSelectStock }: AlertsViewProps) {
                     if (onSelectStock) onSelectStock(selectedAlert.symbol);
                     setSelectedAlert(null);
                   }}
-                  className="px-3.5 py-1.5 rounded-xl bg-[#008FD3] text-white font-semibold hover:bg-[#007bb8] transition flex items-center gap-1"
+                  className="px-3.5 py-1.5 rounded-xl bg-[#087CFF] text-white font-semibold hover:bg-[#0066D6] transition flex items-center gap-1"
                 >
                   <span>Mở phân tích CP</span>
                   <ChevronRight className="w-3.5 h-3.5" />

@@ -55,31 +55,31 @@ export default function FeatureGate({
   };
 
   return (
-    <div className="bg-[#FFFFFF] border border-[#BAE6FD] rounded-2xl p-6 shadow-sm relative overflow-hidden my-2">
+    <div className="bg-[#FFFFFF] border border-[#DCE5FF] rounded-2xl p-6 shadow-sm relative overflow-hidden my-2">
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-radial from-[#E0F2FE]/60 to-transparent rounded-full -mr-16 -mt-16 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-radial from-[#EBF3FF]/60 to-transparent rounded-full -mr-16 -mt-16 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#E0F2FE] border border-[#BAE6FD] flex items-center justify-center shrink-0 shadow-2xs">
-            <Lock className="w-6 h-6 text-[#008FD3]" />
+          <div className="w-12 h-12 rounded-2xl bg-[#EBF3FF] border border-[#DCE5FF] flex items-center justify-center shrink-0 shadow-2xs">
+            <Lock className="w-6 h-6 text-[#087CFF]" />
           </div>
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] border border-[#BAE6FD] uppercase tracking-wider">
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#EBF3FF] text-[#087CFF] border border-[#DCE5FF] uppercase tracking-wider">
                 Yêu cầu {targetPlan.name}
               </span>
-              <span className="text-xs text-[#64748B] font-medium font-mono">
+              <span className="text-xs text-[#647293] font-medium font-mono">
                 {targetPlan.formattedPrice}
               </span>
             </div>
 
-            <h3 className="font-bold text-[17px] text-[#172033] mt-1.5 tracking-tight">
+            <h3 className="font-bold text-[17px] text-[#172554] mt-1.5 tracking-tight">
               {title}
             </h3>
 
-            <p className="text-[13px] text-[#64748B] mt-1 max-w-xl leading-relaxed">
+            <p className="text-[13px] text-[#647293] mt-1 max-w-xl leading-relaxed">
               {desc}
             </p>
 
@@ -96,7 +96,7 @@ export default function FeatureGate({
         <div className="flex items-center gap-3 w-full md:w-auto shrink-0 pt-2 md:pt-0">
           <button
             onClick={handleAction}
-            className="w-full md:w-auto px-5 py-2.5 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-bold text-xs transition shadow-2xs flex items-center justify-center gap-2"
+            className="w-full md:w-auto px-5 py-2.5 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white font-bold text-xs transition shadow-2xs flex items-center justify-center gap-2"
           >
             <Crown className="w-4 h-4" />
             <span>Nâng cấp gói {targetTier}</span>

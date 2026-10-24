@@ -93,15 +93,15 @@ export default function ApiCenterView({
     switch (status) {
       case 'CONNECTED':
         return (
-          <span className="px-2.5 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] text-xs font-bold flex items-center gap-1.5 shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+          <span className="px-2.5 py-0.5 rounded-full bg-[#DCFCE7] text-[#16A34A] text-xs font-bold flex items-center gap-1.5 shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse"></span>
             KẾT NỐI THÀNH CÔNG
           </span>
         );
       case 'CONFIGURED':
         return (
-          <span className="px-2.5 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3] text-xs font-bold flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#008FD3]"></span>
+          <span className="px-2.5 py-0.5 rounded-full bg-[#EBF3FF] text-[#087CFF] text-xs font-bold flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#087CFF]"></span>
             ĐÃ CẤU HÌNH (CHƯA TEST)
           </span>
         );
@@ -129,8 +129,8 @@ export default function ApiCenterView({
       case 'CONNECTION_FAILED':
       case 'ERROR':
         return (
-          <span className="px-2.5 py-0.5 rounded-full bg-[#FFE4E6] text-[#F43F5E] text-xs font-bold flex items-center gap-1.5">
-            <XCircle className="w-3 h-3 text-[#F43F5E]" />
+          <span className="px-2.5 py-0.5 rounded-full bg-[#FEE2E2] text-[#EF4444] text-xs font-bold flex items-center gap-1.5">
+            <XCircle className="w-3 h-3 text-[#EF4444]" />
             KẾT NỐI THẤT BẠI
           </span>
         );
@@ -144,8 +144,8 @@ export default function ApiCenterView({
       case 'NOT_CONFIGURED':
       default:
         return (
-          <span className="px-2.5 py-0.5 rounded-full bg-[#F1F5F9] text-[#64748B] text-xs font-bold flex items-center gap-1.5">
-            <AlertCircle className="w-3 h-3 text-[#64748B]" />
+          <span className="px-2.5 py-0.5 rounded-full bg-[#F4F7FF] text-[#647293] text-xs font-bold flex items-center gap-1.5">
+            <AlertCircle className="w-3 h-3 text-[#647293]" />
             CHƯA CẤU HÌNH
           </span>
         );
@@ -161,12 +161,12 @@ export default function ApiCenterView({
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <Radio className="w-6 h-6 text-[#008FD3]" />
-            <h2 className="text-[22px] lg:text-[24px] font-bold text-[#172033] tracking-tight">
+            <Radio className="w-6 h-6 text-[#087CFF]" />
+            <h2 className="text-[22px] lg:text-[24px] font-bold text-[#172554] tracking-tight">
               Trung tâm Quản trị Kết nối API (API Center)
             </h2>
           </div>
-          <p className="text-[13px] text-[#64748B] mt-0.5">
+          <p className="text-[13px] text-[#647293] mt-0.5">
             Giám sát trạng thái kết nối dữ liệu SSI FastConnect Data thật (HOSE, HNX, UPCoM), đo độ trễ và nhật ký đồng bộ
           </p>
         </div>
@@ -175,14 +175,14 @@ export default function ApiCenterView({
           <button
             onClick={loadData}
             disabled={isLoading}
-            className="px-3.5 py-2 rounded-xl bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] text-xs font-semibold text-[#172033] flex items-center gap-1.5 shadow-xs transition"
+            className="px-3.5 py-2 rounded-xl bg-white border border-[#DCE5FF] hover:bg-[#F8FAFC] text-xs font-semibold text-[#172554] flex items-center gap-1.5 shadow-xs transition"
           >
-            <RefreshCw className={`w-3.5 h-3.5 text-[#64748B] ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 text-[#647293] ${isLoading ? 'animate-spin' : ''}`} />
             <span>{isLoading ? 'Đang tải...' : 'Làm mới'}</span>
           </button>
           <a
             href="/admin"
-            className="px-3.5 py-2 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition"
+            className="px-3.5 py-2 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition"
           >
             <span>Khu vực Quản trị Admin</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -192,12 +192,12 @@ export default function ApiCenterView({
 
       {/* HERO CARD: SSI FASTCONNECT DATA */}
       <div className="bg-gradient-to-br from-[#0B192C] to-[#1E3E62] rounded-3xl p-6 text-white shadow-xl relative overflow-hidden border border-white/10">
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-radial from-[#008FD3]/20 to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-radial from-[#087CFF]/20 to-transparent pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="px-3 py-1 rounded-full bg-[#008FD3]/20 border border-[#008FD3]/40 text-[#008FD3] font-mono font-bold text-xs">
+              <span className="px-3 py-1 rounded-full bg-[#087CFF]/20 border border-[#087CFF]/40 text-[#087CFF] font-mono font-bold text-xs">
                 NGUỒN DỮ LIỆU CHÍNH THỨC
               </span>
               {getStatusBadge(ssiStatus)}
@@ -205,7 +205,7 @@ export default function ApiCenterView({
 
             <div>
               <h3 className="text-xl lg:text-2xl font-bold flex items-center gap-2.5">
-                <Database className="w-6 h-6 text-[#008FD3]" />
+                <Database className="w-6 h-6 text-[#087CFF]" />
                 SSI FastConnect Data v2.0
               </h3>
               <p className="text-xs text-white/70 mt-1 leading-relaxed">
@@ -222,7 +222,7 @@ export default function ApiCenterView({
               </div>
               <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
                 <span className="text-[11px] text-white/60 block">Độ trễ phản hồi:</span>
-                <span className="font-mono text-xs font-bold text-[#10B981]">
+                <span className="font-mono text-xs font-bold text-[#16A34A]">
                   {ssiConfig?.responseTimeMs ? `${ssiConfig.responseTimeMs} ms` : 'Chưa đo'}
                 </span>
               </div>
@@ -234,7 +234,7 @@ export default function ApiCenterView({
               </div>
               <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
                 <span className="text-[11px] text-white/60 block">Bản ghi đã lưu:</span>
-                <span className="font-mono text-xs font-bold text-[#008FD3]">
+                <span className="font-mono text-xs font-bold text-[#087CFF]">
                   {ssiConfig?.syncedRecordsCount ? `${ssiConfig.syncedRecordsCount.toLocaleString()} mã/chỉ số` : '0 bản ghi'}
                 </span>
               </div>
@@ -254,7 +254,7 @@ export default function ApiCenterView({
             <button
               onClick={() => handleTest('SSI')}
               disabled={isTestingSsi}
-              className="py-3 px-6 rounded-2xl bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-50 text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-lg"
+              className="py-3 px-6 rounded-2xl bg-[#087CFF] hover:bg-[#0066D6] disabled:opacity-50 text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-lg"
             >
               <RefreshCw className={`w-4 h-4 ${isTestingSsi ? 'animate-spin' : ''}`} />
               <span>{isTestingSsi ? 'Đang kiểm tra kết nối...' : 'Kiểm tra kết nối SSI'}</span>
@@ -268,9 +268,9 @@ export default function ApiCenterView({
 
       {/* 3 Secondary Providers Grid */}
       <div>
-        <h4 className="text-sm font-bold text-[#172033] mb-3 flex items-center gap-2">
+        <h4 className="text-sm font-bold text-[#172554] mb-3 flex items-center gap-2">
           <span>Các nhà cung cấp dữ liệu phụ trợ</span>
-          <span className="text-xs font-normal text-[#64748B]">(Vietstock, FiinTrade, BMSC)</span>
+          <span className="text-xs font-normal text-[#647293]">(Vietstock, FiinTrade, BMSC)</span>
         </h4>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -279,41 +279,41 @@ export default function ApiCenterView({
             .map((p) => {
               const isTesting = activeTesting === p.code;
               return (
-                <div key={p.id} className="bg-white rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between space-y-4">
+                <div key={p.id} className="bg-white rounded-2xl p-5 border border-[#DCE5FF] shadow-xs flex flex-col justify-between space-y-4">
                   <div>
                     <div className="flex items-center justify-between">
-                      <h3 className="text-[15px] font-bold text-[#172033]">{p.name}</h3>
+                      <h3 className="text-[15px] font-bold text-[#172554]">{p.name}</h3>
                       {getStatusBadge(p.status)}
                     </div>
-                    <p className="text-xs text-[#64748B] mt-1 leading-relaxed">{p.description}</p>
+                    <p className="text-xs text-[#647293] mt-1 leading-relaxed">{p.description}</p>
                   </div>
 
-                  <div className="bg-[#F5F8FC] p-3 rounded-xl border border-[#E2E8F0] text-xs space-y-1.5 font-[Calibri]">
+                  <div className="bg-[#F4F7FF] p-3 rounded-xl border border-[#DCE5FF] text-xs space-y-1.5 font-[Calibri]">
                     <div className="flex justify-between">
-                      <span className="text-[#64748B]">Độ trễ phản hồi:</span>
-                      <span className="font-semibold text-[#172033] font-mono tabular-nums">
+                      <span className="text-[#647293]">Độ trễ phản hồi:</span>
+                      <span className="font-semibold text-[#172554] font-mono tabular-nums">
                         {p.responseTimeMs ? `${p.responseTimeMs} ms` : 'Không áp dụng'}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#64748B]">Kiểm tra gần nhất:</span>
-                      <span className="font-semibold text-[#172033] font-mono tabular-nums">{p.lastSyncTime || 'Vừa xong'}</span>
+                      <span className="text-[#647293]">Kiểm tra gần nhất:</span>
+                      <span className="font-semibold text-[#172554] font-mono tabular-nums">{p.lastSyncTime || 'Vừa xong'}</span>
                     </div>
                     {p.lastError && (
-                      <p className="text-[11px] text-[#D97706] font-medium pt-1 border-t border-[#E2E8F0]">
+                      <p className="text-[11px] text-[#D97706] font-medium pt-1 border-t border-[#DCE5FF]">
                         Ghi chú: {p.lastError}
                       </p>
                     )}
                   </div>
 
                   <div className="flex items-center justify-between pt-1">
-                    <span className="text-[11px] text-[#64748B]">
+                    <span className="text-[11px] text-[#647293]">
                       {p.code === 'BMSC' ? 'Phương thức: Sao kê CSV/Excel' : 'Phương thức: REST API'}
                     </span>
                     <button
                       onClick={() => handleTest(p.code)}
                       disabled={isTesting}
-                      className="px-3.5 py-1.5 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-50 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-2xs"
+                      className="px-3.5 py-1.5 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] disabled:opacity-50 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-2xs"
                     >
                       <RefreshCw className={`w-3 h-3 ${isTesting ? 'animate-spin' : ''}`} />
                       <span>{isTesting ? 'Đang ping...' : 'Kiểm tra'}</span>
@@ -326,22 +326,22 @@ export default function ApiCenterView({
       </div>
 
       {/* Sync Logs Table */}
-      <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-xs overflow-hidden">
-        <div className="p-5 border-b border-[#E2E8F0] flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-white rounded-3xl border border-[#DCE5FF] shadow-xs overflow-hidden">
+        <div className="p-5 border-b border-[#DCE5FF] flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-[#008FD3]" />
+            <Clock className="w-5 h-5 text-[#087CFF]" />
             <div>
-              <h3 className="font-bold text-base text-[#172033]">Nhật ký đồng bộ & Kiểm tra kết nối (API Sync Logs)</h3>
-              <p className="text-xs text-[#64748B]">Ghi nhận toàn bộ thao tác ping test và đồng bộ dữ liệu vào hệ thống</p>
+              <h3 className="font-bold text-base text-[#172554]">Nhật ký đồng bộ & Kiểm tra kết nối (API Sync Logs)</h3>
+              <p className="text-xs text-[#647293]">Ghi nhận toàn bộ thao tác ping test và đồng bộ dữ liệu vào hệ thống</p>
             </div>
           </div>
-          <span className="text-xs text-[#64748B]">Hiển thị {logs.length} bản ghi gần nhất</span>
+          <span className="text-xs text-[#647293]">Hiển thị {logs.length} bản ghi gần nhất</span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left font-[Calibri] text-[11pt]">
             <thead>
-              <tr className="bg-[#F5F8FC] text-[#64748B] text-xs font-semibold border-b border-[#E2E8F0]">
+              <tr className="bg-[#F4F7FF] text-[#647293] text-xs font-semibold border-b border-[#DCE5FF]">
                 <th className="py-3 px-4 font-semibold text-left">Thời gian</th>
                 <th className="py-3 px-4 font-semibold text-left">Nhà cung cấp</th>
                 <th className="py-3 px-4 font-semibold text-right">Độ trễ</th>
@@ -349,39 +349,39 @@ export default function ApiCenterView({
                 <th className="py-3 px-4 font-semibold text-left">Chi tiết kết nối / Lỗi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9]">
+            <tbody className="divide-y divide-[#F4F7FF]">
               {logs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-xs text-[#64748B]">
+                  <td colSpan={5} className="py-8 text-center text-xs text-[#647293]">
                     Chưa có nhật ký hoạt động nào được ghi nhận. Bấm &quot;Kiểm tra kết nối SSI&quot; để thực hiện bài test đầu tiên.
                   </td>
                 </tr>
               ) : (
                 logs.map((log, idx) => (
                   <tr key={idx} className="hover:bg-[#F8FAFC] transition h-[40px]">
-                    <td className="py-2.5 px-4 text-[#64748B] font-mono tabular-nums text-xs">
+                    <td className="py-2.5 px-4 text-[#647293] font-mono tabular-nums text-xs">
                       {log.timestamp}
                     </td>
-                    <td className="py-2.5 px-4 font-bold text-[#008FD3] text-xs">
+                    <td className="py-2.5 px-4 font-bold text-[#087CFF] text-xs">
                       {log.provider}
                     </td>
-                    <td className="py-2.5 px-4 text-right font-mono tabular-nums font-semibold text-[#172033] text-xs">
+                    <td className="py-2.5 px-4 text-right font-mono tabular-nums font-semibold text-[#172554] text-xs">
                       {log.latency ? `${log.latency} ms` : '-'}
                     </td>
                     <td className="py-2.5 px-4 text-center">
                       <span
                         className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
                           log.status === 'SUCCESS' || log.status === 'CONNECTED'
-                            ? 'bg-[#D1FAE5] text-[#10B981]'
+                            ? 'bg-[#DCFCE7] text-[#16A34A]'
                             : log.status === 'ERROR' || log.status === 'FAILED'
-                            ? 'bg-[#FFE4E6] text-[#F43F5E]'
-                            : 'bg-[#E0F2FE] text-[#008FD3]'
+                            ? 'bg-[#FEE2E2] text-[#EF4444]'
+                            : 'bg-[#EBF3FF] text-[#087CFF]'
                         }`}
                       >
                         {log.status}
                       </span>
                     </td>
-                    <td className="py-2.5 px-4 text-[#172033] text-xs font-medium">
+                    <td className="py-2.5 px-4 text-[#172554] text-xs font-medium">
                       {log.message}
                     </td>
                   </tr>

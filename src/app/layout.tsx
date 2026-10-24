@@ -28,7 +28,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#F5F8FC] text-[#172033] min-h-screen antialiased selection:bg-[#008FD3] selection:text-white">
+      <body className="bg-[#F4F7FF] text-[#172554] min-h-screen antialiased selection:bg-[#087CFF] selection:text-white">
         <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
         {children}
       </body>

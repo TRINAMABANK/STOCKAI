@@ -77,17 +77,17 @@ export default function AiAssistantView() {
   return (
     <div className="space-y-4 max-w-4xl mx-auto h-[calc(100vh-8rem)] flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0] shrink-0">
+      <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF] shrink-0">
         <div className="flex items-center gap-3">
           <Logo size="md" variant="default" />
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-[20px] lg:text-[22px] font-bold text-[#172033] tracking-tight">Trợ lý Phân tích StockAI Copilot</h2>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#EDE9FE] text-[#8B5CF6] text-[11px] font-semibold flex items-center gap-1">
+              <h2 className="text-[20px] lg:text-[22px] font-bold text-[#172554] tracking-tight">Trợ lý Phân tích StockAI Copilot</h2>
+              <span className="px-2.5 py-0.5 rounded-full bg-[#F3E8FF] text-[#8B36FF] text-[11px] font-semibold flex items-center gap-1">
                 <Sparkles className="w-3 h-3" /> GPT-4o Backend
               </span>
             </div>
-            <p className="text-[13px] text-[#64748B] mt-0.5">Tích hợp dữ liệu danh mục thật, thị trường HOSE, HNX, UPCoM và động cơ định lượng T+3</p>
+            <p className="text-[13px] text-[#647293] mt-0.5">Tích hợp dữ liệu danh mục thật, thị trường HOSE, HNX, UPCoM và động cơ định lượng T+3</p>
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@ export default function AiAssistantView() {
           <button
             key={i}
             onClick={() => handleSend(p)}
-            className="px-3.5 py-1.5 rounded-xl bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#008FD3] text-[#172033] hover:text-[#008FD3] text-[12px] font-medium whitespace-nowrap shadow-2xs transition"
+            className="px-3.5 py-1.5 rounded-xl bg-[#FFFFFF] border border-[#DCE5FF] hover:border-[#087CFF] text-[#172554] hover:text-[#087CFF] text-[12px] font-medium whitespace-nowrap shadow-2xs transition"
           >
             {p}
           </button>
@@ -106,13 +106,13 @@ export default function AiAssistantView() {
       </div>
 
       {/* Message Stream */}
-      <div className="flex-1 overflow-y-auto space-y-4 p-5 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] shadow-xs">
+      <div className="flex-1 overflow-y-auto space-y-4 p-5 rounded-2xl bg-[#FFFFFF] border border-[#DCE5FF] shadow-xs">
         {messages.map((m, idx) => (
           <div
             key={idx}
             className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}
           >
-            <div className="flex items-center gap-2 text-[11px] text-[#64748B] mb-1 px-1">
+            <div className="flex items-center gap-2 text-[11px] text-[#647293] mb-1 px-1">
               <span className="font-semibold">{m.sender === 'user' ? 'Anh Trí' : (m.model || 'StockAI')}</span>
               <span>•</span>
               <span className="font-mono">{m.time}</span>
@@ -120,8 +120,8 @@ export default function AiAssistantView() {
             <div
               className={`p-4 rounded-2xl max-w-[85%] text-[13px] sm:text-[14px] leading-relaxed whitespace-pre-line shadow-2xs ${
                 m.sender === 'user'
-                  ? 'bg-[#E0F2FE] border border-[#BAE6FD] text-[#008FD3] font-medium rounded-tr-none'
-                  : 'bg-[#F5F8FC] border border-[#E2E8F0] text-[#172033] rounded-tl-none'
+                  ? 'bg-[#EBF3FF] border border-[#DCE5FF] text-[#087CFF] font-medium rounded-tr-none'
+                  : 'bg-[#F4F7FF] border border-[#DCE5FF] text-[#172554] rounded-tl-none'
               }`}
             >
               {m.text}
@@ -129,15 +129,15 @@ export default function AiAssistantView() {
           </div>
         ))}
         {isLoading && (
-          <div className="flex items-center gap-2 text-[13px] text-[#64748B] p-3 bg-[#F5F8FC] rounded-xl border border-[#E2E8F0] max-w-sm">
-            <RefreshCw className="w-4 h-4 animate-spin text-[#008FD3]" />
+          <div className="flex items-center gap-2 text-[13px] text-[#647293] p-3 bg-[#F4F7FF] rounded-xl border border-[#DCE5FF] max-w-sm">
+            <RefreshCw className="w-4 h-4 animate-spin text-[#087CFF]" />
             <span>StockAI đang truy vấn dữ liệu thị trường & suy luận...</span>
           </div>
         )}
       </div>
 
       {/* Input Box */}
-      <div className="flex items-center gap-2 shrink-0 bg-[#FFFFFF] p-2 rounded-2xl border border-[#E2E8F0] shadow-xs">
+      <div className="flex items-center gap-2 shrink-0 bg-[#FFFFFF] p-2 rounded-2xl border border-[#DCE5FF] shadow-xs">
         <input
           type="text"
           value={input}
@@ -147,12 +147,12 @@ export default function AiAssistantView() {
           }}
           disabled={isLoading}
           placeholder="Đặt câu hỏi về cổ phiếu, kịch bản giá, hoặc phân tích danh mục..."
-          className="flex-1 bg-transparent px-3 py-2 text-[13px] sm:text-[14px] text-[#172033] placeholder-[#64748B] focus:outline-none"
+          className="flex-1 bg-transparent px-3 py-2 text-[13px] sm:text-[14px] text-[#172554] placeholder-[#647293] focus:outline-none"
         />
         <button
           onClick={() => handleSend(input)}
           disabled={isLoading || !input.trim()}
-          className="px-4 py-2.5 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-40 text-white font-medium text-[13px] transition flex items-center gap-1.5 shadow-2xs"
+          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#8B36FF] to-[#EF4CBF] hover:opacity-95 disabled:opacity-40 text-white font-bold text-[13px] transition flex items-center gap-1.5 shadow-md shadow-[#8B36FF]/20"
         >
           <span>Gửi</span>
           <Send className="w-3.5 h-3.5" />

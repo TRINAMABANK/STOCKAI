@@ -162,13 +162,13 @@ export default function TechnicalChart({
       height: 480,
       layout: {
         background: { type: ColorType.Solid, color: '#FFFFFF' },
-        textColor: '#64748B',
+        textColor: '#647293',
         fontSize: 12,
         fontFamily: 'Inter, system-ui, sans-serif',
       },
       grid: {
-        vertLines: { color: '#F1F5F9', style: LineStyle.Dotted },
-        horzLines: { color: '#F1F5F9', style: LineStyle.Dotted },
+        vertLines: { color: '#F4F7FF', style: LineStyle.Dotted },
+        horzLines: { color: '#F4F7FF', style: LineStyle.Dotted },
       },
       crosshair: {
         mode: CrosshairMode.Normal,
@@ -186,14 +186,14 @@ export default function TechnicalChart({
         },
       },
       rightPriceScale: {
-        borderColor: '#E2E8F0',
+        borderColor: '#DCE5FF',
         scaleMargins: {
           top: 0.1,
           bottom: showVolume ? 0.22 : 0.08,
         },
       },
       timeScale: {
-        borderColor: '#E2E8F0',
+        borderColor: '#DCE5FF',
         timeVisible: timeframe !== '1D' && timeframe !== '1W',
         secondsVisible: false,
       },
@@ -203,13 +203,13 @@ export default function TechnicalChart({
 
     // 1. Candlestick Series (Chuẩn màu chứng khoán VN: Xanh tăng, Đỏ giảm)
     const candlestickSeries = chart.addSeries(CandlestickSeries, {
-      upColor: '#10B981',
-      downColor: '#F43F5E',
+      upColor: '#16A34A',
+      downColor: '#EF4444',
       borderVisible: true,
-      borderUpColor: '#10B981',
-      borderDownColor: '#F43F5E',
-      wickUpColor: '#10B981',
-      wickDownColor: '#F43F5E',
+      borderUpColor: '#16A34A',
+      borderDownColor: '#EF4444',
+      wickUpColor: '#16A34A',
+      wickDownColor: '#EF4444',
     });
     candlestickSeriesRef.current = candlestickSeries;
 
@@ -259,7 +259,7 @@ export default function TechnicalChart({
 
     if (showMA50 && indicatorsData.ma50.length > 0) {
       const ma50Series = chart.addSeries(LineSeries, {
-        color: '#008FD3', // Xanh dương chuẩn StockAI
+        color: '#087CFF', // Xanh dương chuẩn StockAI
         lineWidth: 2,
         title: 'MA50',
         crosshairMarkerVisible: true,
@@ -269,7 +269,7 @@ export default function TechnicalChart({
 
     if (showMA200 && indicatorsData.ma200.length > 0) {
       const ma200Series = chart.addSeries(LineSeries, {
-        color: '#8B5CF6', // Tím
+        color: '#8B36FF', // Tím
         lineWidth: 2,
         title: 'MA200',
         crosshairMarkerVisible: true,
@@ -320,7 +320,7 @@ export default function TechnicalChart({
       // Vùng mua tham khảo
       const buyLine = candlestickSeries.createPriceLine({
         price: tradeSetup.entryPrice,
-        color: '#008FD3',
+        color: '#087CFF',
         lineWidth: 2,
         lineStyle: LineStyle.Dashed,
         axisLabelVisible: true,
@@ -331,7 +331,7 @@ export default function TechnicalChart({
       // Cắt lỗ dứt khoát
       const stopLine = candlestickSeries.createPriceLine({
         price: tradeSetup.stopLoss,
-        color: '#F43F5E',
+        color: '#EF4444',
         lineWidth: 2,
         lineStyle: LineStyle.Solid,
         axisLabelVisible: true,
@@ -342,7 +342,7 @@ export default function TechnicalChart({
       // Mục tiêu 1 (T+5)
       const tp1Line = candlestickSeries.createPriceLine({
         price: tradeSetup.target1,
-        color: '#10B981',
+        color: '#16A34A',
         lineWidth: 1,
         lineStyle: LineStyle.Dotted,
         axisLabelVisible: true,
@@ -353,7 +353,7 @@ export default function TechnicalChart({
       // Mục tiêu 2 (T+10)
       const tp2Line = candlestickSeries.createPriceLine({
         price: tradeSetup.target2,
-        color: '#10B981',
+        color: '#16A34A',
         lineWidth: 2,
         lineStyle: LineStyle.Dashed,
         axisLabelVisible: true,
@@ -366,7 +366,7 @@ export default function TechnicalChart({
         const supLvl = tradeSetup.supportLevels[tradeSetup.supportLevels.length - 1];
         const supLine = candlestickSeries.createPriceLine({
           price: supLvl,
-          color: '#059669',
+          color: '#15803D',
           lineWidth: 1,
           lineStyle: LineStyle.SparseDotted,
           axisLabelVisible: true,
@@ -510,26 +510,26 @@ export default function TechnicalChart({
       height: 140,
       layout: {
         background: { type: ColorType.Solid, color: '#FFFFFF' },
-        textColor: '#64748B',
+        textColor: '#647293',
         fontSize: 11,
       },
       grid: {
         vertLines: { color: '#F8FAFC', style: LineStyle.Dotted },
-        horzLines: { color: '#F1F5F9', style: LineStyle.Dotted },
+        horzLines: { color: '#F4F7FF', style: LineStyle.Dotted },
       },
       rightPriceScale: {
-        borderColor: '#E2E8F0',
+        borderColor: '#DCE5FF',
         scaleMargins: { top: 0.1, bottom: 0.1 },
       },
       timeScale: {
-        borderColor: '#E2E8F0',
+        borderColor: '#DCE5FF',
         visible: false, // Ẩn trục thời gian vì đã có ở chart chính
       },
     });
     rsiChartRef.current = rsiChart;
 
     const rsiSeries = rsiChart.addSeries(LineSeries, {
-      color: '#008FD3',
+      color: '#087CFF',
       lineWidth: 2,
       title: 'RSI(14)',
     });
@@ -538,7 +538,7 @@ export default function TechnicalChart({
     // Các ngưỡng Quá mua 70, Quá bán 30, Trung tính 50
     rsiSeries.createPriceLine({
       price: 70,
-      color: '#F43F5E',
+      color: '#EF4444',
       lineWidth: 1,
       lineStyle: LineStyle.Dashed,
       axisLabelVisible: true,
@@ -553,7 +553,7 @@ export default function TechnicalChart({
     });
     rsiSeries.createPriceLine({
       price: 30,
-      color: '#10B981',
+      color: '#16A34A',
       lineWidth: 1,
       lineStyle: LineStyle.Dashed,
       axisLabelVisible: true,
@@ -596,19 +596,19 @@ export default function TechnicalChart({
       height: 140,
       layout: {
         background: { type: ColorType.Solid, color: '#FFFFFF' },
-        textColor: '#64748B',
+        textColor: '#647293',
         fontSize: 11,
       },
       grid: {
         vertLines: { color: '#F8FAFC', style: LineStyle.Dotted },
-        horzLines: { color: '#F1F5F9', style: LineStyle.Dotted },
+        horzLines: { color: '#F4F7FF', style: LineStyle.Dotted },
       },
       rightPriceScale: {
-        borderColor: '#E2E8F0',
+        borderColor: '#DCE5FF',
         scaleMargins: { top: 0.15, bottom: 0.15 },
       },
       timeScale: {
-        borderColor: '#E2E8F0',
+        borderColor: '#DCE5FF',
         visible: false,
       },
     });
@@ -628,7 +628,7 @@ export default function TechnicalChart({
 
     // MACD Line (12, 26)
     const macdLineSeries = macdChart.addSeries(LineSeries, {
-      color: '#008FD3',
+      color: '#087CFF',
       lineWidth: 2,
       title: 'MACD',
     });
@@ -684,11 +684,11 @@ export default function TechnicalChart({
   const isTfAvailable = (tf: Timeframe) => availableTimeframes.includes(tf);
 
   return (
-    <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden flex flex-col">
+    <div className="bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden flex flex-col">
       {/* 1. TOP TOOLBAR: Timeframes + Indicators Toggle + Actions */}
-      <div className="p-3 lg:p-4 border-b border-[#E2E8F0] bg-[#FAFAFC] flex flex-wrap items-center justify-between gap-3">
+      <div className="p-3 lg:p-4 border-b border-[#DCE5FF] bg-[#FAFAFC] flex flex-wrap items-center justify-between gap-3">
         {/* Timeframe selector (Chỉ cho phép chọn khung có dữ liệu thực tế) */}
-        <div className="flex items-center gap-1.5 bg-[#FFFFFF] p-1 rounded-xl border border-[#E2E8F0]">
+        <div className="flex items-center gap-1.5 bg-[#FFFFFF] p-1 rounded-xl border border-[#DCE5FF]">
           {(['1m', '5m', '15m', '1h', '1D', '1W'] as Timeframe[]).map((tf) => {
             const available = isTfAvailable(tf);
             const isSelected = timeframe === tf;
@@ -700,14 +700,14 @@ export default function TechnicalChart({
                 title={available ? `Khung ${tf}` : `Khung ${tf} (Chưa có kết nối Intraday Feed)`}
                 className={`px-2.5 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1 ${
                   isSelected
-                    ? 'bg-[#008FD3] text-white shadow-2xs'
+                    ? 'bg-[#087CFF] text-white shadow-2xs'
                     : available
-                    ? 'text-[#64748B] hover:text-[#172033] hover:bg-[#F1F5F9]'
+                    ? 'text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF]'
                     : 'text-[#94A3B8] opacity-60 hover:opacity-100 hover:bg-[#FEE2E2]/40'
                 }`}
               >
                 <span>{tf}</span>
-                {!available && <span className="text-[9px] text-[#F43F5E]">•</span>}
+                {!available && <span className="text-[9px] text-[#EF4444]">•</span>}
               </button>
             );
           })}
@@ -720,7 +720,7 @@ export default function TechnicalChart({
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5 ${
               showMA20
                 ? 'bg-[#FEF3C7] text-[#B45309] border-[#FDE68A]'
-                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                : 'bg-white text-[#647293] border-[#DCE5FF] hover:bg-[#F8FAFC]'
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-[#F59E0B]"></span>
@@ -731,11 +731,11 @@ export default function TechnicalChart({
             onClick={() => setShowMA50(!showMA50)}
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5 ${
               showMA50
-                ? 'bg-[#E0F2FE] text-[#008FD3] border-[#BAE6FD]'
-                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                ? 'bg-[#EBF3FF] text-[#087CFF] border-[#DCE5FF]'
+                : 'bg-white text-[#647293] border-[#DCE5FF] hover:bg-[#F8FAFC]'
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-[#008FD3]"></span>
+            <span className="w-2 h-2 rounded-full bg-[#087CFF]"></span>
             <span>MA50</span>
           </button>
 
@@ -743,11 +743,11 @@ export default function TechnicalChart({
             onClick={() => setShowMA200(!showMA200)}
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5 ${
               showMA200
-                ? 'bg-[#EDE9FE] text-[#8B5CF6] border-[#DDD6FE]'
-                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                ? 'bg-[#F3E8FF] text-[#8B36FF] border-[#E9D5FF]'
+                : 'bg-white text-[#647293] border-[#DCE5FF] hover:bg-[#F8FAFC]'
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-[#8B5CF6]"></span>
+            <span className="w-2 h-2 rounded-full bg-[#8B36FF]"></span>
             <span>MA200</span>
           </button>
 
@@ -756,7 +756,7 @@ export default function TechnicalChart({
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5 ${
               showEMA20
                 ? 'bg-[#CFFAFE] text-[#0891B2] border-[#A5F3FC]'
-                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                : 'bg-white text-[#647293] border-[#DCE5FF] hover:bg-[#F8FAFC]'
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-[#06B6D4]"></span>
@@ -768,7 +768,7 @@ export default function TechnicalChart({
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5 ${
               showBollinger
                 ? 'bg-[#EEF2FF] text-[#4F46E5] border-[#C7D2FE]'
-                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                : 'bg-white text-[#647293] border-[#DCE5FF] hover:bg-[#F8FAFC]'
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-[#6366F1]"></span>
@@ -779,11 +779,11 @@ export default function TechnicalChart({
             onClick={() => setShowRSI(!showRSI)}
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5 ${
               showRSI
-                ? 'bg-[#E0F2FE] text-[#0284C7] border-[#BAE6FD]'
-                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                ? 'bg-[#EBF3FF] text-[#087CFF] border-[#DCE5FF]'
+                : 'bg-white text-[#647293] border-[#DCE5FF] hover:bg-[#F8FAFC]'
             }`}
           >
-            <Activity className="w-3 h-3 text-[#0284C7]" />
+            <Activity className="w-3 h-3 text-[#087CFF]" />
             <span>RSI(14)</span>
           </button>
 
@@ -792,7 +792,7 @@ export default function TechnicalChart({
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5 ${
               showMACD
                 ? 'bg-[#FDF4FF] text-[#C026D3] border-[#F5D0FE]'
-                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                : 'bg-white text-[#647293] border-[#DCE5FF] hover:bg-[#F8FAFC]'
             }`}
           >
             <TrendingUp className="w-3 h-3 text-[#C026D3]" />
@@ -803,12 +803,12 @@ export default function TechnicalChart({
             onClick={() => setShowTradeLevels(!showTradeLevels)}
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5 ${
               showTradeLevels
-                ? 'bg-[#D1FAE5] text-[#059669] border-[#A7F3D0]'
-                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                ? 'bg-[#DCFCE7] text-[#15803D] border-[#BBF7D0]'
+                : 'bg-white text-[#647293] border-[#DCE5FF] hover:bg-[#F8FAFC]'
             }`}
             title="Bật/Tắt hiển thị Vùng Mua, Cắt Lỗ, TP1, TP2 trên biểu đồ"
           >
-            {showTradeLevels ? <Eye className="w-3 h-3 text-[#059669]" /> : <EyeOff className="w-3 h-3 text-[#94A3B8]" />}
+            {showTradeLevels ? <Eye className="w-3 h-3 text-[#15803D]" /> : <EyeOff className="w-3 h-3 text-[#94A3B8]" />}
             <span>Mức Kỹ Thuật</span>
           </button>
 
@@ -817,36 +817,36 @@ export default function TechnicalChart({
             onClick={() => setShowSignals(!showSignals)}
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5 ${
               showSignals
-                ? 'bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]'
-                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                ? 'bg-[#ECFDF5] text-[#15803D] border-[#BBF7D0]'
+                : 'bg-white text-[#647293] border-[#DCE5FF] hover:bg-[#F8FAFC]'
             }`}
             title="Bật/Tắt hiển thị mũi tên Mua (Xanh ↑) và Bán (Đỏ ↓) trên biểu đồ"
           >
-            <span className="font-extrabold text-[12px] text-[#10B981]">↑</span>
-            <span className="font-extrabold text-[12px] text-[#F43F5E]">↓</span>
+            <span className="font-extrabold text-[12px] text-[#16A34A]">↑</span>
+            <span className="font-extrabold text-[12px] text-[#EF4444]">↓</span>
             <span>Mũi Tên Mua/Bán</span>
           </button>
         </div>
 
         {/* Chart View Controls */}
-        <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-[#E2E8F0]">
+        <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-[#DCE5FF]">
           <button
             onClick={() => handleZoom(0.8)}
-            className="p-1.5 rounded-lg text-[#64748B] hover:text-[#172033] hover:bg-[#F1F5F9] transition"
+            className="p-1.5 rounded-lg text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF] transition"
             title="Phóng to nến (+)"
           >
             <ZoomIn className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleZoom(1.25)}
-            className="p-1.5 rounded-lg text-[#64748B] hover:text-[#172033] hover:bg-[#F1F5F9] transition"
+            className="p-1.5 rounded-lg text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF] transition"
             title="Thu nhỏ nến (-)"
           >
             <ZoomOut className="w-4 h-4" />
           </button>
           <button
             onClick={handleResetView}
-            className="p-1.5 rounded-lg text-[#64748B] hover:text-[#172033] hover:bg-[#F1F5F9] transition"
+            className="p-1.5 rounded-lg text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF] transition"
             title="Căn chỉnh toàn bộ (Fit)"
           >
             <RefreshCw className="w-4 h-4" />
@@ -855,34 +855,34 @@ export default function TechnicalChart({
       </div>
 
       {/* 2. REALTIME / STATUS BAR & DYNAMIC HOVER LEGEND */}
-      <div className="px-4 py-2 bg-[#FFFFFF] border-b border-[#F1F5F9] flex flex-wrap items-center justify-between text-xs gap-2">
+      <div className="px-4 py-2 bg-[#FFFFFF] border-b border-[#F4F7FF] flex flex-wrap items-center justify-between text-xs gap-2">
         {/* Dynamic Candlestick Legend */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
-          <span className="font-bold text-[#172033]">{symbol}</span>
-          <span className="text-[#64748B] font-mono">
+          <span className="font-bold text-[#172554]">{symbol}</span>
+          <span className="text-[#647293] font-mono">
             {hoverLegend ? hoverLegend.time : latestCandle?.time || '—'}
           </span>
           <div className="flex items-center gap-2 font-mono tabular-nums">
             <span>
-              Mở: <strong className="text-[#172033]">{(hoverLegend ? hoverLegend.open : latestCandle?.open || 0).toLocaleString()}</strong>
+              Mở: <strong className="text-[#172554]">{(hoverLegend ? hoverLegend.open : latestCandle?.open || 0).toLocaleString()}</strong>
             </span>
             <span>
-              Cao: <strong className="text-[#10B981]">{(hoverLegend ? hoverLegend.high : latestCandle?.high || 0).toLocaleString()}</strong>
+              Cao: <strong className="text-[#16A34A]">{(hoverLegend ? hoverLegend.high : latestCandle?.high || 0).toLocaleString()}</strong>
             </span>
             <span>
-              Thấp: <strong className="text-[#F43F5E]">{(hoverLegend ? hoverLegend.low : latestCandle?.low || 0).toLocaleString()}</strong>
+              Thấp: <strong className="text-[#EF4444]">{(hoverLegend ? hoverLegend.low : latestCandle?.low || 0).toLocaleString()}</strong>
             </span>
             <span>
-              Đóng: <strong className={(hoverLegend ? hoverLegend.changePct : defaultChangePct) >= 0 ? 'text-[#10B981]' : 'text-[#F43F5E]'}>
+              Đóng: <strong className={(hoverLegend ? hoverLegend.changePct : defaultChangePct) >= 0 ? 'text-[#16A34A]' : 'text-[#EF4444]'}>
                 {(hoverLegend ? hoverLegend.close : latestCandle?.close || 0).toLocaleString()}
               </strong>
             </span>
-            <span className={`font-semibold ${(hoverLegend ? hoverLegend.changePct : defaultChangePct) >= 0 ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+            <span className={`font-semibold ${(hoverLegend ? hoverLegend.changePct : defaultChangePct) >= 0 ? 'text-[#16A34A]' : 'text-[#EF4444]'}`}>
               ({(hoverLegend ? hoverLegend.changePct : defaultChangePct) >= 0 ? '+' : ''}
               {(hoverLegend ? hoverLegend.changePct : defaultChangePct)}%)
             </span>
             <span>
-              KL: <strong className="text-[#172033]">{(hoverLegend ? hoverLegend.volume : latestCandle?.volume || 0).toLocaleString()}</strong>
+              KL: <strong className="text-[#172554]">{(hoverLegend ? hoverLegend.volume : latestCandle?.volume || 0).toLocaleString()}</strong>
             </span>
           </div>
 
@@ -893,23 +893,23 @@ export default function TechnicalChart({
             </span>
           )}
           {showMA50 && hoverLegend?.ma50 && (
-            <span className="text-[#008FD3] font-mono text-[11px]">
+            <span className="text-[#087CFF] font-mono text-[11px]">
               MA50: <strong>{hoverLegend.ma50.toLocaleString()}</strong>
             </span>
           )}
           {showRSI && hoverLegend?.rsi && (
-            <span className="text-[#0284C7] font-mono text-[11px]">
+            <span className="text-[#087CFF] font-mono text-[11px]">
               RSI: <strong>{hoverLegend.rsi}</strong>
             </span>
           )}
         </div>
 
         {/* Data Source & Integrity Badge (Trung thực, không giả lập thời gian thực) */}
-        <div className="flex items-center gap-2 text-[11px] text-[#64748B]">
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#F1F5F9] border border-[#E2E8F0]">
-            <span className={`w-1.5 h-1.5 rounded-full ${hasData ? 'bg-[#10B981]' : 'bg-[#F59E0B]'}`}></span>
+        <div className="flex items-center gap-2 text-[11px] text-[#647293]">
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#F4F7FF] border border-[#DCE5FF]">
+            <span className={`w-1.5 h-1.5 rounded-full ${hasData ? 'bg-[#16A34A]' : 'bg-[#F59E0B]'}`}></span>
             <span>{providerName}</span>
-            <span className="font-bold text-[#172033]">({dataMode})</span>
+            <span className="font-bold text-[#172554]">({dataMode})</span>
           </span>
           {lastUpdated && <span>Cập nhật: {lastUpdated}</span>}
         </div>
@@ -927,9 +927,9 @@ export default function TechnicalChart({
           <div className="flex items-start gap-2.5">
             <div className={`w-7 h-7 rounded-lg font-black text-sm flex items-center justify-center shrink-0 ${
               hoveredSignalMarker.action === 'BUY'
-                ? 'bg-[#10B981] text-white shadow-2xs'
+                ? 'bg-[#16A34A] text-white shadow-2xs'
                 : hoveredSignalMarker.action === 'SELL'
-                ? 'bg-[#F43F5E] text-white shadow-2xs'
+                ? 'bg-[#EF4444] text-white shadow-2xs'
                 : 'bg-[#F59E0B] text-white shadow-2xs'
             }`}>
               {hoveredSignalMarker.action === 'BUY' ? '↑' : hoveredSignalMarker.action === 'SELL' ? '↓' : '●'}
@@ -974,23 +974,23 @@ export default function TechnicalChart({
             <div className="w-12 h-12 rounded-full bg-[#FEF3C7] text-[#D97706] flex items-center justify-center mb-3">
               <AlertCircle className="w-6 h-6" />
             </div>
-            <h4 className="text-base font-bold text-[#172033] mb-1">
+            <h4 className="text-base font-bold text-[#172554] mb-1">
               Chưa có dữ liệu thị trường cho khung {timeframe}
             </h4>
-            <p className="text-xs text-[#64748B] max-w-md leading-relaxed mb-4">
+            <p className="text-xs text-[#647293] max-w-md leading-relaxed mb-4">
               {unavailabilityNotice ||
                 `Hệ thống phân tích StockAI hiện đang cung cấp đầy đủ dữ liệu nến ngày (1D) và nến tuần (1W) từ nguồn chính thức ${providerName}. Dữ liệu khung Intraday (1m, 5m, 15m, 1h) yêu cầu kết nối API Intraday đối tác có bản quyền.`}
             </p>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => onTimeframeChange('1D')}
-                className="px-4 py-2 rounded-xl bg-[#008FD3] text-white text-xs font-semibold hover:bg-[#007bb8] transition shadow-xs"
+                className="px-4 py-2 rounded-xl bg-[#087CFF] text-white text-xs font-semibold hover:bg-[#0066D6] transition shadow-xs"
               >
                 Chuyển sang nến Ngày (1D)
               </button>
               <button
                 onClick={() => onTimeframeChange('1W')}
-                className="px-4 py-2 rounded-xl bg-[#F1F5F9] text-[#172033] text-xs font-semibold hover:bg-[#E2E8F0] transition border border-[#E2E8F0]"
+                className="px-4 py-2 rounded-xl bg-[#F4F7FF] text-[#172554] text-xs font-semibold hover:bg-[#DCE5FF] transition border border-[#DCE5FF]"
               >
                 Xem nến Tuần (1W)
               </button>
@@ -1003,16 +1003,16 @@ export default function TechnicalChart({
 
       {/* 4. SUB-PANE: RSI(14) */}
       {showRSI && hasData && (
-        <div className="border-t border-[#E2E8F0] bg-[#FFFFFF] p-2">
+        <div className="border-t border-[#DCE5FF] bg-[#FFFFFF] p-2">
           <div className="flex items-center justify-between text-xs px-2 mb-1">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-[#0284C7]">RSI (14 chu kỳ)</span>
-              <span className="text-[11px] text-[#64748B]">Wilder RSI</span>
+              <span className="font-bold text-[#087CFF]">RSI (14 chu kỳ)</span>
+              <span className="text-[11px] text-[#647293]">Wilder RSI</span>
             </div>
             <div className="flex items-center gap-3 text-[11px] font-mono">
-              <span className="text-[#F43F5E]">Quá mua: 70</span>
-              <span className="text-[#64748B]">Trung tính: 50</span>
-              <span className="text-[#10B981]">Quá bán: 30</span>
+              <span className="text-[#EF4444]">Quá mua: 70</span>
+              <span className="text-[#647293]">Trung tính: 50</span>
+              <span className="text-[#16A34A]">Quá bán: 30</span>
             </div>
           </div>
           <div ref={rsiContainerRef} className="w-full h-[140px]" />
@@ -1021,14 +1021,14 @@ export default function TechnicalChart({
 
       {/* 5. SUB-PANE: MACD(12, 26, 9) */}
       {showMACD && hasData && (
-        <div className="border-t border-[#E2E8F0] bg-[#FFFFFF] p-2">
+        <div className="border-t border-[#DCE5FF] bg-[#FFFFFF] p-2">
           <div className="flex items-center justify-between text-xs px-2 mb-1">
             <div className="flex items-center gap-2">
               <span className="font-bold text-[#C026D3]">MACD (12, 26, 9)</span>
-              <span className="text-[11px] text-[#008FD3] font-mono">Đường MACD</span>
+              <span className="text-[11px] text-[#087CFF] font-mono">Đường MACD</span>
               <span className="text-[11px] text-[#F59E0B] font-mono">Đường Tín hiệu</span>
             </div>
-            <span className="text-[11px] text-[#64748B]">Xung lực động lượng thị trường</span>
+            <span className="text-[11px] text-[#647293]">Xung lực động lượng thị trường</span>
           </div>
           <div ref={macdContainerRef} className="w-full h-[140px]" />
         </div>

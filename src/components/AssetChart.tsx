@@ -42,21 +42,21 @@ export default function AssetChart() {
   const selectedPt = hoveredPoint !== null ? assetPoints[hoveredPoint] : assetPoints[5];
 
   return (
-    <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#E2E8F0] shadow-xs flex flex-col justify-between h-[340px]">
+    <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#DCE5FF] shadow-xs flex flex-col justify-between h-[340px]">
       {/* Title & Legend */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
-        <h4 className="text-[15px] font-semibold text-[#172033] tracking-tight">Biểu đồ tài sản theo thời gian</h4>
+        <h4 className="text-[15px] font-semibold text-[#172554] tracking-tight">Biểu đồ tài sản theo thời gian</h4>
         <div className="flex items-center gap-4 text-[12px] font-medium">
-          <div className="flex items-center gap-1.5 text-[#172033]">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#008FD3]"></span>
+          <div className="flex items-center gap-1.5 text-[#172554]">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#087CFF]"></span>
             <span>Tổng tài sản</span>
           </div>
-          <div className="flex items-center gap-1.5 text-[#64748B]">
+          <div className="flex items-center gap-1.5 text-[#647293]">
             <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]"></span>
             <span>VN-Index (so sánh)</span>
           </div>
-          <div className="flex items-center gap-1.5 text-[#64748B]">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+          <div className="flex items-center gap-1.5 text-[#647293]">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#16A34A]"></span>
             <span>Lãi/Lỗ</span>
           </div>
         </div>
@@ -67,25 +67,25 @@ export default function AssetChart() {
         {/* Tooltip Box */}
         {selectedPt && (
           <div 
-            className="absolute top-1 z-10 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl px-3.5 py-2.5 shadow-lg text-xs backdrop-blur-sm pointer-events-none transition-all duration-150"
+            className="absolute top-1 z-10 bg-[#FFFFFF] border border-[#DCE5FF] rounded-xl px-3.5 py-2.5 shadow-lg text-xs backdrop-blur-sm pointer-events-none transition-all duration-150"
             style={{ left: `${Math.min(Math.max(selectedPt.x - 70, 20), 280)}px` }}
           >
-            <p className="font-bold text-[#172033] mb-1 text-[11px]">{selectedPt.date}</p>
+            <p className="font-bold text-[#172554] mb-1 text-[11px]">{selectedPt.date}</p>
             <div className="space-y-0.5">
-              <p className="flex items-center gap-1.5 text-[#172033]">
-                <span className="w-2 h-2 rounded-full bg-[#008FD3] shrink-0"></span>
-                <span className="text-[#64748B]">Tổng tài sản:</span>
-                <span className="font-bold text-[#172033] font-mono">{selectedPt.val}</span>
+              <p className="flex items-center gap-1.5 text-[#172554]">
+                <span className="w-2 h-2 rounded-full bg-[#087CFF] shrink-0"></span>
+                <span className="text-[#647293]">Tổng tài sản:</span>
+                <span className="font-bold text-[#172554] font-mono">{selectedPt.val}</span>
               </p>
-              <p className="flex items-center gap-1.5 text-[#172033]">
+              <p className="flex items-center gap-1.5 text-[#172554]">
                 <span className="w-2 h-2 rounded-full bg-[#F59E0B] shrink-0"></span>
-                <span className="text-[#64748B]">VN-Index:</span>
+                <span className="text-[#647293]">VN-Index:</span>
                 <span className="font-semibold text-[#D97706] font-mono">{selectedPt.vnindex}</span>
               </p>
-              <p className="flex items-center gap-1.5 text-[#172033]">
-                <span className="w-2 h-2 rounded-full bg-[#10B981] shrink-0"></span>
-                <span className="text-[#64748B]">Lãi/Lỗ:</span>
-                <span className="font-bold text-[#10B981] font-mono">{selectedPt.pnl}</span>
+              <p className="flex items-center gap-1.5 text-[#172554]">
+                <span className="w-2 h-2 rounded-full bg-[#16A34A] shrink-0"></span>
+                <span className="text-[#647293]">Lãi/Lỗ:</span>
+                <span className="font-bold text-[#16A34A] font-mono">{selectedPt.pnl}</span>
               </p>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function AssetChart() {
         {/* Chart SVG */}
         <div className="w-full h-full flex">
           {/* Y Axis Labels */}
-          <div className="flex flex-col justify-between py-2 pr-3 text-[10px] text-[#64748B] font-mono select-none">
+          <div className="flex flex-col justify-between py-2 pr-3 text-[10px] text-[#647293] font-mono select-none">
             {yLabels.map((lbl) => (
               <span key={lbl}>{lbl}</span>
             ))}
@@ -115,7 +115,7 @@ export default function AssetChart() {
                   y1={y} 
                   x2="460" 
                   y2={y} 
-                  stroke="#F1F5F9" 
+                  stroke="#F4F7FF" 
                   strokeWidth="1" 
                   strokeDasharray="4 4" 
                 />
@@ -124,8 +124,8 @@ export default function AssetChart() {
               {/* Area gradient for Total Asset */}
               <defs>
                 <linearGradient id="assetGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#008FD3" stopOpacity="0.15" />
-                  <stop offset="100%" stopColor="#008FD3" stopOpacity="0.0" />
+                  <stop offset="0%" stopColor="#087CFF" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#087CFF" stopOpacity="0.0" />
                 </linearGradient>
               </defs>
 
@@ -147,7 +147,7 @@ export default function AssetChart() {
               <path 
                 d={makePath(pnlPoints)} 
                 fill="none" 
-                stroke="#10B981" 
+                stroke="#16A34A" 
                 strokeWidth="2" 
               />
 
@@ -155,7 +155,7 @@ export default function AssetChart() {
               <path 
                 d={makePath(assetPoints)} 
                 fill="none" 
-                stroke="#008FD3" 
+                stroke="#087CFF" 
                 strokeWidth="2.5" 
               />
 
@@ -166,7 +166,7 @@ export default function AssetChart() {
                     cx={pt.x} 
                     cy={pt.y} 
                     r={hoveredPoint === i ? 6 : 4} 
-                    fill="#008FD3" 
+                    fill="#087CFF" 
                     stroke="#FFFFFF" 
                     strokeWidth="2" 
                   />
@@ -176,7 +176,7 @@ export default function AssetChart() {
                       y1={0} 
                       x2={pt.x} 
                       y2={200} 
-                      stroke="#008FD3" 
+                      stroke="#087CFF" 
                       strokeWidth="1" 
                       strokeDasharray="3 3" 
                     />
@@ -189,7 +189,7 @@ export default function AssetChart() {
       </div>
 
       {/* X Axis Dates */}
-      <div className="flex justify-between pl-10 pr-2 pt-1 text-[11px] text-[#64748B] font-medium select-none">
+      <div className="flex justify-between pl-10 pr-2 pt-1 text-[11px] text-[#647293] font-medium select-none">
         {dates.map((d) => (
           <span key={d}>{d}</span>
         ))}

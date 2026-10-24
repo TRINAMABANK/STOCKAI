@@ -147,22 +147,22 @@ export default function PaymentQrModal({
   const isBankReady = bankConfig && bankConfig.isConfigured && Boolean(bankConfig.accountNumber);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#172033]/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-2xl w-full max-w-xl max-h-[92vh] overflow-y-auto flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#172554]/60 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-2xl w-full max-w-xl max-h-[92vh] overflow-y-auto flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-[#E2E8F0] shrink-0">
+        <div className="flex items-center justify-between p-5 border-b border-[#DCE5FF] shrink-0">
           <div className="flex items-center gap-3">
             <Logo size="sm" variant="default" />
             <div>
-              <h3 className="text-[17px] font-bold text-[#172033] tracking-tight">
+              <h3 className="text-[17px] font-bold text-[#172554] tracking-tight">
                 Thanh toán Gói {currentOrder.tier === 'PRO' ? 'Chuyên Nghiệp (PRO)' : 'Nâng Cao (ENTERPRISE)'}
               </h3>
-              <p className="text-[12px] text-[#64748B]">Mã đơn: <span className="font-mono font-semibold text-[#172033]">{currentOrder.orderCode}</span></p>
+              <p className="text-[12px] text-[#647293]">Mã đơn: <span className="font-mono font-semibold text-[#172554]">{currentOrder.orderCode}</span></p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-lg hover:bg-[#F5F8FC] flex items-center justify-center text-[#64748B] hover:text-[#172033] transition"
+            className="w-8 h-8 rounded-lg hover:bg-[#F4F7FF] flex items-center justify-center text-[#647293] hover:text-[#172554] transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -171,16 +171,16 @@ export default function PaymentQrModal({
         {/* Body */}
         <div className="p-5 space-y-5 flex-1">
           {/* Top Order Amount Card */}
-          <div className="bg-[#F5F8FC] border border-[#E2E8F0] rounded-2xl p-4 flex items-center justify-between">
+          <div className="bg-[#F4F7FF] border border-[#DCE5FF] rounded-2xl p-4 flex items-center justify-between">
             <div>
-              <span className="text-[12px] font-medium text-[#64748B] block">Số tiền thanh toán:</span>
-              <span className="text-[24px] font-bold text-[#008FD3] font-mono tabular-nums tracking-tight">
+              <span className="text-[12px] font-medium text-[#647293] block">Số tiền thanh toán:</span>
+              <span className="text-[24px] font-bold text-[#087CFF] font-mono tabular-nums tracking-tight">
                 {currentOrder.formattedAmount}
               </span>
             </div>
             <div className="text-right">
-              <span className="text-[11px] font-medium text-[#64748B] block">Hạn giữ đơn:</span>
-              <div className="flex items-center gap-1 font-mono text-[14px] font-bold text-[#F43F5E]">
+              <span className="text-[11px] font-medium text-[#647293] block">Hạn giữ đơn:</span>
+              <div className="flex items-center gap-1 font-mono text-[14px] font-bold text-[#EF4444]">
                 <Clock className="w-4 h-4" />
                 <span>{formatTimer(timeLeft)}</span>
               </div>
@@ -189,9 +189,9 @@ export default function PaymentQrModal({
 
           {/* Status Alert if Reported or Paid */}
           {currentOrder.status === 'PAID' ? (
-            <div className="p-4 rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] space-y-1">
+            <div className="p-4 rounded-xl bg-[#ECFDF5] border border-[#BBF7D0] text-[#065F46] space-y-1">
               <div className="flex items-center gap-2 font-bold text-[14px]">
-                <CheckCircle2 className="w-5 h-5 text-[#10B981]" />
+                <CheckCircle2 className="w-5 h-5 text-[#16A34A]" />
                 <span>Đã kích hoạt gói thuê bao thành công!</span>
               </div>
               <p className="text-[12px] text-[#047857]">
@@ -211,7 +211,7 @@ export default function PaymentQrModal({
               <button
                 onClick={handleCheckLiveStatus}
                 disabled={isCheckingStatus}
-                className="mt-1 text-[12px] font-semibold text-[#008FD3] hover:underline flex items-center gap-1"
+                className="mt-1 text-[12px] font-semibold text-[#087CFF] hover:underline flex items-center gap-1"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isCheckingStatus ? 'animate-spin' : ''}`} />
                 <span>Kiểm tra lại trạng thái duyệt ngay</span>
@@ -220,19 +220,19 @@ export default function PaymentQrModal({
           ) : null}
 
           {statusMessage && (
-            <div className="p-3 rounded-xl bg-[#E0F2FE] border border-[#BAE6FD] text-[12px] font-medium text-[#008FD3]">
+            <div className="p-3 rounded-xl bg-[#EBF3FF] border border-[#DCE5FF] text-[12px] font-medium text-[#087CFF]">
               {statusMessage}
             </div>
           )}
 
           {/* Payment Method Selector Tabs */}
-          <div className="flex items-center gap-2 p-1 bg-[#F5F8FC] rounded-xl border border-[#E2E8F0]">
+          <div className="flex items-center gap-2 p-1 bg-[#F4F7FF] rounded-xl border border-[#DCE5FF]">
             <button
               onClick={() => setPaymentMethod('VIETQR')}
               className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 ${
                 paymentMethod === 'VIETQR'
-                  ? 'bg-white text-[#008FD3] shadow-2xs border border-[#E2E8F0]'
-                  : 'text-[#64748B] hover:text-[#172033]'
+                  ? 'bg-white text-[#087CFF] shadow-2xs border border-[#DCE5FF]'
+                  : 'text-[#647293] hover:text-[#172554]'
               }`}
             >
               <QrCode className="w-4 h-4" />
@@ -242,8 +242,8 @@ export default function PaymentQrModal({
               onClick={() => setPaymentMethod('PAY2S')}
               className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 ${
                 paymentMethod === 'PAY2S'
-                  ? 'bg-white text-[#008FD3] shadow-2xs border border-[#E2E8F0]'
-                  : 'text-[#64748B] hover:text-[#172033]'
+                  ? 'bg-white text-[#087CFF] shadow-2xs border border-[#DCE5FF]'
+                  : 'text-[#647293] hover:text-[#172554]'
               }`}
             >
               <CreditCard className="w-4 h-4" />
@@ -257,11 +257,11 @@ export default function PaymentQrModal({
             isBankReady ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                 {/* QR Image */}
-                <div className="flex flex-col items-center justify-center p-4 bg-[#F5F8FC] border border-[#E2E8F0] rounded-2xl text-center">
-                  <span className="text-[11px] font-semibold text-[#64748B] mb-2 uppercase tracking-wider">
+                <div className="flex flex-col items-center justify-center p-4 bg-[#F4F7FF] border border-[#DCE5FF] rounded-2xl text-center">
+                  <span className="text-[11px] font-semibold text-[#647293] mb-2 uppercase tracking-wider">
                     Quét mã VietQR thanh toán nhanh
                   </span>
-                  <div className="w-[190px] h-[190px] bg-white p-2 rounded-xl border border-[#E2E8F0] shadow-xs flex items-center justify-center">
+                  <div className="w-[190px] h-[190px] bg-white p-2 rounded-xl border border-[#DCE5FF] shadow-xs flex items-center justify-center">
                     {currentOrder.qrUrl && !qrError ? (
                       <img
                         src={currentOrder.qrUrl}
@@ -270,81 +270,81 @@ export default function PaymentQrModal({
                         onError={() => setQrError(true)}
                       />
                     ) : (
-                      <div className="text-center p-2 text-xs text-[#64748B]">
-                        <QrCode className="w-8 h-8 text-[#008FD3] mx-auto mb-1" />
+                      <div className="text-center p-2 text-xs text-[#647293]">
+                        <QrCode className="w-8 h-8 text-[#087CFF] mx-auto mb-1" />
                         <span>Quét QR tự động</span>
                       </div>
                     )}
                   </div>
-                  <p className="text-[11px] text-[#64748B] mt-2">
+                  <p className="text-[11px] text-[#647293] mt-2">
                     Hỗ trợ app tất cả ngân hàng Việt Nam
                   </p>
                 </div>
 
                 {/* Bank Details Table */}
                 <div className="space-y-2.5 text-[12px]">
-                  <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
+                  <div className="p-2.5 bg-[#FFFFFF] border border-[#DCE5FF] rounded-xl flex items-center justify-between">
                     <div>
-                      <span className="text-[#64748B] block text-[11px]">Ngân hàng:</span>
-                      <span className="font-semibold text-[#172033]">{bankConfig?.bankName} ({bankConfig?.bankId})</span>
+                      <span className="text-[#647293] block text-[11px]">Ngân hàng:</span>
+                      <span className="font-semibold text-[#172554]">{bankConfig?.bankName} ({bankConfig?.bankId})</span>
                     </div>
                     <button
                       onClick={() => handleCopy(bankConfig?.bankName || '', 'bank')}
-                      className="p-1.5 hover:bg-[#F5F8FC] rounded text-[#008FD3] transition"
+                      className="p-1.5 hover:bg-[#F4F7FF] rounded text-[#087CFF] transition"
                       title="Sao chép"
                     >
-                      {copiedField === 'bank' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                      {copiedField === 'bank' ? <Check className="w-4 h-4 text-[#16A34A]" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
 
-                  <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
+                  <div className="p-2.5 bg-[#FFFFFF] border border-[#DCE5FF] rounded-xl flex items-center justify-between">
                     <div>
-                      <span className="text-[#64748B] block text-[11px]">Số tài khoản:</span>
-                      <span className="font-mono font-bold text-[#172033] text-[14px]">{bankConfig?.accountNumber}</span>
+                      <span className="text-[#647293] block text-[11px]">Số tài khoản:</span>
+                      <span className="font-mono font-bold text-[#172554] text-[14px]">{bankConfig?.accountNumber}</span>
                     </div>
                     <button
                       onClick={() => handleCopy(bankConfig?.accountNumber || '', 'acc')}
-                      className="p-1.5 hover:bg-[#F5F8FC] rounded text-[#008FD3] transition"
+                      className="p-1.5 hover:bg-[#F4F7FF] rounded text-[#087CFF] transition"
                       title="Sao chép"
                     >
-                      {copiedField === 'acc' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                      {copiedField === 'acc' ? <Check className="w-4 h-4 text-[#16A34A]" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
 
-                  <div className="p-2.5 bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
+                  <div className="p-2.5 bg-[#FFFFFF] border border-[#DCE5FF] rounded-xl flex items-center justify-between">
                     <div>
-                      <span className="text-[#64748B] block text-[11px]">Chủ tài khoản:</span>
-                      <span className="font-bold text-[#172033] uppercase">{bankConfig?.accountHolder}</span>
+                      <span className="text-[#647293] block text-[11px]">Chủ tài khoản:</span>
+                      <span className="font-bold text-[#172554] uppercase">{bankConfig?.accountHolder}</span>
                     </div>
                     <button
                       onClick={() => handleCopy(bankConfig?.accountHolder || '', 'holder')}
-                      className="p-1.5 hover:bg-[#F5F8FC] rounded text-[#008FD3] transition"
+                      className="p-1.5 hover:bg-[#F4F7FF] rounded text-[#087CFF] transition"
                       title="Sao chép"
                     >
-                      {copiedField === 'holder' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                      {copiedField === 'holder' ? <Check className="w-4 h-4 text-[#16A34A]" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
 
-                  <div className="p-2.5 bg-[#E0F2FE] border border-[#BAE6FD] rounded-xl flex items-center justify-between">
+                  <div className="p-2.5 bg-[#EBF3FF] border border-[#DCE5FF] rounded-xl flex items-center justify-between">
                     <div>
-                      <span className="text-[#0369A1] block text-[11px] font-semibold">Nội dung chuyển khoản (bắt buộc):</span>
-                      <span className="font-mono font-bold text-[#008FD3] text-[14px]">{currentOrder.transferContent}</span>
+                      <span className="text-[#0066D6] block text-[11px] font-semibold">Nội dung chuyển khoản (bắt buộc):</span>
+                      <span className="font-mono font-bold text-[#087CFF] text-[14px]">{currentOrder.transferContent}</span>
                     </div>
                     <button
                       onClick={() => handleCopy(currentOrder.transferContent, 'memo')}
-                      className="p-1.5 hover:bg-white/60 rounded text-[#008FD3] transition"
+                      className="p-1.5 hover:bg-white/60 rounded text-[#087CFF] transition"
                       title="Sao chép"
                     >
-                      {copiedField === 'memo' ? <Check className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                      {copiedField === 'memo' ? <Check className="w-4 h-4 text-[#16A34A]" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
                 </div>
               </div>
             ) : (
               /* Unconfigured Bank Notice */
-              <div className="p-5 rounded-2xl bg-[#FFF1F2] border border-[#FECDD3] text-[#9F1239] space-y-3">
+              <div className="p-5 rounded-2xl bg-[#FFF1F2] border border-[#FEE2E2] text-[#9F1239] space-y-3">
                 <div className="flex items-start gap-3">
-                  <AlertCircle className="w-6 h-6 text-[#F43F5E] shrink-0 mt-0.5" />
+                  <AlertCircle className="w-6 h-6 text-[#EF4444] shrink-0 mt-0.5" />
                   <div>
                     <h4 className="font-bold text-[14px] text-[#9F1239]">Hệ thống thanh toán tự động đang được cấu hình</h4>
                     <p className="text-[12px] text-[#BE123C] mt-1 leading-relaxed">
@@ -360,40 +360,40 @@ export default function PaymentQrModal({
             )
           ) : (
             /* Pay2S Payment Gateway View */
-            <div className="p-5 rounded-2xl bg-[#F5F8FC] border border-[#E2E8F0] space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+            <div className="p-5 rounded-2xl bg-[#F4F7FF] border border-[#DCE5FF] space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF]">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-[#008FD3] text-white flex items-center justify-center font-bold text-xs">
+                  <div className="w-7 h-7 rounded-lg bg-[#087CFF] text-white flex items-center justify-center font-bold text-xs">
                     P2S
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-[#172033]">Cổng thanh toán điện tử Pay2S</h4>
-                    <p className="text-[11px] text-[#64748B]">Đối tác cổng thanh toán trực tuyến chính thức của StockAI</p>
+                    <h4 className="text-sm font-bold text-[#172554]">Cổng thanh toán điện tử Pay2S</h4>
+                    <p className="text-[11px] text-[#647293]">Đối tác cổng thanh toán trực tuyến chính thức của StockAI</p>
                   </div>
                 </div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#DCFCE7] text-[#16A34A]">
                   SSL Bảo mật 256-bit
                 </span>
               </div>
 
               <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                <div className="p-2.5 rounded-xl bg-white border border-[#E2E8F0]">
-                  <span className="font-bold text-[#172033] block">Thẻ ATM Napas</span>
-                  <span className="text-[10px] text-[#64748B]">40+ ngân hàng VN</span>
+                <div className="p-2.5 rounded-xl bg-white border border-[#DCE5FF]">
+                  <span className="font-bold text-[#172554] block">Thẻ ATM Napas</span>
+                  <span className="text-[10px] text-[#647293]">40+ ngân hàng VN</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-white border border-[#E2E8F0]">
-                  <span className="font-bold text-[#172033] block">Visa / MasterCard</span>
-                  <span className="text-[10px] text-[#64748B]">Thẻ quốc tế & JCB</span>
+                <div className="p-2.5 rounded-xl bg-white border border-[#DCE5FF]">
+                  <span className="font-bold text-[#172554] block">Visa / MasterCard</span>
+                  <span className="text-[10px] text-[#647293]">Thẻ quốc tế & JCB</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-white border border-[#E2E8F0]">
-                  <span className="font-bold text-[#172033] block">Ví điện tử Pay2S</span>
-                  <span className="text-[10px] text-[#64748B]">Thanh toán 1 chạm</span>
+                <div className="p-2.5 rounded-xl bg-white border border-[#DCE5FF]">
+                  <span className="font-bold text-[#172554] block">Ví điện tử Pay2S</span>
+                  <span className="text-[10px] text-[#647293]">Thanh toán 1 chạm</span>
                 </div>
               </div>
 
-              <div className="p-3 bg-[#E0F2FE]/50 rounded-xl border border-[#BAE6FD] text-xs text-[#008FD3] flex items-center justify-between">
+              <div className="p-3 bg-[#EBF3FF]/50 rounded-xl border border-[#DCE5FF] text-xs text-[#087CFF] flex items-center justify-between">
                 <span>Số tiền thanh toán qua Pay2S:</span>
-                <span className="font-mono font-bold text-sm text-[#008FD3]">{currentOrder.formattedAmount}</span>
+                <span className="font-mono font-bold text-sm text-[#087CFF]">{currentOrder.formattedAmount}</span>
               </div>
 
               <button
@@ -409,7 +409,7 @@ export default function PaymentQrModal({
                   }
                 }}
                 disabled={isPay2sProcessing || currentOrder.status === 'PAID'}
-                className="w-full py-3 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
+                className="w-full py-3 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
               >
                 {isPay2sProcessing ? (
                   <>
@@ -428,17 +428,17 @@ export default function PaymentQrModal({
           )}
 
           {/* Security Notice */}
-          <div className="p-3 bg-[#F5F8FC] rounded-xl border border-[#E2E8F0] flex items-center gap-2 text-[11px] text-[#64748B]">
-            <ShieldCheck className="w-4 h-4 text-[#10B981] shrink-0" />
+          <div className="p-3 bg-[#F4F7FF] rounded-xl border border-[#DCE5FF] flex items-center gap-2 text-[11px] text-[#647293]">
+            <ShieldCheck className="w-4 h-4 text-[#16A34A] shrink-0" />
             <span>Mỗi đơn hàng được định danh riêng. Bấm &quot;Tôi đã chuyển khoản&quot; sau khi hoàn tất giao dịch để chuyển vào hàng đợi đối soát.</span>
           </div>
         </div>
 
         {/* Footer Actions */}
-        <div className="p-5 border-t border-[#E2E8F0] bg-[#FFFFFF] flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div className="p-5 border-t border-[#DCE5FF] bg-[#FFFFFF] flex flex-wrap items-center justify-between gap-3 shrink-0">
           <button
             onClick={onClose}
-            className="px-4 py-2.5 rounded-xl border border-[#E2E8F0] hover:bg-[#F5F8FC] text-[#172033] font-medium text-[13px] transition"
+            className="px-4 py-2.5 rounded-xl border border-[#DCE5FF] hover:bg-[#F4F7FF] text-[#172554] font-medium text-[13px] transition"
           >
             Đóng
           </button>
@@ -448,7 +448,7 @@ export default function PaymentQrModal({
               <button
                 onClick={handleReportPayment}
                 disabled={isSubmittingReport || isReported}
-                className="px-5 py-2.5 rounded-xl bg-[#008FD3] hover:bg-[#007bb8] disabled:opacity-50 text-white font-medium text-[13px] transition shadow-xs flex items-center gap-2"
+                className="px-5 py-2.5 rounded-xl bg-[#087CFF] hover:bg-[#0066D6] disabled:opacity-50 text-white font-medium text-[13px] transition shadow-xs flex items-center gap-2"
               >
                 {isSubmittingReport ? (
                   <>

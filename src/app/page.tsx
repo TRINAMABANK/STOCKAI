@@ -249,10 +249,10 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen bg-[#F5F8FC] overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#F4F7FF] overflow-hidden font-sans">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-[#172033] text-white px-4 py-2.5 rounded-xl shadow-xl border border-[#E2E8F0] text-xs font-semibold animate-in fade-in slide-in-from-top-2">
+        <div className="fixed top-4 right-4 z-50 bg-[#172554] text-white px-4 py-2.5 rounded-xl shadow-xl border border-[#DCE5FF] text-xs font-semibold animate-in fade-in slide-in-from-top-2">
           {toastMessage}
         </div>
       )}
@@ -419,9 +419,9 @@ export default function Home() {
                     testingProvider={testingProvider}
                   />
                 ) : (
-                  <div className="p-8 text-center bg-white rounded-2xl border border-[#FECDD3] space-y-2">
-                    <p className="text-sm font-bold text-[#F43F5E]">Khu vực dành riêng cho Quản trị viên (Admin)</p>
-                    <p className="text-xs text-[#64748B]">Tài khoản người dùng không có quyền truy cập dữ liệu Trung tâm API quản trị.</p>
+                  <div className="p-8 text-center bg-white rounded-2xl border border-[#FEE2E2] space-y-2">
+                    <p className="text-sm font-bold text-[#EF4444]">Khu vực dành riêng cho Quản trị viên (Admin)</p>
+                    <p className="text-xs text-[#647293]">Tài khoản người dùng không có quyền truy cập dữ liệu Trung tâm API quản trị.</p>
                   </div>
                 )
               )}
@@ -434,9 +434,9 @@ export default function Home() {
                 currentUser?.role === 'ADMIN' ? (
                   <SettingsView onRefreshAll={loadPortfolioData} />
                 ) : (
-                  <div className="p-8 text-center bg-white rounded-2xl border border-[#FECDD3] space-y-2">
-                    <p className="text-sm font-bold text-[#F43F5E]">Khu vực dành riêng cho Quản trị viên (Admin)</p>
-                    <p className="text-xs text-[#64748B]">Tài khoản người dùng không có quyền truy cập Cài đặt hệ thống & Quản trị dữ liệu.</p>
+                  <div className="p-8 text-center bg-white rounded-2xl border border-[#FEE2E2] space-y-2">
+                    <p className="text-sm font-bold text-[#EF4444]">Khu vực dành riêng cho Quản trị viên (Admin)</p>
+                    <p className="text-xs text-[#647293]">Tài khoản người dùng không có quyền truy cập Cài đặt hệ thống & Quản trị dữ liệu.</p>
                   </div>
                 )
               )}
@@ -446,9 +446,9 @@ export default function Home() {
                 currentUser?.role === 'ADMIN' ? (
                   <AdminSubscriptionView />
                 ) : (
-                  <div className="p-8 text-center bg-white rounded-2xl border border-[#FECDD3] space-y-2">
-                    <p className="text-sm font-bold text-[#F43F5E]">Khu vực dành riêng cho Quản trị viên (Admin)</p>
-                    <p className="text-xs text-[#64748B]">Tài khoản của bạn không có quyền truy cập trang quản trị này.</p>
+                  <div className="p-8 text-center bg-white rounded-2xl border border-[#FEE2E2] space-y-2">
+                    <p className="text-sm font-bold text-[#EF4444]">Khu vực dành riêng cho Quản trị viên (Admin)</p>
+                    <p className="text-xs text-[#647293]">Tài khoản của bạn không có quyền truy cập trang quản trị này.</p>
                   </div>
                 )
               )}
@@ -459,23 +459,23 @@ export default function Home() {
               <div className="hidden xl:flex shrink-0 animate-in fade-in duration-200">
                 <button
                   onClick={() => toggleRightPanel(false)}
-                  className="sticky top-4 h-[calc(100vh-140px)] w-10 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs hover:border-[#BAE6FD] hover:bg-[#F0F9FF] text-[#64748B] hover:text-[#008FD3] flex flex-col items-center justify-between py-5 transition-all duration-200 group"
+                  className="sticky top-4 h-[calc(100vh-140px)] w-10 rounded-2xl bg-white border border-[#DCE5FF] shadow-xs hover:border-[#DCE5FF] hover:bg-[#F0F9FF] text-[#647293] hover:text-[#087CFF] flex flex-col items-center justify-between py-5 transition-all duration-200 group"
                   title="Mở rộng Trợ lý AI & Tin tức (Cột 3)"
                 >
-                  <div className="w-6 h-6 rounded-lg bg-[#F0F9FF] border border-[#BAE6FD] text-[#008FD3] flex items-center justify-center group-hover:bg-[#008FD3] group-hover:text-white transition-colors">
+                  <div className="w-6 h-6 rounded-lg bg-[#F0F9FF] border border-[#DCE5FF] text-[#087CFF] flex items-center justify-center group-hover:bg-[#087CFF] group-hover:text-white transition-colors">
                     <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
                   </div>
 
                   <div className="flex flex-col items-center gap-2">
-                    <div className="w-7 h-7 rounded-xl bg-[#EDE9FE] text-[#8B5CF6] flex items-center justify-center shadow-2xs">
+                    <div className="w-7 h-7 rounded-xl bg-[#F3E8FF] text-[#8B36FF] flex items-center justify-center shadow-2xs">
                       <Bot className="w-4 h-4" />
                     </div>
-                    <span className="text-[11px] font-bold [writing-mode:vertical-lr] rotate-180 tracking-widest text-[#475569] group-hover:text-[#008FD3] uppercase select-none">
+                    <span className="text-[11px] font-bold [writing-mode:vertical-lr] rotate-180 tracking-widest text-[#475569] group-hover:text-[#087CFF] uppercase select-none">
                       Trợ lý AI & Tin tức
                     </span>
                   </div>
 
-                  <div className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" title="AI đang sẵn sàng" />
+                  <div className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse" title="AI đang sẵn sàng" />
                 </button>
               </div>
             ) : (

@@ -95,29 +95,29 @@ export default function MarketDashboardView({
   return (
     <div className="space-y-6">
       {/* 1. Header & Live Data Status Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-[#DCE5FF] shadow-xs">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172033] tracking-tight">
+            <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172554] tracking-tight">
               Dashboard thị trường Việt Nam
             </h2>
-            <span className="flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981] border border-[#A7F3D0]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-ping"></span>
+            <span className="flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#CCFBF1] text-[#00A991] border border-[#99F6E4]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00A991] animate-pulse"></span>
               REALTIME
             </span>
           </div>
-          <p className="text-[13px] text-[#64748B] mt-0.5">
+          <p className="text-[13px] text-[#647293] mt-0.5">
             Diễn biến chỉ số sàn HOSE, HNX, UPCoM, độ rộng cung cầu và dòng tiền ngắn hạn
           </p>
         </div>
 
         <div className="flex items-center gap-3 text-xs">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-[#64748B]">
-            <Radio className="w-3.5 h-3.5 text-[#008FD3]" />
-            <span>Nguồn: <strong className="text-[#172033]">{dataSource}</strong></span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F4F7FF] border border-[#DCE5FF] text-[#647293]">
+            <Radio className="w-3.5 h-3.5 text-[#087CFF]" />
+            <span>Nguồn: <strong className="text-[#172554]">{dataSource}</strong></span>
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] text-[#64748B]">
-            <Clock className="w-3.5 h-3.5 text-[#10B981]" />
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F4F7FF] border border-[#DCE5FF] text-[#647293]">
+            <Clock className="w-3.5 h-3.5 text-[#16A34A]" />
             <span className="font-mono tabular-nums">{lastUpdated}</span>
           </div>
         </div>
@@ -128,22 +128,22 @@ export default function MarketDashboardView({
         {indices.map((idx, index) => {
           const isUp = idx.change >= 0;
           const gradientClass = [
-            'from-[#38BDF8] to-[#6366F1]',
-            'from-[#E879F9] to-[#EC4899]',
-            'from-[#FB7185] to-[#F97316]',
-            'from-[#34D399] to-[#14B8A6]',
+            'from-[#7C3CFF] to-[#087CFF]',
+            'from-[#8B36FF] to-[#EF4CBF]',
+            'from-[#F59E0B] to-[#EF4444]',
+            'from-[#13C9D5] to-[#087CFF]',
           ][index % 4];
           return (
             <div
               key={idx.symbol}
-              className="bg-[#FFFFFF] p-4 lg:p-5 pl-5 lg:pl-6 rounded-2xl border border-[#E2E8F0] shadow-xs hover:border-[#008FD3]/40 card-hover-smooth group relative overflow-hidden"
+              className="bg-[#FFFFFF] p-4 lg:p-5 pl-5 lg:pl-6 rounded-2xl border border-[#DCE5FF] shadow-xs hover:border-[#087CFF]/40 card-hover-smooth group relative overflow-hidden"
             >
               <div className={`absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b ${gradientClass}`} />
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#64748B] tracking-wide">{idx.name || idx.symbol}</span>
+                <span className="text-xs font-bold text-[#647293] tracking-wide">{idx.name || idx.symbol}</span>
                 <span
                   className={`text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5 font-mono tabular-nums ${
-                    isUp ? 'bg-[#D1FAE5] text-[#10B981]' : 'bg-[#FFE4E6] text-[#F43F5E]'
+                    isUp ? 'bg-[#DCFCE7] text-[#16A34A]' : 'bg-[#FEE2E2] text-[#EF4444]'
                   }`}
                 >
                   {isUp ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
@@ -152,18 +152,18 @@ export default function MarketDashboardView({
               </div>
 
               <div className="mt-3">
-                <div className="text-[22px] lg:text-[24px] font-bold text-[#172033] font-mono tabular-nums">
+                <div className="text-[22px] lg:text-[24px] font-bold text-[#172554] font-mono tabular-nums">
                   {idx.value.toLocaleString('vi-VN', { minimumFractionDigits: 2 })}
                 </div>
-                <div className={`text-xs font-semibold mt-0.5 font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                <div className={`text-xs font-semibold mt-0.5 font-mono tabular-nums ${isUp ? 'text-[#16A34A]' : 'text-[#EF4444]'}`}>
                   {isUp ? '+' : ''}{idx.change.toFixed(2)} điểm
                 </div>
               </div>
 
               {/* Progress visualizer */}
-              <div className="mt-3 w-full bg-[#F1F5F9] h-1.5 rounded-full overflow-hidden">
+              <div className="mt-3 w-full bg-[#F4F7FF] h-1.5 rounded-full overflow-hidden">
                 <div 
-                  className={`h-full rounded-full transition-all duration-500 ${isUp ? 'bg-[#10B981]' : 'bg-[#F43F5E]'}`}
+                  className={`h-full rounded-full transition-all duration-500 ${isUp ? 'bg-[#16A34A]' : 'bg-[#EF4444]'}`}
                   style={{ width: `${Math.min(100, Math.max(15, Math.abs(idx.changePercent) * 25))}%` }}
                 />
               </div>
@@ -175,24 +175,24 @@ export default function MarketDashboardView({
       {/* 3. Market Breadth & Total Liquidity Row */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Market Breadth Card (Col 7) */}
-        <div className="lg:col-span-7 bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4 relative overflow-hidden">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#38BDF8] to-[#6366F1]" />
-          <div className="flex items-center justify-between pb-2 border-b border-[#E2E8F0]">
+        <div className="lg:col-span-7 bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-4 relative overflow-hidden">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#7C3CFF] to-[#087CFF]" />
+          <div className="flex items-center justify-between pb-2 border-b border-[#DCE5FF]">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#38BDF8] to-[#6366F1] shrink-0" />
-              <BarChart3 className="w-4 h-4 text-[#008FD3]" />
-              <h3 className="text-sm font-bold text-[#172033]">Độ rộng thị trường (Market Breadth)</h3>
+              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#7C3CFF] to-[#087CFF] shrink-0" />
+              <BarChart3 className="w-4 h-4 text-[#087CFF]" />
+              <h3 className="text-sm font-bold text-[#172554]">Độ rộng thị trường (Market Breadth)</h3>
             </div>
-            <span className="text-xs text-[#64748B] font-mono">
+            <span className="text-xs text-[#647293] font-mono">
               Tổng {breadth.total} mã khảo sát
             </span>
           </div>
 
           {/* 3-colored Segmented Bar */}
           <div className="space-y-2">
-            <div className="flex h-3 w-full rounded-full overflow-hidden bg-[#F1F5F9] gap-0.5">
+            <div className="flex h-3 w-full rounded-full overflow-hidden bg-[#F4F7FF] gap-0.5">
               <div 
-                className="bg-[#10B981] transition-all"
+                className="bg-[#16A34A] transition-all"
                 style={{ width: `${breadth.gainerPercent}%` }}
                 title={`Tăng: ${breadth.gainers} mã (${breadth.gainerPercent}%)`}
               />
@@ -202,7 +202,7 @@ export default function MarketDashboardView({
                 title={`Không đổi: ${breadth.unchanged} mã (${breadth.unchangedPercent}%)`}
               />
               <div 
-                className="bg-[#F43F5E] transition-all"
+                className="bg-[#EF4444] transition-all"
                 style={{ width: `${breadth.loserPercent}%` }}
                 title={`Giảm: ${breadth.losers} mã (${breadth.loserPercent}%)`}
               />
@@ -210,54 +210,54 @@ export default function MarketDashboardView({
 
             {/* Labels and values */}
             <div className="grid grid-cols-3 text-center text-xs pt-1">
-              <div className="bg-[#D1FAE5]/40 p-2.5 rounded-xl border border-[#A7F3D0]/50">
-                <span className="text-[#10B981] font-bold block text-sm font-mono">{breadth.gainers} mã</span>
-                <span className="text-[#64748B] text-[11px]">Tăng giá ({breadth.gainerPercent}%)</span>
+              <div className="bg-[#DCFCE7]/40 p-2.5 rounded-xl border border-[#BBF7D0]/50">
+                <span className="text-[#16A34A] font-bold block text-sm font-mono">{breadth.gainers} mã</span>
+                <span className="text-[#647293] text-[11px]">Tăng giá ({breadth.gainerPercent}%)</span>
               </div>
               <div className="bg-[#FEF3C7]/40 p-2.5 rounded-xl border border-[#FDE68A]/50">
                 <span className="text-[#D97706] font-bold block text-sm font-mono">{breadth.unchanged} mã</span>
-                <span className="text-[#64748B] text-[11px]">Không đổi ({breadth.unchangedPercent}%)</span>
+                <span className="text-[#647293] text-[11px]">Không đổi ({breadth.unchangedPercent}%)</span>
               </div>
-              <div className="bg-[#FFE4E6]/40 p-2.5 rounded-xl border border-[#FECDD3]/50">
-                <span className="text-[#F43F5E] font-bold block text-sm font-mono">{breadth.losers} mã</span>
-                <span className="text-[#64748B] text-[11px]">Giảm giá ({breadth.loserPercent}%)</span>
+              <div className="bg-[#FEE2E2]/40 p-2.5 rounded-xl border border-[#FEE2E2]/50">
+                <span className="text-[#EF4444] font-bold block text-sm font-mono">{breadth.losers} mã</span>
+                <span className="text-[#647293] text-[11px]">Giảm giá ({breadth.loserPercent}%)</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Total Liquidity & Turnover Card (Col 5) */}
-        <div className="lg:col-span-5 bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#E879F9] to-[#EC4899]" />
+        <div className="lg:col-span-5 bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#13C9D5] to-[#087CFF]" />
           <div>
-            <div className="flex items-center justify-between pb-2 border-b border-[#E2E8F0]">
+            <div className="flex items-center justify-between pb-2 border-b border-[#DCE5FF]">
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#E879F9] to-[#EC4899] shrink-0" />
+                <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#13C9D5] to-[#087CFF] shrink-0" />
                 <Activity className="w-4 h-4 text-[#A855F7]" />
-                <h3 className="text-sm font-bold text-[#172033]">Thanh khoản toàn thị trường</h3>
+                <h3 className="text-sm font-bold text-[#172554]">Thanh khoản toàn thị trường</h3>
               </div>
-              <span className="text-[11px] font-semibold text-[#10B981] bg-[#D1FAE5] px-2 py-0.5 rounded-full">
+              <span className="text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] px-2 py-0.5 rounded-full">
                 Sôi động
               </span>
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="p-3.5 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0]">
-                <span className="text-[11px] text-[#64748B] block">Tổng giá trị giao dịch</span>
-                <span className="text-lg lg:text-xl font-bold text-[#172033] font-mono tabular-nums mt-0.5 block">
-                  {breadth.totalLiquidityBillion} <span className="text-xs font-normal text-[#64748B]">tỷ VNĐ</span>
+              <div className="p-3.5 rounded-xl bg-[#F4F7FF] border border-[#DCE5FF]">
+                <span className="text-[11px] text-[#647293] block">Tổng giá trị giao dịch</span>
+                <span className="text-lg lg:text-xl font-bold text-[#172554] font-mono tabular-nums mt-0.5 block">
+                  {breadth.totalLiquidityBillion} <span className="text-xs font-normal text-[#647293]">tỷ VNĐ</span>
                 </span>
               </div>
-              <div className="p-3.5 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0]">
-                <span className="text-[11px] text-[#64748B] block">Khối lượng khớp lệnh</span>
-                <span className="text-lg lg:text-xl font-bold text-[#172033] font-mono tabular-nums mt-0.5 block">
-                  {breadth.totalVolumeMillion} <span className="text-xs font-normal text-[#64748B]">triệu cp</span>
+              <div className="p-3.5 rounded-xl bg-[#F4F7FF] border border-[#DCE5FF]">
+                <span className="text-[11px] text-[#647293] block">Khối lượng khớp lệnh</span>
+                <span className="text-lg lg:text-xl font-bold text-[#172554] font-mono tabular-nums mt-0.5 block">
+                  {breadth.totalVolumeMillion} <span className="text-xs font-normal text-[#647293]">triệu cp</span>
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-[#E0F2FE]/50 border border-[#BAE6FD] text-xs text-[#008FD3] flex items-center justify-between">
+          <div className="p-2.5 rounded-xl bg-[#EBF3FF]/50 border border-[#DCE5FF] text-xs text-[#087CFF] flex items-center justify-between">
             <span>Dòng tiền tập trung: <strong>Ngân hàng, Thép, Bán lẻ</strong></span>
             <button onClick={onViewScreener} className="font-bold underline hover:opacity-80">Quét ngay &rarr;</button>
           </div>
@@ -267,18 +267,18 @@ export default function MarketDashboardView({
       {/* 4. Top Movers & Quick Watchlist Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Top Movers (Col 7) */}
-        <div className="lg:col-span-7 bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden relative">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#FB7185] to-[#F97316] z-10" />
-          <div className="p-4 pl-6 border-b border-[#E2E8F0] flex items-center justify-between">
+        <div className="lg:col-span-7 bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden relative">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#F59E0B] to-[#EF4444] z-10" />
+          <div className="p-4 pl-6 border-b border-[#DCE5FF] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#FB7185] to-[#F97316] shrink-0" />
+              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#F59E0B] to-[#EF4444] shrink-0" />
               <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setMoversTab('gainers')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
                   moversTab === 'gainers'
-                    ? 'bg-[#D1FAE5] text-[#10B981] shadow-2xs'
-                    : 'text-[#64748B] hover:text-[#172033]'
+                    ? 'bg-[#DCFCE7] text-[#16A34A] shadow-2xs'
+                    : 'text-[#647293] hover:text-[#172554]'
                 }`}
               >
                 <TrendingUp className="w-3.5 h-3.5" />
@@ -288,8 +288,8 @@ export default function MarketDashboardView({
                 onClick={() => setMoversTab('losers')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
                   moversTab === 'losers'
-                    ? 'bg-[#FFE4E6] text-[#F43F5E] shadow-2xs'
-                    : 'text-[#64748B] hover:text-[#172033]'
+                    ? 'bg-[#FEE2E2] text-[#EF4444] shadow-2xs'
+                    : 'text-[#647293] hover:text-[#172554]'
                 }`}
               >
                 <TrendingDown className="w-3.5 h-3.5" />
@@ -300,14 +300,14 @@ export default function MarketDashboardView({
 
             <button
               onClick={onViewScreener}
-              className="text-xs font-semibold text-[#008FD3] hover:text-[#007bb8] transition-colors duration-200 ease-out flex items-center gap-0.5"
+              className="text-xs font-semibold text-[#087CFF] hover:text-[#0066D6] transition-colors duration-200 ease-out flex items-center gap-0.5"
             >
               <span>Xem bộ lọc</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="divide-y divide-[#F1F5F9]">
+          <div className="divide-y divide-[#F4F7FF]">
             {(moversTab === 'gainers' ? topGainers : topLosers).map((stock) => {
               const isUp = stock.change >= 0;
               return (
@@ -317,25 +317,25 @@ export default function MarketDashboardView({
                   className="p-3.5 px-4 flex items-center justify-between hover:bg-[#F8FAFC] cursor-pointer transition-colors duration-200 ease-out"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#F5F8FC] border border-[#E2E8F0] flex items-center justify-center font-bold text-sm text-[#172033]">
+                    <div className="w-10 h-10 rounded-xl bg-[#F4F7FF] border border-[#DCE5FF] flex items-center justify-center font-bold text-sm text-[#172554]">
                       {stock.symbol}
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5">
-                        <span className="font-bold text-sm text-[#172033]">{stock.symbol}</span>
-                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#F1F5F9] text-[#64748B] font-semibold border border-[#E2E8F0]">
+                        <span className="font-bold text-sm text-[#172554]">{stock.symbol}</span>
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#F4F7FF] text-[#647293] font-semibold border border-[#DCE5FF]">
                           {stock.exchange}
                         </span>
                       </div>
-                      <p className="text-xs text-[#64748B] truncate max-w-[180px] sm:max-w-xs">{stock.companyName}</p>
+                      <p className="text-xs text-[#647293] truncate max-w-[180px] sm:max-w-xs">{stock.companyName}</p>
                     </div>
                   </div>
 
                   <div className="text-right">
-                    <p className="font-bold text-sm text-[#172033] font-mono tabular-nums">
+                    <p className="font-bold text-sm text-[#172554] font-mono tabular-nums">
                       {stock.price.toLocaleString('vi-VN')}
                     </p>
-                    <p className={`text-xs font-bold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                    <p className={`text-xs font-bold font-mono tabular-nums ${isUp ? 'text-[#16A34A]' : 'text-[#EF4444]'}`}>
                       {isUp ? '+' : ''}{stock.changePercent.toFixed(2)}% ({isUp ? '+' : ''}{stock.change.toLocaleString('vi-VN')})
                     </p>
                   </div>
@@ -346,25 +346,25 @@ export default function MarketDashboardView({
         </div>
 
         {/* Right: Quick Watchlist preview (Col 5) */}
-        <div className="lg:col-span-5 bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden flex flex-col justify-between relative">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#34D399] to-[#14B8A6] z-10" />
+        <div className="lg:col-span-5 bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden flex flex-col justify-between relative">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#00A991] to-[#13C9D5] z-10" />
           <div>
-            <div className="p-4 pl-6 border-b border-[#E2E8F0] flex items-center justify-between">
+            <div className="p-4 pl-6 border-b border-[#DCE5FF] flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#34D399] to-[#14B8A6] shrink-0" />
-                <Bookmark className="w-4 h-4 text-[#10B981]" />
-                <h3 className="text-sm font-bold text-[#172033]">Theo dõi nhanh (Watchlist)</h3>
+                <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#00A991] to-[#13C9D5] shrink-0" />
+                <Bookmark className="w-4 h-4 text-[#16A34A]" />
+                <h3 className="text-sm font-bold text-[#172554]">Theo dõi nhanh (Watchlist)</h3>
               </div>
               <button
                 onClick={onViewWatchlist}
-                className="text-xs font-semibold text-[#008FD3] hover:underline flex items-center gap-0.5"
+                className="text-xs font-semibold text-[#087CFF] hover:underline flex items-center gap-0.5"
               >
                 <span>Xem tất cả</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="divide-y divide-[#F1F5F9]">
+            <div className="divide-y divide-[#F4F7FF]">
               {featuredWatchlist.map((stock) => {
                 const isUp = stock.change >= 0;
                 return (
@@ -374,15 +374,15 @@ export default function MarketDashboardView({
                     className="p-3 px-4 flex items-center justify-between hover:bg-[#F8FAFC] cursor-pointer transition-colors duration-200 ease-out"
                   >
                     <div>
-                      <span className="font-bold text-sm text-[#008FD3] hover:underline">{stock.symbol}</span>
-                      <span className="text-[11px] text-[#64748B] block truncate max-w-[150px]">{stock.industry || 'Bluechips'}</span>
+                      <span className="font-bold text-sm text-[#087CFF] hover:underline">{stock.symbol}</span>
+                      <span className="text-[11px] text-[#647293] block truncate max-w-[150px]">{stock.industry || 'Bluechips'}</span>
                     </div>
 
                     <div className="text-right">
-                      <span className="font-bold text-sm text-[#172033] font-mono tabular-nums block">
+                      <span className="font-bold text-sm text-[#172554] font-mono tabular-nums block">
                         {stock.price.toLocaleString('vi-VN')}
                       </span>
-                      <span className={`text-xs font-semibold font-mono tabular-nums ${isUp ? 'text-[#10B981]' : 'text-[#F43F5E]'}`}>
+                      <span className={`text-xs font-semibold font-mono tabular-nums ${isUp ? 'text-[#16A34A]' : 'text-[#EF4444]'}`}>
                         {isUp ? '+' : ''}{stock.changePercent.toFixed(2)}%
                       </span>
                     </div>
@@ -392,10 +392,10 @@ export default function MarketDashboardView({
             </div>
           </div>
 
-          <div className="p-4 bg-[#F5F8FC] border-t border-[#E2E8F0]">
+          <div className="p-4 bg-[#F4F7FF] border-t border-[#DCE5FF]">
             <button
               onClick={onViewWatchlist}
-              className="w-full py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs font-bold text-[#008FD3] hover:bg-[#E0F2FE] transition text-center shadow-2xs"
+              className="w-full py-2 bg-white border border-[#DCE5FF] rounded-xl text-xs font-bold text-[#087CFF] hover:bg-[#EBF3FF] transition text-center shadow-2xs"
             >
               + Thêm mã vào danh sách theo dõi cá nhân
             </button>
@@ -405,23 +405,23 @@ export default function MarketDashboardView({
 
       {/* 5. Short-term Opportunities Preview (T+3 Radar highlight) */}
       {t3Signals.length > 0 && (
-        <div className="bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#E2E8F0] shadow-xs space-y-4 relative overflow-hidden">
-          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#38BDF8] to-[#6366F1]" />
-          <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+        <div className="bg-[#FFFFFF] p-5 pl-6 rounded-2xl border border-[#DCE5FF] shadow-xs space-y-4 relative overflow-hidden">
+          <div className="absolute left-1.5 top-3.5 bottom-3.5 w-1 rounded-full bg-gradient-to-b from-[#7C3CFF] to-[#087CFF]" />
+          <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF]">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#38BDF8] to-[#6366F1] shrink-0" />
-              <Zap className="w-4 h-4 text-[#008FD3]" />
-              <h3 className="text-sm font-bold text-[#172033]">
+              <span className="w-1.5 h-4 rounded-full bg-gradient-to-b from-[#7C3CFF] to-[#087CFF] shrink-0" />
+              <Zap className="w-4 h-4 text-[#087CFF]" />
+              <h3 className="text-sm font-bold text-[#172554]">
                 Cơ hội ngắn hạn định lượng (T+1 đến T+5)
               </h3>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E0F2FE] text-[#008FD3]">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EBF3FF] text-[#087CFF]">
                 Thuật toán StockAI
               </span>
             </div>
 
             <button
               onClick={onViewT3Radar}
-              className="text-xs font-semibold text-[#008FD3] hover:underline flex items-center gap-0.5"
+              className="text-xs font-semibold text-[#087CFF] hover:underline flex items-center gap-0.5"
             >
               <span>Xem toàn bộ radar</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -433,23 +433,23 @@ export default function MarketDashboardView({
               <div
                 key={sig.id}
                 onClick={() => onSelectStock(sig.symbol)}
-                className="p-4 rounded-xl border border-[#E2E8F0] bg-[#F5F8FC]/50 hover:bg-[#FFFFFF] hover:border-[#008FD3] transition cursor-pointer space-y-2 shadow-2xs"
+                className="p-4 rounded-xl border border-[#DCE5FF] bg-[#F4F7FF]/50 hover:bg-[#FFFFFF] hover:border-[#087CFF] transition cursor-pointer space-y-2 shadow-2xs"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-base text-[#172033]">{sig.symbol}</span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#10B981]">
+                  <span className="font-bold text-base text-[#172554]">{sig.symbol}</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#DCFCE7] text-[#16A34A]">
                     Điểm: {sig.t3Score}/100
                   </span>
                 </div>
-                <p className="text-xs text-[#64748B] line-clamp-1">{sig.rationale}</p>
-                <div className="grid grid-cols-2 text-xs pt-1 border-t border-[#E2E8F0] font-mono">
+                <p className="text-xs text-[#647293] line-clamp-1">{sig.rationale}</p>
+                <div className="grid grid-cols-2 text-xs pt-1 border-t border-[#DCE5FF] font-mono">
                   <div>
-                    <span className="text-[10px] text-[#64748B] block">Vùng mua</span>
-                    <span className="font-bold text-[#172033]">{sig.buyZone}</span>
+                    <span className="text-[10px] text-[#647293] block">Vùng mua</span>
+                    <span className="font-bold text-[#172554]">{sig.buyZone}</span>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] text-[#64748B] block">Mục tiêu</span>
-                    <span className="font-bold text-[#10B981]">{sig.targetPrice}</span>
+                    <span className="text-[10px] text-[#647293] block">Mục tiêu</span>
+                    <span className="font-bold text-[#16A34A]">{sig.targetPrice}</span>
                   </div>
                 </div>
               </div>
