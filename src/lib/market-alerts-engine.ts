@@ -36,6 +36,27 @@ export interface BreakoutCheckResult {
   description: string;
 }
 
+export interface ProjectedVolumeResult {
+  projectedVolume: number;
+  timeFactor: number;
+  safeBreakoutMultiplier: number;
+  isEarlySession: boolean;
+}
+
+export interface BottomFishingResult {
+  isBottomFishing: boolean;
+  status: 'QUALIFIED' | 'FORMING';
+  dropFrom6MHighPercent: number;
+  rsi: number;
+  entryPrice: number;
+  stopLossPrice: number;
+  target1Price: number;
+  target2Price: number;
+  reasons: string[];
+  description: string;
+}
+
+
 export interface VolumeSurgeResult {
   isSurge: boolean;
   volumeRatio: number;
@@ -79,12 +100,73 @@ export interface WeakeningCheckResult {
  * - Thanh khoản tối thiểu: Khối lượng >= 150.000 cp hoặc giá trị >= 3 tỷ VNĐ.
  * - Chạm đỉnh KHÔNG tính là bứt phá (phải strictly currentPrice > max20High).
  */
+/**
+ * TÍNH TOÁN KHỐI LƯỢNG DỰ PHÓNG THEO GIỜ GIAO DỊCH (DATA-01)
+ * Phân bổ lịch sử nến 1 phút thị trường Việt Nam:
+ * - 09:15 - 10:00: ~25% thanh khoản cả phiên -> Ngưỡng an toàn >= 2.1x TB20
+ * - 10:00 - 11:30: ~50% thanh khoản cả phiên -> Ngưỡng an toàn >= 1.9x TB20
+ * - 13:00 - 14:00: ~75% thanh khoản cả phiên -> Ngưỡng an toàn >= 1.6x TB20
+ * - Sau 14:00 & ATC: 100% thanh khoản -> Ngưỡng an toàn >= 1.5x (HOSE) & >= 2.0x (HNX/UPCOM)
+ */
+export function calculateProjectedVolume(
+  currentVolume: number,
+  timeOrDate?: string | Date
+): ProjectedVolumeResult {
+  let timeNum = 1500;
+  if (typeof timeOrDate === 'string' && /^\d{1,2}:\d{2}/.test(timeOrDate)) {
+    const parts = timeOrDate.split(':');
+    timeNum = parseInt(parts[0], 10) * 100 + parseInt(parts[1], 10);
+  } else {
+    const d = timeOrDate ? (typeof timeOrDate === 'string' ? new Date(timeOrDate) : timeOrDate) : new Date();
+    const vnHours = (d.getUTCHours() + 7) % 24;
+    const vnMinutes = d.getUTCMinutes();
+    timeNum = vnHours * 100 + vnMinutes;
+  }
+
+  let timeFactor = 1.0;
+  let safeBreakoutMultiplier = 1.5;
+  let isEarlySession = false;
+
+  if (timeNum < 1000) {
+    timeFactor = 0.25;
+    safeBreakoutMultiplier = 2.1;
+    isEarlySession = true;
+  } else if (timeNum < 1130) {
+    timeFactor = 0.50;
+    safeBreakoutMultiplier = 1.9;
+  } else if (timeNum < 1400) {
+    timeFactor = 0.75;
+    safeBreakoutMultiplier = 1.6;
+  } else {
+    timeFactor = 1.0;
+    safeBreakoutMultiplier = 1.5;
+  }
+
+  const projectedVolume = Math.round(currentVolume / Math.max(0.20, timeFactor));
+
+  return {
+    projectedVolume,
+    timeFactor,
+    safeBreakoutMultiplier,
+    isEarlySession,
+  };
+}
+
+/**
+ * 1. KIỂM TRA BỨT PHÁ ĐỈNH 20 PHIÊN (A. BREAKOUT 20)
+ * 
+ * Nâng cấp theo chuẩn DNSE Scanner v9.28:
+ * - Giá strictly > max20High (không tính nến hiện tại).
+ * - Nến bứt phá phải đóng cửa ở nửa trên của thân nến (close >= (high + low)/2) để loại bỏ bull trap râu trên dài.
+ * - Khối lượng dự phóng quy đổi theo giờ (10h: 2.1x, 11h: 1.9x, 14h: 1.6x, ATC: 1.5x với HOSE và 2.0x với HNX/UPCOM).
+ * - Thanh khoản tối thiểu: Khối lượng >= 150.000 cp hoặc giá trị >= 3 tỷ VNĐ.
+ */
 export function detectBreakout20(
   symbol: string,
   exchange: Exchange,
   candles: Candle[],
   quote: NormalizedQuote,
-  minVolRatio = 1.5,
+  customMinVolRatio?: number,
   isMarketClosed = false
 ): BreakoutCheckResult | null {
   if (!candles || candles.length < 21) {
@@ -105,10 +187,32 @@ export function detectBreakout20(
 
   // Trung bình khối lượng 20 phiên
   const avgVol20 = calculateSMA(prior20.map(c => c.volume), 20);
-  const volumeRatio = avgVol20 > 0 ? Number((currentVolume / avgVol20).toFixed(2)) : 1;
+  if (avgVol20 <= 0) return null;
 
-  // Phải vượt dứt khoát đỉnh 20 phiên (strictly > max20High)
-  const isBreakout = currentPrice > max20High && volumeRatio >= minVolRatio;
+  const volumeRatio = Number((currentVolume / avgVol20).toFixed(2));
+
+  // Kiểm tra vị trí đóng cửa của nến bứt phá: Phải ở nửa trên của thân nến
+  const lastCandle = candles[candles.length - 1];
+  const candleRange = lastCandle.high - lastCandle.low;
+  if (candleRange > 0) {
+    const closePos = (currentPrice - lastCandle.low) / candleRange;
+    if (closePos < 0.48) {
+      return null; // Nến bị bán dội ngược tạo râu trên dài -> Không đạt chuẩn bứt phá
+    }
+  }
+
+  // Quy đổi khối lượng dự phóng theo giờ giao dịch
+  const isIntraday = quote.dataMode === 'REALTIME' || quote.dataMode === 'INTRADAY_DELAYED';
+  const projection = calculateProjectedVolume(currentVolume, quote.updatedTime);
+
+  // Sàn HNX và UPCOM biên độ lớn yêu cầu thanh khoản xác nhận >= 2.0x
+  const baseThreshold = (exchange === 'HNX' || exchange === 'UPCOM') ? 2.0 : 1.5;
+  const requiredRatio = customMinVolRatio !== undefined 
+    ? customMinVolRatio 
+    : (isIntraday ? Math.max(baseThreshold, projection.safeBreakoutMultiplier) : baseThreshold);
+
+  const projectedRatio = Number((projection.projectedVolume / avgVol20).toFixed(2));
+  const isBreakout = currentPrice > max20High && (volumeRatio >= requiredRatio || (isIntraday && projectedRatio >= requiredRatio));
   if (!isBreakout) {
     return null;
   }
@@ -119,7 +223,7 @@ export function detectBreakout20(
 
   const description = isConfirmed
     ? `Xác nhận đóng phiên vượt đỉnh 20 phiên (${(max20High / 1000).toFixed(1)}k) với thanh khoản bùng nổ ${volumeRatio.toString().replace('.', ',')}x TB20.`
-    : `Trong phiên: Giá vượt đỉnh 20 phiên (${(max20High / 1000).toFixed(1)}k), thanh khoản đạt ${volumeRatio.toString().replace('.', ',')}x TB20. Cần theo dõi duy trì tới ATC.`;
+    : `Trong phiên: Giá vượt đỉnh 20 phiên (${(max20High / 1000).toFixed(1)}k), KL hiện tại ${volumeRatio.toString().replace('.', ',')}x (Dự phóng cả phiên: ${projectedRatio.toString().replace('.', ',')}x* TB20, ngưỡng an toàn theo giờ >= ${requiredRatio}x).`;
 
   return {
     isBreakout: true,
@@ -312,6 +416,196 @@ export function detectTrendWeakening(
  * - Mức rủi ro thị trường: THẤP / TRUNG BÌNH / CAO
  * - Tỷ trọng danh mục tham khảo kèm disclaimer
  */
+
+/**
+ * 6B. CHIẾN LƯỢC PHỤ: BẮT ĐÁY ĐẠT CHUẨN (BOTTOM FISHING - STRAT-04)
+ * 
+ * Tiêu chí:
+ * 1. Giá giảm >= 20% từ đỉnh 6 tháng (120 nến).
+ * 2. Giá nằm dưới MA50.
+ * 3. RSI quá bán (<= 38).
+ * 4. Nến xác nhận: Bật >= 3% từ đáy gần nhất và vượt đỉnh nến trước, KL >= TB20.
+ * 5. Thị trường hoảng loạn (% mã trên MA50 <= 25%).
+ */
+export function detectBottomFishing(
+  symbol: string,
+  exchange: Exchange,
+  candles: Candle[],
+  quote: NormalizedQuote,
+  marketBreadthMa50Percent = 50
+): BottomFishingResult | null {
+  if (!candles || candles.length < 60) return null;
+
+  const currentPrice = quote.closePrice || candles[candles.length - 1].close;
+  const currentVolume = quote.matchVolume || candles[candles.length - 1].volume;
+
+  // 1. Kiểm tra mức giảm từ đỉnh 6 tháng
+  const lookback = Math.min(120, candles.length);
+  const recentCandles = candles.slice(-lookback);
+  const high6M = Math.max(...recentCandles.map(c => c.high));
+  const dropPercent = high6M > 0 ? ((high6M - currentPrice) / high6M) * 100 : 0;
+  if (dropPercent < 20.0) return null;
+
+  // 2. Dưới MA50
+  const ma50 = calculateSMA(candles.map(c => c.close), 50);
+  if (currentPrice >= ma50) return null;
+
+  // 3. RSI quá bán
+  const rsi = calculateRSI(candles.map(c => c.close), 14);
+  if (rsi > 38) return null;
+
+  // 4. Thanh khoản tối thiểu
+  const prior20 = candles.slice(-21, -1);
+  const avgVol20 = calculateSMA(prior20.map(c => c.volume), 20);
+  if (avgVol20 < 100000) return null;
+
+  // 5. Nến xác nhận đảo chiều
+  const prevCandle = candles[candles.length - 2];
+  const lowestRecent = Math.min(...candles.slice(-10).map(c => c.low));
+  const bounceFromLow = lowestRecent > 0 ? ((currentPrice - lowestRecent) / lowestRecent) * 100 : 0;
+  const hasConfirmationCandle = currentPrice > prevCandle.high && bounceFromLow >= 3.0 && currentVolume >= avgVol20 * 0.85;
+
+  // 6. Thị trường hoảng loạn
+  const isMarketPanic = marketBreadthMa50Percent <= 25;
+
+  const reasons: string[] = [
+    `Chiết khấu sâu -${dropPercent.toFixed(1)}% từ đỉnh 6 tháng`,
+    `RSI (${rsi.toFixed(1)}) ở vùng quá bán tích tụ lực cầu`,
+  ];
+  if (bounceFromLow >= 3.0) reasons.push(`Nến đảo chiều bật +${bounceFromLow.toFixed(1)}% từ đáy`);
+  if (isMarketPanic) reasons.push(`Thị trường hoảng loạn (% trên MA50 = ${marketBreadthMa50Percent}%)`);
+
+  const ma20 = calculateSMA(candles.map(c => c.close), 20);
+  const target1Price = Math.round(Math.max(currentPrice * 1.05, Math.min(ma20, currentPrice * 1.10)));
+  const target2Price = Math.round(Math.max(target1Price * 1.05, ma50));
+  const stopLossPrice = Math.round(currentPrice * 0.92); // Cắt lỗ cứng -8%
+
+  const isQualified = hasConfirmationCandle && isMarketPanic;
+
+  return {
+    isBottomFishing: true,
+    status: isQualified ? 'QUALIFIED' : 'FORMING',
+    dropFrom6MHighPercent: Number(dropPercent.toFixed(1)),
+    rsi: Number(rsi.toFixed(1)),
+    entryPrice: currentPrice,
+    stopLossPrice,
+    target1Price,
+    target2Price,
+    reasons,
+    description: isQualified
+      ? `BẮT ĐÁY ĐẠT CHUẨN: Chiết khấu -${dropPercent.toFixed(1)}% từ đỉnh, RSI ${rsi.toFixed(1)}, nến đảo chiều bật +${bounceFromLow.toFixed(1)}%, thị trường hoảng loạn. Kế hoạch: Thăm dò 1/3 vị thế, cắt lỗ -8%, chốt lời 1 quanh MA20 (${(target1Price/1000).toFixed(1)}k).`
+      : `ĐANG TẠO ĐÁY: Chiết khấu -${dropPercent.toFixed(1)}% từ đỉnh, RSI ${rsi.toFixed(1)} quá bán. Cần chờ nến xác nhận hoặc thị trường đạt điểm hoảng loạn.`,
+  };
+}
+
+/**
+ * TÍNH TOÁN ĐIỂM SỨC KHỎE THỊ TRƯỜNG 0 - 100 (REG-01)
+ * 6 Trụ cột:
+ * 1. Xu hướng VN-Index (25đ)
+ * 2. Độ rộng thị trường % trên MA50 (25đ)
+ * 3. Động lượng RSI (15đ)
+ * 4. Số ngày phân phối trong 25 phiên (15đ)
+ * 5. Thanh khoản xác nhận (10đ)
+ * 6. Dòng tiền khối ngoại (10đ)
+ */
+export function calculateMarketHealthScore(params: {
+  vnindex: NormalizedIndex;
+  indexCandles: Candle[];
+  stocksAboveMa50Percent: number;
+  quotes: NormalizedQuote[];
+}): {
+  score: number;
+  breakdown: {
+    trend: number;
+    breadth: number;
+    momentum: number;
+    distributionDays: number;
+    volume: number;
+    foreign: number;
+  };
+  distributionDaysCount: number;
+  isFollowThroughDay: boolean;
+} {
+  const { vnindex, indexCandles, stocksAboveMa50Percent, quotes } = params;
+
+  // Trụ cột 1: Xu hướng (max 25đ)
+  let trend = 0;
+  const closes = indexCandles.map(c => c.close);
+  const ma20 = calculateSMA(closes, 20);
+  const ma50 = calculateSMA(closes, 50);
+  const curClose = vnindex.value || (closes.length > 0 ? closes[closes.length - 1] : 0);
+
+  if (curClose > ma20) trend += 10;
+  if (curClose > ma50) trend += 10;
+  if (ma20 > ma50) trend += 5;
+
+  // Trụ cột 2: Độ rộng (max 25đ)
+  let breadth = 0;
+  if (stocksAboveMa50Percent >= 65) breadth = 25;
+  else if (stocksAboveMa50Percent >= 50) breadth = 18;
+  else if (stocksAboveMa50Percent >= 35) breadth = 10;
+  else breadth = 3;
+
+  // Trụ cột 3: Động lượng RSI (max 15đ)
+  let momentum = 0;
+  const rsi = calculateRSI(closes, 14);
+  if (rsi >= 50 && rsi <= 68) momentum = 15;
+  else if (rsi >= 45 && rsi < 50) momentum = 10;
+  else if (rsi > 68) momentum = 8;
+  else momentum = 4;
+
+  // Trụ cột 4: Ngày phân phối 25 phiên (max 15đ)
+  let distributionDaysCount = 0;
+  const lookback = Math.min(25, indexCandles.length - 1);
+  for (let i = indexCandles.length - lookback; i < indexCandles.length; i++) {
+    const cur = indexCandles[i];
+    const prev = indexCandles[i - 1];
+    if (prev && cur.close < prev.close * 0.998 && cur.volume > prev.volume) {
+      distributionDaysCount++;
+    }
+  }
+
+  let distributionDays = 15;
+  if (distributionDaysCount <= 2) distributionDays = 15;
+  else if (distributionDaysCount <= 4) distributionDays = 10;
+  else if (distributionDaysCount <= 5) distributionDays = 5;
+  else distributionDays = 0;
+
+  // Trụ cột 5: Khối lượng xác nhận (max 10đ)
+  let volume = 5;
+  const vol20 = calculateSMA(indexCandles.map(c => c.volume), 20);
+  const curVol = vnindex.totalVolume || (indexCandles.length > 0 ? indexCandles[indexCandles.length - 1].volume : 0);
+  if (curClose > (indexCandles[indexCandles.length - 2]?.close || curClose) && curVol >= vol20) {
+    volume = 10;
+  } else if (curClose < (indexCandles[indexCandles.length - 2]?.close || curClose) && curVol > vol20 * 1.2) {
+    volume = 2;
+  }
+
+  // Trụ cột 6: Dòng tiền khối ngoại (max 10đ)
+  let foreign = 5;
+  const netForeign = quotes.reduce((acc, q) => acc + (q.foreignNetValue !== undefined ? q.foreignNetValue : (((q.foreignBuyVol || 0) - (q.foreignSellVol || 0)) * q.closePrice)), 0);
+  if (netForeign > 100_000_000_000) foreign = 10;
+  else if (netForeign < -100_000_000_000) foreign = 2;
+
+  // Follow-Through Day (FTD)
+  const lastC = indexCandles[indexCandles.length - 1];
+  const prevC = indexCandles[indexCandles.length - 2];
+  const isFollowThroughDay = Boolean(
+    lastC && prevC &&
+    ((lastC.close - prevC.close) / prevC.close) >= 0.012 &&
+    lastC.volume > prevC.volume
+  );
+
+  const totalScore = trend + breadth + momentum + distributionDays + volume + foreign;
+
+  return {
+    score: totalScore,
+    breakdown: { trend, breadth, momentum, distributionDays, volume, foreign },
+    distributionDaysCount,
+    isFollowThroughDay,
+  };
+}
+
 export function calculateMarketOverview(
   indices: NormalizedIndex[],
   quotes: NormalizedQuote[],
@@ -445,6 +739,14 @@ export function calculateMarketOverview(
     };
   }
 
+  // Tính điểm sức khỏe thị trường 0 - 100
+  const healthResult = calculateMarketHealthScore({
+    vnindex,
+    indexCandles: vnindexHistory,
+    stocksAboveMa50Percent,
+    quotes,
+  });
+
   return {
     indexCode: vnindex.code,
     indexName: vnindex.name,
@@ -472,6 +774,11 @@ export function calculateMarketOverview(
     lastUpdated: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
     dataMode: vnindex.dataMode,
     dataSource: vnindex.source,
+    marketHealthScore: healthResult.score,
+    healthScoreBreakdown: healthResult.breakdown,
+    distributionDaysCount: healthResult.distributionDaysCount,
+    isFollowThroughDay: healthResult.isFollowThroughDay,
+    regimeMode: marketRiskLevel === 'CAO' ? 'block' : 'warn',
   };
 }
 
@@ -585,6 +892,10 @@ export function calculateFilterCounts(
     volume_surge: 0,
     corporate_action: 0,
     watchlist: 0,
+    bottom_fishing: 0,
+    squeeze: 0,
+    divergence: 0,
+    blocked: 0,
   };
 
   const watchlistSet = new Set(portfolioSymbols.map(s => s.toUpperCase()));
@@ -615,6 +926,19 @@ export function calculateFilterCounts(
       case 'CORPORATE_ACTION':
         counts.corporate_action++;
         break;
+      case 'BOTTOM_FISHING':
+        if (counts.bottom_fishing !== undefined) counts.bottom_fishing++;
+        break;
+      case 'VOLATILITY_SQUEEZE':
+        if (counts.squeeze !== undefined) counts.squeeze++;
+        break;
+      case 'DIVERGENCE':
+        if (counts.divergence !== undefined) counts.divergence++;
+        break;
+    }
+
+    if (alt.status === 'BLOCKED' || alt.isBlocked) {
+      if (counts.blocked !== undefined) counts.blocked++;
     }
 
     if (watchlistSet.has(alt.symbol.toUpperCase()) || alt.eventType === 'PORTFOLIO_WATCHLIST') {

@@ -58,6 +58,18 @@ export async function GET(req: NextRequest) {
       case 'corporate_action':
         filtered = filtered.filter(a => a.eventType === 'CORPORATE_ACTION');
         break;
+      case 'bottom_fishing':
+        filtered = filtered.filter(a => a.eventType === 'BOTTOM_FISHING');
+        break;
+      case 'squeeze':
+        filtered = filtered.filter(a => a.eventType === 'VOLATILITY_SQUEEZE');
+        break;
+      case 'divergence':
+        filtered = filtered.filter(a => a.eventType === 'DIVERGENCE');
+        break;
+      case 'blocked':
+        filtered = filtered.filter(a => a.status === 'BLOCKED' || a.isBlocked);
+        break;
       case 'watchlist':
         const set = new Set(userTrackingSymbols.map(s => s.toUpperCase()));
         filtered = filtered.filter(a => set.has(a.symbol.toUpperCase()) || a.eventType === 'PORTFOLIO_WATCHLIST');

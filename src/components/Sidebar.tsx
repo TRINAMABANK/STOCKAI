@@ -13,7 +13,8 @@ import {
   Bot, 
   Bookmark, 
   Bell, 
-  History, 
+  History,
+  FileText, 
   RefreshCw,
   Activity,
   ShieldCheck,
@@ -39,6 +40,7 @@ export type ActiveMenu =
   | 'market'
   | 'ai'
   | 'alerts'
+  | 'eod-report'
   | 'api-center'
   | 'backtest'
   | 'settings';
@@ -83,6 +85,7 @@ export default function Sidebar({
     { id: 'market', label: 'Bảng giá trực tuyến', icon: TrendingUp },
     { id: 'ai', label: 'Trợ lý AI', icon: Bot, isAi: true },
     { id: 'alerts', label: 'Cảnh báo thị trường', icon: Bell },
+    { id: 'eod-report', label: 'Tổng kết phiên (EOD)', icon: FileText },
     { id: 'backtest', label: 'Kiểm định chiến lược', icon: History },
   ];
 

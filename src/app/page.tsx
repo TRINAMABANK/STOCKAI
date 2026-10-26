@@ -26,6 +26,7 @@ import StockAnalysisView from '@/components/views/StockAnalysisView';
 import AiAssistantView from '@/components/views/AiAssistantView';
 import WatchlistView from '@/components/views/WatchlistView';
 import AlertsView from '@/components/views/AlertsView';
+import EODReportView from '@/components/views/EODReportView';
 import ApiCenterView from '@/components/views/ApiCenterView';
 import BacktestView from '@/components/views/BacktestView';
 import SettingsView from '@/components/views/SettingsView';
@@ -409,6 +410,15 @@ export default function Home() {
 
               {/* Cảnh báo */}
               {activeMenu === 'alerts' && <AlertsView onSelectStock={handleSelectStock} />}
+
+              {/* Báo cáo tổng kết phiên EOD */}
+              {activeMenu === 'eod-report' && (
+                <EODReportView
+                  indices={indices}
+                  quotes={quotes}
+                  onSelectStock={handleSelectStock}
+                />
+              )}
 
               {/* Trung tâm API: Chỉ Quản trị viên mới được truy cập */}
               {activeMenu === 'api-center' && (

@@ -53,7 +53,8 @@ export default function StockAnalysisView({
   const [selectedStrategy, setSelectedStrategy] = useState<StrategyType>('PULLBACK');
   const [aiReport, setAiReport] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'chart_plan' | 'score' | 'risk_calc' | 'ai'>('chart_plan');
+  const [activeTab, setActiveTab] = useState<'chart_plan' | 'score' | 'financials' | 'risk_calc' | 'ai'>('chart_plan');
+  const [copyPromptMessage, setCopyPromptMessage] = useState<string | null>(null);
 
   // Dữ liệu nến và trạng thái nạp từ API
   const [candles, setCandles] = useState<CandleData[]>([]);
@@ -194,6 +195,40 @@ export default function StockAnalysisView({
       stopLossPrice: stopP,
     });
   }, [navCapital, riskPercent, tradeSetup, stock.price]);
+
+  // Xuất Prompt Cấu Trúc Miễn Phí (AI-01 - DNSE Scanner v9.2 Parity)
+  const handleCopyStructuredPrompt = () => {
+    const barsSummary = candles.slice(-20).map(c => `${c.time}: Đóng ${c.close.toLocaleString()}, KL ${c.volume.toLocaleString()}`).join('\n');
+    const setupInfo = tradeSetup 
+      ? `Chiến lược: ${tradeSetup.strategyName}\n- Vùng thăm dò ①: ${tradeSetup.point1Entry?.toLocaleString() || tradeSetup.entryPrice.toLocaleString()} đ (Cắt lỗ thăm dò: ${tradeSetup.probeStopPrice?.toLocaleString() || tradeSetup.stopLoss.toLocaleString()} đ)\n- Vùng gia tăng ②: ${tradeSetup.point2Entry?.toLocaleString() || tradeSetup.entryZoneHigh.toLocaleString()} đ (Cắt lỗ vị thế: ${tradeSetup.positionStopPrice?.toLocaleString() || tradeSetup.stopLoss.toLocaleString()} đ)\n- Giá mua đuổi tối đa (ATR%): ${tradeSetup.maxChasePrice?.toLocaleString() || tradeSetup.entryZoneHigh.toLocaleString()} đ\n- Chốt lời 1 (TP1): ${tradeSetup.target1.toLocaleString()} đ (+${tradeSetup.target1Percent}%)\n- Chốt lời 2 (TP2): ${tradeSetup.target2.toLocaleString()} đ (+${tradeSetup.target2Percent}%)\n- Tỷ lệ Lợi nhuận/Rủi ro: ${tradeSetup.rewardRiskRatio}:1`
+      : 'Chưa có setup cụ thể';
+
+    const fullPrompt = `Bạn là Chuyên gia Phân tích Kỹ thuật & Quản trị Rủi ro Định lượng hàng đầu thị trường chứng khoán Việt Nam (HOSE, HNX, UPCoM).
+
+Hãy phân tích toàn diện mã cổ phiếu ${stock.symbol} (${stock.companyName} - Sàn ${stock.exchange}, Ngành ${stock.industry}) dựa trên bộ dữ liệu thực tế sau:
+
+1. THÔNG SỐ HIỆN TẠI:
+- Giá khớp mới nhất: ${stock.price.toLocaleString('vi-VN')} đ (${stock.change >= 0 ? '+' : ''}${stock.changePercent.toFixed(2)}%)
+- Khối lượng giao dịch: ${stock.volume.toLocaleString('vi-VN')} cp
+- RSI(14): ${stock.rsi || 55}
+- P/E: ${stock.pe || 15}x | P/B: ${stock.pb || 1.8}x | ROE: ${stock.roe || 18}%
+
+2. THIẾT LẬP KẾ HOẠCH GIAO DỊCH (TRADE SETUP T+5 - T+10):
+${setupInfo}
+
+3. LỊCH SỬ 20 PHIÊN GẦN NHẤT:
+${barsSummary}
+
+YÊU CẦU ĐÁNH GIÁ:
+1. Xu hướng kỹ thuật chủ đạo và vị thế hiện tại của dòng tiền lớn (Smart Money).
+2. Kiểm tra tín hiệu bứt phá (Breakout) hoặc kiểm định hỗ trợ (Pullback): Có đạt chuẩn khối lượng và vị trí đóng cửa nến không?
+3. Đánh giá tính khả thi của Kế hoạch vào lệnh (Vùng mua ① Thăm dò, ② Gia tăng, Ngưỡng mua đuổi tối đa ATR, Điểm cắt lỗ kép).
+4. Khuyến nghị hành động cụ thể cho phiên giao dịch kế tiếp (Mua mới / Mua thêm / Nắm giữ / Hạ tỷ trọng).`;
+
+    navigator.clipboard.writeText(fullPrompt);
+    setCopyPromptMessage('✅ Đã sao chép toàn bộ Prompt & dữ liệu vào Clipboard! Hãy dán (Ctrl+V) vào Claude/Gemini đang dùng.');
+    setTimeout(() => setCopyPromptMessage(null), 4000);
+  };
 
   // Xử lý gửi AI Copilot
   const handleGenerateAiAnalysis = async () => {
@@ -382,6 +417,19 @@ export default function StockAnalysisView({
           <span className="w-3.5 h-1.5 rounded-full bg-gradient-to-r from-[#7C3CFF] to-[#087CFF] opacity-80 shrink-0" />
           <BarChart3 className="w-3.5 h-3.5" />
           <span>Đồ thị & Kế hoạch vào lệnh</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('financials')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            activeTab === 'financials'
+              ? 'bg-gradient-to-r from-[#EBF3FF] to-white text-[#087CFF] border border-[#087CFF]/30 shadow-2xs'
+              : 'text-[#647293] hover:text-[#172554] hover:bg-[#F4F7FF]'
+          }`}
+        >
+          <span className="w-3.5 h-1.5 rounded-full bg-gradient-to-r from-[#087CFF] to-[#13C9D5] opacity-80 shrink-0" />
+          <BarChart3 className="w-3.5 h-3.5" />
+          <span>▤ BCTC & Tài chính 1 Trang</span>
         </button>
 
         <button

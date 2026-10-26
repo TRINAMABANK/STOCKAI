@@ -4,19 +4,20 @@ import React, { useState, useMemo } from 'react';
 import { 
   Filter, 
   Star, 
-  CheckCircle, 
   Search, 
   Sliders, 
-  ArrowUpDown, 
-  Bookmark, 
-  Zap, 
   TrendingUp, 
-  LineChart, 
-  Lock, 
+  Sparkles,
+  Flame,
+  Zap,
+  Anchor,
+  Layers,
   ArrowRight,
-  ShieldCheck,
-  ChevronRight,
-  Sparkles
+  TrendingDown,
+  BarChart2,
+  Compass,
+  CheckCircle2,
+  ShieldAlert
 } from 'lucide-react';
 import { StockQuote, SubscriptionTier } from '@/types';
 
@@ -28,6 +29,17 @@ interface ScreenerViewProps {
   onOpenSubscription?: () => void;
 }
 
+export type ScreenerPreset = 
+  | 'ALL' 
+  | 'SUPER_STOCKS' 
+  | 'MARKET_LEADERS' 
+  | 'MONEY_FLOW' 
+  | 'GROWTH_FUND' 
+  | 'VOL_SQUEEZE' 
+  | 'DIVERGENCE' 
+  | 'BOTTOM_FISHING' 
+  | 'TIGHT_BASE';
+
 export default function ScreenerView({
   quotes,
   onSelectStock,
@@ -35,91 +47,177 @@ export default function ScreenerView({
   userTier = 'PRO',
   onOpenSubscription,
 }: ScreenerViewProps) {
+  const [selectedPreset, setSelectedPreset] = useState<ScreenerPreset>('SUPER_STOCKS');
   const [selectedExchange, setSelectedExchange] = useState('ALL');
   const [selectedIndustry, setSelectedIndustry] = useState('ALL');
-  const [trendFilter, setTrendFilter] = useState<'ALL' | 'UPTREND' | 'SIDEWAY' | 'PULLBACK'>('ALL');
-  const [macdFilter, setMacdFilter] = useState<'ALL' | 'BULLISH' | 'CROSS_UP'>('ALL');
   const [minRoe, setMinRoe] = useState('10');
   const [maxPe, setMaxPe] = useState('35');
-  const [minRsi, setMinRsi] = useState('40');
-  const [maxRsi, setMaxRsi] = useState('75');
-  const [minVolume, setMinVolume] = useState('1000000');
+  const [minRsi, setMinRsi] = useState('30');
+  const [maxRsi, setMaxRsi] = useState('80');
+  const [minVolume, setMinVolume] = useState('500000');
   const [searchTerm, setSearchTerm] = useState('');
 
   const industries = [
     'ALL',
-    'Công nghệ',
     'Ngân hàng',
-    'Thép',
-    'Bất động sản',
     'Chứng khoán',
+    'Bất động sản',
+    'Thép & Vật liệu',
+    'Công nghệ',
     'Bán lẻ',
     'Dầu khí',
     'Hóa chất',
     'Thực phẩm'
   ];
 
-  // Thuật toán chấm điểm định lượng (Quant Score 0-100) và lý do lựa chọn
-  const scoredQuotes = useMemo(() => {
+  // Tính toán các chỉ số định lượng mở rộng và gắn thẻ chiến lược
+  const enhancedQuotes = useMemo(() => {
     return quotes.map((q) => {
-      let score = 50; // base score
+      let score = 50;
+      const tags: { label: string; color: string }[] = [];
       const reasons: string[] = [];
 
-      // 1. Xu hướng và giá
-      if (q.changePercent > 3.0) {
-        score += 15;
-        reasons.push('Đà tăng giá bứt phá mạnh mẽ (>3%)');
+      // 1. Đà tăng giá & thanh khoản
+      if (q.changePercent >= 3.0) {
+        score += 18;
+        reasons.push('Bứt phá mạnh >3%');
       } else if (q.changePercent > 0.5) {
         score += 8;
-        reasons.push('Duy trì sắc xanh tích cực');
+        reasons.push('Tăng giá tích cực');
+      } else if (q.changePercent < -3.0) {
+        score -= 10;
       }
 
-      // 2. Thanh khoản
-      if (q.volume > 5000000) {
+      if (q.volume >= 3000000) {
         score += 15;
-        reasons.push('Dòng tiền lớn (>5M cp/phiên)');
-      } else if (q.volume > 2000000) {
+        reasons.push('Dòng tiền lớn (>3M cp)');
+      } else if (q.volume >= 1000000) {
         score += 8;
-        reasons.push('Thanh khoản dồi dào');
       }
 
-      // 3. RSI
+      // 2. Điểm RS ước tính (0-99)
       const rsi = q.rsi || 50;
-      if (rsi >= 50 && rsi <= 65) {
-        score += 12;
-        reasons.push('RSI vùng tích lũy tăng trưởng (50-65)');
-      } else if (rsi < 35) {
-        score += 10;
-        reasons.push('RSI chạm vùng quá bán phục hồi');
+      const rsScore = Math.min(99, Math.max(10, Math.round(rsi * 0.9 + (q.changePercent > 0 ? q.changePercent * 3 : 0))));
+
+      // 3. Phân loại chiến lược DNSE v9.28 Parity
+      // A. Siêu cổ phiếu (Super Stock): RS >= 80, tăng giá, thanh khoản tốt
+      const isSuperStock = rsScore >= 78 && q.changePercent >= 0.5 && q.volume >= 1000000;
+      if (isSuperStock) {
+        tags.push({ label: 'Siêu Cổ', color: 'bg-[#FEF3C7] text-[#D97706] border-[#FDE68A]' });
       }
 
-      // 4. Cơ bản
-      if ((q.roe || 0) >= 18) {
-        score += 10;
-        reasons.push('ROE chất lượng cao (>18%)');
+      // B. Dẫn dắt thị trường (Market Leader): Siêu cổ + tăng vượt trội > 2.5%
+      const isLeader = isSuperStock && q.changePercent >= 2.5;
+      if (isLeader) {
+        tags.push({ label: 'Dẫn Dắt', color: 'bg-[#EBF3FF] text-[#087CFF] border-[#DCE5FF]' });
       }
 
-      score = Math.min(98, Math.max(45, score));
+      // C. Dòng tiền gom (Money Flow): RSI 50-65, vol lớn, nến xanh
+      const isMoneyFlow = rsi >= 50 && rsi <= 65 && q.volume >= 2000000 && q.changePercent > 0;
+      if (isMoneyFlow) {
+        tags.push({ label: 'Dòng Tiền', color: 'bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]' });
+      }
+
+      // D. Cơ bản tăng trưởng (CANSLIM): ROE >= 16% + PE <= 22
+      const isGrowthFund = (q.roe || 0) >= 16 && (q.pe || 99) <= 22;
+      if (isGrowthFund) {
+        tags.push({ label: 'Tăng Trưởng', color: 'bg-[#F3E8FF] text-[#8B36FF] border-[#E9D5FF]' });
+      }
+
+      // E. Nén biến động (Volatility Squeeze): biên độ hẹp -1.2% -> +1.2%, RSI cân bằng
+      const isSqueeze = Math.abs(q.changePercent) <= 1.2 && rsi >= 48 && rsi <= 56;
+      if (isSqueeze) {
+        tags.push({ label: 'Nén Biến Động', color: 'bg-[#F0FDFA] text-[#0D9488] border-[#99F6E4]' });
+      }
+
+      // F. Phân kỳ / Đảo chiều (Divergence / Reversal)
+      const isDivergence = rsi <= 35 || rsi >= 72;
+      if (isDivergence) {
+        tags.push({ label: rsi <= 35 ? 'Phân Kỳ Dương' : 'Cảnh Báo Đỉnh', color: rsi <= 35 ? 'bg-[#EFF6FF] text-[#2563EB] border-[#BFDBFE]' : 'bg-[#FEF2F2] text-[#DC2626] border-[#FECACA]' });
+      }
+
+      // G. Bắt đáy (Bottom Fishing): RSI <= 36, nến hôm nay xanh hồi phục
+      const isBottomFishing = rsi <= 36 && q.changePercent >= 1.0;
+      if (isBottomFishing) {
+        tags.push({ label: 'Bắt Đáy', color: 'bg-[#FFF7ED] text-[#EA580C] border-[#FFEDD5]' });
+      }
+
+      // H. Nền chặt gần đỉnh (Tight Base)
+      const isTightBase = Math.abs(q.changePercent) <= 1.5 && rsScore >= 70;
+      if (isTightBase) {
+        tags.push({ label: 'Nền Chặt', color: 'bg-[#F8FAFC] text-[#475569] border-[#E2E8F0]' });
+      }
+
+      // Điểm vào lệnh & Cắt lỗ / Chốt lời tham khảo
+      const entryPoint1 = Math.round(q.price * 0.985);
+      const entryPoint2 = Math.round(q.price * 1.01);
+      const stopLoss = Math.round(q.price * 0.93);
+      const target1 = Math.round(q.price * 1.08);
+
+      const finalScore = Math.min(98, Math.max(45, score));
 
       return {
         ...q,
-        quantScore: score,
+        quantScore: finalScore,
+        rsScore,
+        tags,
+        isSuperStock,
+        isLeader,
+        isMoneyFlow,
+        isGrowthFund,
+        isSqueeze,
+        isDivergence,
+        isBottomFishing,
+        isTightBase,
+        entryPoint1,
+        entryPoint2,
+        stopLoss,
+        target1,
         selectionReason: reasons.slice(0, 2).join(' • ') || 'Đạt tiêu chuẩn kỹ thuật',
-        trendStatus: q.changePercent > 0 ? 'Uptrend' : 'Sideway',
       };
     });
   }, [quotes]);
 
-  // Bộ lọc
+  // Đếm số lượng mã cho từng preset tab
+  const presetCounts = useMemo(() => {
+    return {
+      ALL: enhancedQuotes.length,
+      SUPER_STOCKS: enhancedQuotes.filter(q => q.isSuperStock).length,
+      MARKET_LEADERS: enhancedQuotes.filter(q => q.isLeader).length,
+      MONEY_FLOW: enhancedQuotes.filter(q => q.isMoneyFlow).length,
+      GROWTH_FUND: enhancedQuotes.filter(q => q.isGrowthFund).length,
+      VOL_SQUEEZE: enhancedQuotes.filter(q => q.isSqueeze).length,
+      DIVERGENCE: enhancedQuotes.filter(q => q.isDivergence).length,
+      BOTTOM_FISHING: enhancedQuotes.filter(q => q.isBottomFishing).length,
+      TIGHT_BASE: enhancedQuotes.filter(q => q.isTightBase).length,
+    };
+  }, [enhancedQuotes]);
+
+  // Bộ lọc kết hợp preset và manual criteria
   const filtered = useMemo(() => {
-    return scoredQuotes
+    return enhancedQuotes
       .filter((q) => {
+        // Lọc theo preset
+        if (selectedPreset === 'SUPER_STOCKS' && !q.isSuperStock) return false;
+        if (selectedPreset === 'MARKET_LEADERS' && !q.isLeader) return false;
+        if (selectedPreset === 'MONEY_FLOW' && !q.isMoneyFlow) return false;
+        if (selectedPreset === 'GROWTH_FUND' && !q.isGrowthFund) return false;
+        if (selectedPreset === 'VOL_SQUEEZE' && !q.isSqueeze) return false;
+        if (selectedPreset === 'DIVERGENCE' && !q.isDivergence) return false;
+        if (selectedPreset === 'BOTTOM_FISHING' && !q.isBottomFishing) return false;
+        if (selectedPreset === 'TIGHT_BASE' && !q.isTightBase) return false;
+
+        // Lọc theo sàn và ngành
         if (selectedExchange !== 'ALL' && q.exchange !== selectedExchange) return false;
         if (selectedIndustry !== 'ALL' && !q.industry.toLowerCase().includes(selectedIndustry.toLowerCase())) return false;
+
+        // Lọc theo chỉ số
         if (q.roe && q.roe < Number(minRoe)) return false;
         if (q.pe && q.pe > Number(maxPe)) return false;
         if (q.rsi && (q.rsi < Number(minRsi) || q.rsi > Number(maxRsi))) return false;
         if (q.volume < Number(minVolume)) return false;
+
+        // Lọc tìm kiếm
         if (searchTerm.trim()) {
           const s = searchTerm.toLowerCase();
           if (!q.symbol.toLowerCase().includes(s) && !q.companyName.toLowerCase().includes(s)) {
@@ -129,11 +227,22 @@ export default function ScreenerView({
         return true;
       })
       .sort((a, b) => b.quantScore - a.quantScore);
-  }, [scoredQuotes, selectedExchange, selectedIndustry, minRoe, maxPe, minRsi, maxRsi, minVolume, searchTerm]);
+  }, [enhancedQuotes, selectedPreset, selectedExchange, selectedIndustry, minRoe, maxPe, minRsi, maxRsi, minVolume, searchTerm]);
 
-  // Giới hạn hiển thị nếu gói Free
   const isFreeTier = userTier === 'FREE';
   const displayedQuotes = isFreeTier ? filtered.slice(0, 5) : filtered;
+
+  const presetTabs: { id: ScreenerPreset; label: string; icon: any }[] = [
+    { id: 'SUPER_STOCKS', label: 'Siêu Cổ Phiếu', icon: Flame },
+    { id: 'MARKET_LEADERS', label: 'Dẫn Dắt Thị Trường', icon: TrendingUp },
+    { id: 'MONEY_FLOW', label: 'Dòng Tiền Vào', icon: Zap },
+    { id: 'GROWTH_FUND', label: 'LN Tăng Tốc', icon: Sparkles },
+    { id: 'VOL_SQUEEZE', label: 'Nén Biến Động', icon: Layers },
+    { id: 'DIVERGENCE', label: 'Phân Kỳ Đảo Chiều', icon: Compass },
+    { id: 'BOTTOM_FISHING', label: 'Bắt Đáy Chuẩn', icon: Anchor },
+    { id: 'TIGHT_BASE', label: 'Nền Chặt Gần Đỉnh', icon: BarChart2 },
+    { id: 'ALL', label: 'Tất Cả', icon: Filter },
+  ];
 
   return (
     <div className="space-y-6">
@@ -142,14 +251,14 @@ export default function ScreenerView({
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-[24px] lg:text-[26px] font-bold text-[#172554] tracking-tight">
-              Bộ quét cổ phiếu định lượng (Quant Screener)
+              Bộ Quét Cổ Phiếu Định Lượng & Chiến Lược
             </h2>
             <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#EBF3FF] text-[#087CFF] border border-[#DCE5FF]">
-              Multi-Factor Engine
+              DNSE v9.28 Parity
             </span>
           </div>
           <p className="text-[13px] text-[#647293] mt-0.5">
-            Sàng lọc đa chiều kết hợp Xu hướng, Thanh khoản, RSI, MACD và Xếp hạng điểm định lượng
+            Sàng lọc đa chiều theo Siêu cổ phiếu, Điểm mua Thăm dò ① / Gia tăng ②, Nén biến động và Bắt đáy chuẩn mực
           </p>
         </div>
 
@@ -160,15 +269,49 @@ export default function ScreenerView({
         </div>
       </div>
 
+      {/* Preset Strategy Tabs Row */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {presetTabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = selectedPreset === tab.id;
+          const count = presetCounts[tab.id];
+
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setSelectedPreset(tab.id)}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
+                isActive
+                  ? 'bg-[#101B4B] text-white border-[#101B4B] shadow-sm'
+                  : 'bg-[#FFFFFF] text-[#647293] border-[#DCE5FF] hover:border-[#087CFF] hover:text-[#087CFF]'
+              }`}
+            >
+              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#087CFF]' : 'text-[#647293]'}`} />
+              <span>{tab.label}</span>
+              <span
+                className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                  isActive
+                    ? 'bg-[#087CFF] text-white'
+                    : count > 0
+                    ? 'bg-[#EBF3FF] text-[#087CFF]'
+                    : 'bg-[#F4F7FF] text-[#647293]'
+                }`}
+              >
+                {count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* Filter Control Box */}
       <div className="bg-[#FFFFFF] rounded-2xl p-5 border border-[#DCE5FF] shadow-xs space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-[#DCE5FF]">
           <div className="flex items-center gap-2 text-xs font-bold text-[#172554] uppercase tracking-wider">
             <Sliders className="w-4 h-4 text-[#087CFF]" />
-            <span>Tiêu chí sàng lọc nâng cao</span>
+            <span>Tiêu chí tinh chỉnh bộ lọc</span>
           </div>
 
-          {/* Quick search input inside screener */}
           <div className="relative w-64">
             <Search className="w-3.5 h-3.5 text-[#647293] absolute left-3 top-2.5" />
             <input
@@ -221,10 +364,10 @@ export default function ScreenerView({
               onChange={(e) => setMinVolume(e.target.value)}
               className="w-full bg-[#F4F7FF] border border-[#DCE5FF] rounded-xl p-2 font-bold text-[#172554] focus:outline-none"
             >
+              <option value="300000">&gt; 300.000 cp/phiên</option>
               <option value="500000">&gt; 500.000 cp/phiên</option>
               <option value="1000000">&gt; 1.000.000 cp/phiên</option>
               <option value="3000000">&gt; 3.000.000 cp/phiên</option>
-              <option value="5000000">&gt; 5.000.000 cp/phiên</option>
             </select>
           </div>
 
@@ -283,7 +426,7 @@ export default function ScreenerView({
         </div>
       </div>
 
-      {/* Free Tier Upgrade Banner if filtered has more than 5 results */}
+      {/* Free Tier Upgrade Banner */}
       {isFreeTier && filtered.length > 5 && (
         <div className="p-4 rounded-2xl bg-gradient-to-r from-[#087CFF]/10 to-[#8B36FF]/10 border border-[#DCE5FF] flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -295,7 +438,7 @@ export default function ScreenerView({
                 Khám phá toàn bộ {filtered.length} cổ phiếu tiềm năng với gói Pro
               </h4>
               <p className="text-xs text-[#647293]">
-                Tài khoản Miễn Phí đang hiển thị top 5 mã xếp hạng cao nhất. Nâng cấp Pro để xem đầy đủ kèm điểm vào lệnh chi tiết.
+                Tài khoản Miễn Phí đang hiển thị top 5 mã. Nâng cấp Pro để xem đầy đủ kèm điểm vào lệnh chi tiết và AI phân tích.
               </p>
             </div>
           </div>
@@ -313,112 +456,142 @@ export default function ScreenerView({
       {/* Results Table */}
       <div className="bg-[#FFFFFF] rounded-2xl border border-[#DCE5FF] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-[11pt]">
+          <table className="w-full text-left text-xs">
             <thead>
-              <tr className="bg-[#F4F7FF] text-[#647293] text-[11pt] font-semibold border-b border-[#DCE5FF]">
-                <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Hạng / Mã CP</th>
-                <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Ngành</th>
-                <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">Điểm Quant</th>
+              <tr className="bg-[#F4F7FF] text-[#647293] font-semibold border-b border-[#DCE5FF]">
+                <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Mã CP / Sàn</th>
+                <th className="py-3 px-3 font-semibold text-left whitespace-nowrap">Chiến lược / Tag</th>
+                <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">RS / Quant</th>
                 <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Giá khớp</th>
                 <th className="py-3 px-3 font-semibold text-right whitespace-nowrap">%</th>
                 <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Khối lượng</th>
-                <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">RSI</th>
-                <th className="py-3 px-4 font-semibold text-left whitespace-nowrap">Lý do chọn cổ phiếu</th>
-                <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Hành động</th>
+                <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">Vùng mua gợi ý</th>
+                <th className="py-3 px-3 font-semibold text-center whitespace-nowrap">Cắt lỗ / Mục tiêu</th>
+                <th className="py-3 px-4 font-semibold text-right whitespace-nowrap">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F4F7FF] text-[11pt]">
+            <tbody className="divide-y divide-[#F4F7FF]">
               {displayedQuotes.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="p-12 text-center text-[#647293] text-[11pt]">
-                    Không có cổ phiếu nào thỏa mãn toàn bộ tiêu chí lọc hiện tại. Hãy nới rộng khoảng lọc RSI hoặc khối lượng.
+                  <td colSpan={9} className="p-12 text-center text-[#647293]">
+                    Không có cổ phiếu nào thỏa mãn tiêu chí bộ lọc này. Hãy chọn tab "Tất Cả" hoặc nới lỏng các tham số.
                   </td>
                 </tr>
               ) : (
                 displayedQuotes.map((stock, idx) => {
                   const isUp = stock.change >= 0;
                   return (
-                    <tr key={stock.symbol} className="hover:bg-[#F8FAFC] transition h-[44px]">
+                    <tr key={stock.symbol} className="hover:bg-[#F8FAFC] transition h-[48px]">
+                      {/* Symbol & Exchange */}
                       <td className="py-2.5 px-4 whitespace-nowrap">
-                        <div className="flex items-center gap-2.5">
-                          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                            idx === 0 
-                              ? 'bg-[#FEF3C7] text-[#D97706]' 
-                              : idx === 1 
-                              ? 'bg-[#F4F7FF] text-[#647293]' 
-                              : idx === 2 
-                              ? 'bg-[#FFEDD5] text-[#C2410C]' 
-                              : 'text-[#94A3B8]'
-                          }`}>
-                            {idx + 1}
-                          </span>
-                          <div 
-                            className="cursor-pointer hover:underline"
-                            onClick={() => onSelectStock(stock.symbol)}
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => onAddToWatchlist(stock.symbol)}
+                            className="text-[#647293] hover:text-[#D97706] transition"
+                            title="Thêm vào danh sách theo dõi"
                           >
-                            <span className="font-bold text-[#087CFF] text-[11pt]">{stock.symbol}</span>
-                            <span className="text-[11pt] ml-1.5 px-1.5 py-0.2 rounded bg-[#F4F7FF] text-[#647293] font-semibold border border-[#DCE5FF]">
+                            <Star className="w-3.5 h-3.5" />
+                          </button>
+                          <div>
+                            <button
+                              onClick={() => onSelectStock(stock.symbol)}
+                              className="font-bold text-sm text-[#087CFF] hover:underline"
+                            >
+                              {stock.symbol}
+                            </button>
+                            <span className="text-[10px] text-[#647293] ml-1.5 px-1.5 py-0.2 rounded bg-[#F4F7FF]">
                               {stock.exchange}
                             </span>
-                            <span className="block text-[11pt] text-[#647293] font-normal truncate max-w-[150px]">
+                            <div className="text-[10px] text-[#647293] truncate max-w-[130px]">
                               {stock.companyName}
-                            </span>
+                            </div>
                           </div>
                         </div>
                       </td>
 
-                      <td className="py-2.5 px-3 text-[#647293] text-[11pt] font-medium whitespace-nowrap">{stock.industry}</td>
+                      {/* Strategy Tags */}
+                      <td className="py-2.5 px-3 whitespace-nowrap">
+                        <div className="flex flex-wrap gap-1">
+                          {stock.tags.length > 0 ? (
+                            stock.tags.map((t, ti) => (
+                              <span
+                                key={ti}
+                                className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${t.color}`}
+                              >
+                                {t.label}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="text-[10px] text-[#647293] px-1.5 py-0.5 rounded bg-[#F4F7FF]">
+                              Theo dõi
+                            </span>
+                          )}
+                        </div>
+                      </td>
 
+                      {/* RS / Quant Score */}
                       <td className="py-2.5 px-3 text-center whitespace-nowrap">
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#EBF3FF] text-[#087CFF] font-bold text-[11pt] font-mono tabular-nums">
-                          {stock.quantScore}/100
+                        <div className="inline-flex flex-col items-center">
+                          <span className="text-xs font-bold text-[#172554] font-mono">
+                            RS {stock.rsScore}
+                          </span>
+                          <span className="text-[10px] text-[#087CFF] font-medium">
+                            Score {stock.quantScore}
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* Price */}
+                      <td className="py-2.5 px-4 text-right whitespace-nowrap">
+                        <span className={`font-mono font-bold text-sm ${isUp ? 'text-[#16A34A]' : 'text-[#DC2626]'}`}>
+                          {(stock.price / 1000).toFixed(2)}k
                         </span>
                       </td>
 
-                      <td className="py-2.5 px-4 text-right font-bold text-[#172554] font-mono tabular-nums text-[11pt] whitespace-nowrap">
-                        {stock.price.toLocaleString('vi-VN')}
+                      {/* % Change */}
+                      <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                        <span className={`font-mono text-xs font-bold px-2 py-0.5 rounded-md ${
+                          isUp ? 'bg-[#ECFDF5] text-[#16A34A]' : 'bg-[#FEF2F2] text-[#DC2626]'
+                        }`}>
+                          {isUp ? '+' : ''}{stock.changePercent.toFixed(2)}%
+                        </span>
                       </td>
 
-                      <td className={`py-2.5 px-3 text-right font-bold font-mono tabular-nums text-[11pt] whitespace-nowrap ${isUp ? 'text-[#16A34A]' : 'text-[#EF4444]'}`}>
-                        {isUp ? '+' : ''}{stock.changePercent.toFixed(2)}%
-                      </td>
-
-                      <td className="py-2.5 px-4 text-right font-mono tabular-nums text-[#647293] text-[11pt] whitespace-nowrap">
+                      {/* Volume */}
+                      <td className="py-2.5 px-4 text-right whitespace-nowrap font-mono text-xs text-[#172554]">
                         {stock.volume.toLocaleString('vi-VN')}
                       </td>
 
-                      <td className="py-2.5 px-3 text-center whitespace-nowrap">
-                        <span className={`px-2 py-0.5 rounded-full font-semibold text-[11pt] font-mono tabular-nums border ${
-                          (stock.rsi || 50) > 70 
-                            ? 'bg-[#FEE2E2] text-[#EF4444] border-[#FEE2E2]'
-                            : (stock.rsi || 50) < 35 
-                            ? 'bg-[#FEF3C7] text-[#D97706] border-[#FDE68A]'
-                            : 'bg-[#F4F7FF] text-[#172554] border-[#DCE5FF]'
-                        }`}>
-                          {stock.rsi || 50}
+                      {/* Suggested Buy Zone */}
+                      <td className="py-2.5 px-3 text-center whitespace-nowrap font-mono text-[11px]">
+                        <span className="text-[#087CFF] font-bold">
+                          ① {(stock.entryPoint1 / 1000).toFixed(1)}k
+                        </span>
+                        <span className="text-[#647293] mx-1">·</span>
+                        <span className="text-[#8B36FF] font-bold">
+                          ② {(stock.entryPoint2 / 1000).toFixed(1)}k
                         </span>
                       </td>
 
-                      <td className="py-2.5 px-4 text-left whitespace-nowrap">
-                        <span className="text-[11pt] font-medium text-[#172554] line-clamp-1">
-                          {stock.selectionReason}
+                      {/* Stop Loss / Target */}
+                      <td className="py-2.5 px-3 text-center whitespace-nowrap font-mono text-[11px]">
+                        <span className="text-[#DC2626]">
+                          -{(stock.stopLoss / 1000).toFixed(1)}k
+                        </span>
+                        <span className="text-[#647293] mx-1">/</span>
+                        <span className="text-[#16A34A] font-bold">
+                          +{(stock.target1 / 1000).toFixed(1)}k
                         </span>
                       </td>
 
+                      {/* Actions */}
                       <td className="py-2.5 px-4 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => onSelectStock(stock.symbol)}
-                            className="px-2.5 py-1 rounded-lg bg-[#EBF3FF] hover:bg-[#DCE5FF] text-[#087CFF] font-semibold text-[11pt] transition shadow-2xs"
+                            className="px-2.5 py-1 text-xs font-bold text-[#087CFF] hover:bg-[#EBF3FF] rounded-lg transition"
                           >
-                            Phân tích
-                          </button>
-                          <button
-                            onClick={() => onAddToWatchlist(stock.symbol)}
-                            className="p-1 rounded-lg text-[#647293] hover:text-[#087CFF] hover:bg-[#F4F7FF] transition"
-                            title="Thêm vào danh sách theo dõi"
-                          >
-                            <Bookmark className="w-3.5 h-3.5" />
+                            Chi tiết
                           </button>
                         </div>
                       </td>

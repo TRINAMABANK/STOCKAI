@@ -14,6 +14,9 @@ export interface MarketIndex {
   advances?: number;
   declines?: number;
   noChange?: number;
+  noChanges?: number;
+  ceilings?: number;
+  floors?: number;
   time?: string;
   history?: number[];
 }
@@ -39,6 +42,8 @@ export interface StockQuote {
   industry: string;
   rsi?: number;
   macd?: number;
+  foreignNetVolume?: number;
+  foreignNetValue?: number;
   updatedTime: string;
   source: string;
   isValid: boolean;
@@ -116,10 +121,12 @@ export interface PortfolioItem {
 
 export interface PortfolioSummary {
   totalAssets: number;
+  totalValue?: number;
   stockValue: number;
   cash: number;
   realizedPnL: number;
   unrealizedPnL: number;
+  unrealizedPnLPercent?: number;
   totalReturnPercent: number;
   dailyChange: number;
   dailyChangePercent: number;
@@ -366,14 +373,18 @@ export type MarketAlertEventType =
   | 'CONSECUTIVE_UP'     // 6. Tăng nhiều phiên liên tiếp (3, 5, 6, 8 phiên)
   | 'VOLUME_SURGE'       // 7. Khối lượng đột biến (KL/TB20 >= 1.5x)
   | 'CORPORATE_ACTION'   // 8. Sự kiện quyền doanh nghiệp
-  | 'PORTFOLIO_WATCHLIST'; // 9. Cổ phiếu trong danh mục / theo dõi
+  | 'PORTFOLIO_WATCHLIST' // 9. Cổ phiếu trong danh mục / theo dõi
+  | 'BOTTOM_FISHING'     // 10. Bắt đáy đạt chuẩn (Bottom Fishing)
+  | 'VOLATILITY_SQUEEZE' // 11. Nén biến động (Bollinger in Keltner)
+  | 'DIVERGENCE';        // 12. Phân kỳ đảo chiều (RSI / MACD)
 
 export type MarketAlertStatus =
   | 'NEW'          // MỚI
   | 'WATCHING'     // ĐANG THEO DÕI
   | 'CONFIRMED'    // ĐÃ XÁC NHẬN
   | 'FAILED'       // THẤT BẠI
-  | 'CLOSED';      // ĐÃ KẾT THÚC
+  | 'CLOSED'       // ĐÃ KẾT THÚC
+  | 'BLOCKED';     // BỊ CHẶN (do thị trường rủi ro cao / nguyên tắc bảo vệ vốn)
 
 export type MarketAlertRiskLevel = 'THẤP' | 'TRUNG BÌNH' | 'CAO';
 
@@ -420,6 +431,10 @@ export interface MarketAlertItem {
   statusLogs: MarketAlertStatusLog[];
   updatedAt: string;
   notes?: string;
+  isBlocked?: boolean;
+  blockedReason?: string;
+  entryPointType?: 'PROBE_POINT_1' | 'BREAKOUT_POINT_2' | 'BOTTOM_FISHING';
+  maxChasePrice?: number;
 }
 
 export interface MarketOverviewData {
@@ -454,6 +469,18 @@ export interface MarketOverviewData {
   lastUpdated: string;
   dataMode: 'REALTIME' | 'INTRADAY_DELAYED' | 'EOD' | 'DEMO';
   dataSource: string;
+  marketHealthScore?: number; // 0-100
+  healthScoreBreakdown?: {
+    trend: number;
+    breadth: number;
+    momentum: number;
+    distributionDays: number;
+    volume: number;
+    foreign: number;
+  };
+  distributionDaysCount?: number;
+  isFollowThroughDay?: boolean;
+  regimeMode?: 'block' | 'warn';
 }
 
 export interface MarketAlertFilterCounts {
@@ -467,6 +494,10 @@ export interface MarketAlertFilterCounts {
   volume_surge: number;
   corporate_action: number;
   watchlist: number;
+  bottom_fishing?: number;
+  squeeze?: number;
+  divergence?: number;
+  blocked?: number;
 }
 
 export interface StockAlert {

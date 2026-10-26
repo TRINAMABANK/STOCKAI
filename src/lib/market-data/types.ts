@@ -88,6 +88,8 @@ export interface NormalizedQuote {
   matchValue: number;     // Giá trị khớp (VNĐ)
   foreignBuyVol?: number; // Khối ngoại mua
   foreignSellVol?: number;// Khối ngoại bán
+  foreignNetValue?: number; // Giá trị mua ròng khối ngoại (VNĐ)
+  foreignNetVolume?: number; // Khối lượng mua ròng khối ngoại
   updatedTime: string;    // Thời điểm cập nhật
   dataMode: DataMode;
   source: string;

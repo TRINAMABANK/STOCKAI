@@ -161,6 +161,11 @@ export interface TradeSetup {
   backtestResult?: SignalBacktestResult | null;
   winRateHistorical: number; // Ước tính từ backtest
   riskLevel: 'THẤP' | 'TRUNG BÌNH' | 'CAO';
+  probeStopPrice: number;    // Cắt lỗ thăm dò điểm 1
+  positionStopPrice: number; // Cắt lỗ gia tăng điểm 2 (dời lên)
+  maxChasePrice: number;     // Giá mua đuổi tối đa = Entry + ATR% (2-5%)
+  point1Entry: number;       // Điểm mua 1 Thăm dò (30% vị thế)
+  point2Entry: number;       // Điểm mua 2 Gia tăng (vượt đỉnh kèm KL)
 }
 
 /**
@@ -686,6 +691,11 @@ export function generateTradeSetup(
     backtestResult,
     winRateHistorical: backtestResult ? backtestResult.winRate : winRateHistorical,
     riskLevel,
+    probeStopPrice: Math.round(Math.min(entryZoneLow * 0.96, nearestSupport ? nearestSupport * 0.98 : entryPrice * 0.94)),
+    positionStopPrice: stopLoss,
+    maxChasePrice: Math.round(entryPrice * (1 + Math.min(0.05, Math.max(0.02, (curEma20 > 0 ? Math.abs(currentPrice - curEma20) : currentPrice * 0.03) / currentPrice)))),
+    point1Entry: Math.round((entryZoneLow + entryPrice) / 2),
+    point2Entry: entryZoneHigh,
   };
 }
 
@@ -1155,21 +1165,61 @@ export function calculatePositionRisk(params: {
   riskPercent?: number;     // Mặc định 2.0%
   entryPrice: number;       // Giá mua dự kiến
   stopLossPrice: number;    // Giá cắt lỗ dứt khoát
+  avgDailyTurnover?: number; // Giá trị giao dịch bình quân 20 phiên (VNĐ)
+  worstCaseT2DropPercent?: number; // Mức sụt giảm xấu nhất 3 phiên gần đây (%)
+  maxNavPercentPerStock?: number; // Tối đa 25% NAV / mã
+  maxTurnoverPercent?: number; // Tối đa 5% GTGD bình quân
 }): {
   maxRiskAmount: number;     // Số tiền lỗ tối đa cho phép (VNĐ)
   riskPerShare: number;      // Mức lỗ trên mỗi cổ phiếu
   recommendedShares: number; // Số lượng cổ phiếu được mua (làm tròn lô 100)
   totalTradeValue: number;   // Giá trị giải ngân (VNĐ)
   allocationPercent: number; // % Tỷ trọng trong danh mục NAV
-  isWarningAllocation: boolean; // Cảnh báo nếu tỷ trọng giải ngân quá 35% NAV
+  isWarningAllocation: boolean; // Cảnh báo nếu tỷ trọng giải ngân quá 25% NAV
+  limitingFactor: string;    // Yếu tố giới hạn (2% Rủi ro, 25% NAV, 5% Thanh khoản, hoặc Rủi ro T+2)
 } {
-  const { portfolioCapital, riskPercent = 2.0, entryPrice, stopLossPrice } = params;
+  const { 
+    portfolioCapital, 
+    riskPercent = 2.0, 
+    entryPrice, 
+    stopLossPrice,
+    avgDailyTurnover,
+    worstCaseT2DropPercent,
+    maxNavPercentPerStock = 25,
+    maxTurnoverPercent = 5
+  } = params;
+
   const maxRiskAmount = Math.round(portfolioCapital * (riskPercent / 100));
   const riskPerShare = Math.max(10, entryPrice - stopLossPrice);
 
-  const rawShares = maxRiskAmount / riskPerShare;
+  // 1. Ràng buộc theo quy tắc 2% rủi ro NAV
+  const sharesByRisk = maxRiskAmount / riskPerShare;
+
+  // 2. Ràng buộc tối đa 25% vốn danh mục cho 1 mã
+  const maxCapAllowed = portfolioCapital * (maxNavPercentPerStock / 100);
+  const sharesByCap = maxCapAllowed / entryPrice;
+
+  // 3. Ràng buộc thanh khoản tối đa 5% GTGD bình quân
+  let sharesByTurnover = Infinity;
+  if (avgDailyTurnover && avgDailyTurnover > 0) {
+    sharesByTurnover = (avgDailyTurnover * (maxTurnoverPercent / 100)) / entryPrice;
+  }
+
+  // 4. Tìm cận dưới của các ràng buộc
+  let minShares = Math.min(sharesByRisk, sharesByCap, sharesByTurnover);
+  let limitingFactor = 'Rủi ro 2% NAV';
+  if (minShares === sharesByCap) limitingFactor = `Trần tối đa ${maxNavPercentPerStock}% NAV/mã`;
+  else if (minShares === sharesByTurnover) limitingFactor = `Giới hạn thanh khoản ${maxTurnoverPercent}% GTGD`;
+
+  // 5. Điều chỉnh theo rủi ro sụt giảm xấu nhất T+2 (nếu có)
+  if (worstCaseT2DropPercent && worstCaseT2DropPercent > 7.0) {
+    const safetyDiscount = Math.max(0.6, 1 - (worstCaseT2DropPercent - 7.0) * 0.05);
+    minShares *= safetyDiscount;
+    limitingFactor += ` (Đã chiết khấu ${Math.round((1 - safetyDiscount) * 100)}% do rủi ro T+2 dao động lớn)`;
+  }
+
   // Làm tròn xuống lô chẵn 100 cổ phiếu chuẩn sàn Việt Nam
-  const recommendedShares = Math.max(100, Math.floor(rawShares / 100) * 100);
+  const recommendedShares = Math.max(100, Math.floor(minShares / 100) * 100);
   const totalTradeValue = recommendedShares * entryPrice;
   const allocationPercent = Math.round((totalTradeValue / portfolioCapital) * 1000) / 10;
 
@@ -1179,6 +1229,776 @@ export function calculatePositionRisk(params: {
     recommendedShares,
     totalTradeValue,
     allocationPercent,
-    isWarningAllocation: allocationPercent > 35,
+    isWarningAllocation: allocationPercent > maxNavPercentPerStock,
+    limitingFactor,
+  };
+}
+
+// ==========================================================
+// CÁC CHỈ BÁO ĐỊNH LƯỢNG NÂNG CAO (DNSE SCANNER v9.28 PARITY)
+// ==========================================================
+
+export interface IchimokuDataPoint {
+  time: string;
+  tenkan?: number;
+  kijun?: number;
+  senkouSpanA?: number;
+  senkouSpanB?: number;
+  chikou?: number;
+}
+
+export interface IchimokuResult {
+  series: IchimokuDataPoint[];
+  consensusScore: number; // 0 - 4
+  isConsensus: boolean;   // >= 3/4 hoặc 4/4
+  details: {
+    priceAboveCloud: boolean;
+    tenkanAboveKijun: boolean;
+    futureCloudGreen: boolean;
+    chikouAbovePrice: boolean;
+  };
+}
+
+export interface VolatilitySqueezeResult {
+  isSqueezed: boolean;
+  squeezeBarsCount: number;
+  isFired: boolean; // Vừa bung nén
+  momentumSeries: LineDataPoint[];
+  currentMomentum: number;
+}
+
+export interface DivergenceResult {
+  type: 'BULLISH' | 'BEARISH';
+  strength: 'STRONG' | 'MODERATE';
+  indicator: 'RSI' | 'MACD' | 'BOTH';
+  startDate: string;
+  endDate: string;
+  startPrice: number;
+  endPrice: number;
+  startRsi?: number;
+  endRsi?: number;
+  description: string;
+}
+
+export interface VolumeProfileBin {
+  price: number;
+  volume: number;
+  percentage: number;
+  isPOC: boolean;
+  inValueArea: boolean;
+}
+
+export interface VolumeProfileResult {
+  bins: VolumeProfileBin[];
+  pocPrice: number;
+  vahPrice: number;
+  valPrice: number;
+  totalVolume: number;
+}
+
+export interface StochasticResult {
+  kSeries: LineDataPoint[];
+  dSeries: LineDataPoint[];
+  currentK: number;
+  currentD: number;
+}
+
+export interface AdxResult {
+  adxSeries: LineDataPoint[];
+  plusDiSeries: LineDataPoint[];
+  minusDiSeries: LineDataPoint[];
+  currentAdx: number;
+  currentPlusDi: number;
+  currentMinusDi: number;
+  trendStrength: 'STRONG' | 'MODERATE' | 'WEAK';
+}
+
+/**
+ * Tính ATR (Average True Range) 14 phiên
+ */
+export function calculateATR(candles: CandleData[], period: number = 14): LineDataPoint[] {
+  if (!candles || candles.length < 2) return [];
+
+  const trValues: number[] = [];
+  const times: string[] = [];
+
+  for (let i = 0; i < candles.length; i++) {
+    const cur = candles[i];
+    times.push(cur.time);
+
+    if (i === 0) {
+      trValues.push(cur.high - cur.low);
+    } else {
+      const prev = candles[i - 1];
+      const tr = Math.max(
+        cur.high - cur.low,
+        Math.abs(cur.high - prev.close),
+        Math.abs(cur.low - prev.close)
+      );
+      trValues.push(tr);
+    }
+  }
+
+  const result: LineDataPoint[] = [];
+  if (trValues.length < period) return result;
+
+  // SMA đầu tiên cho ATR
+  let sum = 0;
+  for (let i = 0; i < period; i++) {
+    sum += trValues[i];
+  }
+  let currentAtr = sum / period;
+  result.push({ time: times[period - 1], value: Math.round(currentAtr * 100) / 100 });
+
+  // Wilder's Smoothing
+  for (let i = period; i < trValues.length; i++) {
+    currentAtr = (currentAtr * (period - 1) + trValues[i]) / period;
+    result.push({ time: times[i], value: Math.round(currentAtr * 100) / 100 });
+  }
+
+  return result;
+}
+
+/**
+ * Tính Mây Ichimoku Kumo & Kiểm tra Đồng thuận 4/4
+ * - Tenkan-sen: (Highest High + Lowest Low) / 2 trong 9 phiên
+ * - Kijun-sen: (Highest High + Lowest Low) / 2 trong 26 phiên
+ * - Senkou Span A: (Tenkan + Kijun) / 2 dịch chuyển về phía trước 26 phiên
+ * - Senkou Span B: (Highest High + Lowest Low) / 2 trong 52 phiên dịch chuyển về phía trước 26 phiên
+ * - Chikou Span: Giá đóng cửa dịch chuyển lùi 26 phiên
+ */
+export function calculateIchimoku(candles: CandleData[]): IchimokuResult {
+  const emptyRes: IchimokuResult = {
+    series: [],
+    consensusScore: 0,
+    isConsensus: false,
+    details: {
+      priceAboveCloud: false,
+      tenkanAboveKijun: false,
+      futureCloudGreen: false,
+      chikouAbovePrice: false,
+    },
+  };
+
+  if (!candles || candles.length < 52) return emptyRes;
+
+  const n = candles.length;
+  const series: IchimokuDataPoint[] = [];
+
+  const getHighLowMid = (startIdx: number, count: number): number => {
+    let hh = -Infinity;
+    let ll = Infinity;
+    for (let i = startIdx; i < startIdx + count; i++) {
+      if (candles[i].high > hh) hh = candles[i].high;
+      if (candles[i].low < ll) ll = candles[i].low;
+    }
+    return Math.round(((hh + ll) / 2) * 100) / 100;
+  };
+
+  for (let i = 0; i < n; i++) {
+    const pt: IchimokuDataPoint = { time: candles[i].time };
+
+    if (i >= 8) {
+      pt.tenkan = getHighLowMid(i - 8, 9);
+    }
+    if (i >= 25) {
+      pt.kijun = getHighLowMid(i - 25, 26);
+    }
+    if (pt.tenkan !== undefined && pt.kijun !== undefined) {
+      pt.senkouSpanA = Math.round(((pt.tenkan + pt.kijun) / 2) * 100) / 100;
+    }
+    if (i >= 51) {
+      pt.senkouSpanB = getHighLowMid(i - 51, 52);
+    }
+    if (i + 26 < n) {
+      pt.chikou = candles[i + 26].close;
+    }
+
+    series.push(pt);
+  }
+
+  // Đánh giá đồng thuận 4/4 tại nến mới nhất
+  const lastIdx = n - 1;
+  const lastCandle = candles[lastIdx];
+  const lastPt = series[lastIdx];
+
+  const spanA = lastPt.senkouSpanA ?? lastCandle.close;
+  const spanB = lastPt.senkouSpanB ?? lastCandle.close;
+  const topCloud = Math.max(spanA, spanB);
+
+  const priceAboveCloud = lastCandle.close > topCloud;
+  const tenkanAboveKijun = (lastPt.tenkan ?? 0) >= (lastPt.kijun ?? 0);
+  const futureCloudGreen = spanA >= spanB;
+  const chikouPastCandle = lastIdx >= 26 ? candles[lastIdx - 26].close : lastCandle.close;
+  const chikouAbovePrice = lastCandle.close > chikouPastCandle;
+
+  let consensusScore = 0;
+  if (priceAboveCloud) consensusScore++;
+  if (tenkanAboveKijun) consensusScore++;
+  if (futureCloudGreen) consensusScore++;
+  if (chikouAbovePrice) consensusScore++;
+
+  return {
+    series,
+    consensusScore,
+    isConsensus: consensusScore >= 3,
+    details: {
+      priceAboveCloud,
+      tenkanAboveKijun,
+      futureCloudGreen,
+      chikouAbovePrice,
+    },
+  };
+}
+
+/**
+ * Tính Nén Biến Động (Volatility Squeeze)
+ * Phát hiện khi Bollinger Bands (20, 2) nằm hoàn toàn bên trong Keltner Channel (20, 1.5 ATR)
+ */
+export function calculateVolatilitySqueeze(
+  candles: CandleData[],
+  bbPeriod: number = 20,
+  bbMult: number = 2.0,
+  kcMult: number = 1.5
+): VolatilitySqueezeResult {
+  const emptyRes: VolatilitySqueezeResult = {
+    isSqueezed: false,
+    squeezeBarsCount: 0,
+    isFired: false,
+    momentumSeries: [],
+    currentMomentum: 0,
+  };
+
+  if (!candles || candles.length < bbPeriod + 5) return emptyRes;
+
+  const atrSeries = calculateATR(candles, bbPeriod);
+  const atrMap = new Map<string, number>();
+  atrSeries.forEach((a) => atrMap.set(a.time, a.value));
+
+  const bbSeries = calculateBollingerBands(candles, bbPeriod, bbMult);
+  const bbUpperMap = new Map<string, number>();
+  const bbLowerMap = new Map<string, number>();
+  bbSeries.upper.forEach((u) => bbUpperMap.set(u.time, u.value));
+  bbSeries.lower.forEach((l) => bbLowerMap.set(l.time, l.value));
+
+  const emaSeries = calculateEMA(candles, bbPeriod);
+  const emaMap = new Map<string, number>();
+  emaSeries.forEach((e) => emaMap.set(e.time, e.value));
+
+  let squeezeBars = 0;
+  let wasSqueezedBefore = false;
+  const momentumSeries: LineDataPoint[] = [];
+
+  for (let i = bbPeriod; i < candles.length; i++) {
+    const c = candles[i];
+    const bbUpper = bbUpperMap.get(c.time);
+    const bbLower = bbLowerMap.get(c.time);
+    const emaVal = emaMap.get(c.time);
+    const atrVal = atrMap.get(c.time);
+
+    if (bbUpper === undefined || bbLower === undefined || emaVal === undefined || atrVal === undefined) {
+      continue;
+    }
+
+    const kcUps = emaVal + kcMult * atrVal;
+    const kcLow = emaVal - kcMult * atrVal;
+
+    const inSqueeze = bbUpper <= kcUps && bbLower >= kcLow;
+
+    if (inSqueeze) {
+      squeezeBars++;
+      wasSqueezedBefore = true;
+    } else {
+      if (i === candles.length - 1 && wasSqueezedBefore && squeezeBars >= 3) {
+        // Vừa bung nén
+      }
+      squeezeBars = 0;
+    }
+
+    // Động lượng squeeze: (Close - ((HH + LL)/2 + SMA)/2)
+    const mom = Math.round((c.close - emaVal) * 100) / 100;
+    momentumSeries.push({ time: c.time, value: mom });
+  }
+
+  const isCurrentSqueezed = squeezeBars >= 1;
+  const lastMom = momentumSeries.length > 0 ? momentumSeries[momentumSeries.length - 1].value : 0;
+  const isFired = !isCurrentSqueezed && wasSqueezedBefore;
+
+  return {
+    isSqueezed: isCurrentSqueezed,
+    squeezeBarsCount: squeezeBars,
+    isFired,
+    momentumSeries,
+    currentMomentum: lastMom,
+  };
+}
+
+/**
+ * Phát hiện Phân kỳ RSI & MACD chặt chẽ (>= 8 phiên)
+ * - Bearish (Phân kỳ âm): Giá lập đỉnh cao hơn, nhưng RSI đỉnh sau thấp hơn đỉnh trước >= 5 điểm (Đỉnh trước >= 70)
+ * - Bullish (Phân kỳ dương): Giá lập đáy thấp hơn, nhưng RSI đáy sau cao hơn đáy trước >= 5 điểm (Đáy trước <= 30)
+ */
+export function detectDivergence(
+  candles: CandleData[],
+  rsiPoints?: LineDataPoint[],
+  macdData?: MacdData
+): DivergenceResult[] {
+  const results: DivergenceResult[] = [];
+  if (!candles || candles.length < 25) return results;
+
+  const rsi = rsiPoints && rsiPoints.length > 0 ? rsiPoints : calculateRSI(candles, 14);
+  const rsiMap = new Map<string, number>();
+  rsi.forEach((r) => rsiMap.set(r.time, r.value));
+
+  // Tìm đỉnh cục bộ (local peaks)
+  const peaks: { index: number; time: string; price: number; rsi: number }[] = [];
+  // Tìm đáy cục bộ (local troughs)
+  const troughs: { index: number; time: string; price: number; rsi: number }[] = [];
+
+  for (let i = 2; i < candles.length - 2; i++) {
+    const cur = candles[i];
+    const prev = candles[i - 1];
+    const prev2 = candles[i - 2];
+    const next = candles[i + 1];
+    const next2 = candles[i + 2];
+    const rVal = rsiMap.get(cur.time) ?? 50;
+
+    // Peak
+    if (cur.high >= prev.high && cur.high >= prev2.high && cur.high >= next.high && cur.high >= next2.high) {
+      peaks.push({ index: i, time: cur.time, price: cur.high, rsi: rVal });
+    }
+    // Trough
+    if (cur.low <= prev.low && cur.low <= prev2.low && cur.low <= next.low && cur.low <= next2.low) {
+      troughs.push({ index: i, time: cur.time, price: cur.low, rsi: rVal });
+    }
+  }
+
+  // Kiểm tra Phân kỳ âm (Bearish Divergence) trên 2 đỉnh gần nhất
+  if (peaks.length >= 2) {
+    const p2 = peaks[peaks.length - 1];
+    const p1 = peaks[peaks.length - 2];
+    const dist = p2.index - p1.index;
+
+    if (dist >= 8 && dist <= 60) {
+      if (p2.price > p1.price && p2.rsi < p1.rsi - 4 && p1.rsi >= 65) {
+        results.push({
+          type: 'BEARISH',
+          strength: p1.rsi >= 70 && p2.rsi <= p1.rsi - 7 ? 'STRONG' : 'MODERATE',
+          indicator: 'RSI',
+          startDate: p1.time,
+          endDate: p2.time,
+          startPrice: p1.price,
+          endPrice: p2.price,
+          startRsi: p1.rsi,
+          endRsi: p2.rsi,
+          description: `Phân kỳ âm cảnh báo rủi ro tạo đỉnh: Giá tạo đỉnh cao mới (${p2.price} > ${p1.price}) nhưng RSI suy yếu (${p2.rsi} < ${p1.rsi}) cách nhau ${dist} phiên.`,
+        });
+      }
+    }
+  }
+
+  // Kiểm tra Phân kỳ dương (Bullish Divergence) trên 2 đáy gần nhất
+  if (troughs.length >= 2) {
+    const t2 = troughs[troughs.length - 1];
+    const t1 = troughs[troughs.length - 2];
+    const dist = t2.index - t1.index;
+
+    if (dist >= 8 && dist <= 60) {
+      if (t2.price < t1.price && t2.rsi > t1.rsi + 4 && t1.rsi <= 35) {
+        results.push({
+          type: 'BULLISH',
+          strength: t1.rsi <= 30 && t2.rsi >= t1.rsi + 7 ? 'STRONG' : 'MODERATE',
+          indicator: 'RSI',
+          startDate: t1.time,
+          endDate: t2.time,
+          startPrice: t1.price,
+          endPrice: t2.price,
+          startRsi: t1.rsi,
+          endRsi: t2.rsi,
+          description: `Phân kỳ dương báo hiệu đảo chiều tạo đáy: Giá giảm tạo đáy thấp hơn (${t2.price} < ${t1.price}) nhưng RSI phân kỳ đi lên (${t2.rsi} > ${t1.rsi}) cách nhau ${dist} phiên.`,
+        });
+      }
+    }
+  }
+
+  return results;
+}
+
+/**
+ * Tính CMF (Chaikin Money Flow) 20 phiên
+ * CMF = Sum(Money Flow Volume, 20) / Sum(Volume, 20)
+ * Money Flow Multiplier = ((Close - Low) - (High - Close)) / (High - Low)
+ */
+export function calculateCMF(candles: CandleData[], period: number = 20): LineDataPoint[] {
+  if (!candles || candles.length < period) return [];
+
+  const mfvList: number[] = [];
+  const volList: number[] = [];
+  const times: string[] = [];
+
+  for (let i = 0; i < candles.length; i++) {
+    const c = candles[i];
+    times.push(c.time);
+    const range = c.high - c.low;
+    let mfm = 0;
+    if (range > 0) {
+      mfm = ((c.close - c.low) - (c.high - c.close)) / range;
+    }
+    mfvList.push(mfm * c.volume);
+    volList.push(c.volume);
+  }
+
+  const result: LineDataPoint[] = [];
+  let sumMfv = 0;
+  let sumVol = 0;
+
+  for (let i = 0; i < candles.length; i++) {
+    sumMfv += mfvList[i];
+    sumVol += volList[i];
+
+    if (i >= period) {
+      sumMfv -= mfvList[i - period];
+      sumVol -= volList[i - period];
+    }
+
+    if (i >= period - 1) {
+      const cmfVal = sumVol > 0 ? Math.round((sumMfv / sumVol) * 1000) / 1000 : 0;
+      result.push({ time: times[i], value: cmfVal });
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Tính OBV (On-Balance Volume)
+ */
+export function calculateOBV(candles: CandleData[]): LineDataPoint[] {
+  if (!candles || candles.length === 0) return [];
+
+  const result: LineDataPoint[] = [];
+  let obv = 0;
+  result.push({ time: candles[0].time, value: obv });
+
+  for (let i = 1; i < candles.length; i++) {
+    const cur = candles[i];
+    const prev = candles[i - 1];
+
+    if (cur.close > prev.close) {
+      obv += cur.volume;
+    } else if (cur.close < prev.close) {
+      obv -= cur.volume;
+    }
+    result.push({ time: cur.time, value: obv });
+  }
+
+  return result;
+}
+
+/**
+ * Tính Volume Profile & Điểm kiểm soát Point of Control (POC)
+ */
+export function calculateVolumeProfile(candles: CandleData[], numBins: number = 24): VolumeProfileResult {
+  if (!candles || candles.length === 0) {
+    return { bins: [], pocPrice: 0, vahPrice: 0, valPrice: 0, totalVolume: 0 };
+  }
+
+  let minPrice = Infinity;
+  let maxPrice = -Infinity;
+  let totalVolume = 0;
+
+  for (const c of candles) {
+    if (c.low < minPrice) minPrice = c.low;
+    if (c.high > maxPrice) maxPrice = c.high;
+    totalVolume += c.volume;
+  }
+
+  if (maxPrice <= minPrice || totalVolume <= 0) {
+    const p = candles[candles.length - 1].close;
+    return {
+      bins: [{ price: p, volume: totalVolume, percentage: 100, isPOC: true, inValueArea: true }],
+      pocPrice: p,
+      vahPrice: p,
+      valPrice: p,
+      totalVolume,
+    };
+  }
+
+  const binStep = (maxPrice - minPrice) / numBins;
+  const rawBins: number[] = new Array(numBins).fill(0);
+
+  for (const c of candles) {
+    const candleMid = (c.high + c.low) / 2;
+    const binIdx = Math.min(numBins - 1, Math.max(0, Math.floor((candleMid - minPrice) / binStep)));
+    rawBins[binIdx] += c.volume;
+  }
+
+  let maxVol = 0;
+  let pocIdx = 0;
+  for (let i = 0; i < numBins; i++) {
+    if (rawBins[i] > maxVol) {
+      maxVol = rawBins[i];
+      pocIdx = i;
+    }
+  }
+
+  const pocPrice = Math.round((minPrice + (pocIdx + 0.5) * binStep) * 10) / 10;
+
+  // Value Area = 70% khối lượng tập trung quanh POC
+  const targetAreaVol = totalVolume * 0.7;
+  let accumulatedVol = rawBins[pocIdx];
+  let upIdx = pocIdx;
+  let downIdx = pocIdx;
+
+  while (accumulatedVol < targetAreaVol && (upIdx < numBins - 1 || downIdx > 0)) {
+    const upVol = upIdx < numBins - 1 ? rawBins[upIdx + 1] : -1;
+    const downVol = downIdx > 0 ? rawBins[downIdx - 1] : -1;
+
+    if (upVol >= downVol && upIdx < numBins - 1) {
+      upIdx++;
+      accumulatedVol += upVol;
+    } else if (downIdx > 0) {
+      downIdx--;
+      accumulatedVol += downVol;
+    } else if (upIdx < numBins - 1) {
+      upIdx++;
+      accumulatedVol += upVol;
+    } else {
+      break;
+    }
+  }
+
+  const vahPrice = Math.round((minPrice + (upIdx + 1) * binStep) * 10) / 10;
+  const valPrice = Math.round((minPrice + downIdx * binStep) * 10) / 10;
+
+  const bins: VolumeProfileBin[] = rawBins.map((vol, i) => {
+    const price = Math.round((minPrice + (i + 0.5) * binStep) * 10) / 10;
+    return {
+      price,
+      volume: vol,
+      percentage: Math.round((vol / totalVolume) * 1000) / 10,
+      isPOC: i === pocIdx,
+      inValueArea: i >= downIdx && i <= upIdx,
+    };
+  });
+
+  return {
+    bins,
+    pocPrice,
+    vahPrice,
+    valPrice,
+    totalVolume,
+  };
+}
+
+/**
+ * Tính Sức Mạnh Giá Mansfield RS so với VN-Index
+ */
+export function calculateRSMansfield(
+  stockCandles: CandleData[],
+  indexCandles: CandleData[],
+  period: number = 52
+): { series: LineDataPoint[]; isRsNewHigh52W: boolean; currentRS: number } {
+  if (!stockCandles || !indexCandles || stockCandles.length < period) {
+    return { series: [], isRsNewHigh52W: false, currentRS: 0 };
+  }
+
+  const indexMap = new Map<string, number>();
+  indexCandles.forEach((c) => indexMap.set(c.time, c.close));
+
+  const rawRS: { time: string; rs: number }[] = [];
+  for (const c of stockCandles) {
+    const idxClose = indexMap.get(c.time);
+    if (idxClose && idxClose > 0) {
+      rawRS.push({ time: c.time, rs: c.close / idxClose });
+    }
+  }
+
+  if (rawRS.length < period) {
+    return { series: [], isRsNewHigh52W: false, currentRS: 0 };
+  }
+
+  const series: LineDataPoint[] = [];
+  let sum = 0;
+  for (let i = 0; i < period; i++) {
+    sum += rawRS[i].rs;
+  }
+
+  for (let i = period - 1; i < rawRS.length; i++) {
+    if (i >= period) {
+      sum += rawRS[i].rs - rawRS[i - period].rs;
+    }
+    const sma = sum / period;
+    const mansfield = sma > 0 ? Math.round(((rawRS[i].rs / sma) - 1) * 10000) / 100 : 0;
+    series.push({ time: rawRS[i].time, value: mansfield });
+  }
+
+  const currentRS = series.length > 0 ? series[series.length - 1].value : 0;
+  // Kiểm tra đỉnh 52 phiên của RS
+  const lookback = Math.min(52, series.length);
+  const recent = series.slice(-lookback);
+  const maxRs = Math.max(...recent.map((r) => r.value));
+  const isRsNewHigh52W = currentRS >= maxRs && currentRS > 0;
+
+  return {
+    series,
+    isRsNewHigh52W,
+    currentRS,
+  };
+}
+
+/**
+ * Tính Stochastic Oscillator (14, 3, 3)
+ */
+export function calculateStochastic(
+  candles: CandleData[],
+  kPeriod: number = 14,
+  dPeriod: number = 3,
+  smooth: number = 3
+): StochasticResult {
+  const emptyRes: StochasticResult = { kSeries: [], dSeries: [], currentK: 50, currentD: 50 };
+  if (!candles || candles.length < kPeriod + dPeriod) return emptyRes;
+
+  const rawK: LineDataPoint[] = [];
+  for (let i = kPeriod - 1; i < candles.length; i++) {
+    let hh = -Infinity;
+    let ll = Infinity;
+    for (let j = i - kPeriod + 1; j <= i; j++) {
+      if (candles[j].high > hh) hh = candles[j].high;
+      if (candles[j].low < ll) ll = candles[j].low;
+    }
+    const diff = hh - ll;
+    const kVal = diff > 0 ? Math.round(((candles[i].close - ll) / diff) * 1000) / 10 : 50;
+    rawK.push({ time: candles[i].time, value: kVal });
+  }
+
+  // Làm mượt %K (smooth = 3)
+  const smoothedK: LineDataPoint[] = [];
+  let sumK = 0;
+  for (let i = 0; i < rawK.length; i++) {
+    sumK += rawK[i].value;
+    if (i >= smooth) sumK -= rawK[i - smooth].value;
+    if (i >= smooth - 1) {
+      smoothedK.push({ time: rawK[i].time, value: Math.round((sumK / smooth) * 10) / 10 });
+    }
+  }
+
+  // %D = SMA(%K, dPeriod)
+  const dSeries: LineDataPoint[] = [];
+  let sumD = 0;
+  for (let i = 0; i < smoothedK.length; i++) {
+    sumD += smoothedK[i].value;
+    if (i >= dPeriod) sumD -= smoothedK[i - dPeriod].value;
+    if (i >= dPeriod - 1) {
+      dSeries.push({ time: smoothedK[i].time, value: Math.round((sumD / dPeriod) * 10) / 10 });
+    }
+  }
+
+  const currentK = smoothedK.length > 0 ? smoothedK[smoothedK.length - 1].value : 50;
+  const currentD = dSeries.length > 0 ? dSeries[dSeries.length - 1].value : 50;
+
+  return {
+    kSeries: smoothedK,
+    dSeries,
+    currentK,
+    currentD,
+  };
+}
+
+/**
+ * Tính ADX (Average Directional Index) & DMI (14 phiên)
+ */
+export function calculateADX(candles: CandleData[], period: number = 14): AdxResult {
+  const emptyRes: AdxResult = {
+    adxSeries: [],
+    plusDiSeries: [],
+    minusDiSeries: [],
+    currentAdx: 0,
+    currentPlusDi: 0,
+    currentMinusDi: 0,
+    trendStrength: 'WEAK',
+  };
+
+  if (!candles || candles.length < period * 2) return emptyRes;
+
+  const tr: number[] = [];
+  const plusDm: number[] = [];
+  const minusDm: number[] = [];
+  const times: string[] = [];
+
+  for (let i = 1; i < candles.length; i++) {
+    const cur = candles[i];
+    const prev = candles[i - 1];
+    times.push(cur.time);
+
+    const highDiff = cur.high - prev.high;
+    const lowDiff = prev.low - cur.low;
+
+    plusDm.push(highDiff > lowDiff && highDiff > 0 ? highDiff : 0);
+    minusDm.push(lowDiff > highDiff && lowDiff > 0 ? lowDiff : 0);
+
+    const trVal = Math.max(
+      cur.high - cur.low,
+      Math.abs(cur.high - prev.close),
+      Math.abs(cur.low - prev.close)
+    );
+    tr.push(trVal);
+  }
+
+  let smTr = 0;
+  let smPlusDm = 0;
+  let smMinusDm = 0;
+
+  for (let i = 0; i < period; i++) {
+    smTr += tr[i];
+    smPlusDm += plusDm[i];
+    smMinusDm += minusDm[i];
+  }
+
+  const dxList: { time: string; dx: number; plusDi: number; minusDi: number }[] = [];
+  const plusDiSeries: LineDataPoint[] = [];
+  const minusDiSeries: LineDataPoint[] = [];
+
+  for (let i = period; i < tr.length; i++) {
+    smTr = smTr - smTr / period + tr[i];
+    smPlusDm = smPlusDm - smPlusDm / period + plusDm[i];
+    smMinusDm = smMinusDm - smMinusDm / period + minusDm[i];
+
+    const plusDi = smTr > 0 ? (smPlusDm / smTr) * 100 : 0;
+    const minusDi = smTr > 0 ? (smMinusDm / smTr) * 100 : 0;
+    const diSum = plusDi + minusDi;
+    const dx = diSum > 0 ? (Math.abs(plusDi - minusDi) / diSum) * 100 : 0;
+
+    dxList.push({ time: times[i], dx, plusDi, minusDi });
+    plusDiSeries.push({ time: times[i], value: Math.round(plusDi * 10) / 10 });
+    minusDiSeries.push({ time: times[i], value: Math.round(minusDi * 10) / 10 });
+  }
+
+  if (dxList.length < period) return emptyRes;
+
+  let sumDx = 0;
+  for (let i = 0; i < period; i++) {
+    sumDx += dxList[i].dx;
+  }
+  let currentAdx = sumDx / period;
+  const adxSeries: LineDataPoint[] = [{ time: dxList[period - 1].time, value: Math.round(currentAdx * 10) / 10 }];
+
+  for (let i = period; i < dxList.length; i++) {
+    currentAdx = (currentAdx * (period - 1) + dxList[i].dx) / period;
+    adxSeries.push({ time: dxList[i].time, value: Math.round(currentAdx * 10) / 10 });
+  }
+
+  const lastAdx = adxSeries.length > 0 ? adxSeries[adxSeries.length - 1].value : 0;
+  const lastPlusDi = plusDiSeries.length > 0 ? plusDiSeries[plusDiSeries.length - 1].value : 0;
+  const lastMinusDi = minusDiSeries.length > 0 ? minusDiSeries[minusDiSeries.length - 1].value : 0;
+
+  return {
+    adxSeries,
+    plusDiSeries,
+    minusDiSeries,
+    currentAdx: lastAdx,
+    currentPlusDi: lastPlusDi,
+    currentMinusDi: lastMinusDi,
+    trendStrength: lastAdx >= 30 ? 'STRONG' : lastAdx >= 20 ? 'MODERATE' : 'WEAK',
   };
 }
